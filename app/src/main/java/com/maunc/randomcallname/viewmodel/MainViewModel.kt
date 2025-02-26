@@ -9,8 +9,11 @@ import com.maunc.randomcallname.RandomNameApplication
 import com.maunc.randomcallname.base.BaseModel
 import com.maunc.randomcallname.base.BaseViewModel
 import com.maunc.randomcallname.constant.RUN_STATUS_NONE
+import com.maunc.randomcallname.constant.RUN_STATUS_START
+import com.maunc.randomcallname.constant.RUN_STATUS_STOP
 import com.maunc.randomcallname.constant.TIME_THREAD_NAME
 import com.maunc.randomcallname.database.table.RandomNameData
+import com.maunc.randomcallname.ext.getString
 import java.util.Random
 
 class MainViewModel : BaseViewModel<BaseModel>() {
@@ -21,8 +24,7 @@ class MainViewModel : BaseViewModel<BaseModel>() {
 
     var runRandomStatus = MutableLiveData(RUN_STATUS_NONE)
 
-    var targetRandomName =
-        MutableLiveData(RandomNameApplication.app.getString(R.string.random_none_text))
+    var targetRandomName = MutableLiveData(getString(R.string.random_none_text))
 
     var runDelayTime = MutableLiveData(15L)
 
@@ -59,10 +61,17 @@ class MainViewModel : BaseViewModel<BaseModel>() {
     }
 
     fun startRandom() {
+        runRandomStatus.value = RUN_STATUS_START
         mHandler?.post(runRuntime)
     }
 
     fun stopRandom() {
+        runRandomStatus.value = RUN_STATUS_STOP
+        mHandler?.removeCallbacks(runRuntime)
+    }
+
+    fun endRandom() {
+        runRandomStatus.value = RUN_STATUS_NONE
         mHandler?.removeCallbacks(runRuntime)
     }
 

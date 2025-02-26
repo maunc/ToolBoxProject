@@ -85,7 +85,9 @@ fun AppCompatActivity.finishCurrentActivity(
 ) {
     action()
     finish()
-    exitActivityAnim(exitAnim)
+    if (exitAnim != 0) {
+        exitActivityAnim(exitAnim)
+    }
 }
 
 fun AppCompatActivity.finishCurrentResultToActivity(
@@ -101,6 +103,8 @@ fun AppCompatActivity.finishCurrentResultToActivity(
         setResult(resultCode, intent)
     }
     finish()
-    exitActivityAnim(exitAnim)
+    if (exitAnim != 0) {
+        exitActivityAnim(exitAnim)
+    }
 }
 

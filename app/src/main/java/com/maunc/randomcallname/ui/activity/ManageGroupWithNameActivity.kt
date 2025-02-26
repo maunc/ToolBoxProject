@@ -64,10 +64,10 @@ class ManageGroupWithNameActivity :
         mGroupName = intent?.extras?.getString(GROUP_NAME_EXTRA)
         mDatabind.manageGroupWithNameViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_new_group)
-        mDatabind.commonToolBar.commonToolBarBackButton.setOnClickListener {
+        mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }
-        mDatabind.commonToolBar.commonToolBarCompatButton.setOnClickListener {
+        mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
             manageGroupWithNameActivityResult.launch(
                 obtainActivityIntentPutData(NewNameWithGroupActivity::class.java,
                     mutableMapOf<String, Any>().apply {

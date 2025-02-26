@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.drawerlayout.widget.DrawerLayout
 import com.maunc.randomcallname.R
 import com.maunc.randomcallname.base.BaseActivity
@@ -15,7 +16,6 @@ import com.maunc.randomcallname.database.table.RandomNameWithGroup
 import com.maunc.randomcallname.databinding.ActivityMainBinding
 import com.maunc.randomcallname.ext.clickScale
 import com.maunc.randomcallname.ext.finishCurrentActivity
-import com.maunc.randomcallname.ext.loge
 import com.maunc.randomcallname.utils.ViewOffsetHelper
 import com.maunc.randomcallname.viewmodel.MainViewModel
 
@@ -24,6 +24,16 @@ import com.maunc.randomcallname.viewmodel.MainViewModel
  */
 @SuppressLint("NewApi")
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
+
+    private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (mDatabind.randomNameDrawerLayout.isDrawerOpen(mDatabind.randomNameMainSwipeContentLayout)) {
+                mDatabind.randomNameDrawerLayout.closeDrawers()
+            } else {
+                finishCurrentActivity()
+            }
+        }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.mainViewModel = mViewModel
@@ -34,22 +44,21 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             mViewModel.randomGroupValue.value = it.randomNameDataList
         }
         mViewModel.initHandler()
-        mDatabind.commonToolBar.commonToolBarBackButton.setOnClickListener {
+        mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_main_tool)
-        mDatabind.commonToolBar.commonToolBarCompatButton.setOnClickListener {
+        mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
+            mViewModel.endRandom()
             mDatabind.randomNameDrawerLayout.openDrawer(Gravity.END)
         }
         mDatabind.randomControlTv.clickScale {
             when (mViewModel.runRandomStatus.value) {
                 RUN_STATUS_NONE, RUN_STATUS_STOP -> {
-                    mViewModel.runRandomStatus.value = RUN_STATUS_START
                     mViewModel.startRandom()
                 }
 
                 RUN_STATUS_START -> {
-                    mViewModel.runRandomStatus.value = RUN_STATUS_STOP
                     mViewModel.stopRandom()
                 }
             }
@@ -74,6 +83,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>() {
             }
 
         })
+        onBackPressedDispatcher.addCallback(backPressCallback)
     }
 
     override fun createObserver() {

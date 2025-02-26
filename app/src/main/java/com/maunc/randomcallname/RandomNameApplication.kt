@@ -14,6 +14,6 @@ class RandomNameApplication : Application() {
         super.onCreate()
         app = this
         val mmkvRootDir = MMKV.initialize(this)
-        mmkvRootDir.loge()
+        mmkvRootDir.loge("RandomNameMMKVRootDir")
     }
 }

@@ -39,7 +39,8 @@
                     android:layout_marginTop="200dp"
                     android:textColor="@color/black"
                     android:textSize="60sp"
-                    app:handleTargetNameTv="@{mainViewModel.targetRandomName}" />
+                    app:randomNameText="@{mainViewModel.targetRandomName}"
+                    app:runStatus="@{mainViewModel.runRandomStatus}"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/random_control_tv"
@@ -56,6 +57,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/random_name_main_swipe_content_layout"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"

@@ -2,11 +2,11 @@ package com.maunc.randomcallname.databindadapter
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.maunc.randomcallname.RandomNameApplication
 import com.maunc.randomcallname.R
 import com.maunc.randomcallname.constant.RUN_STATUS_NONE
 import com.maunc.randomcallname.constant.RUN_STATUS_START
 import com.maunc.randomcallname.constant.RUN_STATUS_STOP
+import com.maunc.randomcallname.ext.getString
 
 object MainDataBindAdapter {
 
@@ -15,22 +15,34 @@ object MainDataBindAdapter {
     fun handleControlButtonTv(textView: TextView, runStatus: Int) {
         textView.text = when (runStatus) {
             RUN_STATUS_NONE, RUN_STATUS_STOP -> {
-                RandomNameApplication.app.getString(R.string.random_start_text)
+                getString(R.string.random_start_text)
             }
 
             RUN_STATUS_START -> {
-                RandomNameApplication.app.getString(R.string.random_stop_text)
+                getString(R.string.random_stop_text)
             }
 
             else -> {
-                RandomNameApplication.app.getString(R.string.random_start_text)
+                getString(R.string.random_start_text)
             }
         }
     }
 
-    @BindingAdapter(value = ["handleTargetNameTv"], requireAll = false)
+    @BindingAdapter(value = ["randomNameText", "runStatus"], requireAll = true)
     @JvmStatic
-    fun handleTargetNameTv(textView: TextView, name: String) {
-        textView.text = name
+    fun handleTargetNameTv(textView: TextView, randomName: String, runStatus: Int) {
+        textView.text = when (runStatus) {
+            RUN_STATUS_NONE -> {
+                getString(R.string.random_none_text)
+            }
+
+            RUN_STATUS_START, RUN_STATUS_STOP -> {
+                randomName
+            }
+
+            else -> {
+                getString(R.string.random_none_text)
+            }
+        }
     }
 }

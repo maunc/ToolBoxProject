@@ -59,10 +59,10 @@ class NewGroupViewModel : BaseViewModel<BaseModel>() {
         launch({
             randomGroupDao.insertRandomNameGroup(RandomNameGroup(newGroupName.value!!))
         }, {
-            "创建分组成功:$it".loge()
+            "createNewGroup Success:$it".loge()
             newGroupSuccess.value = true
         }, {
-            "创建分组失败:$it".loge()
+            "createNewGroup error:${it.message}  ${it.stackTrace}".loge()
         })
     }
 

@@ -20,13 +20,13 @@ class WelcomeActivity : BaseActivity<WelcomeViewModel, ActivityWelcomeBinding>()
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.welcomeViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
-        mDatabind.commonToolBar.commonToolBarBackButton.setOnClickListener {
+        mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }
         mDatabind.welcomeStartRandomTv.clickScale {
             SelectGroupToMainDialog().show(supportFragmentManager, SELECT_GROUP_TO_MAIN_DIALOG)
         }
-        mDatabind.commonToolBar.commonToolBarCompatButton.setOnClickListener {
+        mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
 //            startTargetActivity(SettingActivity::class.java)
             developmentToast()
         }

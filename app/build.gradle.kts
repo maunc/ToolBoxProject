@@ -4,16 +4,19 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.kapt)
 }
 
+var variantOutPutFileName = "点名程序.apk"
+
 android {
     namespace = "com.maunc.randomcallname"
-    compileSdk = 35
+    compileSdk = libs.versions.compileSdkVerison.get().toInt()
 
     defaultConfig {
         applicationId = "com.maunc.randomcallname"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = libs.versions.minSdkVersion.get().toInt()
+        targetSdk = libs.versions.targetSdkVersion.get().toInt()
+        //读取的是项目下的gradle.properties文件
+        versionCode = providers.gradleProperty("versionCode").get().toInt()
+        versionName = providers.gradleProperty("versionName").get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,33 +44,26 @@ android {
         jvmTarget = "1.8"
     }
 
+//    configurations.all {
+//        exclude(group = "androidx.lifecycle", module = "lifecycle-viewmodel-ktx")
+//    }
+
     applicationVariants.all {
         outputs.all {
             (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
-                "点名程序.apk"
+                variantOutPutFileName
         }
     }
 }
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.bundles.android)
 
-    //BaseAdapter
-    implementation("com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.10")
-    //Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    // viewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
-    implementation("com.github.JessYanCoding:AndroidAutoSize:v1.2.1")
-    //MMKV
-    implementation("com.tencent:mmkv:2.1.0")
+    implementation(libs.ext.baseAdapter)
+    implementation(libs.ext.room.runtime)
+    kapt(libs.ext.room.compiler)
+    implementation(libs.androidx.lifecycle.ktx)
+    implementation(libs.ext.auto.size)
+    implementation(libs.ext.mmkv)
 }

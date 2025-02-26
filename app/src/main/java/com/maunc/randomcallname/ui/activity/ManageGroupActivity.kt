@@ -66,10 +66,10 @@ class ManageGroupActivity : BaseActivity<ManageGroupViewModel, ActivityManageGro
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.manageGroupViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_new_group)
-        mDatabind.commonToolBar.commonToolBarBackButton.setOnClickListener {
+        mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }
-        mDatabind.commonToolBar.commonToolBarCompatButton.setOnClickListener {
+        mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
             manageGroupActivityResult.launch(Intent(this, NewGroupActivity::class.java))
         }
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
