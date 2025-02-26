@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="welcomeViewModel"
+            type="com.maunc.randomcallname.viewmodel.WelcomeViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.WelcomeActivity">
+
+        <include
+            android:id="@+id/common_tool_bar"
+            layout="@layout/layout_tool_bar_common" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/welcome_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/common_tool_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:text="@string/welcome_title_text"
+            android:textSize="35sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/welcome_start_random_tv"
+            android:layout_width="@dimen/common_control_button_width"
+            android:layout_height="@dimen/common_control_button_height"
+            android:layout_below="@id/welcome_title_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/bg_random_control_button"
+            android:gravity="center"
+            android:text="@string/welcome_start_random_text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/common_control_button_tv_size" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/welcome_start_manage_group_tv"
+            android:layout_width="@dimen/common_control_button_width"
+            android:layout_height="@dimen/common_control_button_height"
+            android:layout_below="@id/welcome_start_random_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/bg_random_control_button"
+            android:gravity="center"
+            android:text="@string/welcome_start_query_all_text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/common_control_button_tv_size" />
+
+    </RelativeLayout>
+</layout>

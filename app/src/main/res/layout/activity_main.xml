@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="mainViewModel"
+            type="com.maunc.randomcallname.viewmodel.MainViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.MainActivity">
+
+        <include
+            android:id="@+id/common_tool_bar"
+            layout="@layout/layout_tool_bar_common" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/random_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/common_tool_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp"
+            android:textColor="@color/black"
+            android:textSize="60sp"
+            app:handleTargetNameTv="@{mainViewModel.targetRandomName}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/random_control_tv"
+            android:layout_width="@dimen/main_start_random_button_width"
+            android:layout_height="@dimen/main_start_random_button_height"
+            android:layout_below="@id/random_name_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="75dp"
+            android:background="@drawable/bg_random_control_button"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/common_control_button_tv_size"
+            app:handleControlButtonTv="@{mainViewModel.runRandomStatus}" />
+
+    </RelativeLayout>
+</layout>

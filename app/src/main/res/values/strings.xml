@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">点名程序</string>
+    <string name="functions_are_under_development">功能开发中~</string>
+    <!--welcomePage-->
+    <string name="welcome_title_text">欢迎来到点名程序</string>
+    <string name="welcome_start_random_text">进入点名系统</string>
+    <string name="welcome_start_query_all_text">查看所有分组</string>
+    <string name="welcome_start_add_table_text">增加新的分组</string>
+
+    <!--mainPage-->
+    <string name="random_none_text">未开始点名</string>
+    <string name="random_stop_text">暂停点名</string>
+    <string name="random_start_text">开始点名</string>
+
+    <!--manageGroupPage-->
+    <string name="manage_group_page_title_text">管理分组</string>
+    <string name="manage_group_page_none_group_tips_text">您还没有创建分组</string>
+    <string name="manage_group_page_new_group_text">添加分组</string>
+
+    <!--manageGroupWithNamePage-->
+    <string name="manage_group_with_name_page_none_group_tips_text">该分组还没有数据</string>
+    <string name="manage_group_with_name_page_new_group_text">添加数据</string>
+
+    <!--newGroupPage-->
+    <string name="new_group_create_tips_text">新建分组</string>
+    <string name="new_group_cancel_text">取消</string>
+    <string name="new_group_create_text">创建</string>
+    <string name="new_group_edit_max_tips_text">最多输入12位哦~</string>
+    <string name="new_group_edit_none_tips_text">请输入分组名称哦~</string>
+    <string name="new_group_edit_exist_tips_text">该分组已经存在~</string>
+
+    <!--newNameWithGroupPage-->
+    <string name="new_name_with_group_create_tips_text">新增名称</string>
+    <string name="new_name_with_group_cancel_text">取消</string>
+    <string name="new_name_with_group_create_text">创建</string>
+    <string name="new_name_with_group_edit_max_tips_text">最多输入8位哦~</string>
+    <string name="new_name_with_group_edit_none_tips_text">请输入名称哦~</string>
+    <string name="new_name_with_group_edit_exist_tips_text">该名称已经存在~</string>
+    <string name="new_name_with_group_edit_success_tips_text">创建成功！</string>
+    <string name="new_name_with_group_edit_error_tips_text">创建失败！</string>
+
+    <!--selectGroupToMain-->
+    <string name="select_group_to_main_title_text">请选择分组</string>
+    <string name="select_group_to_main_none_tips_text">没有筛选到有数据的分组哦~</string>
+    <string name="select_group_to_main_tips_text">已帮你筛选出有数据的分组啦~</string>
+
+    <!--commonDialog-->
+    <string name="common_dialog_sure_text">确定</string>
+    <string name="common_dialog_cancel_text">取消</string>
+</resources>

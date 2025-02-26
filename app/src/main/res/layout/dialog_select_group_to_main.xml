@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="selectGroupToMainViewModel"
+            type="com.maunc.randomcallname.viewmodel.SelectGroupToMainViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/dialog_select_group_to_main_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/select_group_to_main_dialog_height"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="@dimen/dp_30"
+            android:background="@drawable/bg_white_radius_18"
+            tools:ignore="UselessParent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/dialog_select_group_to_main_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_15"
+                android:text="@string/select_group_to_main_title_text"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/dialog_select_group_to_main_title_tv"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_20">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dialog_select_group_to_main_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{selectGroupToMainViewModel.groupDataIsNull?View.GONE:View.VISIBLE}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/dialog_select_group_to_main_none_tips_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="150dp"
+                    android:text="@string/select_group_to_main_none_tips_text"
+                    android:textColor="@color/black"
+                    android:textSize="25sp"
+                    android:visibility="@{selectGroupToMainViewModel.groupDataIsNull?View.VISIBLE:View.GONE}" />
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/dialog_select_group_to_main_tips_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/dp_5"
+                android:text="@{selectGroupToMainViewModel.tipsStrVar}"
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:visibility="@{selectGroupToMainViewModel.showTipsBool?View.VISIBLE:View.GONE}" />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

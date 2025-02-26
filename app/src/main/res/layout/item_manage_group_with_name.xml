@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/item_manage_group_with_name_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/manage_group_item_height"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_manage_group_with_name_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dp_30"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            tools:ignore="RelativeOverlap,RtlSymmetry" />
+
+        <View
+            android:id="@+id/item_manage_group_with_name_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="@dimen/manage_group_item_line_margin_horizontal"
+            android:background="@color/gray" />
+    </RelativeLayout>
+</layout>

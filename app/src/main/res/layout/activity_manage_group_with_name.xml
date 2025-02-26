@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="manageGroupWithNameViewModel"
+            type="com.maunc.randomcallname.viewmodel.ManageGroupWithNameViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.ManageGroupWithNameActivity">
+
+        <include
+            android:id="@+id/common_tool_bar"
+            layout="@layout/layout_tool_bar_common" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/manage_group_with_name_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/common_tool_bar"
+            android:visibility="@{manageGroupWithNameViewModel.groupDataIsNull?View.GONE:View.VISIBLE}"/>
+
+        <RelativeLayout
+            android:id="@+id/manage_group_with_name_none_data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/common_tool_bar"
+            android:visibility="@{manageGroupWithNameViewModel.groupDataIsNull?View.VISIBLE:View.GONE}">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/manage_group_with_name_none_data_tips_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="200dp"
+                android:text="@string/manage_group_with_name_page_none_group_tips_text"
+                android:textSize="35sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/manage_group_with_name_new_group_tv"
+                android:layout_width="@dimen/common_control_button_width"
+                android:layout_height="@dimen/common_control_button_height"
+                android:layout_below="@id/manage_group_with_name_none_data_tips_tv"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/bg_random_control_button"
+                android:gravity="center"
+                android:text="@string/manage_group_with_name_page_new_group_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/common_control_button_tv_size" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>
