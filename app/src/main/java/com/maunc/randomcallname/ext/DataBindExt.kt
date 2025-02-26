@@ -11,10 +11,13 @@ import java.lang.reflect.ParameterizedType
 
 @JvmName("inflateWithGeneric")
 fun <VB : ViewBinding> AppCompatActivity.inflateBindingWithGeneric(
-    layoutInflater: LayoutInflater
+    layoutInflater: LayoutInflater,
 ): VB =
-    withGenericBindingClass<VB>(this) { clazz ->
-        clazz.getMethod("inflate", LayoutInflater::class.java).invoke(null, layoutInflater) as VB
+    withGenericBindingClass(this) { clazz ->
+        clazz.getMethod(
+            "inflate",
+            LayoutInflater::class.java
+        ).invoke(null, layoutInflater) as VB
     }.also { binding ->
         if (binding is ViewDataBinding) {
             binding.lifecycleOwner = this
@@ -25,16 +28,15 @@ fun <VB : ViewBinding> AppCompatActivity.inflateBindingWithGeneric(
 fun <VB : ViewBinding> Fragment.inflateBindingWithGeneric(
     layoutInflater: LayoutInflater,
     parent: ViewGroup?,
-    attachToParent: Boolean
+    attachToParent: Boolean,
 ): VB =
-    withGenericBindingClass<VB>(this) { clazz ->
+    withGenericBindingClass(this) { clazz ->
         clazz.getMethod(
             "inflate",
             LayoutInflater::class.java,
             ViewGroup::class.java,
             Boolean::class.java
-        )
-            .invoke(null, layoutInflater, parent, attachToParent) as VB
+        ).invoke(null, layoutInflater, parent, attachToParent) as VB
     }.also { binding ->
         if (binding is ViewDataBinding) {
             binding.lifecycleOwner = viewLifecycleOwner
@@ -42,7 +44,7 @@ fun <VB : ViewBinding> Fragment.inflateBindingWithGeneric(
     }
 
 private fun <VB : ViewBinding> withGenericBindingClass(
-    any: Any, block: (Class<VB>) -> VB
+    any: Any, block: (Class<VB>) -> VB,
 ): VB {
     var genericSuperclass = any.javaClass.genericSuperclass
     var superclass = any.javaClass.superclass
