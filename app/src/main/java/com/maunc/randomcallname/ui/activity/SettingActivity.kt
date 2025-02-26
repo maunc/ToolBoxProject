@@ -5,6 +5,9 @@ import com.maunc.randomcallname.base.BaseActivity
 import com.maunc.randomcallname.databinding.ActivitySettingBinding
 import com.maunc.randomcallname.viewmodel.SettingViewModel
 
+/**
+ * 设置页面
+ */
 class SettingActivity : BaseActivity<SettingViewModel, ActivitySettingBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {

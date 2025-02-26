@@ -10,6 +10,7 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.maunc.randomcallname.ext.loge
 import kotlin.math.abs
 
 object KeyBroadUtils {
@@ -51,6 +52,7 @@ object KeyBroadUtils {
         onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
             val height = getDecorViewInvisibleHeight(activity)
             if (sDecorViewInvisibleHeightPre != height) {
+                "软键盘高度:$height".loge("KeyBroadUtils")
                 listener.onKeyboardHeightChanged(height)
                 sDecorViewInvisibleHeightPre = height
             }

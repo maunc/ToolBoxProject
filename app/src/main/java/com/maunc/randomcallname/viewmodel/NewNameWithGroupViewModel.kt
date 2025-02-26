@@ -27,11 +27,12 @@ class NewNameWithGroupViewModel : BaseViewModel<BaseModel>() {
 
     private val handleEdit: Handler = Handler(Looper.getMainLooper())
 
+    //是否新建过名称
+    var whetherNewNameHasCreate = MutableLiveData(false)
     var showDeleteEditIcon = MutableLiveData(false)
     var showNameLimitTips = MutableLiveData(false)
     var nameLimitTips = MutableLiveData(GLOBAL_NONE_STRING)
     var nameLimitTipsTextColor = MutableLiveData(getColor(R.color.red))
-
     var newRandomName = MutableLiveData(GLOBAL_NONE_STRING)
     var newRandomNameToGroup = MutableLiveData(GLOBAL_NONE_STRING)
     var newRandomNameSuccess = MutableLiveData<Boolean>()
@@ -80,6 +81,7 @@ class NewNameWithGroupViewModel : BaseViewModel<BaseModel>() {
             )
         }, {
             "createNewNameWithGroup Success:$it".loge()
+            whetherNewNameHasCreate.value = true
             handleNewNameLoadingEnd(true)
         }, {
             "createNewNameWithGroup Error:${it.message},${it.stackTrace}".loge()

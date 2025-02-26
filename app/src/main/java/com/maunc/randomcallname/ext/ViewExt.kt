@@ -62,6 +62,9 @@ fun View.clickNoRepeat(
     }
 }
 
+/**
+ * 点击缩放动画点击
+ */
 @SuppressLint("ClickableViewAccessibility", "Recycle")
 fun View.clickScale(
     scaleMax: Float = 1f,

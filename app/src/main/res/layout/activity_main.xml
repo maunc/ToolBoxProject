@@ -16,33 +16,59 @@
         android:layout_height="match_parent"
         tools:context=".ui.activity.MainActivity">
 
-        <include
-            android:id="@+id/common_tool_bar"
-            layout="@layout/layout_tool_bar_common" />
+        <androidx.drawerlayout.widget.DrawerLayout
+            android:id="@+id/random_name_drawer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!--主视图内容-->
+            <RelativeLayout
+                android:id="@+id/random_name_main_content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/random_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/common_tool_bar"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="200dp"
-            android:textColor="@color/black"
-            android:textSize="60sp"
-            app:handleTargetNameTv="@{mainViewModel.targetRandomName}" />
+                <include
+                    android:id="@+id/common_tool_bar"
+                    layout="@layout/layout_tool_bar_common" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/random_control_tv"
-            android:layout_width="@dimen/main_start_random_button_width"
-            android:layout_height="@dimen/main_start_random_button_height"
-            android:layout_below="@id/random_name_tv"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="75dp"
-            android:background="@drawable/bg_random_control_button"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/common_control_button_tv_size"
-            app:handleControlButtonTv="@{mainViewModel.runRandomStatus}" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/random_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/common_tool_bar"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="200dp"
+                    android:textColor="@color/black"
+                    android:textSize="60sp"
+                    app:handleTargetNameTv="@{mainViewModel.targetRandomName}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/random_control_tv"
+                    android:layout_width="@dimen/main_start_random_button_width"
+                    android:layout_height="@dimen/main_start_random_button_height"
+                    android:layout_below="@id/random_name_tv"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="75dp"
+                    android:background="@drawable/bg_random_control_button"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/common_control_button_tv_size"
+                    app:handleControlButtonTv="@{mainViewModel.runRandomStatus}" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:background="@color/white">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/common_dialog_sure_text"
+                    android:textSize="32sp"
+                    android:textColor="@color/black"/>
+            </RelativeLayout>
+        </androidx.drawerlayout.widget.DrawerLayout>
 
     </RelativeLayout>
 </layout>
