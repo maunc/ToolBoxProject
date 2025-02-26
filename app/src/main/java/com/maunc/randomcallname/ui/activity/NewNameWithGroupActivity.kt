@@ -3,7 +3,6 @@ package com.maunc.randomcallname.ui.activity
 import android.os.Bundle
 import com.maunc.randomcallname.R
 import com.maunc.randomcallname.base.BaseActivity
-import com.maunc.randomcallname.constant.GLOBAL_NONE_STRING
 import com.maunc.randomcallname.constant.GROUP_NAME_EXTRA
 import com.maunc.randomcallname.databinding.ActivityNewNameWithGroupBinding
 import com.maunc.randomcallname.ext.afterTextChange
@@ -38,7 +37,7 @@ class NewNameWithGroupActivity :
             finish()
         }
         mDatabind.newNameWithGroupDeleteIv.setOnClickListener {
-            mDatabind.newNameWithGroupEdit.setText(GLOBAL_NONE_STRING)
+            mViewModel.clearEditText(mDatabind.newNameWithGroupEdit)
         }
         mDatabind.newNameWithGroupCreateButton.clickNoRepeat {
             mViewModel.initiateCreateNewNameWithGroupEvent()
@@ -59,6 +58,11 @@ class NewNameWithGroupActivity :
                 mDatabind.newNameWithGroupLoadingIv.startRotation()
             } else {
                 mDatabind.newNameWithGroupLoadingIv.stopRotation()
+            }
+        }
+        mViewModel.newRandomNameSuccess.observe(this) {
+            if (it) {
+                mViewModel.clearEditText(mDatabind.newNameWithGroupEdit)
             }
         }
     }

@@ -80,26 +80,26 @@ class NewNameWithGroupViewModel : BaseViewModel<BaseModel>() {
             )
         }, {
             "createNewNameWithGroup Success:$it".loge()
-            newRandomNameSuccess.value = true
-            handleNewNameLoadingEnd()
+            handleNewNameLoadingEnd(true)
         }, {
             "createNewNameWithGroup Error:${it.message},${it.stackTrace}".loge()
-            newNameWithLoading.value = false
-            handleNewNameLoadingEnd()
+            handleNewNameLoadingEnd(false)
         })
     }
 
-    private fun handleNewNameLoadingEnd() {
+    private fun handleNewNameLoadingEnd(isSuccess: Boolean) {
         handleEdit.postDelayed({
+            newRandomNameSuccess.value = isSuccess
             newNameWithLoading.value = false
-            handleShowTipsEvent(
-                if (newRandomNameSuccess.value!!) {
-                    getString(R.string.new_name_with_group_edit_success_tips_text)
-                } else {
-                    getString(R.string.new_name_with_group_edit_error_tips_text)
-                },
-                newRandomNameSuccess.value!!
-            )
+            newRandomNameSuccess.value?.let { success ->
+                handleShowTipsEvent(
+                    if (success) {
+                        getString(R.string.new_name_with_group_edit_success_tips_text)
+                    } else {
+                        getString(R.string.new_name_with_group_edit_error_tips_text)
+                    }, success
+                )
+            }
         }, newNameWithNameLoadingTime)
     }
 
@@ -116,6 +116,10 @@ class NewNameWithGroupViewModel : BaseViewModel<BaseModel>() {
         } else {
             getColor(R.color.red)
         }
+    }
+
+    fun clearEditText(editText: EditText) {
+        editText.setText(GLOBAL_NONE_STRING)
     }
 
     fun showSoftInputKeyBoard(editText: EditText) {
