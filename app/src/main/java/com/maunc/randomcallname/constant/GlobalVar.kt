@@ -7,7 +7,7 @@ const val GLOBAL_TAG = "RandomCallNameApp"
 const val GLOBAL_NONE_STRING = ""
 
 //ActivityAnimDefault
-const val ACTIVITY_ANIM_DEFAULT = 0
+const val ACTIVITY_ANIM_DEFAULT = -1
 
 /**
  * 随机未开始状态 : RUN_STATUS_NONE

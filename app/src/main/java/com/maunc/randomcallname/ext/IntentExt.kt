@@ -80,12 +80,12 @@ fun <T> Context.obtainActivityIntentPutData(
 
 /**========================================  Activity销毁  ========================================*/
 fun AppCompatActivity.finishCurrentActivity(
-    @AnimRes exitAnim: Int = 0,
+    @AnimRes exitAnim: Int = ACTIVITY_ANIM_DEFAULT,
     action: () -> Unit = {},
 ) {
     action()
     finish()
-    if (exitAnim != 0) {
+    if (exitAnim != ACTIVITY_ANIM_DEFAULT) {
         exitActivityAnim(exitAnim)
     }
 }
@@ -93,7 +93,7 @@ fun AppCompatActivity.finishCurrentActivity(
 fun AppCompatActivity.finishCurrentResultToActivity(
     resultCode: Int = RESULT_OK,
     intent: Intent? = null,
-    @AnimRes exitAnim: Int = 0,
+    @AnimRes exitAnim: Int = ACTIVITY_ANIM_DEFAULT,
     action: () -> Unit = {},
 ) {
     action()
@@ -103,7 +103,7 @@ fun AppCompatActivity.finishCurrentResultToActivity(
         setResult(resultCode, intent)
     }
     finish()
-    if (exitAnim != 0) {
+    if (exitAnim != ACTIVITY_ANIM_DEFAULT) {
         exitActivityAnim(exitAnim)
     }
 }
