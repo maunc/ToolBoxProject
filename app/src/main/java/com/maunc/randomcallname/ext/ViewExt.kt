@@ -7,6 +7,7 @@ import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
@@ -15,6 +16,7 @@ import android.view.animation.BaseInterpolator
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.EditText
+import android.widget.TextView
 import com.maunc.randomcallname.constant.SCALE_X
 import com.maunc.randomcallname.constant.SCALE_Y
 
@@ -149,7 +151,7 @@ fun View.startRotation() {
 }
 
 fun View.stopRotation() {
-    rotateAnimation.cancel()
+    clearAnimation()
 }
 
 /**
@@ -208,4 +210,16 @@ fun View.isTouchPointInView(x: Int, y: Int): Boolean {
     val right = left + measuredWidth
     val bottom = top + measuredHeight
     return y in top..bottom && x in left..right
+}
+
+/**
+ * 设置跑马灯
+ */
+fun TextView.marquee() {
+    ellipsize = TextUtils.TruncateAt.MARQUEE
+    marqueeRepeatLimit = -1
+    isSingleLine = true
+    isFocusable = true
+    isSelected = true
+    isFocusableInTouchMode = true
 }

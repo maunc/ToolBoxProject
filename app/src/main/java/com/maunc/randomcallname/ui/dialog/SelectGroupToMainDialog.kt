@@ -7,6 +7,7 @@ import com.maunc.randomcallname.base.BaseDialog
 import com.maunc.randomcallname.constant.GROUP_WITH_NAME_EXTRA
 import com.maunc.randomcallname.databinding.DialogSelectGroupToMainBinding
 import com.maunc.randomcallname.ext.linearLayoutManager
+import com.maunc.randomcallname.ext.marquee
 import com.maunc.randomcallname.ext.startActivityWithData
 import com.maunc.randomcallname.ui.activity.MainActivity
 import com.maunc.randomcallname.viewmodel.SelectGroupToMainViewModel
@@ -45,6 +46,8 @@ class SelectGroupToMainDialog :
         mDatabind.selectGroupToMainViewModel = mViewModel
         mDatabind.dialogSelectGroupToMainRecycler.layoutManager = activity?.linearLayoutManager()
         mDatabind.dialogSelectGroupToMainRecycler.adapter = selectGroupToMainAdapter
+        mDatabind.dialogSelectGroupToMainNoneTipsTv.marquee()
+        mDatabind.dialogSelectGroupToMainTipsTv.marquee()
         mViewModel.queryGroupData()
     }
 

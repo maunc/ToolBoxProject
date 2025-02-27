@@ -7,7 +7,7 @@ import com.maunc.randomcallname.RandomNameApplication
 import com.maunc.randomcallname.constant.DATA_BASE_NAME
 import com.maunc.randomcallname.database.dao.RandomNameDao
 import com.maunc.randomcallname.database.dao.RandomNameGroupDao
-import com.maunc.randomcallname.database.dao.RandomNameWithGroupDao
+import com.maunc.randomcallname.database.dao.RandomNameTransactionDao
 import com.maunc.randomcallname.database.table.RandomNameData
 import com.maunc.randomcallname.database.table.RandomNameGroup
 
@@ -23,8 +23,8 @@ val randomGroupDao: RandomNameGroupDao by lazy(mode = LazyThreadSafetyMode.SYNCH
     randomNameDataBase.obtainRandomNameGroupDao()
 }
 
-val randomGroupWithNameDao: RandomNameWithGroupDao by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-    randomNameDataBase.obtainRandomGroupWithNameDao()
+val randomNameTransactionDao: RandomNameTransactionDao by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+    randomNameDataBase.obtainRandomNameTransactionDao()
 }
 
 @Database(
@@ -46,5 +46,5 @@ abstract class RandomNameDataBase : RoomDatabase() {
 
     abstract fun obtainRandomNameGroupDao(): RandomNameGroupDao
 
-    abstract fun obtainRandomGroupWithNameDao(): RandomNameWithGroupDao
+    abstract fun obtainRandomNameTransactionDao(): RandomNameTransactionDao
 }

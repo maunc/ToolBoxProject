@@ -5,7 +5,7 @@ import com.maunc.randomcallname.R
 import com.maunc.randomcallname.base.BaseModel
 import com.maunc.randomcallname.base.BaseViewModel
 import com.maunc.randomcallname.constant.GROUP_REMOVE_THRESHOLD
-import com.maunc.randomcallname.database.randomGroupWithNameDao
+import com.maunc.randomcallname.database.randomNameTransactionDao
 import com.maunc.randomcallname.database.table.RandomNameWithGroup
 import com.maunc.randomcallname.ext.getString
 import com.maunc.randomcallname.ext.launch
@@ -22,7 +22,7 @@ class SelectGroupToMainViewModel : BaseViewModel<BaseModel>() {
 
     fun queryGroupData() {
         launch({
-            randomGroupWithNameDao.queryRandomNameWithGroup()
+            randomNameTransactionDao.queryNameWithGroup()
         }, {
             "queryGroupData Success data->${it.isEmpty()}".loge()
             handleGroupData(it)

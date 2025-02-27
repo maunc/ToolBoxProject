@@ -3,10 +3,7 @@ package com.maunc.randomcallname.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.maunc.randomcallname.base.BaseModel
 import com.maunc.randomcallname.base.BaseViewModel
-import com.maunc.randomcallname.database.randomGroupDao
-import com.maunc.randomcallname.database.randomGroupWithNameDao
-import com.maunc.randomcallname.database.randomNameDao
-import com.maunc.randomcallname.database.table.RandomNameGroup
+import com.maunc.randomcallname.database.randomNameTransactionDao
 import com.maunc.randomcallname.database.table.RandomNameWithGroup
 import com.maunc.randomcallname.ext.launch
 import com.maunc.randomcallname.ext.loge
@@ -19,7 +16,7 @@ class ManageGroupViewModel : BaseViewModel<BaseModel>() {
 
     fun queryGroupData() {
         launch({
-            randomGroupWithNameDao.queryRandomNameWithGroup()
+            randomNameTransactionDao.queryNameWithGroup()
         }, {
             "queryGroupData Success data->${it.isEmpty()}".loge()
             groupData.value = it
@@ -32,23 +29,13 @@ class ManageGroupViewModel : BaseViewModel<BaseModel>() {
 
     fun deleteGroupData(groupName: String) {
         launch({
-            randomGroupDao.deleteGroupName(groupName)
+            randomNameTransactionDao.deleteGroupAndQueryRandomAllData(groupName)
         }, {
             "deleteGroupData Success".loge()
-            deleteAllNameWithGroup(groupName)
+            groupData.value = it
+            groupDataIsNull.value = it.isEmpty()
         }, {
             "deleteGroupData Error ${it.message}  ${it.stackTrace}".loge()
-        })
-    }
-
-    private fun deleteAllNameWithGroup(groupName: String) {
-        launch({
-            randomNameDao.deleteNameWithGroup(groupName)
-        }, {
-            "deleteAllNameWithGroup Success".loge()
-            queryGroupData()
-        }, {
-            "deleteAllNameWithGroup Error ${it.message}  ${it.stackTrace}".loge()
         })
     }
 }

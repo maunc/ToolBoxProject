@@ -14,6 +14,7 @@
     <dimen name="dp_32">32dp</dimen>
     <dimen name="dp_35">35dp</dimen>
     <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
 
     <!--mainPage-->
     <dimen name="main_start_random_button_width">260dp</dimen>

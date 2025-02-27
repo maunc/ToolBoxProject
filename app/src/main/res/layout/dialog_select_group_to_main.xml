@@ -31,7 +31,8 @@
                 android:layout_marginTop="@dimen/dp_15"
                 android:text="@string/select_group_to_main_title_text"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                android:visibility="@{selectGroupToMainViewModel.groupDataIsNull?View.GONE:View.VISIBLE}" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -48,9 +49,10 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/dialog_select_group_to_main_none_tips_tv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginHorizontal="@dimen/dp_30"
                     android:layout_marginTop="150dp"
                     android:text="@string/select_group_to_main_none_tips_text"
                     android:textColor="@color/black"
@@ -60,11 +62,12 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/dialog_select_group_to_main_tips_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/dp_5"
+                android:gravity="center"
                 android:text="@{selectGroupToMainViewModel.tipsStrVar}"
                 android:textColor="@color/red"
                 android:textSize="16sp"

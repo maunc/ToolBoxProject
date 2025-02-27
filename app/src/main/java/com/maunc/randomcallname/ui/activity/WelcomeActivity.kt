@@ -33,7 +33,7 @@ class WelcomeActivity : BaseActivity<WelcomeViewModel, ActivityWelcomeBinding>()
             startTargetActivity(ManageGroupActivity::class.java)
         }
         mDatabind.welcomeStartTestTv.clickScale {
-            startTargetActivity(TestActivity::class.java)
+            developmentToast()
         }
     }
 
