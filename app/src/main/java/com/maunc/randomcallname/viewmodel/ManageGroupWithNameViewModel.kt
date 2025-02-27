@@ -17,7 +17,9 @@ class ManageGroupWithNameViewModel : BaseViewModel<BaseModel>() {
     //是否更改过数据库
     var whetherDataHasChange = MutableLiveData(false)
 
-    fun queryGroupWithNameData(groupName: String) {
+    fun queryGroupWithNameData(
+        groupName: String
+    ) {
         launch({
             randomNameDao.queryGroupName(groupName)
         }, {
@@ -26,10 +28,14 @@ class ManageGroupWithNameViewModel : BaseViewModel<BaseModel>() {
             groupDataIsNull.value = it.isEmpty()
         }, {
             "queryGroupWithNameData Error ${it.message}  ${it.stackTrace}".loge()
+            groupData.value = mutableListOf()
         })
     }
 
-    fun deleteGroupWithNameData(groupName: String, randomName: String) {
+    fun deleteGroupWithNameData(
+        groupName: String,
+        randomName: String
+    ) {
         launch({
             randomNameDao.deleteNameWithGroupNameAndRandomName(groupName, randomName)
         }, {

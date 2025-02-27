@@ -93,11 +93,15 @@ class ManageGroupActivity : BaseActivity<ManageGroupViewModel, ActivityManageGro
         mDatabind.manageGroupRecycler.layoutManager =
             linearLayoutManager(LinearLayoutManager.VERTICAL)
         mDatabind.manageGroupRecycler.adapter = manageGroupAdapter
+        mDatabind.manageGroupRefreshLayout.setOnRefreshListener {
+            mViewModel.queryGroupData()
+        }
         mViewModel.queryGroupData()
     }
 
     override fun createObserver() {
         mViewModel.groupData.observe(this) {
+            mDatabind.manageGroupRefreshLayout.finishRefresh()
             if (it.isNullOrEmpty()) {
                 return@observe
             }

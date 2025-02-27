@@ -90,4 +90,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.ktx)
     implementation(libs.ext.auto.size)
     implementation(libs.ext.mmkv)
+    implementation(libs.ext.refresh.layout.base)
+    implementation(libs.ext.refresh.layout.header)
+    implementation(libs.bundles.smart.refrsh.layout)
 }

@@ -1,6 +1,5 @@
 package com.maunc.randomcallname.utils
 
-import android.os.Build
 import android.view.View
 import androidx.core.view.ViewCompat
 
@@ -19,16 +18,9 @@ internal class ViewOffsetHelper(private val mView: View) {
     }
 
     private fun updateOffsets() {
-        if (Build.VERSION.SDK_INT == 22) {
-            // FIXME When running on L MR1, we have a problem with view's which are offset off
-            // screen then back on. Using translationX/Y fixes it for now.
-            ViewCompat.setTranslationY(mView, topAndBottomOffset.toFloat())
-            ViewCompat.setTranslationX(mView, leftAndRightOffset.toFloat())
-        } else {
-            // Else we can use the offset position methods
-            ViewCompat.offsetTopAndBottom(mView, topAndBottomOffset - mView.top - mLayoutTop)
-            ViewCompat.offsetLeftAndRight(mView, leftAndRightOffset - mView.left - mLayoutLeft)
-        }
+        // Else we can use the offset position methods
+        ViewCompat.offsetTopAndBottom(mView, topAndBottomOffset - mView.top - mLayoutTop)
+        ViewCompat.offsetLeftAndRight(mView, leftAndRightOffset - mView.left - mLayoutLeft)
     }
 
     /**

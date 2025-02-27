@@ -21,12 +21,23 @@
             android:id="@+id/common_tool_bar"
             layout="@layout/layout_tool_bar_common" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/manage_group_with_name_recycler"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/manage_group_with_name_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/common_tool_bar"
-            android:visibility="@{manageGroupWithNameViewModel.groupDataIsNull?View.GONE:View.VISIBLE}"/>
+            android:visibility="@{manageGroupWithNameViewModel.groupDataIsNull?View.GONE:View.VISIBLE}">
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/manage_group_with_name_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <com.scwang.smart.refresh.header.FalsifyFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
         <RelativeLayout
             android:id="@+id/manage_group_with_name_none_data_layout"

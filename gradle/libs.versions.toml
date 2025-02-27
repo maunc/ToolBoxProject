@@ -14,11 +14,24 @@ baseAdapterVersion = "3.0.10"
 roomVersion = "2.6.1"
 mmkvVersion = "2.1.0"
 autoSizeVersion = "v1.2.1"
+refrshLayoutVersion = "3.0.0-alpha"
 lifecycleViewModelKtxVersion = "2.3.1"
 
 [bundles]
 #集合管理
-android = ["androidx-core-ktx", "androidx-appcompat", "material", "androidx-activity", "androidx-constraintlayout"]
+android = [
+    "androidx-core-ktx",
+    "androidx-appcompat",
+    "material",
+    "androidx-activity",
+    "androidx-constraintlayout"
+]
+#smartRefrshLayout
+smart-refrsh-layout = [
+    "ext-refresh-layout-base",
+    "ext-refresh-layout-header",
+    "ext-refresh-layout-falsify-header"
+]
 
 [libraries]
 #android应该导入的
@@ -37,6 +50,9 @@ ext-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref
 ext-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 ext-mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkvVersion" }
 ext-auto-size = { group = "com.github.JessYanCoding", name = "AndroidAutoSize", version.ref = "autoSizeVersion" }
+ext-refresh-layout-base = { group = "io.github.scwang90", name = "refresh-layout-kernel", version.ref = "refrshLayoutVersion" }
+ext-refresh-layout-header = { group = "io.github.scwang90", name = "refresh-header-classics", version.ref = "refrshLayoutVersion" }
+ext-refresh-layout-falsify-header = { group = "io.github.scwang90", name = "refresh-header-falsify", version.ref = "refrshLayoutVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

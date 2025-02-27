@@ -26,6 +26,7 @@ class ManageGroupViewModel : BaseViewModel<BaseModel>() {
             groupDataIsNull.value = it.isEmpty()
         }, {
             "queryGroupData Error ${it.message}  ${it.stackTrace}".loge()
+            groupData.value = mutableListOf()
         })
     }
 

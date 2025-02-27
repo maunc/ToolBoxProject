@@ -17,10 +17,8 @@ import com.maunc.randomcallname.databinding.ActivityManageGroupWithNameBinding
 import com.maunc.randomcallname.ext.clickScale
 import com.maunc.randomcallname.ext.finishCurrentResultToActivity
 import com.maunc.randomcallname.ext.linearLayoutManager
-import com.maunc.randomcallname.ext.loge
 import com.maunc.randomcallname.ext.obtainActivityIntentPutData
 import com.maunc.randomcallname.ext.obtainIntentPutData
-import com.maunc.randomcallname.ext.startActivityWithData
 import com.maunc.randomcallname.ui.dialog.CommonDialog
 import com.maunc.randomcallname.viewmodel.ManageGroupWithNameViewModel
 
@@ -86,25 +84,21 @@ class ManageGroupWithNameActivity :
             baseFinishCurrentActivity()
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            manageGroupWithNameActivityResult.launch(
-                obtainActivityIntentPutData(NewNameWithGroupActivity::class.java,
-                    mutableMapOf<String, Any>().apply {
-                        mGroupName?.let { startGroupName -> put(GROUP_NAME_EXTRA, startGroupName) }
-                    })
-            )
+            startNewNameActivity()
         }
         mDatabind.manageGroupWithNameNewGroupTv.clickScale {
-            startActivityWithData(
-                NewNameWithGroupActivity::class.java,
-                mutableMapOf<String, Any>().apply {
-                    mGroupName?.let { startGroupName -> put(GROUP_NAME_EXTRA, startGroupName) }
-                })
+            startNewNameActivity()
         }
         mDatabind.commonToolBar.commonToolBarTitleTv.text = mGroupName
         mDatabind.manageGroupWithNameRecycler.layoutManager =
             linearLayoutManager(LinearLayoutManager.VERTICAL)
         mDatabind.manageGroupWithNameRecycler.adapter = manageGroupWithNameAdapter
         onBackPressedDispatcher.addCallback(backPressCallback)
+        mDatabind.manageGroupWithNameRefreshLayout.setOnRefreshListener {
+            mGroupName?.let {
+                mViewModel.queryGroupWithNameData(it)
+            }
+        }
         mGroupName?.let {
             mViewModel.queryGroupWithNameData(it)
         }
@@ -112,6 +106,7 @@ class ManageGroupWithNameActivity :
 
     override fun createObserver() {
         mViewModel.groupData.observe(this) {
+            mDatabind.manageGroupWithNameRefreshLayout.finishRefresh()
             if (it.isNullOrEmpty()) {
                 return@observe
             }
@@ -121,6 +116,19 @@ class ManageGroupWithNameActivity :
             }
             otherPageEchoSources = RESULT_SOURCE_FROM_NONE_PAGE
         }
+    }
+
+    private fun startNewNameActivity() {
+        manageGroupWithNameActivityResult.launch(
+            obtainActivityIntentPutData(
+                NewNameWithGroupActivity::class.java,
+                mutableMapOf<String, Any>().apply {
+                    mGroupName?.let { startGroupName ->
+                        put(GROUP_NAME_EXTRA, startGroupName)
+                    }
+                }
+            )
+        )
     }
 
     private fun baseFinishCurrentActivity(action: () -> Unit = {}) {

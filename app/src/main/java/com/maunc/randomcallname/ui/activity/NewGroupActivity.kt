@@ -12,7 +12,6 @@ import com.maunc.randomcallname.databinding.ActivityNewGroupBinding
 import com.maunc.randomcallname.ext.afterTextChange
 import com.maunc.randomcallname.ext.clickNoRepeat
 import com.maunc.randomcallname.ext.enterActivityAnim
-import com.maunc.randomcallname.ext.finishCurrentActivity
 import com.maunc.randomcallname.ext.finishCurrentResultToActivity
 import com.maunc.randomcallname.ext.obtainIntentPutData
 import com.maunc.randomcallname.utils.KeyBroadUtils
@@ -31,7 +30,7 @@ class NewGroupActivity : BaseActivity<NewGroupViewModel, ActivityNewGroupBinding
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
-        enterActivityAnim(R.anim.enter_new_group_anim)
+        enterActivityAnim(R.anim.enter_new_data_page_anim)
         mDatabind.newGroupViewModel = mViewModel
         mDatabind.newGroupEdit.isFocusable = true
         mDatabind.newGroupEdit.isFocusableInTouchMode = true
@@ -70,7 +69,7 @@ class NewGroupActivity : BaseActivity<NewGroupViewModel, ActivityNewGroupBinding
         action()
         finishCurrentResultToActivity(
             resultCode = RESULT_SOURCE_FROM_NEW_GROUP_PAGE,
-            exitAnim = R.anim.exit_new_group_anim,
+            exitAnim = R.anim.exit_new_data_page_anim,
             intent = obtainIntentPutData(mutableMapOf<String, Any>().apply {
                 put(WHETHER_DATA_HAS_CHANGE, mViewModel.whetherDataHasChange.value!!)
             })

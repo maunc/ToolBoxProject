@@ -27,11 +27,13 @@ class WelcomeActivity : BaseActivity<WelcomeViewModel, ActivityWelcomeBinding>()
             SelectGroupToMainDialog().show(supportFragmentManager, SELECT_GROUP_TO_MAIN_DIALOG)
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-//            startTargetActivity(SettingActivity::class.java)
             developmentToast()
         }
         mDatabind.welcomeStartManageGroupTv.clickScale {
             startTargetActivity(ManageGroupActivity::class.java)
+        }
+        mDatabind.welcomeStartTestTv.clickScale {
+            startTargetActivity(TestActivity::class.java)
         }
     }
 

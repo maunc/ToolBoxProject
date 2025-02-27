@@ -35,7 +35,7 @@ class NewNameWithGroupViewModel : BaseViewModel<BaseModel>() {
     var nameLimitTipsTextColor = MutableLiveData(getColor(R.color.red))
     var newRandomName = MutableLiveData(GLOBAL_NONE_STRING)
     var newRandomNameToGroup = MutableLiveData(GLOBAL_NONE_STRING)
-    var newRandomNameSuccess = MutableLiveData<Boolean>()
+    var newRandomNameSuccess = MutableLiveData(false)
     var newNameWithLoading = MutableLiveData(false)
     private var newNameWithNameLoadingTime = 300L
 

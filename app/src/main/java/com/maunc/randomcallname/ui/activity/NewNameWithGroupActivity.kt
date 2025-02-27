@@ -33,7 +33,7 @@ class NewNameWithGroupActivity :
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        enterActivityAnim(R.anim.enter_new_group_anim)
+        enterActivityAnim(R.anim.enter_new_data_page_anim)
         mGroupName = intent?.extras?.getString(GROUP_NAME_EXTRA)
         mDatabind.newNameWithGroupViewModel = mViewModel
         mViewModel.newRandomNameToGroup.value = mGroupName
@@ -85,7 +85,7 @@ class NewNameWithGroupActivity :
             intent = obtainIntentPutData(mutableMapOf<String, Any>().apply {
                 put(WHETHER_DATA_HAS_CHANGE, mViewModel.whetherDataHasChange.value!!)
             }),
-            exitAnim = R.anim.exit_new_group_anim
+            exitAnim = R.anim.exit_new_data_page_anim
         )
     }
 

@@ -56,5 +56,18 @@
             android:textColor="@color/black"
             android:textSize="@dimen/common_control_button_tv_size" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/welcome_start_test_tv"
+            android:layout_width="@dimen/common_control_button_width"
+            android:layout_height="@dimen/common_control_button_height"
+            android:layout_below="@id/welcome_start_manage_group_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/bg_random_control_button"
+            android:gravity="center"
+            android:text="@string/functions_are_under_development"
+            android:textColor="@color/black"
+            android:textSize="@dimen/common_control_button_tv_size" />
+
     </RelativeLayout>
 </layout>
