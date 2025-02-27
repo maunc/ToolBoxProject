@@ -14,6 +14,9 @@ class ManageGroupWithNameViewModel : BaseViewModel<BaseModel>() {
 
     var groupDataIsNull = MutableLiveData(true)
 
+    //是否更改过数据库
+    var whetherDataHasChange = MutableLiveData(false)
+
     fun queryGroupWithNameData(groupName: String) {
         launch({
             randomNameDao.queryGroupName(groupName)
@@ -31,6 +34,7 @@ class ManageGroupWithNameViewModel : BaseViewModel<BaseModel>() {
             randomNameDao.deleteNameWithGroupNameAndRandomName(groupName, randomName)
         }, {
             "deleteGroupWithNameData Success".loge()
+            whetherDataHasChange.value = true
             queryGroupWithNameData(groupName)
         }, {
             "deleteGroupWithNameData Error ${it.message}  ${it.stackTrace}".loge()

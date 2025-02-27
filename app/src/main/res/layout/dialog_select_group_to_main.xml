@@ -43,7 +43,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/dialog_select_group_to_main_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:visibility="@{selectGroupToMainViewModel.groupDataIsNull?View.GONE:View.VISIBLE}" />
 
                 <androidx.appcompat.widget.AppCompatTextView

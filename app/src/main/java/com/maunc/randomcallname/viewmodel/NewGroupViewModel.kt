@@ -28,7 +28,8 @@ class NewGroupViewModel : BaseViewModel<BaseModel>() {
 
     var showDeleteEditIcon = MutableLiveData(false)
     var showNameLimitTips = MutableLiveData(false)
-    var newGroupSuccess = MutableLiveData<Boolean>()
+    //是否更改过数据库
+    var whetherDataHasChange = MutableLiveData(false)
     var nameLimitTips = MutableLiveData(GLOBAL_NONE_STRING)
 
     var newGroupName = MutableLiveData(GLOBAL_NONE_STRING)
@@ -60,7 +61,7 @@ class NewGroupViewModel : BaseViewModel<BaseModel>() {
             randomGroupDao.insertRandomNameGroup(RandomNameGroup(newGroupName.value!!))
         }, {
             "createNewGroup Success:$it".loge()
-            newGroupSuccess.value = true
+            whetherDataHasChange.value = true
         }, {
             "createNewGroup error:${it.message}  ${it.stackTrace}".loge()
         })

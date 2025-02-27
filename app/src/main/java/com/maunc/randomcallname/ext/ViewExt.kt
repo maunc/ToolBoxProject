@@ -22,8 +22,20 @@ fun View.visible() {
     visibility = View.VISIBLE
 }
 
+fun View.invisible() {
+    visibility = View.INVISIBLE
+}
+
 fun View.gone() {
     visibility = View.GONE
+}
+
+fun View.visibleOrGone(flag: Boolean) {
+    visibility = if (flag) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
 }
 
 /**

@@ -49,10 +49,18 @@ const val COMMON_DIALOG = "commonDialog"
 const val GROUP_NAME_EXTRA = "GroupName"
 const val GROUP_WITH_NAME_EXTRA = "RandomGroupWithName"
 
+//管理名称页面,新增名称页面(是否更改过数据库操作)
+const val WHETHER_DATA_HAS_CHANGE = "whetherDataHasChange"
+
 /**============================================== setResult来源值 ==============================================*/
 //来源于  缺省值
 const val RESULT_SOURCE_FROM_NONE_PAGE = -1
+
 //来源于创建新分组页面
 const val RESULT_SOURCE_FROM_NEW_GROUP_PAGE = 101
+
 //来源于创建新名称页面
 const val RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE = 102
+
+//来源于分组名称管理页面
+const val RESULT_SOURCE_FROM_MANAGE_GROUP_WITH_NAME_PAGE = 103

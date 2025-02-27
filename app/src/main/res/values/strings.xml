@@ -42,7 +42,7 @@
     <!--selectGroupToMain-->
     <string name="select_group_to_main_title_text">请选择分组</string>
     <string name="select_group_to_main_none_tips_text">没有筛选到有数据的分组哦~</string>
-    <string name="select_group_to_main_tips_text">已帮你筛选出有数据的分组啦~</string>
+    <string name="select_group_to_main_tips_text">已筛选出分组啦,长按进入点名,单击查看分组明细~</string>
 
     <!--commonDialog-->
     <string name="common_dialog_sure_text">确定</string>

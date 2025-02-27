@@ -27,8 +27,8 @@ class NewNameWithGroupViewModel : BaseViewModel<BaseModel>() {
 
     private val handleEdit: Handler = Handler(Looper.getMainLooper())
 
-    //是否新建过名称
-    var whetherNewNameHasCreate = MutableLiveData(false)
+    //是否更改过数据库
+    var whetherDataHasChange = MutableLiveData(false)
     var showDeleteEditIcon = MutableLiveData(false)
     var showNameLimitTips = MutableLiveData(false)
     var nameLimitTips = MutableLiveData(GLOBAL_NONE_STRING)
@@ -81,7 +81,6 @@ class NewNameWithGroupViewModel : BaseViewModel<BaseModel>() {
             )
         }, {
             "createNewNameWithGroup Success:$it".loge()
-            whetherNewNameHasCreate.value = true
             handleNewNameLoadingEnd(true)
         }, {
             "createNewNameWithGroup Error:${it.message},${it.stackTrace}".loge()
@@ -96,6 +95,7 @@ class NewNameWithGroupViewModel : BaseViewModel<BaseModel>() {
             newRandomNameSuccess.value?.let { success ->
                 handleShowTipsEvent(
                     if (success) {
+                        whetherDataHasChange.value = true
                         getString(R.string.new_name_with_group_edit_success_tips_text)
                     } else {
                         getString(R.string.new_name_with_group_edit_error_tips_text)

@@ -6,13 +6,13 @@ import com.maunc.randomcallname.R
 import com.maunc.randomcallname.base.BaseActivity
 import com.maunc.randomcallname.constant.GROUP_NAME_EXTRA
 import com.maunc.randomcallname.constant.RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE
+import com.maunc.randomcallname.constant.WHETHER_DATA_HAS_CHANGE
 import com.maunc.randomcallname.databinding.ActivityNewNameWithGroupBinding
 import com.maunc.randomcallname.ext.afterTextChange
 import com.maunc.randomcallname.ext.clickNoRepeat
 import com.maunc.randomcallname.ext.enterActivityAnim
-import com.maunc.randomcallname.ext.finishCurrentActivity
 import com.maunc.randomcallname.ext.finishCurrentResultToActivity
-import com.maunc.randomcallname.ext.loge
+import com.maunc.randomcallname.ext.obtainIntentPutData
 import com.maunc.randomcallname.ext.startRotation
 import com.maunc.randomcallname.ext.stopRotation
 import com.maunc.randomcallname.utils.KeyBroadUtils
@@ -28,10 +28,7 @@ class NewNameWithGroupActivity :
 
     private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            finishCurrentResultToActivity(
-                resultCode = RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE,
-                exitAnim = R.anim.exit_new_group_anim
-            )
+            baseFinishCurrentActivity()
         }
     }
 
@@ -48,14 +45,7 @@ class NewNameWithGroupActivity :
             mViewModel.updateNewGroupLayout(keyBoardHeight, mDatabind.newNameWithGroupMain)
         }
         mDatabind.newNameWithGroupCancelButton.setOnClickListener {
-            if (mViewModel.whetherNewNameHasCreate.value!!) {
-                finishCurrentResultToActivity(
-                    resultCode = RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE,
-                    exitAnim = R.anim.exit_new_group_anim
-                )
-            } else {
-                finishCurrentActivity()
-            }
+            baseFinishCurrentActivity()
         }
         mDatabind.newNameWithGroupDeleteIv.setOnClickListener {
             mViewModel.clearEditText(mDatabind.newNameWithGroupEdit)
@@ -87,6 +77,16 @@ class NewNameWithGroupActivity :
                 mViewModel.clearEditText(mDatabind.newNameWithGroupEdit)
             }
         }
+    }
+
+    private fun baseFinishCurrentActivity() {
+        finishCurrentResultToActivity(
+            resultCode = RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE,
+            intent = obtainIntentPutData(mutableMapOf<String, Any>().apply {
+                put(WHETHER_DATA_HAS_CHANGE, mViewModel.whetherDataHasChange.value!!)
+            }),
+            exitAnim = R.anim.exit_new_group_anim
+        )
     }
 
     override fun onDestroy() {

@@ -1,6 +1,7 @@
 package com.maunc.randomcallname.ui.activity
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maunc.randomcallname.R
@@ -8,13 +9,17 @@ import com.maunc.randomcallname.adapter.ManageGroupWithNameAdapter
 import com.maunc.randomcallname.base.BaseActivity
 import com.maunc.randomcallname.constant.COMMON_DIALOG
 import com.maunc.randomcallname.constant.GROUP_NAME_EXTRA
+import com.maunc.randomcallname.constant.RESULT_SOURCE_FROM_MANAGE_GROUP_WITH_NAME_PAGE
 import com.maunc.randomcallname.constant.RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE
 import com.maunc.randomcallname.constant.RESULT_SOURCE_FROM_NONE_PAGE
+import com.maunc.randomcallname.constant.WHETHER_DATA_HAS_CHANGE
 import com.maunc.randomcallname.databinding.ActivityManageGroupWithNameBinding
 import com.maunc.randomcallname.ext.clickScale
-import com.maunc.randomcallname.ext.finishCurrentActivity
+import com.maunc.randomcallname.ext.finishCurrentResultToActivity
 import com.maunc.randomcallname.ext.linearLayoutManager
+import com.maunc.randomcallname.ext.loge
 import com.maunc.randomcallname.ext.obtainActivityIntentPutData
+import com.maunc.randomcallname.ext.obtainIntentPutData
 import com.maunc.randomcallname.ext.startActivityWithData
 import com.maunc.randomcallname.ui.dialog.CommonDialog
 import com.maunc.randomcallname.viewmodel.ManageGroupWithNameViewModel
@@ -32,11 +37,24 @@ class ManageGroupWithNameActivity :
     private val manageGroupWithNameActivityResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        if (it.resultCode == RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE) {
-            otherPageEchoSources = RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE
-            mGroupName?.let { groupName ->
-                mViewModel.queryGroupWithNameData(groupName)
+        otherPageEchoSources = it.resultCode
+        val dataIntent = it.data
+        //从新增名称页面回来
+        if (otherPageEchoSources == RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE) {
+            dataIntent?.extras?.getBoolean(WHETHER_DATA_HAS_CHANGE)?.let { isChange ->
+                mViewModel.whetherDataHasChange.value = isChange
+                if (isChange) {
+                    mGroupName?.let { groupName ->
+                        mViewModel.queryGroupWithNameData(groupName)
+                    }
+                }
             }
+        }
+    }
+
+    private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            baseFinishCurrentActivity()
         }
     }
 
@@ -65,7 +83,7 @@ class ManageGroupWithNameActivity :
         mDatabind.manageGroupWithNameViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_new_group)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
-            finishCurrentActivity()
+            baseFinishCurrentActivity()
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
             manageGroupWithNameActivityResult.launch(
@@ -86,6 +104,7 @@ class ManageGroupWithNameActivity :
         mDatabind.manageGroupWithNameRecycler.layoutManager =
             linearLayoutManager(LinearLayoutManager.VERTICAL)
         mDatabind.manageGroupWithNameRecycler.adapter = manageGroupWithNameAdapter
+        onBackPressedDispatcher.addCallback(backPressCallback)
         mGroupName?.let {
             mViewModel.queryGroupWithNameData(it)
         }
@@ -99,8 +118,18 @@ class ManageGroupWithNameActivity :
             manageGroupWithNameAdapter.setList(it)
             if (otherPageEchoSources == RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE) {
                 mDatabind.manageGroupWithNameRecycler.smoothScrollToPosition(it.size)
-                otherPageEchoSources = RESULT_SOURCE_FROM_NONE_PAGE
             }
+            otherPageEchoSources = RESULT_SOURCE_FROM_NONE_PAGE
         }
+    }
+
+    private fun baseFinishCurrentActivity(action: () -> Unit = {}) {
+        action()
+        finishCurrentResultToActivity(
+            resultCode = RESULT_SOURCE_FROM_MANAGE_GROUP_WITH_NAME_PAGE,
+            intent = obtainIntentPutData(mutableMapOf<String, Any>().apply {
+                put(WHETHER_DATA_HAS_CHANGE, mViewModel.whetherDataHasChange.value!!)
+            })
+        )
     }
 }

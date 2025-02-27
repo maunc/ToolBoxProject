@@ -41,16 +41,28 @@ fun <T> Context.startActivityWithData(
 }
 
 /**========================================  Intent构造  ========================================*/
-fun <T> Context.obtainActivityIntent(clazz: Class<T>): Intent {
+fun <T> Context.obtainActivityIntent(
+    clazz: Class<T>
+): Intent {
     return Intent(this, clazz)
+}
+
+fun obtainIntentPutData(
+    dataMap: MutableMap<String, Any> = mutableMapOf()
+): Intent {
+    return intentPutData(Intent(), dataMap)
 }
 
 fun <T> Context.obtainActivityIntentPutData(
     clazz: Class<T>,
     dataMap: MutableMap<String, Any> = mutableMapOf(),
 ): Intent {
+    return intentPutData(Intent(this, clazz), dataMap)
+}
+
+fun intentPutData(intent: Intent, dataMap: MutableMap<String, Any> = mutableMapOf()): Intent {
     val bundle = Bundle()
-    return Intent(this, clazz).apply {
+    return intent.apply {
         for ((key, value) in dataMap) {
             if (value is Int) bundle.putInt(key, value)
             if (value is Short) bundle.putShort(key, value)

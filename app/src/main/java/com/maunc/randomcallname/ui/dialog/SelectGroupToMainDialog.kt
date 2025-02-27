@@ -18,12 +18,20 @@ class SelectGroupToMainDialog :
         SelectGroupToMainAdapter().apply {
             setOnItemClickListener { adapter, view, pos ->
                 val randomNameWithGroup = data[pos]
+                randomNameWithGroup.randomNameGroup.isExpand =
+                    !randomNameWithGroup.randomNameGroup.isExpand
+                notifyItemChanged(pos)
+            }
+
+            setOnItemLongClickListener { adpater, view, pos ->
+                val randomNameWithGroup = data[pos]
                 activity?.startActivityWithData(
                     MainActivity::class.java,
                     mutableMapOf<String, Any>().apply {
                         put(GROUP_WITH_NAME_EXTRA, randomNameWithGroup)
                     })
                 dismissAllowingStateLoss()
+                return@setOnItemLongClickListener true
             }
         }
     }

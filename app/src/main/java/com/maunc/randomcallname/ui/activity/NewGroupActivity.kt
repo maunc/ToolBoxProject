@@ -7,12 +7,14 @@ import com.maunc.randomcallname.R
 import com.maunc.randomcallname.base.BaseActivity
 import com.maunc.randomcallname.constant.GLOBAL_NONE_STRING
 import com.maunc.randomcallname.constant.RESULT_SOURCE_FROM_NEW_GROUP_PAGE
+import com.maunc.randomcallname.constant.WHETHER_DATA_HAS_CHANGE
 import com.maunc.randomcallname.databinding.ActivityNewGroupBinding
 import com.maunc.randomcallname.ext.afterTextChange
 import com.maunc.randomcallname.ext.clickNoRepeat
 import com.maunc.randomcallname.ext.enterActivityAnim
 import com.maunc.randomcallname.ext.finishCurrentActivity
 import com.maunc.randomcallname.ext.finishCurrentResultToActivity
+import com.maunc.randomcallname.ext.obtainIntentPutData
 import com.maunc.randomcallname.utils.KeyBroadUtils
 import com.maunc.randomcallname.viewmodel.NewGroupViewModel
 
@@ -23,7 +25,7 @@ class NewGroupActivity : BaseActivity<NewGroupViewModel, ActivityNewGroupBinding
 
     private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            finishCurrentActivity(R.anim.exit_new_group_anim)
+            baseFinishCurrentActivity()
         }
     }
 
@@ -39,7 +41,7 @@ class NewGroupActivity : BaseActivity<NewGroupViewModel, ActivityNewGroupBinding
             mViewModel.updateNewGroupLayout(keyBoardHeight, mDatabind.newGroupMain)
         }
         mDatabind.newGroupCancelButton.setOnClickListener {
-            finishCurrentActivity(R.anim.exit_new_group_anim)
+            baseFinishCurrentActivity()
         }
         mDatabind.newGroupDeleteIv.setOnClickListener {
             mDatabind.newGroupEdit.setText(GLOBAL_NONE_STRING)
@@ -57,12 +59,22 @@ class NewGroupActivity : BaseActivity<NewGroupViewModel, ActivityNewGroupBinding
     }
 
     override fun createObserver() {
-        mViewModel.newGroupSuccess.observe(this) {
-            finishCurrentResultToActivity(
-                resultCode = RESULT_SOURCE_FROM_NEW_GROUP_PAGE,
-                exitAnim = R.anim.exit_new_group_anim
-            )
+        mViewModel.whetherDataHasChange.observe(this) {
+            if (it) {
+                baseFinishCurrentActivity()
+            }
         }
+    }
+
+    private fun baseFinishCurrentActivity(action: () -> Unit = {}) {
+        action()
+        finishCurrentResultToActivity(
+            resultCode = RESULT_SOURCE_FROM_NEW_GROUP_PAGE,
+            exitAnim = R.anim.exit_new_group_anim,
+            intent = obtainIntentPutData(mutableMapOf<String, Any>().apply {
+                put(WHETHER_DATA_HAS_CHANGE, mViewModel.whetherDataHasChange.value!!)
+            })
+        )
     }
 
     override fun onDestroy() {
