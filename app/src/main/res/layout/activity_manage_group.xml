@@ -8,14 +8,14 @@
 
         <variable
             name="manageGroupViewModel"
-            type="com.maunc.toolbox.viewmodel.ManageGroupViewModel" />
+            type="com.maunc.toolbox.randomname.viewmodel.ManageGroupViewModel" />
     </data>
 
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activity.ManageGroupActivity">
+        tools:context=".randomname.ui.activity.ManageGroupActivity">
 
         <include
             android:id="@+id/common_tool_bar"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name=".RandomNameApplication"
+        android:name=".ToolBoxApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RandomCallName"
         tools:targetApi="31">
+        <activity
+            android:name=".chronograph.ui.ChronographMainActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="design_width_in_dp"
@@ -22,7 +25,7 @@
             android:value="800" />
 
         <activity
-            android:name=".ui.activity.WelcomeActivity"
+            android:name=".randomname.ui.activity.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,26 +34,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.SettingActivity"
+            android:name=".randomname.ui.activity.SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".randomname.ui.activity.RandomNameMainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.ManageGroupActivity"
+            android:name=".randomname.ui.activity.ManageGroupActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.NewGroupActivity"
+            android:name=".randomname.ui.activity.NewGroupActivity"
             android:exported="false"
             android:theme="@style/Activity.Transparent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".ui.activity.NewNameWithGroupActivity"
+            android:name=".randomname.ui.activity.NewNameWithGroupActivity"
             android:exported="false"
             android:theme="@style/Activity.Transparent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".ui.activity.ManageGroupWithNameActivity"
+            android:name=".randomname.ui.activity.ManageGroupWithNameActivity"
             android:exported="false" />
     </application>
 

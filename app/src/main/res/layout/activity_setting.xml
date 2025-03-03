@@ -10,7 +10,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activity.SettingActivity">
+        tools:context=".randomname.ui.activity.SettingActivity">
 
         <include
             android:id="@+id/common_tool_bar"
