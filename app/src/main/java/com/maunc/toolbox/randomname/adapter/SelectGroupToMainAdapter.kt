@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.database.table.RandomNameWithGroup
+import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameWithGroup
 import com.maunc.toolbox.databinding.ItemSelectGroupToMainBinding
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.visibleOrGone

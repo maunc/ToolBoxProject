@@ -10,15 +10,15 @@ import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
-import com.maunc.toolbox.randomname.constant.TIME_THREAD_NAME
-import com.maunc.toolbox.commonbase.database.table.RandomNameData
+import com.maunc.toolbox.randomname.constant.RANDOM_NAME_THREAD_NAME
+import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameData
 import com.maunc.toolbox.commonbase.ext.getString
 import java.util.Random
 
 class RandomNameMainViewModel : BaseViewModel<BaseModel>() {
 
     companion object {
-        class TimeHandler(looper: Looper) : Handler(looper)
+        class RandomNameHandler(looper: Looper) : Handler(looper)
     }
 
     var runRandomStatus = MutableLiveData(RUN_STATUS_NONE)
@@ -28,7 +28,7 @@ class RandomNameMainViewModel : BaseViewModel<BaseModel>() {
     var runDelayTime = MutableLiveData(15L)
 
     private var mTimeThread: HandlerThread? = null
-    private var mHandler: TimeHandler? = null
+    private var mHandler: RandomNameHandler? = null
 
     var randomGroupValue = MutableLiveData<List<RandomNameData>>()
 
@@ -50,11 +50,11 @@ class RandomNameMainViewModel : BaseViewModel<BaseModel>() {
 
     fun initHandler() {
         if (mTimeThread == null || mTimeThread!!.state == Thread.State.TERMINATED) {
-            mTimeThread = HandlerThread(TIME_THREAD_NAME).also { it.start() }
+            mTimeThread = HandlerThread(RANDOM_NAME_THREAD_NAME).also { it.start() }
         }
         mHandler?.removeCallbacksAndMessages(null) ?: kotlin.run {
             mTimeThread?.let {
-                mHandler = TimeHandler(it.looper)
+                mHandler = RandomNameHandler(it.looper)
             }
         }
     }

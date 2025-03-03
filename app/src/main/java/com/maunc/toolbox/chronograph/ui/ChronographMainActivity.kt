@@ -1,21 +1,23 @@
 package com.maunc.toolbox.chronograph.ui
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.maunc.toolbox.R
+import com.maunc.toolbox.chronograph.adpater.ChronographAdapter
+import com.maunc.toolbox.chronograph.viewmodel.ChronographMainViewModel
+import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.databinding.ActivityChronographMainBinding
 
-class ChronographMainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_chronograph_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+class ChronographMainActivity :
+    BaseActivity<ChronographMainViewModel, ActivityChronographMainBinding>() {
+
+    private val chronographAdapter by lazy {
+        ChronographAdapter()
+    }
+
+    override fun initView(savedInstanceState: Bundle?) {
+        mViewModel.initHandler()
+    }
+
+    override fun createObserver() {
+
     }
 }

@@ -1,4 +1,4 @@
-package com.maunc.toolbox.commonbase.database.dao
+package com.maunc.toolbox.commonbase.database.randomname.dao
 
 import androidx.room.Dao
 import androidx.room.Query
@@ -6,8 +6,8 @@ import androidx.room.Transaction
 import com.maunc.toolbox.commonbase.database.randomGroupDao
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
 import com.maunc.toolbox.commonbase.database.randomNameDao
-import com.maunc.toolbox.commonbase.database.table.RandomNameData
-import com.maunc.toolbox.commonbase.database.table.RandomNameWithGroup
+import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameData
+import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameWithGroup
 
 @Dao
 interface RandomNameTransactionDao {

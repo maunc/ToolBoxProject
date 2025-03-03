@@ -6,7 +6,7 @@ import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.randomname.constant.GROUP_REMOVE_THRESHOLD
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
-import com.maunc.toolbox.commonbase.database.table.RandomNameWithGroup
+import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameWithGroup
 import com.maunc.toolbox.commonbase.ext.getString
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge

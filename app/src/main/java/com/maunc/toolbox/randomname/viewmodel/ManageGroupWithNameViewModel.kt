@@ -5,7 +5,7 @@ import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.database.randomNameDao
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
-import com.maunc.toolbox.commonbase.database.table.RandomNameData
+import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameData
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 

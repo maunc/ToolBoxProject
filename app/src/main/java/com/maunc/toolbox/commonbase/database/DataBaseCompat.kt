@@ -5,11 +5,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.randomname.constant.DATA_BASE_NAME
-import com.maunc.toolbox.commonbase.database.dao.RandomNameDao
-import com.maunc.toolbox.commonbase.database.dao.RandomNameGroupDao
-import com.maunc.toolbox.commonbase.database.dao.RandomNameTransactionDao
-import com.maunc.toolbox.commonbase.database.table.RandomNameData
-import com.maunc.toolbox.commonbase.database.table.RandomNameGroup
+import com.maunc.toolbox.commonbase.database.randomname.dao.RandomNameDao
+import com.maunc.toolbox.commonbase.database.randomname.dao.RandomNameGroupDao
+import com.maunc.toolbox.commonbase.database.randomname.dao.RandomNameTransactionDao
+import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameData
+import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameGroup
 
 val randomNameDataBase: RandomNameDataBase by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
     RandomNameDataBase.DATABASE_INSTANCE

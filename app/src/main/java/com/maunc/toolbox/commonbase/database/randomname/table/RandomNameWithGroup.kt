@@ -1,4 +1,4 @@
-package com.maunc.toolbox.commonbase.database.table
+package com.maunc.toolbox.commonbase.database.randomname.table
 
 import androidx.room.Embedded
 import androidx.room.Relation

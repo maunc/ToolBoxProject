@@ -1,7 +1,7 @@
 package com.maunc.toolbox.randomname.constant
 
 //全局TAG
-const val GLOBAL_TAG = "RandomCallNameApp"
+const val GLOBAL_TAG = "MauncToolBox"
 
 //空字符串
 const val GLOBAL_NONE_STRING = ""
@@ -16,7 +16,7 @@ const val RUN_STATUS_START = 2
 const val RUN_STATUS_STOP = 3
 
 //随机点名的线程名称
-const val TIME_THREAD_NAME = "timeThread"
+const val RANDOM_NAME_THREAD_NAME = "randomThread"
 
 //缩放动画键值
 const val SCALE_X = "scaleX"

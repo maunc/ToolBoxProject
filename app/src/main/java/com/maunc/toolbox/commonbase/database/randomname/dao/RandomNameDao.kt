@@ -1,10 +1,10 @@
-package com.maunc.toolbox.commonbase.database.dao
+package com.maunc.toolbox.commonbase.database.randomname.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.maunc.toolbox.commonbase.database.table.RandomNameData
+import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameData
 
 @Dao
 interface RandomNameDao {
