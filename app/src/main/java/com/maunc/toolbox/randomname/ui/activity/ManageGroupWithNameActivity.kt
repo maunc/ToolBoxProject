@@ -121,7 +121,7 @@ class ManageGroupWithNameActivity :
     private fun startNewNameActivity() {
         manageGroupWithNameActivityResult.launch(
             obtainActivityIntentPutData(
-                NewNameWithGroupActivity::class.java,
+                NewRandomNameWithGroupActivity::class.java,
                 mutableMapOf<String, Any>().apply {
                     mGroupName?.let { startGroupName ->
                         put(GROUP_NAME_EXTRA, startGroupName)

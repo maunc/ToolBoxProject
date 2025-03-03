@@ -4,10 +4,6 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
-import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE
-import com.maunc.toolbox.randomname.constant.WHETHER_DATA_HAS_CHANGE
-import com.maunc.toolbox.databinding.ActivityNewNameWithGroupBinding
 import com.maunc.toolbox.commonbase.ext.afterTextChange
 import com.maunc.toolbox.commonbase.ext.clickNoRepeat
 import com.maunc.toolbox.commonbase.ext.enterActivityAnim
@@ -16,13 +12,17 @@ import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
 import com.maunc.toolbox.commonbase.ext.startRotation
 import com.maunc.toolbox.commonbase.ext.stopRotation
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
-import com.maunc.toolbox.randomname.viewmodel.NewNameWithGroupViewModel
+import com.maunc.toolbox.databinding.ActivityNewRandomNameWithGroupBinding
+import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
+import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE
+import com.maunc.toolbox.randomname.constant.WHETHER_DATA_HAS_CHANGE
+import com.maunc.toolbox.randomname.viewmodel.NewRandomNameWithGroupViewModel
 
 /**
  * 新建分组下名称页面
  */
-class NewNameWithGroupActivity :
-    BaseActivity<NewNameWithGroupViewModel, ActivityNewNameWithGroupBinding>() {
+class NewRandomNameWithGroupActivity :
+    BaseActivity<NewRandomNameWithGroupViewModel, ActivityNewRandomNameWithGroupBinding>() {
 
     private var mGroupName: String? = null
 

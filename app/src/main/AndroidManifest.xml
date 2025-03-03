@@ -43,12 +43,12 @@
             android:name=".randomname.ui.activity.ManageGroupActivity"
             android:exported="false" />
         <activity
-            android:name=".randomname.ui.activity.NewGroupActivity"
+            android:name=".randomname.ui.activity.NewRandomGroupActivity"
             android:exported="false"
             android:theme="@style/Activity.Transparent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".randomname.ui.activity.NewNameWithGroupActivity"
+            android:name=".randomname.ui.activity.NewRandomNameWithGroupActivity"
             android:exported="false"
             android:theme="@style/Activity.Transparent"
             android:windowSoftInputMode="stateHidden|adjustResize" />

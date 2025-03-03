@@ -23,7 +23,7 @@ import com.maunc.toolbox.commonbase.ext.inputMethodManager
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 
-class NewNameWithGroupViewModel : BaseViewModel<BaseModel>() {
+class NewRandomNameWithGroupViewModel : BaseViewModel<BaseModel>() {
 
     private val handleEdit: Handler = Handler(Looper.getMainLooper())
 

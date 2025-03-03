@@ -8,14 +8,14 @@
 
         <variable
             name="newGroupViewModel"
-            type="com.maunc.toolbox.randomname.viewmodel.NewGroupViewModel" />
+            type="com.maunc.toolbox.randomname.viewmodel.NewRandomGroupViewModel" />
     </data>
 
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".randomname.ui.activity.NewGroupActivity">
+        tools:context=".randomname.ui.activity.NewRandomGroupActivity">
 
         <RelativeLayout
             android:id="@+id/new_group_main"

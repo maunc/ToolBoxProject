@@ -83,12 +83,12 @@ class ManageGroupActivity : BaseActivity<ManageGroupViewModel, ActivityManageGro
             finishCurrentActivity()
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            manageGroupActivityResult.launch(obtainActivityIntent(NewGroupActivity::class.java))
+            manageGroupActivityResult.launch(obtainActivityIntent(NewRandomGroupActivity::class.java))
         }
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             getString(R.string.manage_group_page_title_text)
         mDatabind.manageGroupNewGroupTv.clickScale {
-            manageGroupActivityResult.launch(obtainActivityIntent(NewGroupActivity::class.java))
+            manageGroupActivityResult.launch(obtainActivityIntent(NewRandomGroupActivity::class.java))
         }
         mDatabind.manageGroupRecycler.layoutManager =
             linearLayoutManager(LinearLayoutManager.VERTICAL)
