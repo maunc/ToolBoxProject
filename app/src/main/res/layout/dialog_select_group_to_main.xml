@@ -8,7 +8,7 @@
 
         <variable
             name="selectGroupToMainViewModel"
-            type="com.maunc.randomcallname.viewmodel.SelectGroupToMainViewModel" />
+            type="com.maunc.toolbox.viewmodel.SelectGroupToMainViewModel" />
     </data>
 
     <RelativeLayout

@@ -8,7 +8,7 @@
 
         <variable
             name="newNameWithGroupViewModel"
-            type="com.maunc.randomcallname.viewmodel.NewNameWithGroupViewModel" />
+            type="com.maunc.toolbox.viewmodel.NewNameWithGroupViewModel" />
     </data>
 
     <RelativeLayout

@@ -21,6 +21,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "RandomCallName"
+rootProject.name = "ToolBox"
 include(":app")
  

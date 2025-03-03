@@ -7,7 +7,7 @@
 
         <variable
             name="welcomeViewModel"
-            type="com.maunc.randomcallname.viewmodel.WelcomeViewModel" />
+            type="com.maunc.toolbox.viewmodel.WelcomeViewModel" />
     </data>
 
     <RelativeLayout

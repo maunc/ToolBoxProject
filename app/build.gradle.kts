@@ -4,9 +4,9 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.kapt)
 }
 
-var variantOutPutFileName = "点名程序.apk"
-var nameSpaceString = "com.maunc.randomcallname"
-var applicationIdString = "com.maunc.randomcallname"
+var variantOutPutFileName = "MauncToolBox.apk"
+var nameSpaceString = "com.maunc.toolbox"
+var applicationIdString = "com.maunc.toolbox"
 var propertyNameVersionCodeKey = "versionCode"
 var propertyNameVersionNameKey = "versionName"
 var jvmTargetVersion = "1.8"
