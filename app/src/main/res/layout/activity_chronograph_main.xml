@@ -4,16 +4,141 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="chronographViewModel"
             type="com.maunc.toolbox.chronograph.viewmodel.ChronographMainViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".chronograph.ui.ChronographMainActivity">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7.5">
+
+            <TextView
+                android:id="@+id/chronograph_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="35dp"
+                android:fontFeatureSettings="tnum"
+                android:textColor="#000000"
+                android:textSize="65sp"
+                app:handleChronographText="@{chronographViewModel.mChronographTimeValue}"
+                tools:text="@string/functions_are_under_development" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chronograph_timing_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chronograph_time_tv" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="@dimen/chronograph_controller_layout_width"
+                android:layout_height="@dimen/chronograph_controller_layout_height"
+                android:layout_centerInParent="true"
+                android:visibility="@{chronographViewModel.showControllerLayout?View.GONE:View.VISIBLE}"
+                tools:visibility="visible">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/chronograph_controller_right_button"
+                    android:layout_width="@dimen/chronograph_controller_button_icon_size"
+                    android:layout_height="@dimen/chronograph_controller_button_icon_size"
+                    android:layout_marginStart="@dimen/dp_50"
+                    app:cardCornerRadius="@dimen/dp_50"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/chronograph_controller_layout_center_line"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/chronograph_controller_button_size"
+                            android:layout_height="@dimen/chronograph_controller_button_size"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/icon_chronograph_start" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <View
+                    android:id="@+id/chronograph_controller_layout_center_line"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/chronograph_controller_left_button"
+                    android:layout_width="@dimen/chronograph_controller_button_icon_size"
+                    android:layout_height="@dimen/chronograph_controller_button_icon_size"
+                    android:layout_marginStart="@dimen/dp_50"
+                    android:layout_marginEnd="@dimen/dp_50"
+                    app:cardCornerRadius="@dimen/dp_50"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/chronograph_controller_layout_center_line"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/chronograph_controller_button_size"
+                            android:layout_height="@dimen/chronograph_controller_button_size"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/icon_chronograph_end" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/chronograph_controller_mark_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/chronograph_start_time_button"
+                android:layout_width="@dimen/chronograph_start_button_width"
+                android:layout_height="@dimen/chronograph_start_button_height"
+                android:layout_centerInParent="true"
+                android:visibility="@{chronographViewModel.showControllerLayout?View.VISIBLE:View.GONE}"
+                app:cardCornerRadius="@dimen/dp_20"
+                tools:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/chronograph_start_button_icon_size"
+                        android:layout_height="@dimen/chronograph_start_button_icon_size"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/icon_chronograph_stop" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </LinearLayout>
 </layout>

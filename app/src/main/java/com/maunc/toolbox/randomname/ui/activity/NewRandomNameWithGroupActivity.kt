@@ -9,8 +9,6 @@ import com.maunc.toolbox.commonbase.ext.clickNoRepeat
 import com.maunc.toolbox.commonbase.ext.enterActivityAnim
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
-import com.maunc.toolbox.commonbase.ext.startRotation
-import com.maunc.toolbox.commonbase.ext.stopRotation
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityNewRandomNameWithGroupBinding
 import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
@@ -65,13 +63,6 @@ class NewRandomNameWithGroupActivity :
     }
 
     override fun createObserver() {
-        mViewModel.newNameWithLoading.observe(this) {
-            if (it) {
-                mDatabind.newNameWithGroupLoadingIv.startRotation()
-            } else {
-                mDatabind.newNameWithGroupLoadingIv.stopRotation()
-            }
-        }
         mViewModel.newRandomNameSuccess.observe(this) {
             if (it) {
                 mViewModel.clearEditText(mDatabind.newNameWithGroupEdit)

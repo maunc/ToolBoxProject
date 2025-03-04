@@ -16,12 +16,14 @@
     <dimen name="dp_35">35dp</dimen>
     <dimen name="dp_38">38dp</dimen>
     <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_60">60dp</dimen>
 
     <!--toolboxPage-->
     <dimen name="tool_box_main_item_size">210dp</dimen>
     <dimen name="tool_box_main_item_icon_size">80dp</dimen>
 
+    <!--**********************************  随机点名  **********************************-->
     <!--mainPage-->
     <dimen name="main_start_random_button_width">260dp</dimen>
     <dimen name="main_start_random_button_height">85dp</dimen>
@@ -55,4 +57,15 @@
     <dimen name="select_group_to_main_item_height">80dp</dimen>
     <dimen name="select_group_to_main_item_name_height">65dp</dimen>
     <dimen name="select_group_to_main_item_line_margin_horizontal">40dp</dimen>
+
+    <!--**********************************  计时器  **********************************-->
+    <dimen name="chronograph_start_button_width">200dp</dimen>
+    <dimen name="chronograph_start_button_height">70dp</dimen>
+    <dimen name="chronograph_start_button_icon_size">50dp</dimen>
+
+
+    <dimen name="chronograph_controller_layout_width">400dp</dimen>
+    <dimen name="chronograph_controller_layout_height">80dp</dimen>
+    <dimen name="chronograph_controller_button_size">40dp</dimen>
+    <dimen name="chronograph_controller_button_icon_size">70dp</dimen>
 </resources>

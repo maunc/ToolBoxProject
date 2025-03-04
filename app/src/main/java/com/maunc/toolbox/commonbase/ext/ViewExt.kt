@@ -136,25 +136,6 @@ fun View.clickScale(
 }
 
 /**
- * 旋转动画
- */
-val rotateAnimation = RotateAnimation(
-    0f, 360f, RotateAnimation.RELATIVE_TO_SELF, 0.5f,
-    RotateAnimation.RELATIVE_TO_SELF, 0.5f
-).apply {
-    duration = 500L
-    repeatCount = -1
-}
-
-fun View.startRotation() {
-    startAnimation(rotateAnimation)
-}
-
-fun View.stopRotation() {
-    clearAnimation()
-}
-
-/**
  * 设置宽度和高度，带有过渡动画
  */
 fun View.animateSetWidthAndHeight(
