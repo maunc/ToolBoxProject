@@ -35,7 +35,7 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
     }
 
     private fun calculateTime() {
-        mChronographTimeValue.value?.let { plusValue->
+        mChronographTimeValue.value?.let { plusValue ->
             plusValue.plus(SPEED_NUM).let {
                 mChronographTimeValue.value = it
             }

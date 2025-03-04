@@ -8,7 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.drawerlayout.widget.DrawerLayout
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameWithGroup
+import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.utils.ViewOffsetHelper

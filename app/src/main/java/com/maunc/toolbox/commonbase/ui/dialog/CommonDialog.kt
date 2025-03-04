@@ -1,10 +1,10 @@
-package com.maunc.toolbox.randomname.ui.dialog
+package com.maunc.toolbox.commonbase.ui.dialog
 
 import android.os.Bundle
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseDialog
 import com.maunc.toolbox.databinding.DialogCommonBinding
-import com.maunc.toolbox.randomname.viewmodel.CommonDialogViewModel
+import com.maunc.toolbox.commonbase.viewmodel.CommonDialogViewModel
 
 class CommonDialog : BaseDialog<CommonDialogViewModel, DialogCommonBinding>() {
 

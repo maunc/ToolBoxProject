@@ -16,7 +16,7 @@ import com.maunc.toolbox.randomname.constant.DELAY_KEY_BROAD
 import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
 import com.maunc.toolbox.randomname.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.randomGroupDao
-import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameGroup
+import com.maunc.toolbox.randomname.database.table.RandomNameGroup
 import com.maunc.toolbox.commonbase.ext.getString
 import com.maunc.toolbox.commonbase.ext.inputMethodManager
 import com.maunc.toolbox.commonbase.ext.launch

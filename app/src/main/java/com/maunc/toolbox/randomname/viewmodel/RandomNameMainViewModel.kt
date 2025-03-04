@@ -11,7 +11,7 @@ import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
 import com.maunc.toolbox.randomname.constant.RANDOM_NAME_THREAD_NAME
-import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameData
+import com.maunc.toolbox.randomname.database.table.RandomNameData
 import com.maunc.toolbox.commonbase.ext.getString
 import java.util.Random
 

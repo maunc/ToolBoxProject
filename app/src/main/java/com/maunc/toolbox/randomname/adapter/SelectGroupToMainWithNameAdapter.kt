@@ -3,7 +3,7 @@ package com.maunc.toolbox.randomname.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.database.randomname.table.RandomNameData
+import com.maunc.toolbox.randomname.database.table.RandomNameData
 import com.maunc.toolbox.databinding.ItemSelectGroupToMainNameBinding
 
 class SelectGroupToMainWithNameAdapter :

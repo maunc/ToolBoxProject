@@ -2,8 +2,10 @@ package com.maunc.toolbox.commonbase.ext
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -13,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
@@ -94,7 +97,7 @@ fun Context.linearLayoutManager(
 @SuppressLint("WrongConstant")
 fun Context.gridLayoutManager(
     spanCount: Int,
-    orientation: Int = GridLayoutManager.HORIZONTAL,
+    orientation: Int = GridLayoutManager.VERTICAL,
 ): GridLayoutManager {
     return GridLayoutManager(this, spanCount, orientation, false)
 }
@@ -104,4 +107,29 @@ fun Context.staggeredGridLayoutManager(
     orientation: Int = StaggeredGridLayoutManager.VERTICAL,
 ): StaggeredGridLayoutManager {
     return StaggeredGridLayoutManager(spanCount, orientation)
+}
+
+fun <T> MutableList<T>.mutableListInsert(vararg data: T) {
+    data.forEach {
+        this.add(it)
+    }
+}
+
+fun RecyclerView.addCustomizeItemDecoration(
+    outLeft: Int = getDimens(R.dimen.dp_15),
+    outTop: Int = getDimens(R.dimen.dp_15),
+    outRight: Int = getDimens(R.dimen.dp_15),
+    outBottom: Int = getDimens(R.dimen.dp_15),
+) {
+    addItemDecoration(object : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State,
+        ) {
+            super.getItemOffsets(outRect, view, parent, state)
+            outRect.set(outLeft, outTop, outRight, outBottom)
+        }
+    })
 }

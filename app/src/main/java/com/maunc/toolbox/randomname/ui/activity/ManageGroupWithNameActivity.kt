@@ -19,7 +19,7 @@ import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
-import com.maunc.toolbox.randomname.ui.dialog.CommonDialog
+import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.randomname.viewmodel.ManageGroupWithNameViewModel
 
 /**

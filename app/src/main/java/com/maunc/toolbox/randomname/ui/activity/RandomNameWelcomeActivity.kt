@@ -3,19 +3,20 @@ package com.maunc.toolbox.randomname.ui.activity
 import android.os.Bundle
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.randomname.constant.SELECT_GROUP_TO_MAIN_DIALOG
-import com.maunc.toolbox.databinding.ActivityWelcomeBinding
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.developmentToast
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
+import com.maunc.toolbox.databinding.ActivityRandomNameWelcomeBinding
+import com.maunc.toolbox.randomname.constant.SELECT_GROUP_TO_MAIN_DIALOG
 import com.maunc.toolbox.randomname.ui.dialog.SelectGroupToMainDialog
-import com.maunc.toolbox.randomname.viewmodel.WelcomeViewModel
+import com.maunc.toolbox.randomname.viewmodel.RandomNameWelcomeViewModel
 
 /**
  * 首页欢迎页面
  */
-class WelcomeActivity : BaseActivity<WelcomeViewModel, ActivityWelcomeBinding>() {
+class RandomNameWelcomeActivity :
+    BaseActivity<RandomNameWelcomeViewModel, ActivityRandomNameWelcomeBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.welcomeViewModel = mViewModel

@@ -7,14 +7,14 @@
 
         <variable
             name="welcomeViewModel"
-            type="com.maunc.toolbox.randomname.viewmodel.WelcomeViewModel" />
+            type="com.maunc.toolbox.randomname.viewmodel.RandomNameWelcomeViewModel" />
     </data>
 
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".randomname.ui.activity.WelcomeActivity">
+        tools:context=".randomname.ui.activity.RandomNameWelcomeActivity">
 
         <include
             android:id="@+id/common_tool_bar"
