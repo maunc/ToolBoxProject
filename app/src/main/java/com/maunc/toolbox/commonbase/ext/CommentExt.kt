@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.randomname.constant.GLOBAL_TAG
+import com.maunc.toolbox.commonbase.constant.GLOBAL_TAG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -77,6 +77,10 @@ fun getString(@StringRes strRes: Int): String {
 
 fun getDimens(@DimenRes dimenRes: Int): Int {
     return ToolBoxApplication.app.resources.getDimensionPixelOffset(dimenRes)
+}
+
+fun getDimensFloat(@DimenRes dimenRes: Int): Float {
+    return ToolBoxApplication.app.resources.getDimension(dimenRes)
 }
 
 fun getDrawable(@DrawableRes drawableRes: Int): Drawable? {

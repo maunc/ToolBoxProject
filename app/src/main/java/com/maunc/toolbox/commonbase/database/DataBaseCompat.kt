@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.randomname.constant.DATA_BASE_NAME
+import com.maunc.toolbox.commonbase.constant.DATA_BASE_NAME
 import com.maunc.toolbox.randomname.database.dao.RandomNameDao
 import com.maunc.toolbox.randomname.database.dao.RandomNameGroupDao
 import com.maunc.toolbox.randomname.database.dao.RandomNameTransactionDao

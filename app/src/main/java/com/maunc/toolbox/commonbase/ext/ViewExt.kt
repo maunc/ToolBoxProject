@@ -17,9 +17,9 @@ import android.view.animation.LinearInterpolator
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.animation.addListener
-import com.maunc.toolbox.chronograph.constant.ALPHA
-import com.maunc.toolbox.randomname.constant.SCALE_X
-import com.maunc.toolbox.randomname.constant.SCALE_Y
+import com.maunc.toolbox.commonbase.constant.ALPHA
+import com.maunc.toolbox.commonbase.constant.SCALE_X
+import com.maunc.toolbox.commonbase.constant.SCALE_Y
 
 fun View.visible() {
     visibility = View.VISIBLE

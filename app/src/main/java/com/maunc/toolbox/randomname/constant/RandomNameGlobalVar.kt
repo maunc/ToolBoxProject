@@ -1,11 +1,5 @@
 package com.maunc.toolbox.randomname.constant
 
-//全局TAG
-const val GLOBAL_TAG = "MauncToolBox"
-
-//空字符串
-const val GLOBAL_NONE_STRING = ""
-
 /**
  * 随机未开始状态 : RUN_STATUS_NONE
  * 随机开始状态  : RUN_STATUS_START
@@ -17,13 +11,6 @@ const val RUN_STATUS_STOP = 3
 
 //随机点名的线程名称
 const val RANDOM_NAME_THREAD_NAME = "randomThread"
-
-//缩放动画键值
-const val SCALE_X = "scaleX"
-const val SCALE_Y = "scaleY"
-
-//数据库名称
-const val DATA_BASE_NAME = "random_call_name"
 
 /**
  * 展示和收起键盘的间隔          : DELAY_SHOW_KEY_BROAD

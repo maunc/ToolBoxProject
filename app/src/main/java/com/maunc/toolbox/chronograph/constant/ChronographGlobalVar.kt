@@ -14,11 +14,3 @@ const val CHRONOGRAPH_THREAD_NAME = "chronographThread"
 const val CHRONOGRAPH_STATUS_NONE = 1
 const val CHRONOGRAPH_STATUS_START = 2
 const val CHRONOGRAPH_STATUS_STOP = 3
-
-/**
- * alpha
- */
-//缩放动画键值
-const val ALPHA = "alpha"
-const val ALPHA_ZERO = 0f
-const val ALPHA_ONE = 1f

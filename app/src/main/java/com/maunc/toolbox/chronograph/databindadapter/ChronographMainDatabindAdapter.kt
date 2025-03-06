@@ -7,11 +7,11 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import com.maunc.toolbox.R
-import com.maunc.toolbox.chronograph.constant.ALPHA_ONE
-import com.maunc.toolbox.chronograph.constant.ALPHA_ZERO
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_NONE
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_START
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_STOP
+import com.maunc.toolbox.commonbase.constant.ALPHA_ONE
+import com.maunc.toolbox.commonbase.constant.ALPHA_ZERO
 import com.maunc.toolbox.commonbase.ext.animateToAlpha
 
 object ChronographMainDatabindAdapter {
@@ -102,5 +102,11 @@ object ChronographMainDatabindAdapter {
 
             }
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["handleStartButtonAlpha"], requireAll = false)
+    fun handleTimeTvScaleAnim(textView: TextView, isScale: Boolean) {
+
     }
 }

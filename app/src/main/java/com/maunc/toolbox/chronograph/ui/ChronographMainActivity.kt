@@ -1,10 +1,13 @@
 package com.maunc.toolbox.chronograph.ui
 
 import android.os.Bundle
+import com.maunc.toolbox.R
 import com.maunc.toolbox.chronograph.adpater.ChronographAdapter
 import com.maunc.toolbox.chronograph.viewmodel.ChronographMainViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.commonbase.ext.animateToAlpha
 import com.maunc.toolbox.commonbase.ext.clickScale
+import com.maunc.toolbox.commonbase.ext.getDimensFloat
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.databinding.ActivityChronographMainBinding
 
@@ -24,7 +27,19 @@ class ChronographMainActivity :
             mViewModel.startChronograph()
         }
         mDatabind.chronographControllerLeftButton.clickScale {
+            if (mViewModel.isChronograph() && !mViewModel.isScaleAnim()) {
+                mViewModel.startRankAfterUI(
+                    mDatabind.chronographTimeTv,
+                    mDatabind.chronographTimingRecycler
+                )
+            }
             mViewModel.leftControllerChronograph()
+            if (!mViewModel.isChronograph()) {
+                mViewModel.restoreUI(
+                    mDatabind.chronographTimeTv,
+                    mDatabind.chronographTimingRecycler
+                )
+            }
         }
         mDatabind.chronographControllerRightButton.clickScale {
             mViewModel.rightControllerChronograph()

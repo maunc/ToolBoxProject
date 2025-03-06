@@ -12,16 +12,16 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.randomname.constant.DELAY_KEY_BROAD
-import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
-import com.maunc.toolbox.randomname.constant.GLOBAL_NONE_STRING
+import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.randomNameDao
-import com.maunc.toolbox.randomname.database.table.RandomNameData
 import com.maunc.toolbox.commonbase.ext.getColor
 import com.maunc.toolbox.commonbase.ext.getString
 import com.maunc.toolbox.commonbase.ext.inputMethodManager
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.randomname.constant.DELAY_KEY_BROAD
+import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
+import com.maunc.toolbox.randomname.database.table.RandomNameData
 
 class NewRandomNameViewModel : BaseViewModel<BaseModel>() {
 

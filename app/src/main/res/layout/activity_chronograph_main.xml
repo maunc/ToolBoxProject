@@ -12,7 +12,7 @@
             type="com.maunc.toolbox.chronograph.viewmodel.ChronographMainViewModel" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,38 +21,52 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7.5">
+            android:layout_height="wrap_content">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/chronograph_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="@dimen/dp_320"
                 android:fontFeatureSettings="tnum"
                 android:textColor="#000000"
-                android:textSize="65sp"
+                android:textSize="75sp"
                 app:handleChronographText="@{chronographViewModel.mChronographTimeValue}"
                 tools:text="@string/functions_are_under_development" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/chronograph_timing_recycler"
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/chronograph_time_tv" />
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/chronograph_recycler_margin_top"
+                android:layout_marginBottom="@dimen/chronograph_recycler_margin_bottom">
+
+                <com.scwang.smart.refresh.header.FalsifyHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/chronograph_timing_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <com.scwang.smart.refresh.header.FalsifyFooter
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2">
+            android:layout_height="@dimen/chronograph_controller_root_layout_height"
+            android:layout_alignParentBottom="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/chronograph_controller_layout"
                 android:layout_width="@dimen/chronograph_controller_layout_width"
                 android:layout_height="@dimen/chronograph_controller_layout_height"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 app:handleControllerLayoutAlpha="@{chronographViewModel.mRunChronographStatus}"
                 tools:visibility="visible">
 
@@ -112,7 +126,7 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/chronograph_controller_mark_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -126,7 +140,7 @@
                 android:id="@+id/chronograph_start_time_button"
                 android:layout_width="@dimen/chronograph_start_button_width"
                 android:layout_height="@dimen/chronograph_start_button_height"
-                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
                 app:cardCornerRadius="@dimen/dp_20"
                 app:handleStartButtonAlpha="@{chronographViewModel.mRunChronographStatus}"
                 tools:visibility="gone">
@@ -143,5 +157,5 @@
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </layout>
