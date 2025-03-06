@@ -57,7 +57,7 @@ class ManageGroupActivity : BaseActivity<ManageGroupViewModel, ActivityManageGro
                 val randomNameWithGroup = data[pos]
                 manageGroupActivityResult.launch(
                     obtainActivityIntentPutData(
-                        ManageGroupWithNameActivity::class.java,
+                        ManageNameActivity::class.java,
                         mutableMapOf<String, Any>().apply {
                             put(GROUP_NAME_EXTRA, randomNameWithGroup.randomNameGroup.groupName)
                         })

@@ -24,10 +24,10 @@ class ChronographMainActivity :
             mViewModel.startChronograph()
         }
         mDatabind.chronographControllerLeftButton.clickScale {
-            mViewModel.endChronograph()
+            mViewModel.leftControllerChronograph()
         }
         mDatabind.chronographControllerRightButton.clickScale {
-            mViewModel.stopChronograph()
+            mViewModel.rightControllerChronograph()
         }
     }
 
@@ -35,6 +35,8 @@ class ChronographMainActivity :
         mViewModel.mRankChronographData.observe(this) { chronographData ->
             chronographData?.let {
                 chronographAdapter.addChronograph(it)
+            } ?: let {
+                chronographAdapter.clearChronograph()
             }
         }
     }

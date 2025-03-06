@@ -5,6 +5,9 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
 import androidx.lifecycle.MutableLiveData
+import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_NONE
+import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_START
+import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_STOP
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_THREAD_NAME
 import com.maunc.toolbox.chronograph.constant.DELAY_MILLS
 import com.maunc.toolbox.chronograph.constant.SPEED_NUM
@@ -16,6 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+
 
 @SuppressLint("SimpleDateFormat", "DefaultLocale")
 class ChronographMainViewModel : BaseViewModel<BaseModel>() {
@@ -29,11 +33,10 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
 
     //当前时间
     var mChronographTimeValue = MutableLiveData(0f)
-    private var mRunChronographStatus = MutableLiveData<Boolean>()
+    var mRunChronographStatus = MutableLiveData(CHRONOGRAPH_STATUS_NONE)
     private var mRankDiffValue = MutableLiveData(0f)
     private var mRankIndex = MutableLiveData(0)
     var mRankChronographData = MutableLiveData<ChronographData>()
-    var showControllerLayout = MutableLiveData(true)
 
     private val timeRuntime = object : Runnable {
         override fun run() {
@@ -50,32 +53,49 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
         }
     }
 
+    fun leftControllerChronograph() {
+        if (isChronograph()) {
+            handleRankTime()
+        } else {
+            endChronograph()
+        }
+    }
+
+    fun rightControllerChronograph() {
+        if (isChronograph()) {
+            stopChronograph()
+        } else {
+            startChronograph()
+        }
+    }
+
     fun startChronograph() {
         mHandler?.post(timeRuntime)
-        mRunChronographStatus.value = true
-        showControllerLayout.value = false
+        mRunChronographStatus.value = CHRONOGRAPH_STATUS_START
     }
 
     fun stopChronograph() {
-        mHandler?.removeCallbacks(timeRuntime)
-        mRunChronographStatus.value = false
+        mHandler?.removeCallbacksAndMessages(null)
+        mRunChronographStatus.value = CHRONOGRAPH_STATUS_STOP
     }
 
     fun endChronograph() {
-        mHandler?.removeCallbacks(timeRuntime)
-        mRunChronographStatus.value = false
-        showControllerLayout.value = true
+        mHandler?.removeCallbacksAndMessages(null)
+        mRunChronographStatus.value = CHRONOGRAPH_STATUS_NONE
         mChronographTimeValue.value = 0f
         mRankDiffValue.value = 0f
         mRankIndex.value = 0
         mRankChronographData.value = null
     }
 
+    fun isChronograph(): Boolean = mRunChronographStatus.value!! == CHRONOGRAPH_STATUS_START
+
     fun handleRankTime() {
         mRankDiffValue.value?.let {
             mRankDiffValue.value = mChronographTimeValue.value?.minus(it)
+            mRankIndex.value = mRankIndex.value!!.plus(1)
             mRankChronographData.value = ChronographData(
-                mRankIndex.value!!.plus(1),
+                mRankIndex.value!!,
                 formatTime(mChronographTimeValue.value!!),
                 formatTime(mRankDiffValue.value!!)
             )

@@ -49,10 +49,11 @@
             android:layout_weight="2">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/chronograph_controller_layout"
                 android:layout_width="@dimen/chronograph_controller_layout_width"
                 android:layout_height="@dimen/chronograph_controller_layout_height"
                 android:layout_centerInParent="true"
-                android:visibility="@{chronographViewModel.showControllerLayout?View.GONE:View.VISIBLE}"
+                app:handleControllerLayoutAlpha="@{chronographViewModel.mRunChronographStatus}"
                 tools:visibility="visible">
 
                 <androidx.cardview.widget.CardView
@@ -73,7 +74,8 @@
                             android:layout_width="@dimen/chronograph_controller_button_size"
                             android:layout_height="@dimen/chronograph_controller_button_size"
                             android:layout_centerInParent="true"
-                            android:src="@drawable/icon_chronograph_start" />
+                            app:handleControllerRightButton="@{chronographViewModel.mRunChronographStatus}"
+                            tools:src="@drawable/icon_chronograph_start" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -105,7 +107,8 @@
                             android:layout_width="@dimen/chronograph_controller_button_size"
                             android:layout_height="@dimen/chronograph_controller_button_size"
                             android:layout_centerInParent="true"
-                            android:src="@drawable/icon_chronograph_end" />
+                            app:handleControllerLeftButton="@{chronographViewModel.mRunChronographStatus}"
+                            tools:src="@drawable/icon_chronograph_end" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -124,8 +127,8 @@
                 android:layout_width="@dimen/chronograph_start_button_width"
                 android:layout_height="@dimen/chronograph_start_button_height"
                 android:layout_centerInParent="true"
-                android:visibility="@{chronographViewModel.showControllerLayout?View.VISIBLE:View.GONE}"
                 app:cardCornerRadius="@dimen/dp_20"
+                app:handleStartButtonAlpha="@{chronographViewModel.mRunChronographStatus}"
                 tools:visibility="gone">
 
                 <RelativeLayout

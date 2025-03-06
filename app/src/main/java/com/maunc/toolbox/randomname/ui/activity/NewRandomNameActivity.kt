@@ -10,17 +10,17 @@ import com.maunc.toolbox.commonbase.ext.enterActivityAnim
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
-import com.maunc.toolbox.databinding.ActivityNewRandomNameWithGroupBinding
+import com.maunc.toolbox.databinding.ActivityNewRandomNameBinding
 import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
 import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE
 import com.maunc.toolbox.randomname.constant.WHETHER_DATA_HAS_CHANGE
-import com.maunc.toolbox.randomname.viewmodel.NewRandomNameWithGroupViewModel
+import com.maunc.toolbox.randomname.viewmodel.NewRandomNameViewModel
 
 /**
  * 新建分组下名称页面
  */
-class NewRandomNameWithGroupActivity :
-    BaseActivity<NewRandomNameWithGroupViewModel, ActivityNewRandomNameWithGroupBinding>() {
+class NewRandomNameActivity :
+    BaseActivity<NewRandomNameViewModel, ActivityNewRandomNameBinding>() {
 
     private var mGroupName: String? = null
 

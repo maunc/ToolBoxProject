@@ -52,12 +52,12 @@
             android:theme="@style/Activity.Transparent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".randomname.ui.activity.NewRandomNameWithGroupActivity"
+            android:name=".randomname.ui.activity.NewRandomNameActivity"
             android:exported="false"
             android:theme="@style/Activity.Transparent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".randomname.ui.activity.ManageGroupWithNameActivity"
+            android:name=".randomname.ui.activity.ManageNameActivity"
             android:exported="false" />
     </application>
 

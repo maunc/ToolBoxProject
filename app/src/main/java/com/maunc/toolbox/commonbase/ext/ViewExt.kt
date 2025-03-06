@@ -14,9 +14,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.BaseInterpolator
 import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.animation.addListener
+import com.maunc.toolbox.chronograph.constant.ALPHA
 import com.maunc.toolbox.randomname.constant.SCALE_X
 import com.maunc.toolbox.randomname.constant.SCALE_Y
 
@@ -133,6 +134,20 @@ fun View.clickScale(
         }
         return@setOnTouchListener true
     }
+}
+
+fun View.animateToAlpha(
+    startAlpha: Float = 0f,
+    endAlpha: Float = 1f,
+    time: Long = 100,
+    overHide: Boolean = false,
+) {
+    ObjectAnimator.ofFloat(this, ALPHA, startAlpha, endAlpha).apply {
+        duration = time
+        addListener(onEnd = {
+            visibleOrGone(!overHide)
+        })
+    }.start()
 }
 
 /**

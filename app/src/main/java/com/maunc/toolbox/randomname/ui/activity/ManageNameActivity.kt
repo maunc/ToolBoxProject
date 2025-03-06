@@ -5,28 +5,28 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maunc.toolbox.R
-import com.maunc.toolbox.randomname.adapter.ManageGroupWithNameAdapter
 import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.randomname.constant.COMMON_DIALOG
-import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
-import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_MANAGE_GROUP_WITH_NAME_PAGE
-import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE
-import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NONE_PAGE
-import com.maunc.toolbox.randomname.constant.WHETHER_DATA_HAS_CHANGE
-import com.maunc.toolbox.databinding.ActivityManageGroupWithNameBinding
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
-import com.maunc.toolbox.randomname.viewmodel.ManageGroupWithNameViewModel
+import com.maunc.toolbox.databinding.ActivityManageNameBinding
+import com.maunc.toolbox.randomname.adapter.ManageGroupWithNameAdapter
+import com.maunc.toolbox.randomname.constant.COMMON_DIALOG
+import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
+import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_MANAGE_GROUP_WITH_NAME_PAGE
+import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE
+import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NONE_PAGE
+import com.maunc.toolbox.randomname.constant.WHETHER_DATA_HAS_CHANGE
+import com.maunc.toolbox.randomname.viewmodel.ManageNameViewModel
 
 /**
  * 管理分组下名称页面
  */
-class ManageGroupWithNameActivity :
-    BaseActivity<ManageGroupWithNameViewModel, ActivityManageGroupWithNameBinding>() {
+class ManageNameActivity :
+    BaseActivity<ManageNameViewModel, ActivityManageNameBinding>() {
 
     private var mGroupName: String? = null
 
@@ -121,7 +121,7 @@ class ManageGroupWithNameActivity :
     private fun startNewNameActivity() {
         manageGroupWithNameActivityResult.launch(
             obtainActivityIntentPutData(
-                NewRandomNameWithGroupActivity::class.java,
+                NewRandomNameActivity::class.java,
                 mutableMapOf<String, Any>().apply {
                     mGroupName?.let { startGroupName ->
                         put(GROUP_NAME_EXTRA, startGroupName)

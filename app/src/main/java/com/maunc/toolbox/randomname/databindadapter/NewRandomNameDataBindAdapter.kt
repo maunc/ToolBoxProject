@@ -4,7 +4,7 @@ import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 
-object NewRandomNameWithGroupDataBindAdapter {
+object NewRandomNameDataBindAdapter {
 
     /**
      * 旋转动画

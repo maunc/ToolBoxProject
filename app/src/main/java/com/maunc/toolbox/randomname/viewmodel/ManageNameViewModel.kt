@@ -9,7 +9,7 @@ import com.maunc.toolbox.randomname.database.table.RandomNameData
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 
-class ManageGroupWithNameViewModel : BaseViewModel<BaseModel>() {
+class ManageNameViewModel : BaseViewModel<BaseModel>() {
 
     var groupData = MutableLiveData<List<RandomNameData>>(mutableListOf())
 
