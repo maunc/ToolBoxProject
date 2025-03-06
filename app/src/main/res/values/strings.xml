@@ -52,4 +52,7 @@
     <!--commonDialog-->
     <string name="common_dialog_sure_text">确定</string>
     <string name="common_dialog_cancel_text">取消</string>
+
+    <!--chronographPage-->
+    <string name="chronograph_tool_bar_title">计时器</string>
 </resources>

@@ -33,9 +33,6 @@ class RandomNameWelcomeActivity :
         mDatabind.welcomeStartManageGroupTv.clickScale {
             startTargetActivity(ManageGroupActivity::class.java)
         }
-        mDatabind.welcomeStartTestTv.clickScale {
-            developmentToast()
-        }
     }
 
     override fun createObserver() {

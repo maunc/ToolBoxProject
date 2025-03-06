@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_NONE
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_START
@@ -72,10 +73,6 @@ object ChronographMainDatabindAdapter {
                     endAlpha = ALPHA_ONE
                 )
             }
-
-            CHRONOGRAPH_STATUS_STOP -> {
-
-            }
         }
     }
 
@@ -97,16 +94,6 @@ object ChronographMainDatabindAdapter {
                     overHide = true
                 )
             }
-
-            CHRONOGRAPH_STATUS_STOP -> {
-
-            }
         }
-    }
-
-    @JvmStatic
-    @BindingAdapter(value = ["handleStartButtonAlpha"], requireAll = false)
-    fun handleTimeTvScaleAnim(textView: TextView, isScale: Boolean) {
-
     }
 }

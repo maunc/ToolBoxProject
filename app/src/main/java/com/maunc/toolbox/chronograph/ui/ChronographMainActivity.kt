@@ -5,9 +5,8 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.chronograph.adpater.ChronographAdapter
 import com.maunc.toolbox.chronograph.viewmodel.ChronographMainViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.animateToAlpha
 import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.getDimensFloat
+import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.databinding.ActivityChronographMainBinding
 
@@ -21,8 +20,11 @@ class ChronographMainActivity :
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.chronographViewModel = mViewModel
         mViewModel.initHandler()
-        mDatabind.chronographTimingRecycler.layoutManager = linearLayoutManager()
-        mDatabind.chronographTimingRecycler.adapter = chronographAdapter
+        mDatabind.commonToolBar.commonToolBarTitleTv.text =
+            getString(R.string.chronograph_tool_bar_title)
+        mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
+            finishCurrentActivity()
+        }
         mDatabind.chronographStartTimeButton.clickScale {
             mViewModel.startChronograph()
         }
@@ -33,17 +35,19 @@ class ChronographMainActivity :
                     mDatabind.chronographTimingRecycler
                 )
             }
-            mViewModel.leftControllerChronograph()
-            if (!mViewModel.isChronograph()) {
+            if (!mViewModel.isChronograph() && mViewModel.isScaleAnim()) {
                 mViewModel.restoreUI(
                     mDatabind.chronographTimeTv,
                     mDatabind.chronographTimingRecycler
                 )
             }
+            mViewModel.leftControllerChronograph()
         }
         mDatabind.chronographControllerRightButton.clickScale {
             mViewModel.rightControllerChronograph()
         }
+        mDatabind.chronographTimingRecycler.layoutManager = linearLayoutManager()
+        mDatabind.chronographTimingRecycler.adapter = chronographAdapter
     }
 
     override fun createObserver() {

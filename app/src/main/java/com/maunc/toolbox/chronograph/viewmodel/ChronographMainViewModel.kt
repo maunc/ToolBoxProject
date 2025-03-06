@@ -49,7 +49,7 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
     var mRankChronographData = MutableLiveData<ChronographData>()
 
     //计时文本是否执行缩放 true放大  false缩小
-    var mTimeTvIsScaleAnim = MutableLiveData(false)
+    private var mTimeTvIsScaleAnim = MutableLiveData(false)
 
     private val timeRuntime = object : Runnable {
         override fun run() {
@@ -134,7 +134,7 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
     }
 
     /**
-     * 恢复所有布局变化
+     * 恢复布局变化
      */
     fun restoreUI(textView: TextView, recyclerView: RecyclerView) {
         animateToScale(
