@@ -16,6 +16,7 @@ mmkvVersion = "2.1.0"
 autoSizeVersion = "v1.2.1"
 refrshLayoutVersion = "3.0.0-alpha"
 lifecycleViewModelKtxVersion = "2.3.1"
+glideVersion = "4.11.0"
 
 [bundles]
 #集合管理
@@ -53,6 +54,7 @@ ext-auto-size = { group = "com.github.JessYanCoding", name = "AndroidAutoSize", 
 ext-refresh-layout-base = { group = "io.github.scwang90", name = "refresh-layout-kernel", version.ref = "refrshLayoutVersion" }
 ext-refresh-layout-header = { group = "io.github.scwang90", name = "refresh-header-classics", version.ref = "refrshLayoutVersion" }
 ext-refresh-layout-falsify-header = { group = "io.github.scwang90", name = "refresh-header-falsify", version.ref = "refrshLayoutVersion" }
+ext-glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glideVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

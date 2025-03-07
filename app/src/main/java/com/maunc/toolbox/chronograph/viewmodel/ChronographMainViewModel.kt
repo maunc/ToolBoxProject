@@ -31,7 +31,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-@SuppressLint("SimpleDateFormat", "DefaultLocale", "ObjectAnimatorBinding", "Recycle")
+@SuppressLint("SimpleDateFormat", "ObjectAnimatorBinding", "Recycle")
 class ChronographMainViewModel : BaseViewModel<BaseModel>() {
 
     companion object {
@@ -44,12 +44,13 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
     //当前时间
     var mChronographTimeValue = MutableLiveData(0f)
     var mRunChronographStatus = MutableLiveData(CHRONOGRAPH_STATUS_NONE)
-    private var mRankDiffValue = MutableLiveData(0f)
     private var mRankIndex = MutableLiveData(0)
     var mRankChronographData = MutableLiveData<ChronographData>()
 
     //计时文本是否执行缩放 true放大  false缩小
     private var mTimeTvIsScaleAnim = MutableLiveData(false)
+
+    private var mRankEnable = MutableLiveData(false)
 
     private val timeRuntime = object : Runnable {
         override fun run() {
@@ -96,9 +97,9 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
         mHandler?.removeCallbacksAndMessages(null)
         mRunChronographStatus.value = CHRONOGRAPH_STATUS_NONE
         mChronographTimeValue.value = 0f
-        mRankDiffValue.value = 0f
         mRankIndex.value = 0
         mTimeTvIsScaleAnim.value = false
+        mRankEnable.value = false
         mRankChronographData.value = null
     }
 
@@ -106,17 +107,20 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
 
     fun isChronograph(): Boolean = mRunChronographStatus.value!! == CHRONOGRAPH_STATUS_START
 
-    fun handleRankTime() {
+    private fun handleRankTime() {
         mTimeTvIsScaleAnim.value = true
-        mRankDiffValue.value?.let {
-            mRankDiffValue.value = mChronographTimeValue.value?.minus(it)
-            mRankIndex.value = mRankIndex.value!!.plus(1)
-            mRankChronographData.value = ChronographData(
-                mRankIndex.value!!,
-                formatTime(mChronographTimeValue.value!!),
-                formatTime(mRankDiffValue.value!!)
-            )
-        }
+        mRankIndex.value = mRankIndex.value!!.plus(1)
+        mRankChronographData.value = ChronographData(
+            mRankIndex.value!!,
+            mChronographTimeValue.value!!,
+            if (mRankEnable.value!!) {
+                mChronographTimeValue.value!! - mRankChronographData.value?.time!!
+            } else {
+                mChronographTimeValue.value!!
+            }
+        )
+        // 第一次点击代表开始计时
+        mRankEnable.value = true
     }
 
     /**
@@ -152,7 +156,7 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
     }
 
     // 计时文本动画
-    fun animateToScale(
+    private fun animateToScale(
         view: View,
         startScale: Float = 1f,
         endScale: Float = 0.8f,
@@ -193,12 +197,6 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
                 mHandler = ChronographHandler(it.looper)
             }
         }
-    }
-
-    private fun formatTime(timeValue: Float): String {
-        val minutes = (timeValue / 60).toInt() // 转换为分钟
-        val remainingSeconds = timeValue % 60 // 计算剩余的秒数
-        return String.format("%02d", minutes) + ":" + String.format("%05.2f", remainingSeconds)
     }
 
     fun timeUnitMillion(lapSpeedMillions: Long): String { // int * 1000

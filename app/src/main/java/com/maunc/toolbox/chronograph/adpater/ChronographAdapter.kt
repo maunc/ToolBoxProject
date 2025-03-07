@@ -7,7 +7,7 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.chronograph.data.ChronographData
 import com.maunc.toolbox.databinding.ItemChronographBinding
 
-@SuppressLint("SetTextI18n", "NotifyDataSetChanged")
+@SuppressLint("SetTextI18n", "NotifyDataSetChanged", "DefaultLocale")
 class ChronographAdapter :
     BaseQuickAdapter<ChronographData, BaseDataBindingHolder<ItemChronographBinding>>(R.layout.item_chronograph) {
 
@@ -17,8 +17,8 @@ class ChronographAdapter :
     ) {
         holder.dataBinding?.let { mDataBind ->
             mDataBind.itemTimeIndexTv.text = "${item.index}"
-            mDataBind.itemGapTimeTv.text = "+ ${item.gapTime}"
-            mDataBind.itemTimeTv.text = item.time
+            mDataBind.itemGapTimeTv.text = "+ ${formatTime(item.gapTime)}"
+            mDataBind.itemTimeTv.text = formatTime(item.time)
         }
     }
 
@@ -31,5 +31,11 @@ class ChronographAdapter :
     fun clearChronograph() {
         data.clear()
         notifyDataSetChanged()
+    }
+
+    private fun formatTime(timeValue: Float): String {
+        val minutes = (timeValue / 60).toInt() // 转换为分钟
+        val remainingSeconds = timeValue % 60 // 计算剩余的秒数
+        return String.format("%02d", minutes) + ":" + String.format("%05.2f", remainingSeconds)
     }
 }

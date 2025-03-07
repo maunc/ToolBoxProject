@@ -93,4 +93,5 @@ dependencies {
     implementation(libs.ext.refresh.layout.base)
     implementation(libs.ext.refresh.layout.header)
     implementation(libs.bundles.smart.refrsh.layout)
+    implementation(libs.ext.glide)
 }
