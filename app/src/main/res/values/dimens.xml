@@ -67,7 +67,8 @@
     <dimen name="chronograph_start_button_width">260dp</dimen>
     <dimen name="chronograph_start_button_height">100dp</dimen>
     <dimen name="chronograph_start_button_icon_size">55dp</dimen>
-    <dimen name="chronograph_recycler_margin_top">190dp</dimen>
+    <dimen name="chronograph_time_tv_margin_top">390dp</dimen>
+    <dimen name="chronograph_recycler_margin_top">230dp</dimen>
     <dimen name="chronograph_recycler_margin_bottom">185dp</dimen>
 
     <dimen name="chronograph_controller_root_layout_height">170dp</dimen>
@@ -75,6 +76,6 @@
     <dimen name="chronograph_controller_layout_height">100dp</dimen>
     <dimen name="chronograph_controller_button_size">40dp</dimen>
     <dimen name="chronograph_controller_button_icon_size">90dp</dimen>
-    <dimen name="chronograph_time_tv_translate_y">240dp</dimen>
+    <dimen name="chronograph_time_tv_translate_y">260dp</dimen>
     <dimen name="chronograph_adapter_item_height">40dp</dimen>
 </resources>

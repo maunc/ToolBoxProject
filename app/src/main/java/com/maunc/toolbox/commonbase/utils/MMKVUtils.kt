@@ -10,6 +10,7 @@ val obtainMMKV: MMKVUtils by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
 private const val DEFAULT_STRING = ""
 private const val DEFAULT_INT = -1
 
+/** 随机名称用到的 */
 //随机速度
 const val randomSpeed = "RandomSpeed"
 

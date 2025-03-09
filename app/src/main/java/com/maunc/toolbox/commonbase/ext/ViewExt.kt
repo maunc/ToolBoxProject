@@ -15,8 +15,11 @@ import android.view.ViewGroup
 import android.view.animation.BaseInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.EditText
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.animation.addListener
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.viewpager.widget.ViewPager
 import com.maunc.toolbox.commonbase.constant.ALPHA
 import com.maunc.toolbox.commonbase.constant.SCALE_X
 import com.maunc.toolbox.commonbase.constant.SCALE_Y
@@ -41,23 +44,96 @@ fun View.visibleOrGone(flag: Boolean) {
     }
 }
 
-/**
- * 优化输入框
- */
-fun EditText.afterTextChange(afterTextChanged: (String) -> Unit) {
+/**=========================================View  Listener  优化=========================================*/
+fun ViewPager.addViewPageListener(
+    onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> },
+    onPageSelected: (Int) -> Unit = {},
+    onPageScrollStateChanged: (Int) -> Unit = {},
+) {
+    this.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int,
+        ) {
+            onPageScrolled.invoke(position, positionOffset, positionOffsetPixels)
+        }
+
+        override fun onPageSelected(position: Int) {
+            onPageSelected.invoke(position)
+        }
+
+        override fun onPageScrollStateChanged(state: Int) {
+            onPageScrollStateChanged.invoke(state)
+        }
+    })
+}
+
+fun EditText.addEditTextListener(
+    afterTextChanged: (String) -> Unit = {},
+    beforeTextChanged: (CharSequence?, Int, Int, Int) -> Unit = { _, _, _, _ -> },
+    onTextChanged: (CharSequence?, Int, Int, Int) -> Unit = { _, _, _, _ -> },
+) {
     this.addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             afterTextChanged.invoke(s.toString())
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            beforeTextChanged.invoke(s, start, count, after)
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+            onTextChanged.invoke(s, start, count, count)
         }
     })
 }
+
+fun DrawerLayout.addDrawLayoutListener(
+    onDrawerSlide: (View, Float) -> Unit = { _, _ -> },
+    onDrawerOpened: (View) -> Unit = {},
+    onDrawerClosed: (View) -> Unit = {},
+    onDrawerStateChanged: (Int) -> Unit = {},
+) {
+    this.addDrawerListener(object : DrawerLayout.DrawerListener {
+        override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+            onDrawerSlide.invoke(drawerView, slideOffset)
+        }
+
+        override fun onDrawerOpened(drawerView: View) {
+            onDrawerOpened.invoke(drawerView)
+        }
+
+        override fun onDrawerClosed(drawerView: View) {
+            onDrawerClosed.invoke(drawerView)
+        }
+
+        override fun onDrawerStateChanged(newState: Int) {
+            onDrawerStateChanged.invoke(newState)
+        }
+    })
+}
+
+fun SeekBar.addSeekBarListener(
+    onProgressChanged: (SeekBar?, Int, Boolean) -> Unit = { _, _, _ -> },
+    onStartTrackingTouch: (SeekBar?) -> Unit = {},
+    onStopTrackingTouch: (SeekBar?) -> Unit = {},
+) {
+    this.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            onProgressChanged.invoke(seekBar, progress, fromUser)
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            onStartTrackingTouch.invoke(seekBar)
+        }
+
+        override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            onStopTrackingTouch.invoke(seekBar)
+        }
+    })
+}
+/**===================================================================================================*/
 
 /**
  * 防止重复点击事件 默认0.1秒内不可重复点击

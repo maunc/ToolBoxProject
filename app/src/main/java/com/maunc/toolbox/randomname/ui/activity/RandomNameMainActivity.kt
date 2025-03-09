@@ -2,13 +2,10 @@ package com.maunc.toolbox.randomname.ui.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.Gravity
-import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.drawerlayout.widget.DrawerLayout
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
+import com.maunc.toolbox.commonbase.ext.addDrawLayoutListener
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.utils.ViewOffsetHelper
@@ -17,6 +14,7 @@ import com.maunc.toolbox.randomname.constant.GROUP_WITH_NAME_EXTRA
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
+import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 import com.maunc.toolbox.randomname.viewmodel.RandomNameMainViewModel
 
 /**
@@ -50,8 +48,10 @@ class RandomNameMainActivity :
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_main_tool)
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            mViewModel.endRandom()
-            mDatabind.randomNameDrawerLayout.openDrawer(Gravity.END)
+            /*
+                mViewModel.endRandom()
+                mDatabind.randomNameDrawerLayout.openDrawer(GravityCompat.END)
+            */
         }
         mDatabind.randomControlTv.clickScale {
             when (mViewModel.runRandomStatus.value) {
@@ -65,24 +65,9 @@ class RandomNameMainActivity :
             }
         }
         val viewOffsetHelper = ViewOffsetHelper(mDatabind.randomNameMainContentLayout)
-        mDatabind.randomNameDrawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
-                val offset = (drawerView.measuredWidth * slideOffset).toInt()
-                viewOffsetHelper.setLeftAndRightOffset(-offset)
-            }
-
-            override fun onDrawerOpened(drawerView: View) {
-
-            }
-
-            override fun onDrawerClosed(drawerView: View) {
-
-            }
-
-            override fun onDrawerStateChanged(newState: Int) {
-
-            }
-
+        mDatabind.randomNameDrawerLayout.addDrawLayoutListener(onDrawerSlide = { view, slideOffset ->
+            val offset = (view.measuredWidth * slideOffset).toInt()
+            viewOffsetHelper.setLeftAndRightOffset(-offset)
         })
         onBackPressedDispatcher.addCallback(backPressCallback)
     }

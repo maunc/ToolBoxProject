@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.afterTextChange
+import com.maunc.toolbox.commonbase.ext.addEditTextListener
 import com.maunc.toolbox.commonbase.ext.clickNoRepeat
 import com.maunc.toolbox.commonbase.ext.enterActivityAnim
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
@@ -51,14 +51,14 @@ class NewRandomNameActivity :
         mDatabind.newNameWithGroupCreateButton.clickNoRepeat {
             mViewModel.initiateCreateNewNameWithGroupEvent()
         }
-        mDatabind.newNameWithGroupEdit.afterTextChange { editStr ->
+        mDatabind.newNameWithGroupEdit.addEditTextListener(afterTextChanged = { editStr ->
             mViewModel.showDeleteEditIcon.value = editStr.isNotEmpty()
             mViewModel.nameLimitTips.value =
                 getString(R.string.new_name_with_group_edit_max_tips_text)
             mViewModel.showNameLimitTips.value = editStr.length >= mViewModel.newNameEditMaxNum
             mViewModel.handleTipsTextColor(editStr.length < mViewModel.newNameEditMaxNum)
             mViewModel.newRandomName.value = editStr
-        }
+        })
         onBackPressedDispatcher.addCallback(this, backPressCallback)
     }
 

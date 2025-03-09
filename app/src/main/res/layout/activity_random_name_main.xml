@@ -40,7 +40,7 @@
                     android:textColor="@color/black"
                     android:textSize="60sp"
                     app:randomNameText="@{mainViewModel.targetRandomName}"
-                    app:runStatus="@{mainViewModel.runRandomStatus}"/>
+                    app:runStatus="@{mainViewModel.runRandomStatus}" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/random_control_tv"
@@ -62,13 +62,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:background="@color/white">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="@string/common_dialog_sure_text"
-                    android:textSize="32sp"
-                    android:textColor="@color/black"/>
+
+
             </RelativeLayout>
         </androidx.drawerlayout.widget.DrawerLayout>
 

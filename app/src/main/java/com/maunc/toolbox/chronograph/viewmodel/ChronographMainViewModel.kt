@@ -129,12 +129,16 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
     fun startRankAfterUI(textView: TextView, recyclerView: RecyclerView) {
         animateToScale(
             startScale = 1f,
-            endScale = 0.8f,
+            endScale = 0.7f,
             view = textView,
             startTranslationY = 0f,
             endTranslationY = -getDimensFloat(R.dimen.chronograph_time_tv_translate_y)
         )
-        recyclerView.animateToAlpha(startAlpha = 0f, endAlpha = 1f, time = 200)
+        recyclerView.animateToAlpha(
+            startAlpha = 0f,
+            endAlpha = 1f,
+            time = 200
+        )
     }
 
     /**
@@ -142,7 +146,7 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
      */
     fun restoreUI(textView: TextView, recyclerView: RecyclerView) {
         animateToScale(
-            startScale = 0.8f,
+            startScale = 0.7f,
             endScale = 1f,
             view = textView,
             startTranslationY = -getDimensFloat(R.dimen.chronograph_time_tv_translate_y),
@@ -159,7 +163,7 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
     private fun animateToScale(
         view: View,
         startScale: Float = 1f,
-        endScale: Float = 0.8f,
+        endScale: Float = 0.7f,
         startTranslationY: Float = 0f,
         endTranslationY: Float = -getDimensFloat(R.dimen.chronograph_time_tv_translate_y),
         time: Long = 200,
