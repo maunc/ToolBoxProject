@@ -6,10 +6,12 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.graphics.Rect
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.MotionEvent
+import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.BaseInterpolator
@@ -294,4 +296,20 @@ fun TextView.marquee() {
     isFocusable = true
     isSelected = true
     isFocusableInTouchMode = true
+}
+
+/**
+ * 扩大点击区域
+ */
+fun View.expandTouchArea(size: Int) {
+    val parentView = this.parent as View
+    parentView.post {
+        val rect = Rect()
+        this.getHitRect(rect)
+        rect.top -= size
+        rect.bottom += size
+        rect.left -= size
+        rect.right += size
+        parentView.touchDelegate = TouchDelegate(rect, this)
+    }
 }

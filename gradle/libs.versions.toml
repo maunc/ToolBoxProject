@@ -17,6 +17,7 @@ autoSizeVersion = "v1.2.1"
 refrshLayoutVersion = "3.0.0-alpha"
 lifecycleViewModelKtxVersion = "2.3.1"
 glideVersion = "4.11.0"
+webRtcVersion = "2.0.4"
 
 [bundles]
 #集合管理
@@ -55,6 +56,7 @@ ext-refresh-layout-base = { group = "io.github.scwang90", name = "refresh-layout
 ext-refresh-layout-header = { group = "io.github.scwang90", name = "refresh-header-classics", version.ref = "refrshLayoutVersion" }
 ext-refresh-layout-falsify-header = { group = "io.github.scwang90", name = "refresh-header-falsify", version.ref = "refrshLayoutVersion" }
 ext-glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glideVersion" }
+ext-web-rtc = { group = "com.github.gkonovalov.android-vad", name = "webrtc", version.ref = "webRtcVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -18,6 +18,9 @@
     <dimen name="dp_40">40dp</dimen>
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_80">80dp</dimen>
+    <dimen name="dp_85">85dp</dimen>
+    <dimen name="dp_90">90dp</dimen>
     <dimen name="dp_100">100dp</dimen>
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_260">260dp</dimen>
@@ -78,4 +81,8 @@
     <dimen name="chronograph_controller_button_icon_size">90dp</dimen>
     <dimen name="chronograph_time_tv_translate_y">260dp</dimen>
     <dimen name="chronograph_adapter_item_height">40dp</dimen>
+
+    <!--**********************************  录音  **********************************-->
+    <dimen name="voice_start_record_button_width">330dp</dimen>
+    <dimen name="voice_start_record_button_height">60dp</dimen>
 </resources>

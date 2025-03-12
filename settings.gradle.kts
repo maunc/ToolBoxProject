@@ -23,4 +23,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "ToolBox"
 include(":app")
- 
+include(":ViewLib")

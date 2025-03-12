@@ -1,9 +1,13 @@
 package com.maunc.toolbox.commonbase.ext
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -12,18 +16,13 @@ import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_TAG
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 fun String.logi(tag: String = GLOBAL_TAG) {
     Log.i(tag, this)
@@ -34,8 +33,7 @@ fun String.loge(tag: String = GLOBAL_TAG) {
 }
 
 fun Context.developmentToast() {
-    Toast.makeText(this, getString(R.string.functions_are_under_development), Toast.LENGTH_SHORT)
-        .show()
+    toastShort(getString(R.string.functions_are_under_development))
 }
 
 fun Context.toast(text: String, time: Int = Toast.LENGTH_SHORT) {
@@ -48,27 +46,6 @@ fun Context.toastLong(text: String) {
 
 fun Context.toastShort(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-}
-
-/**
- *  调用携程
- */
-fun <T> BaseViewModel<*>.launch(
-    block: () -> T,
-    success: (T) -> Unit = {},
-    error: (Throwable) -> Unit = {},
-) {
-    viewModelScope.launch {
-        kotlin.runCatching {
-            withContext(Dispatchers.IO) {
-                block()
-            }
-        }.onSuccess {
-            success(it)
-        }.onFailure {
-            error(it)
-        }
-    }
 }
 
 fun getString(@StringRes strRes: Int): String {
@@ -136,4 +113,27 @@ fun RecyclerView.addCustomizeItemDecoration(
             outRect.set(outLeft, outTop, outRight, outBottom)
         }
     })
+}
+
+/**   权限相关   */
+//检验权限是否可用
+fun Context.checkPermissionAvailable(permission: String): Boolean {
+    return ContextCompat.checkSelfPermission(
+        this, permission
+    ) == PackageManager.PERMISSION_GRANTED
+}
+
+//检验是否要去手动开启权限
+fun Activity.checkPermissionManualRequest(permission: String): Boolean {
+    return !shouldShowRequestPermissionRationale(permission)
+}
+
+//前往当前app设置页面
+fun Activity.startAppSystemSettingPage() {
+    startActivity(
+        Intent().apply {
+            action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.fromParts("package", packageName, null)
+        }
+    )
 }

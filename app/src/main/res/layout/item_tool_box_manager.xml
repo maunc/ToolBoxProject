@@ -12,6 +12,28 @@
         android:layout_height="@dimen/tool_box_main_item_size"
         android:background="@drawable/bg_item_tool_box_selector">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_tool_box_background_icon"
+            android:layout_width="@dimen/tool_box_main_item_icon_size"
+            android:layout_height="@dimen/tool_box_main_item_icon_size"
+            android:layout_marginTop="@dimen/dp_40"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_tool_box_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_tool_box_background_icon"
+            android:layout_marginTop="@dimen/dp_5"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/item_tool_box_background_icon" />
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,19 +42,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/item_tool_box_background_icon"
-                android:layout_width="@dimen/tool_box_main_item_icon_size"
-                android:layout_height="@dimen/tool_box_main_item_icon_size" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/item_tool_box_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/item_tool_box_background_icon"
-                android:layout_marginTop="@dimen/dp_5"
-                android:textColor="@color/black"
-                android:textSize="22sp" />
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

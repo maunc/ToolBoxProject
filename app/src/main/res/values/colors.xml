@@ -8,6 +8,7 @@
     <color name="green">#00FF0A</color>
     <color name="green_75">#BF00C808</color>
     <color name="gray">#CCCCCC</color>
+    <color name="gray_f0">#F0F0F0</color>
     <color name="transparent">#00000000</color>
 
     <color name="test_color">#66FFFFFF</color>

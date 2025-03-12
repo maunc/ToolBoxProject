@@ -44,13 +44,13 @@ fun <T> Context.startActivityWithData(
 
 /**========================================  Intent构造  ========================================*/
 fun <T> Context.obtainActivityIntent(
-    clazz: Class<T>
+    clazz: Class<T>,
 ): Intent {
     return Intent(this, clazz)
 }
 
 fun obtainIntentPutData(
-    dataMap: MutableMap<String, Any> = mutableMapOf()
+    dataMap: MutableMap<String, Any> = mutableMapOf(),
 ): Intent {
     return intentPutData(Intent(), dataMap)
 }

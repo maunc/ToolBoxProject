@@ -82,6 +82,9 @@ android {
 
 dependencies {
 
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
+    implementation(project(":ViewLib"))
+
     implementation(libs.bundles.android)
 
     implementation(libs.ext.baseAdapter)
@@ -94,4 +97,5 @@ dependencies {
     implementation(libs.ext.refresh.layout.header)
     implementation(libs.bundles.smart.refrsh.layout)
     implementation(libs.ext.glide)
+    implementation(libs.ext.web.rtc)
 }

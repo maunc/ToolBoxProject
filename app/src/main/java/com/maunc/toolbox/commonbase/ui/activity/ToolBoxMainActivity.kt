@@ -11,6 +11,7 @@ import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.viewmodel.ToolBoxMainViewModel
 import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
 import com.maunc.toolbox.randomname.ui.activity.RandomNameWelcomeActivity
+import com.maunc.toolbox.voicerecord.ui.VoiceRecordActivity
 
 class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMainBinding>() {
 
@@ -29,6 +30,9 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
 
                     getString(R.string.tool_box_item_random_name_text) -> {
                         startTargetActivity(RandomNameWelcomeActivity::class.java)
+                    }
+                    getString(R.string.tool_box_item_record_text) ->{
+                        startTargetActivity(VoiceRecordActivity::class.java)
                     }
                 }
             }
