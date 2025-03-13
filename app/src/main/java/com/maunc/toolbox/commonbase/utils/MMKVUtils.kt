@@ -16,35 +16,39 @@ const val randomSpeed = "RandomSpeed"
 
 class MMKVUtils {
 
-    fun getString(key: String): String? {
-        return MMKV.defaultMMKV().decodeString(key, DEFAULT_STRING)
-    }
+    fun getString(
+        key: String
+    ): String? = MMKV.defaultMMKV().decodeString(key, DEFAULT_STRING)
 
-    fun getInt(key: String): Int {
-        return MMKV.defaultMMKV().decodeInt(key, DEFAULT_INT)
-    }
+    fun getInt(
+        key: String
+    ): Int = MMKV.defaultMMKV().decodeInt(key, DEFAULT_INT)
 
-    fun getLong(key: String): Long {
-        return MMKV.defaultMMKV().decodeLong(key)
-    }
+    fun getLong(
+        key: String
+    ): Long = MMKV.defaultMMKV().decodeLong(key)
 
-    fun getBoolean(key: String): Boolean {
-        return MMKV.defaultMMKV().decodeBool(key, false)
-    }
+    fun getBoolean(
+        key: String,
+    ): Boolean = MMKV.defaultMMKV().decodeBool(key, false)
 
-    fun putLong(key: String, value: Long) {
-        MMKV.defaultMMKV().encode(key, value)
-    }
+    fun putLong(
+        key: String,
+        value: Long,
+    ) = MMKV.defaultMMKV().encode(key, value)
 
-    fun putBoolean(key: String, value: Boolean) {
-        MMKV.defaultMMKV().encode(key, value)
-    }
+    fun putBoolean(
+        key: String,
+        value: Boolean
+    ) = MMKV.defaultMMKV().encode(key, value)
 
-    fun putString(key: String, value: String) {
-        MMKV.defaultMMKV().encode(key, value)
-    }
+    fun putString(
+        key: String,
+        value: String
+    ) = MMKV.defaultMMKV().encode(key, value)
 
-    fun putInt(key: String, value: Int) {
-        MMKV.defaultMMKV().encode(key, value)
-    }
+    fun putInt(
+        key: String,
+        value: Int
+    ) = MMKV.defaultMMKV().encode(key, value)
 }

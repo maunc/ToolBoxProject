@@ -12,11 +12,15 @@ import com.maunc.toolbox.commonbase.ext.checkPermissionManualRequest
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.ext.screenHeight
+import com.maunc.toolbox.commonbase.ext.screenWidth
 import com.maunc.toolbox.commonbase.ext.startAppSystemSettingPage
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.databinding.ActivityVoiceRecordBinding
 import com.maunc.toolbox.voicerecord.constant.AUDIO_PERMISSION_START_DIALOG
+import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_DOWN
+import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.voicerecord.viewmodel.VoiceRecordViewModel
 
 
@@ -38,6 +42,8 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
         }
     }
 
+    private var userDownY = 0
+
     @SuppressLint("ClickableViewAccessibility")
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.voiceRecordViewModel = mViewModel
@@ -49,27 +55,30 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
         mViewModel.createVoiceRecordConfig()
         mDatabind.voiceWaveView.start()
         mDatabind.voiceRecordStartButton.setOnTouchListener { v, event ->
+            mViewModel.launchVibrator()
             if (!checkPermissionAvailable(Manifest.permission.RECORD_AUDIO)) {
                 requestAudioPermissionResult.launch(Manifest.permission.RECORD_AUDIO)
                 return@setOnTouchListener false
             }
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    userDownY = event.rawY.toInt()
                     "start button down event".loge()
-                    mViewModel.launchVibrator()
-                    mViewModel.recordButtonTips.value = getString(R.string.voice_record_up_tips)
+                    mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_DOWN
                 }
 
                 MotionEvent.ACTION_UP -> {
                     "start button UP event".loge()
-                    mViewModel.recordButtonTips.value = getString(R.string.voice_record_down_tips)
+                    mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_UP
                 }
 
                 MotionEvent.ACTION_MOVE -> {
-                    "start button MOVE event".loge()
+                    if (userDownY - event.rawY.toInt() > (screenHeight() * (15 / 100.0))) {
+                        "up scroll range greater than screenHeight fifteen percent".loge()
+                    }
+//                    "start button MOVE event".loge()
                 }
             }
-
             return@setOnTouchListener true
         }
     }

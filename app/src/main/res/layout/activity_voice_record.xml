@@ -26,8 +26,11 @@
             android:layout_height="100dp"
             android:layout_centerInParent="true"
             android:gravity="center"
+            android:visibility="gone"
+            app:handleRecordAnim="@{voiceRecordViewModel.recordViewStatus}"
             app:lineColor="@color/blue"
-            app:waveMode="left_right" />
+            app:waveMode="left_right"
+            tools:visibility="visible" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -40,12 +43,11 @@
                 android:layout_width="@dimen/voice_start_record_button_width"
                 android:layout_height="@dimen/voice_start_record_button_height"
                 android:layout_centerInParent="true"
-                android:background="@drawable/bg_white_radius_12"
                 android:gravity="center"
-                android:text="@{voiceRecordViewModel.recordButtonTips}"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:handleRecordButton="@{voiceRecordViewModel.recordViewStatus}" />
         </RelativeLayout>
 
     </RelativeLayout>

@@ -24,71 +24,70 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.constant.GLOBAL_TAG
 
-fun String.logi(tag: String = GLOBAL_TAG) {
-    Log.i(tag, this)
-}
+fun String.logi(
+    tag: String = GLOBAL_TAG,
+) = Log.i(tag, this)
 
-fun String.loge(tag: String = GLOBAL_TAG) {
-    Log.e(tag, this)
-}
+fun String.loge(
+    tag: String = GLOBAL_TAG,
+) = Log.e(tag, this)
 
-fun Context.developmentToast() {
-    toastShort(getString(R.string.functions_are_under_development))
-}
+fun Context.developmentToast() = toastShort(
+    getString(R.string.functions_are_under_development)
+)
 
-fun Context.toast(text: String, time: Int = Toast.LENGTH_SHORT) {
+fun Context.toast(text: String, time: Int = Toast.LENGTH_SHORT) =
     Toast.makeText(this, text, time).show()
-}
 
-fun Context.toastLong(text: String) {
-    Toast.makeText(this, text, Toast.LENGTH_LONG).show()
-}
+fun Context.toastLong(
+    text: String,
+) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
 
-fun Context.toastShort(text: String) {
-    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-}
+fun Context.toastShort(
+    text: String,
+) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
-fun getString(@StringRes strRes: Int): String {
-    return ContextCompat.getString(ToolBoxApplication.app, strRes)
-}
+fun getString(
+    @StringRes strRes: Int,
+): String = ContextCompat.getString(ToolBoxApplication.app, strRes)
 
-fun getDimens(@DimenRes dimenRes: Int): Int {
-    return ToolBoxApplication.app.resources.getDimensionPixelOffset(dimenRes)
-}
+fun getDimens(
+    @DimenRes dimenRes: Int,
+): Int = ToolBoxApplication.app.resources.getDimensionPixelOffset(dimenRes)
 
-fun getDimensFloat(@DimenRes dimenRes: Int): Float {
-    return ToolBoxApplication.app.resources.getDimension(dimenRes)
-}
+fun getDimensFloat(
+    @DimenRes dimenRes: Int,
+): Float = ToolBoxApplication.app.resources.getDimension(dimenRes)
 
-fun getDrawable(@DrawableRes drawableRes: Int): Drawable? {
-    return ContextCompat.getDrawable(ToolBoxApplication.app, drawableRes)
-}
+fun getDrawable(
+    @DrawableRes drawableRes: Int,
+): Drawable? = ContextCompat.getDrawable(ToolBoxApplication.app, drawableRes)
 
-fun getColor(@ColorRes colorRes: Int): Int {
-    return ContextCompat.getColor(ToolBoxApplication.app, colorRes)
-}
+fun getColor(
+    @ColorRes colorRes: Int,
+): Int = ContextCompat.getColor(ToolBoxApplication.app, colorRes)
+
+//获取屏幕宽度
+fun Context.screenWidth() = resources.displayMetrics.widthPixels
+
+//获取屏幕高度
+fun Context.screenHeight() = resources.displayMetrics.heightPixels
 
 @SuppressLint("WrongConstant")
 fun Context.linearLayoutManager(
     orientation: Int = LinearLayoutManager.VERTICAL,
-): LinearLayoutManager {
-    return LinearLayoutManager(this, orientation, false)
-}
+): LinearLayoutManager = LinearLayoutManager(this, orientation, false)
 
 @SuppressLint("WrongConstant")
 fun Context.gridLayoutManager(
     spanCount: Int,
     orientation: Int = GridLayoutManager.VERTICAL,
-): GridLayoutManager {
-    return GridLayoutManager(this, spanCount, orientation, false)
-}
+): GridLayoutManager = GridLayoutManager(this, spanCount, orientation, false)
 
 fun Context.staggeredGridLayoutManager(
     spanCount: Int,
     orientation: Int = StaggeredGridLayoutManager.VERTICAL,
-): StaggeredGridLayoutManager {
-    return StaggeredGridLayoutManager(spanCount, orientation)
-}
+): StaggeredGridLayoutManager = StaggeredGridLayoutManager(spanCount, orientation)
 
 fun <T> MutableList<T>.mutableListInsert(vararg data: T) {
     data.forEach {
@@ -117,23 +116,21 @@ fun RecyclerView.addCustomizeItemDecoration(
 
 /**   权限相关   */
 //检验权限是否可用
-fun Context.checkPermissionAvailable(permission: String): Boolean {
-    return ContextCompat.checkSelfPermission(
-        this, permission
-    ) == PackageManager.PERMISSION_GRANTED
-}
+fun Context.checkPermissionAvailable(
+    permission: String,
+): Boolean = ContextCompat.checkSelfPermission(
+    this, permission
+) == PackageManager.PERMISSION_GRANTED
 
 //检验是否要去手动开启权限
-fun Activity.checkPermissionManualRequest(permission: String): Boolean {
-    return !shouldShowRequestPermissionRationale(permission)
-}
+fun Activity.checkPermissionManualRequest(
+    permission: String,
+): Boolean = !shouldShowRequestPermissionRationale(permission)
 
 //前往当前app设置页面
-fun Activity.startAppSystemSettingPage() {
-    startActivity(
-        Intent().apply {
-            action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            data = Uri.fromParts("package", packageName, null)
-        }
-    )
-}
+fun Activity.startAppSystemSettingPage() = startActivity(
+    Intent().apply {
+        action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts("package", packageName, null)
+    }
+)

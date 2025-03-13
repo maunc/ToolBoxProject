@@ -13,15 +13,14 @@ import com.konovalov.vad.webrtc.VadWebRTC
 import com.konovalov.vad.webrtc.config.FrameSize
 import com.konovalov.vad.webrtc.config.Mode
 import com.konovalov.vad.webrtc.config.SampleRate
-import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.commonbase.ext.getString
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.vibrator
 import com.maunc.toolbox.voicerecord.constant.DEFAULT_RECORD_TOUCH_AMPLITUDE
 import com.maunc.toolbox.voicerecord.constant.DEFAULT_VIBRATOR_TIME
+import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_UP
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -53,7 +52,7 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
     var isVocals = MutableLiveData<Boolean>()
 
     /**view相关*/
-    var recordButtonTips = MutableLiveData(getString(R.string.voice_record_down_tips))
+    var recordViewStatus = MutableLiveData(RECORD_VIEW_STATUS_UP)
 
     fun createVoiceRecordConfig() {
         cacheDir = ToolBoxApplication.app.cacheDir

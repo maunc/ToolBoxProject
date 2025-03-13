@@ -1,18 +1,18 @@
 package com.us.mauncview
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.util.AttributeSet
-import android.view.View
-import android.animation.ValueAnimator
 import android.graphics.Path
 import android.os.Handler
 import android.os.Looper
 import android.os.Parcelable
+import android.util.AttributeSet
 import android.view.Gravity
-import java.util.*
+import android.view.View
+import java.util.LinkedList
 
 class VoiceWaveView @JvmOverloads constructor(
     context: Context,
@@ -88,20 +88,9 @@ class VoiceWaveView @JvmOverloads constructor(
     }
 
     init {
-        addBody(10)
-        addBody(26)
-        addBody(9)
-        addBody(14)
-        addBody(20)
-        addBody(30)
-        addBody(26)
-        addBody(50)
-        addBody(60)
-        addBody(40)
-        addBody(26)
-        addBody(9)
-        addBody(14)
-        addBody(20)
+        addsHead(2, 2, 2, 2, 4)
+        addsBody(4, 14, 27, 17, 38, 91, 38, 24, 8, 60, 38, 14, 8)
+        addsFooter(4, 2, 2, 2, 2)
         attrs?.let {
             val typedArray = context.theme.obtainStyledAttributes(
                 attrs, R.styleable.VoiceWaveView, 0, 0
@@ -136,7 +125,25 @@ class VoiceWaveView @JvmOverloads constructor(
 
         paintPathLine = Paint()
         paintPathLine?.isAntiAlias = true
-        paintPathLine?.setStyle(Paint.Style.STROKE);
+        paintPathLine?.style = Paint.Style.STROKE;
+    }
+
+    fun addsBody(vararg num: Int) {
+        num.forEach {
+            addBody(it)
+        }
+    }
+
+    fun addsHead(vararg num: Int) {
+        num.forEach {
+            addHeader(it)
+        }
+    }
+
+    fun addsFooter(vararg num: Int) {
+        num.forEach {
+            addFooter(it)
+        }
     }
 
     /**

@@ -219,11 +219,13 @@ fun View.animateToAlpha(
     endAlpha: Float = 1f,
     time: Long = 100,
     overHide: Boolean = false,
+    onAnimEnd: (View) -> Unit = {},
 ) {
     ObjectAnimator.ofFloat(this, ALPHA, startAlpha, endAlpha).apply {
         duration = time
         addListener(onEnd = {
             visibleOrGone(!overHide)
+            onAnimEnd(this@animateToAlpha)
         })
     }.start()
 }

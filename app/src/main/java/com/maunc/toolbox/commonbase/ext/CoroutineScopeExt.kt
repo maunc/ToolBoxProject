@@ -13,16 +13,14 @@ fun <T> BaseViewModel<*>.launch(
     block: () -> T,
     success: (T) -> Unit = {},
     error: (Throwable) -> Unit = {},
-) {
-    viewModelScope.launch {
-        kotlin.runCatching {
-            withContext(Dispatchers.IO) {
-                block()
-            }
-        }.onSuccess {
-            success(it)
-        }.onFailure {
-            error(it)
+) = viewModelScope.launch {
+    kotlin.runCatching {
+        withContext(Dispatchers.IO) {
+            block()
         }
+    }.onSuccess {
+        success(it)
+    }.onFailure {
+        error(it)
     }
 }
