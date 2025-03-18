@@ -14,4 +14,4 @@ const val DEFAULT_RECORD_TOUCH_AMPLITUDE = 2
 const val RECORD_VIEW_STATUS_DOWN = 0 //按下
 const val RECORD_VIEW_STATUS_UP = 1 //抬起
 const val RECORD_VIEW_STATUS_MOVE_CANCEL = 2 //移动到可取消
-const val RECORD_VIEW_STATUS_MOVE_CANCEL_TO_DOWN = 3 //移动过可取消后返回继续录制
+const val RECORD_VIEW_STATUS_MOVE_CANCEL_DONE = 3 //移动过可取消后返回继续录制

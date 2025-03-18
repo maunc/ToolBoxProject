@@ -10,7 +10,7 @@ import com.maunc.toolbox.commonbase.ext.getString
 import com.maunc.toolbox.commonbase.ext.gone
 import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_DOWN
 import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_TO_DOWN
+import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_UP
 import com.us.mauncview.VoiceWaveView
 
@@ -20,7 +20,7 @@ object VoiceRecordDataBindAdapter {
     @BindingAdapter(value = ["handleRecordButton"], requireAll = false)
     fun handleRecordButton(textView: TextView, recordStatus: Int) {
         when (recordStatus) {
-            RECORD_VIEW_STATUS_DOWN, RECORD_VIEW_STATUS_MOVE_CANCEL_TO_DOWN -> {
+            RECORD_VIEW_STATUS_DOWN, RECORD_VIEW_STATUS_MOVE_CANCEL_DONE -> {
                 textView.text = getString(R.string.voice_record_up_tips)
                 textView.setBackgroundResource(R.drawable.bg_white_50_radius_12)
             }
@@ -41,7 +41,7 @@ object VoiceRecordDataBindAdapter {
     fun handlerVoiceWaveView(voiceWaveView: VoiceWaveView, recordStatus: Int) {
         voiceWaveView.apply {
             when (recordStatus) {
-                RECORD_VIEW_STATUS_UP, RECORD_VIEW_STATUS_MOVE_CANCEL_TO_DOWN -> {
+                RECORD_VIEW_STATUS_UP, RECORD_VIEW_STATUS_MOVE_CANCEL_DONE -> {
                     lineColor = getColor(R.color.blue)
                 }
 
@@ -80,7 +80,7 @@ object VoiceRecordDataBindAdapter {
 
             }
 
-            RECORD_VIEW_STATUS_MOVE_CANCEL_TO_DOWN -> {
+            RECORD_VIEW_STATUS_MOVE_CANCEL_DONE -> {
 
             }
 

@@ -23,12 +23,17 @@ import com.maunc.toolbox.databinding.ActivityVoiceRecordBinding
 import com.maunc.toolbox.voicerecord.constant.AUDIO_PERMISSION_START_DIALOG
 import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_DOWN
 import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_TO_DOWN
+import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.voicerecord.viewmodel.VoiceRecordViewModel
 
 
 class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceRecordBinding>() {
+
+    companion object {
+        const val ENLARGE_ANIM = 0 //执行扩大动画
+        const val SHRINK_ANIM = 1 //执行缩小动画
+    }
 
     private val requestAudioPermissionResult = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -80,48 +85,23 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
 
                 MotionEvent.ACTION_UP -> {
                     mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_UP
-                    mDatabind.voiceRecordUpCancelBg.animateSetWidthAndHeight(
-                        targetWidth = getDimens(R.dimen.dp_100),
-                        targetHeight = getDimens(R.dimen.dp_100),
-                        endListener = {
-                            mDatabind.voiceRecordUpCancelBg.setBackgroundResource(R.drawable.bg_gray_oval)
-                            mDatabind.voiceRecordUpCancelIcon.setTint(R.color.black)
-                        }
-                    )
+                    startCancelAnim(SHRINK_ANIM)
                 }
 
                 MotionEvent.ACTION_MOVE -> {
                     if (userDownY - event.rawY.toInt() > (screenHeight() * (percent15))) {
                         executeShrinkAnim = false
                         if (!executeEnlargeAnim) {
-                            mViewModel.recordViewStatus.value =
-                                RECORD_VIEW_STATUS_MOVE_CANCEL
+                            mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL
                             executeEnlargeAnim = true
-                            mDatabind.voiceRecordUpCancelBg.animateSetWidthAndHeight(
-                                targetWidth = getDimens(R.dimen.dp_150),
-                                targetHeight = getDimens(R.dimen.dp_150),
-                                endListener = {
-                                    mDatabind.voiceRecordUpCancelBg.setBackgroundResource(R.drawable.bg_red_oval)
-                                    mDatabind.voiceRecordUpCancelIcon.setTint(R.color.white)
-
-
-                                }
-                            )
+                            startCancelAnim(ENLARGE_ANIM)
                         }
                     } else {
                         executeEnlargeAnim = false
                         if (!executeShrinkAnim) {
                             executeShrinkAnim = true
-                            mViewModel.recordViewStatus.value =
-                                RECORD_VIEW_STATUS_MOVE_CANCEL_TO_DOWN
-                            mDatabind.voiceRecordUpCancelBg.animateSetWidthAndHeight(
-                                targetWidth = getDimens(R.dimen.dp_100),
-                                targetHeight = getDimens(R.dimen.dp_100),
-                                endListener = {
-                                    mDatabind.voiceRecordUpCancelBg.setBackgroundResource(R.drawable.bg_gray_oval)
-                                    mDatabind.voiceRecordUpCancelIcon.setTint(R.color.black)
-                                }
-                            )
+                            mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
+                            startCancelAnim(SHRINK_ANIM)
                         }
                     }
                 }
@@ -138,5 +118,41 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
                 "没有说话".loge()
             }
         }
+    }
+
+    private fun startCancelAnim(isEnlarge: Int) {
+        mDatabind.voiceRecordUpCancelBg.animateSetWidthAndHeight(
+            targetWidth =
+            getDimens(
+                if (isEnlarge == ENLARGE_ANIM) {
+                    R.dimen.dp_150
+                } else {
+                    R.dimen.dp_100
+                }
+            ),
+            targetHeight = getDimens(
+                if (isEnlarge == ENLARGE_ANIM) {
+                    R.dimen.dp_150
+                } else {
+                    R.dimen.dp_100
+                }
+            ),
+            endListener = {
+                mDatabind.voiceRecordUpCancelBg.setBackgroundResource(
+                    if (isEnlarge == ENLARGE_ANIM) {
+                        R.drawable.bg_red_oval
+                    } else {
+                        R.drawable.bg_gray_oval
+                    }
+                )
+                mDatabind.voiceRecordUpCancelIcon.setTint(
+                    if (isEnlarge == ENLARGE_ANIM) {
+                        R.color.white
+                    } else {
+                        R.color.black
+                    }
+                )
+            }
+        )
     }
 }
