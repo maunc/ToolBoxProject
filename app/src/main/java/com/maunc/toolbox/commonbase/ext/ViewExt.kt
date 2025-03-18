@@ -6,7 +6,9 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.graphics.PorterDuff
 import android.graphics.Rect
+import android.os.Build
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -17,11 +19,16 @@ import android.view.ViewGroup
 import android.view.animation.BaseInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.animation.addListener
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.viewpager.widget.ViewPager
+import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.constant.ALPHA
 import com.maunc.toolbox.commonbase.constant.SCALE_X
 import com.maunc.toolbox.commonbase.constant.SCALE_Y
@@ -43,6 +50,16 @@ fun View.visibleOrGone(flag: Boolean) {
         View.VISIBLE
     } else {
         View.GONE
+    }
+}
+
+fun ImageView.setTint(@ColorRes colorRes: Int) {
+    val toolContext = ToolBoxApplication.app
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        imageTintList = ContextCompat.getColorStateList(toolContext, colorRes)
+        imageTintMode = PorterDuff.Mode.SRC_IN
+    } else {
+        setColorFilter(ContextCompat.getColor(toolContext, colorRes))
     }
 }
 
@@ -234,10 +251,10 @@ fun View.animateToAlpha(
  * 设置宽度和高度，带有过渡动画
  */
 fun View.animateSetWidthAndHeight(
-    targetWidth: Int,
-    targetHeight: Int,
-    duration: Long = 400,
-    listener: Animator.AnimatorListener? = null,
+    targetWidth: Int = 100,
+    targetHeight: Int = 100,
+    duration: Long = 110,
+    endListener: () -> Unit = {},
     action: ((Float) -> Unit)? = null,
 ) {
     post {
@@ -251,7 +268,9 @@ fun View.animateSetWidthAndHeight(
                 )
                 action?.invoke((it.animatedFraction))
             }
-            if (listener != null) addListener(listener)
+            addListener(onEnd = {
+                endListener.invoke()
+            })
             setDuration(duration)
             start()
         }
@@ -267,7 +286,7 @@ fun View.setWidthAndHeight(
 ): View {
     val params = layoutParams ?: ViewGroup.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.WRAP_CONTENT
+        ViewGroup.LayoutParams.MATCH_PARENT
     )
     params.width = width
     params.height = height

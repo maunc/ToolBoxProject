@@ -61,4 +61,5 @@
     <!--voiceRecordPage-->
     <string name="voice_record_down_tips">按住 录音</string>
     <string name="voice_record_up_tips">松开 保存</string>
+    <string name="voice_record_up_cancel_tips">松开 取消</string>
 </resources>

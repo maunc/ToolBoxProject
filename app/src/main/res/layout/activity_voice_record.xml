@@ -28,11 +28,39 @@
             android:gravity="center"
             android:visibility="gone"
             app:handleRecordAnim="@{voiceRecordViewModel.recordViewStatus}"
+            app:handlerVoiceWaveView="@{voiceRecordViewModel.recordViewStatus}"
             app:lineColor="@color/blue"
             app:waveMode="left_right"
             tools:visibility="visible" />
 
         <RelativeLayout
+            android:id="@+id/voice_record_move_controller_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_150"
+            android:layout_above="@+id/voice_record_touch_layout"
+            android:layout_marginBottom="@dimen/dp_75">
+
+            <RelativeLayout
+                android:id="@+id/voice_record_up_cancel_bg"
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_100"
+                android:layout_centerInParent="true"
+                android:background="@drawable/bg_gray_oval"
+                app:handleRecordAnim="@{voiceRecordViewModel.recordViewStatus}">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/voice_record_up_cancel_icon"
+                    android:layout_width="@dimen/voice_start_record_up_cancel_image_size"
+                    android:layout_height="@dimen/voice_start_record_up_cancel_image_size"
+                    android:layout_centerInParent="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_record_up_cancel"
+                    app:tint="@color/black" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/voice_record_touch_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_85"
             android:layout_alignParentBottom="true"
