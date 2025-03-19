@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.exoplayer2.ExoPlayer
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.animateSetWidthAndHeight
@@ -13,8 +14,8 @@ import com.maunc.toolbox.commonbase.ext.checkPermissionManualRequest
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.getDimens
-import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.screenHeight
+import com.maunc.toolbox.commonbase.ext.screenWidth
 import com.maunc.toolbox.commonbase.ext.setTint
 import com.maunc.toolbox.commonbase.ext.startAppSystemSettingPage
 import com.maunc.toolbox.commonbase.ext.toast
@@ -27,12 +28,15 @@ import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DON
 import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.voicerecord.viewmodel.VoiceRecordViewModel
 
-
+@SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
 class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceRecordBinding>() {
 
     companion object {
         const val ENLARGE_ANIM = 0 //执行扩大动画
         const val SHRINK_ANIM = 1 //执行缩小动画
+
+        const val CONTROLLER_CANCEL_VIEW = 0
+        const val CONTROLLER_SURE_VIEW = 1
     }
 
     private val requestAudioPermissionResult = registerForActivityResult(
@@ -53,15 +57,23 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
 
     private var userDownY = 0
 
-    private var percent15 = 15 / 100.0
+    private var userDownX = 0
 
-    // 是否执行过扩大动画
-    private var executeEnlargeAnim = false
+    private var percent12 = 12 / 100.0
+    private var percent50 = 50 / 100.0
 
-    // 是否执行过缩小动画
-    private var executeShrinkAnim = false
+    // 是否执行过取消扩大动画
+    private var executeCancelEnlargeAnim = false
 
-    @SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
+    // 是否执行过取消缩小动画
+    private var executeCancelShrinkAnim = false
+
+    //是否执行过确定扩大动画
+    private var executeSureEnlargeAnim = false
+
+    //是否执行过确定缩小动画
+    private var executeSureShrinkAnim = false
+
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.voiceRecordViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
@@ -69,6 +81,8 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }
+        val exoPlayer = ExoPlayer.Builder(this).build()
+
         mViewModel.createVoiceRecordConfig()
         mDatabind.voiceWaveView.start()
         mDatabind.voiceRecordStartButton.setOnTouchListener { v, event ->
@@ -80,28 +94,54 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
                 MotionEvent.ACTION_DOWN -> {
                     mViewModel.launchVibrator()
                     userDownY = event.rawY.toInt()
+                    userDownX = event.rawX.toInt()
                     mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_DOWN
+                    mViewModel.startRecordVoice()
+                    mViewModel.isWriteWavHeader.value = true
                 }
 
                 MotionEvent.ACTION_UP -> {
                     mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_UP
-                    startCancelAnim(SHRINK_ANIM)
+                    startScaleAnim(SHRINK_ANIM, CONTROLLER_CANCEL_VIEW)
+                    startScaleAnim(SHRINK_ANIM, CONTROLLER_SURE_VIEW)
+                    mViewModel.stopRecordVoice()
                 }
 
                 MotionEvent.ACTION_MOVE -> {
-                    if (userDownY - event.rawY.toInt() > (screenHeight() * (percent15))) {
-                        executeShrinkAnim = false
-                        if (!executeEnlargeAnim) {
-                            mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL
-                            executeEnlargeAnim = true
-                            startCancelAnim(ENLARGE_ANIM)
+                    // 未滑动到可以操作按钮范围
+                    if (userDownY - event.rawY.toInt() < (screenHeight() * (percent12))) {
+                        executeCancelEnlargeAnim = false
+                        executeSureEnlargeAnim = false
+                        if (!executeCancelShrinkAnim) {
+                            executeCancelShrinkAnim = true
+                            mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
+                            startScaleAnim(SHRINK_ANIM, CONTROLLER_CANCEL_VIEW)
+                            mViewModel.isWriteWavHeader.value = true
+                        }
+                        if (!executeSureShrinkAnim) {
+                            executeSureShrinkAnim = true
+                            mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
+                            startScaleAnim(SHRINK_ANIM, CONTROLLER_SURE_VIEW)
+                        }
+                        return@setOnTouchListener true
+                    }
+                    // 选中sure
+                    if (event.rawX.toInt() > (screenWidth() * percent50)) {
+                        if (!executeSureEnlargeAnim) {
+                            executeSureEnlargeAnim = true
+                            mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
+                            startScaleAnim(ENLARGE_ANIM, CONTROLLER_SURE_VIEW)
+                            startScaleAnim(SHRINK_ANIM, CONTROLLER_CANCEL_VIEW)
+                            mViewModel.isWriteWavHeader.value = true
                         }
                     } else {
-                        executeEnlargeAnim = false
-                        if (!executeShrinkAnim) {
-                            executeShrinkAnim = true
-                            mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
-                            startCancelAnim(SHRINK_ANIM)
+                        //选中cancel
+                        if (!executeCancelEnlargeAnim) {
+                            executeCancelEnlargeAnim = true
+                            mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL
+                            startScaleAnim(ENLARGE_ANIM, CONTROLLER_CANCEL_VIEW)
+                            startScaleAnim(SHRINK_ANIM, CONTROLLER_SURE_VIEW)
+                            mViewModel.isWriteWavHeader.value = false
                         }
                     }
                 }
@@ -113,46 +153,83 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
     override fun createObserver() {
         mViewModel.isVocals.observe(this) {
             if (it) {
-                "说话了".loge()
+//                "说话了".loge()
             } else {
-                "没有说话".loge()
+//                "没有说话".loge()
             }
         }
     }
 
-    private fun startCancelAnim(isEnlarge: Int) {
-        mDatabind.voiceRecordUpCancelBg.animateSetWidthAndHeight(
-            targetWidth =
-            getDimens(
-                if (isEnlarge == ENLARGE_ANIM) {
-                    R.dimen.dp_150
-                } else {
-                    R.dimen.dp_100
+    private fun startScaleAnim(
+        animType: Int, viewType: Int,
+        action: () -> Unit = {
+            when (viewType) {
+                CONTROLLER_SURE_VIEW -> {
+                    executeSureShrinkAnim = false
+                    executeSureEnlargeAnim = false
                 }
-            ),
-            targetHeight = getDimens(
-                if (isEnlarge == ENLARGE_ANIM) {
-                    R.dimen.dp_150
-                } else {
-                    R.dimen.dp_100
+
+                CONTROLLER_CANCEL_VIEW -> {
+                    executeCancelShrinkAnim = false
+                    executeCancelEnlargeAnim = false
                 }
-            ),
-            endListener = {
-                mDatabind.voiceRecordUpCancelBg.setBackgroundResource(
-                    if (isEnlarge == ENLARGE_ANIM) {
-                        R.drawable.bg_red_oval
-                    } else {
-                        R.drawable.bg_gray_oval
-                    }
-                )
-                mDatabind.voiceRecordUpCancelIcon.setTint(
-                    if (isEnlarge == ENLARGE_ANIM) {
-                        R.color.white
-                    } else {
-                        R.color.black
-                    }
-                )
             }
-        )
+        },
+    ) {
+        when (viewType) {
+            CONTROLLER_SURE_VIEW -> {
+                if (animType == ENLARGE_ANIM) {
+                    mDatabind.voiceRecordUpSureBg.animateSetWidthAndHeight(
+                        targetWidth = getDimens(R.dimen.dp_120),
+                        targetHeight = getDimens(R.dimen.dp_120)
+                    ) {
+                        action()
+                        mDatabind.voiceRecordUpSureBg.setBackgroundResource(
+                            R.drawable.bg_record_controller_sure_oval
+                        )
+                        mDatabind.voiceRecordUpSureIcon.setTint(R.color.white)
+                    }
+                }
+                if (animType == SHRINK_ANIM) {
+                    mDatabind.voiceRecordUpSureBg.animateSetWidthAndHeight(
+                        targetWidth = getDimens(R.dimen.dp_100),
+                        targetHeight = getDimens(R.dimen.dp_100)
+                    ) {
+                        action()
+                        mDatabind.voiceRecordUpSureBg.setBackgroundResource(
+                            R.drawable.bg_record_controller_none_oval
+                        )
+                        mDatabind.voiceRecordUpSureIcon.setTint(R.color.black)
+                    }
+                }
+            }
+
+            CONTROLLER_CANCEL_VIEW -> {
+                if (animType == ENLARGE_ANIM) {
+                    mDatabind.voiceRecordUpCancelBg.animateSetWidthAndHeight(
+                        targetWidth = getDimens(R.dimen.dp_120),
+                        targetHeight = getDimens(R.dimen.dp_120)
+                    ) {
+                        action()
+                        mDatabind.voiceRecordUpCancelBg.setBackgroundResource(
+                            R.drawable.bg_record_controller_cancel_oval
+                        )
+                        mDatabind.voiceRecordUpCancelIcon.setTint(R.color.white)
+                    }
+                }
+                if (animType == SHRINK_ANIM) {
+                    mDatabind.voiceRecordUpCancelBg.animateSetWidthAndHeight(
+                        targetWidth = getDimens(R.dimen.dp_100),
+                        targetHeight = getDimens(R.dimen.dp_100)
+                    ) {
+                        action()
+                        mDatabind.voiceRecordUpCancelBg.setBackgroundResource(
+                            R.drawable.bg_record_controller_none_oval
+                        )
+                        mDatabind.voiceRecordUpCancelIcon.setTint(R.color.black)
+                    }
+                }
+            }
+        }
     }
 }

@@ -253,9 +253,9 @@ fun View.animateToAlpha(
 fun View.animateSetWidthAndHeight(
     targetWidth: Int = 100,
     targetHeight: Int = 100,
-    duration: Long = 110,
-    endListener: () -> Unit = {},
+    duration: Long = 70,
     action: ((Float) -> Unit)? = null,
+    endListener: () -> Unit = {},
 ) {
     post {
         val startHeight = height

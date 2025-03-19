@@ -48,8 +48,9 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
     private var audioFilePath: String = ""
     private var voiceThread: Thread? = null
     private lateinit var audioFile: File
-    var isRecording = MutableLiveData(false)
+    private var isRecording = MutableLiveData(false)
     var isVocals = MutableLiveData<Boolean>()
+    var isWriteWavHeader = MutableLiveData(false)
 
     /**view相关*/
     var recordViewStatus = MutableLiveData(RECORD_VIEW_STATUS_UP)
@@ -146,7 +147,9 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
             return
         }
         destroyVoiceRecordConfig()
-        writeWavHeader()
+        if (isWriteWavHeader.value!!) {
+            writeWavHeader()
+        }
         destroyWebRtc()
     }
 

@@ -33,31 +33,63 @@
             app:waveMode="left_right"
             tools:visibility="visible" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/voice_record_move_controller_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_150"
             android:layout_above="@+id/voice_record_touch_layout"
-            android:layout_marginBottom="@dimen/dp_75">
+            android:layout_marginBottom="@dimen/dp_75"
+            android:orientation="horizontal">
 
-            <RelativeLayout
-                android:id="@+id/voice_record_up_cancel_bg"
-                android:layout_width="@dimen/dp_100"
-                android:layout_height="@dimen/dp_100"
-                android:layout_centerInParent="true"
-                android:background="@drawable/bg_gray_oval"
-                app:handleRecordAnim="@{voiceRecordViewModel.recordViewStatus}">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/voice_record_up_cancel_icon"
-                    android:layout_width="@dimen/voice_start_record_up_cancel_image_size"
-                    android:layout_height="@dimen/voice_start_record_up_cancel_image_size"
-                    android:layout_centerInParent="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_record_up_cancel"
-                    app:tint="@color/black" />
-            </RelativeLayout>
-        </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/voice_record_up_cancel_bg"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
+                    android:background="@drawable/bg_record_controller_none_oval"
+                    app:handleRecordAnim="@{voiceRecordViewModel.recordViewStatus}">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/voice_record_up_cancel_icon"
+                        android:layout_width="@dimen/voice_start_record_up_cancel_image_size"
+                        android:layout_height="@dimen/voice_start_record_up_cancel_image_size"
+                        android:layout_centerInParent="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_record_up_cancel"
+                        app:tint="@color/black" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <RelativeLayout
+                    android:id="@+id/voice_record_up_sure_bg"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_100"
+                    android:background="@drawable/bg_record_controller_none_oval"
+                    app:handleRecordAnim="@{voiceRecordViewModel.recordViewStatus}">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/voice_record_up_sure_icon"
+                        android:layout_width="@dimen/voice_start_record_up_cancel_image_size"
+                        android:layout_height="@dimen/voice_start_record_up_cancel_image_size"
+                        android:layout_centerInParent="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_record_up_sure"
+                        app:tint="@color/black" />
+                </RelativeLayout>
+            </LinearLayout>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/voice_record_touch_layout"
