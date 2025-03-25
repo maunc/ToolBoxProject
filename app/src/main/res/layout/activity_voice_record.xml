@@ -20,6 +20,15 @@
             android:id="@+id/common_tool_bar"
             layout="@layout/layout_tool_bar_common" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/playMusic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/common_tool_bar"
+            android:layout_centerHorizontal="true"
+            android:text="播放音频"
+            android:textSize="44sp" />
+
         <com.us.mauncview.VoiceWaveView
             android:id="@+id/voice_wave_view"
             android:layout_width="300dp"

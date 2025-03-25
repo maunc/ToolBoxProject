@@ -96,5 +96,4 @@ dependencies {
     implementation(libs.bundles.smart.refrsh.layout)
     implementation(libs.bundles.exo.player)
     implementation(libs.ext.glide)
-    implementation(libs.ext.web.rtc)
 }

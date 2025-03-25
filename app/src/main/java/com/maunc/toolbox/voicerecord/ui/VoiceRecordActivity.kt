@@ -2,10 +2,16 @@ package com.maunc.toolbox.voicerecord.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.view.MotionEvent
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.source.UnrecognizedInputFormatException
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.animateSetWidthAndHeight
@@ -14,6 +20,8 @@ import com.maunc.toolbox.commonbase.ext.checkPermissionManualRequest
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.getDimens
+import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.ext.obtainActivityIntent
 import com.maunc.toolbox.commonbase.ext.screenHeight
 import com.maunc.toolbox.commonbase.ext.screenWidth
 import com.maunc.toolbox.commonbase.ext.setTint
@@ -81,7 +89,10 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }
-        val exoPlayer = ExoPlayer.Builder(this).build()
+
+        mDatabind.playMusic.clickScale {
+
+        }
 
         mViewModel.createVoiceRecordConfig()
         mDatabind.voiceWaveView.start()
@@ -97,7 +108,7 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
                     userDownX = event.rawX.toInt()
                     mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_DOWN
                     mViewModel.startRecordVoice()
-                    mViewModel.isWriteWavHeader.value = true
+                    mViewModel.isWriteWavHeader.postValue(true)
                 }
 
                 MotionEvent.ACTION_UP -> {
@@ -116,7 +127,7 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
                             executeCancelShrinkAnim = true
                             mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
                             startScaleAnim(SHRINK_ANIM, CONTROLLER_CANCEL_VIEW)
-                            mViewModel.isWriteWavHeader.value = true
+                            mViewModel.isWriteWavHeader.postValue(true)
                         }
                         if (!executeSureShrinkAnim) {
                             executeSureShrinkAnim = true
@@ -132,7 +143,7 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
                             mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
                             startScaleAnim(ENLARGE_ANIM, CONTROLLER_SURE_VIEW)
                             startScaleAnim(SHRINK_ANIM, CONTROLLER_CANCEL_VIEW)
-                            mViewModel.isWriteWavHeader.value = true
+                            mViewModel.isWriteWavHeader.postValue(true)
                         }
                     } else {
                         //选中cancel
@@ -141,7 +152,7 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
                             mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL
                             startScaleAnim(ENLARGE_ANIM, CONTROLLER_CANCEL_VIEW)
                             startScaleAnim(SHRINK_ANIM, CONTROLLER_SURE_VIEW)
-                            mViewModel.isWriteWavHeader.value = false
+                            mViewModel.isWriteWavHeader.postValue(false)
                         }
                     }
                 }
@@ -151,13 +162,6 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
     }
 
     override fun createObserver() {
-        mViewModel.isVocals.observe(this) {
-            if (it) {
-//                "说话了".loge()
-            } else {
-//                "没有说话".loge()
-            }
-        }
     }
 
     private fun startScaleAnim(

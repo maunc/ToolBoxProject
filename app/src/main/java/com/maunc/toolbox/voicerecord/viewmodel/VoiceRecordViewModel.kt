@@ -8,11 +8,6 @@ import android.os.Build
 import android.os.Process
 import android.os.VibrationEffect
 import androidx.lifecycle.MutableLiveData
-import com.konovalov.vad.webrtc.Vad
-import com.konovalov.vad.webrtc.VadWebRTC
-import com.konovalov.vad.webrtc.config.FrameSize
-import com.konovalov.vad.webrtc.config.Mode
-import com.konovalov.vad.webrtc.config.SampleRate
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
@@ -28,28 +23,25 @@ import java.io.IOException
 
 class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
     private companion object {
-        /**====== WebRTC配置 =====*/
-        private val DEFAULT_SAMPLE_RATE = SampleRate.SAMPLE_RATE_48K
-        private val DEFAULT_FRAME_SIZE = FrameSize.FRAME_SIZE_1440
-        private val DEFAULT_MODE = Mode.VERY_AGGRESSIVE
-        private const val DEFAULT_SILENCE_DURATION_MS = 300
-        private const val DEFAULT_SPEECH_DURATION_MS = 50
-
         /**====== AudioRecord配置 =====*/
+        private const val DEFAULT_SAMPLE_RATE = 44100
         private const val DEFAULT_AUDIO_SOURCE = MediaRecorder.AudioSource.MIC
-        private const val DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO
+        private const val DEFAULT_CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
         private const val DEFAULT_AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
+        private val DEFAULT_BUFFER_SIZE = AudioRecord.getMinBufferSize(
+            DEFAULT_SAMPLE_RATE,
+            DEFAULT_CHANNEL_CONFIG,
+            DEFAULT_AUDIO_FORMAT
+        )
     }
 
     /**录音相关*/
-    private var webRTC: VadWebRTC? = null
     private var audioRecord: AudioRecord? = null
     private var cacheDir: File? = null
     private var audioFilePath: String = ""
     private var voiceThread: Thread? = null
     private lateinit var audioFile: File
     private var isRecording = MutableLiveData(false)
-    var isVocals = MutableLiveData<Boolean>()
     var isWriteWavHeader = MutableLiveData(false)
 
     /**view相关*/
@@ -58,13 +50,6 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
     fun createVoiceRecordConfig() {
         cacheDir = ToolBoxApplication.app.cacheDir
         audioFilePath = "${cacheDir?.absolutePath}/recorded_audio.wav"
-        webRTC = Vad.builder()
-            .setSampleRate(DEFAULT_SAMPLE_RATE)
-            .setFrameSize(DEFAULT_FRAME_SIZE)
-            .setMode(DEFAULT_MODE)
-            .setSilenceDurationMs(DEFAULT_SILENCE_DURATION_MS)
-            .setSpeechDurationMs(DEFAULT_SPEECH_DURATION_MS)
-            .build()
         audioRecord = createAudio()
     }
 
@@ -73,16 +58,10 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
         try {
             val record = AudioRecord(
                 DEFAULT_AUDIO_SOURCE,
-                webRTC?.sampleRate!!.value,
+                DEFAULT_SAMPLE_RATE,
                 DEFAULT_CHANNEL_CONFIG,
                 DEFAULT_AUDIO_FORMAT,
-                maxOf(
-                    AudioRecord.getMinBufferSize(
-                        webRTC?.sampleRate!!.value,
-                        DEFAULT_CHANNEL_CONFIG,
-                        DEFAULT_AUDIO_FORMAT
-                    ), webRTC?.frameSize!!.value * 2
-                )
+                DEFAULT_BUFFER_SIZE
             )
             return if (record.state == AudioRecord.STATE_INITIALIZED) {
                 record
@@ -99,23 +78,20 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
 
     private val runRuntime = Runnable {
         Process.setThreadPriority(Process.THREAD_PRIORITY_AUDIO)
-        val outputStream = FileOutputStream(audioFile)
+        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+        var outputStream: FileOutputStream? = null
         try {
-            val size = webRTC?.frameSize?.value
-            while (!Thread.interrupted() && isRecording.value!!) {
-                val buffer = ShortArray(size!!)
-                val bytesRead = audioRecord?.read(buffer, 0, buffer.size)
-                // 在后台线程中写入音频数据
+            outputStream = FileOutputStream(audioFile)
+            while (isRecording.value!!) {
+                val bytesRead = audioRecord?.read(buffer, 0, DEFAULT_BUFFER_SIZE)
                 if (bytesRead != null && bytesRead != AudioRecord.ERROR_INVALID_OPERATION) {
-                    outputStream.write(shortArrayToByteArray(buffer), 0, bytesRead)
+                    outputStream.write(buffer, 0, bytesRead)
                 }
-                //判断是否说话了
-                isVocals.postValue(webRTC?.isSpeech(buffer))
             }
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
-            outputStream.close()
+            outputStream?.close()
         }
     }
 
@@ -150,7 +126,6 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
         if (isWriteWavHeader.value!!) {
             writeWavHeader()
         }
-        destroyWebRtc()
     }
 
     fun launchVibrator() {
@@ -170,7 +145,7 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
         val audioFileLength = file.length()
         val totalDataLength = audioFileLength + 36
         val channels = if (DEFAULT_CHANNEL_CONFIG == AudioFormat.CHANNEL_IN_MONO) 1 else 2
-        val byteRate = 16 * webRTC?.sampleRate?.value!! * channels / 8
+        val byteRate = 16 * DEFAULT_SAMPLE_RATE * channels / 8
         val header = ByteArray(44)
         header[0] = 'R'.code.toByte()
         header[1] = 'I'.code.toByte()
@@ -196,10 +171,10 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
         header[21] = 0
         header[22] = channels.toByte()
         header[23] = 0
-        header[24] = (webRTC?.sampleRate?.value!! and 0xff).toByte()
-        header[25] = ((webRTC?.sampleRate?.value!! shr 8) and 0xff).toByte()
-        header[26] = ((webRTC?.sampleRate?.value!! shr 16) and 0xff).toByte()
-        header[27] = ((webRTC?.sampleRate?.value!! shr 24) and 0xff).toByte()
+        header[24] = (DEFAULT_SAMPLE_RATE and 0xff).toByte()
+        header[25] = ((DEFAULT_SAMPLE_RATE shr 8) and 0xff).toByte()
+        header[26] = ((DEFAULT_SAMPLE_RATE shr 16) and 0xff).toByte()
+        header[27] = ((DEFAULT_SAMPLE_RATE shr 24) and 0xff).toByte()
         header[28] = (byteRate and 0xff).toByte()
         header[29] = ((byteRate shr 8) and 0xff).toByte()
         header[30] = ((byteRate shr 16) and 0xff).toByte()
@@ -251,7 +226,6 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
     fun destroyVoiceRecordConfig() {
         voiceThread?.interrupt()
         isRecording.value = false
-        isVocals.value = false
         audioRecord?.stop()
         audioRecord?.release()
         audioRecord = null
@@ -259,13 +233,8 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
         voiceThread = null
     }
 
-    fun destroyWebRtc() {
-        webRTC = null
-    }
-
     override fun onCleared() {
         destroyVoiceRecordConfig()
-        destroyWebRtc()
         super.onCleared()
     }
 }
