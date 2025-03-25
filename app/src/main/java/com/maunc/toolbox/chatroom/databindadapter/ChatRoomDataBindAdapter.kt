@@ -1,20 +1,25 @@
-package com.maunc.toolbox.voicerecord.databindadapter
+package com.maunc.toolbox.chatroom.databindadapter
 
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.maunc.toolbox.R
+import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
+import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
+import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
+import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
+import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
+import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.commonbase.ext.animateToAlpha
 import com.maunc.toolbox.commonbase.ext.getColor
 import com.maunc.toolbox.commonbase.ext.getString
 import com.maunc.toolbox.commonbase.ext.gone
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_DOWN
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_UP
+import com.maunc.toolbox.commonbase.ext.visible
 import com.us.mauncview.VoiceWaveView
 
-object VoiceRecordDataBindAdapter {
+object ChatRoomDataBindAdapter {
 
     @JvmStatic
     @BindingAdapter(value = ["handleRecordButton"], requireAll = false)
@@ -89,6 +94,44 @@ object VoiceRecordDataBindAdapter {
                 if (view is VoiceWaveView) {
                     view.stop()
                 }
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["handleChatRoomType"], requireAll = false)
+    fun handleChatRoomType(view: View, type: Int) {
+        when (type) {
+            CHAT_ROOM_TEXT_TYPE -> {
+                if (view is TextView) {
+                    view.gone()
+                }
+                if (view is EditText) {
+                    view.visible()
+                }
+            }
+
+            CHAT_ROOM_RECORD_TYPE -> {
+                if (view is TextView) {
+                    view.visible()
+                }
+                if (view is EditText) {
+                    view.gone()
+                }
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["handleChatRoomSelectIv"], requireAll = false)
+    fun handleChatRoomSelectIv(view: ImageView, type: Int) {
+        when (type) {
+            CHAT_ROOM_TEXT_TYPE -> {
+                view.setImageResource(R.drawable.icon_chat_room_check_text)
+            }
+
+            CHAT_ROOM_RECORD_TYPE -> {
+                view.setImageResource(R.drawable.icon_chat_room_check_record)
             }
         }
     }

@@ -23,10 +23,10 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
 import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.constant.ALPHA
@@ -152,6 +152,23 @@ fun SeekBar.addSeekBarListener(
         }
     })
 }
+
+fun RecyclerView.addRecyclerViewScrollListener(
+    onScrollStateChanged: (RecyclerView, Int) -> Unit = { _, _ -> },
+    onScrolled: (RecyclerView, Int, Int) -> Unit = { _, _, _ -> },
+) {
+    this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            onScrollStateChanged.invoke(recyclerView, newState)
+        }
+
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            onScrolled.invoke(recyclerView, dx, dy)
+        }
+    })
+}
 /**===================================================================================================*/
 
 /**
@@ -234,7 +251,7 @@ fun View.clickScale(
 fun View.animateToAlpha(
     startAlpha: Float = 0f,
     endAlpha: Float = 1f,
-    time: Long = 100,
+    time: Long = 50,
     overHide: Boolean = false,
     onAnimEnd: (View) -> Unit = {},
 ) {
@@ -253,7 +270,7 @@ fun View.animateToAlpha(
 fun View.animateSetWidthAndHeight(
     targetWidth: Int = 100,
     targetHeight: Int = 100,
-    duration: Long = 70,
+    duration: Long = 50,
     action: ((Float) -> Unit)? = null,
     endListener: () -> Unit = {},
 ) {

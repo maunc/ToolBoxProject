@@ -18,8 +18,9 @@
         android:theme="@style/Theme.RandomCallName"
         tools:targetApi="31">
         <activity
-            android:name=".voicerecord.ui.VoiceRecordActivity"
-            android:exported="false" />
+            android:name=".chatroom.ui.ChatRoomActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".chronograph.ui.ChronographMainActivity"
             android:exported="false" />

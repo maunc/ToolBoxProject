@@ -1,27 +1,36 @@
-package com.maunc.toolbox.voicerecord.viewmodel
+package com.maunc.toolbox.chatroom.viewmodel
 
 import android.annotation.SuppressLint
 import android.media.AudioFormat
 import android.media.AudioRecord
+import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.os.Process
 import android.os.VibrationEffect
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.ToolBoxApplication
+import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
+import com.maunc.toolbox.chatroom.constant.DEFAULT_RECORD_TOUCH_AMPLITUDE
+import com.maunc.toolbox.chatroom.constant.DEFAULT_VIBRATOR_TIME
+import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
+import com.maunc.toolbox.commonbase.ext.inputMethodManager
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.vibrator
-import com.maunc.toolbox.voicerecord.constant.DEFAULT_RECORD_TOUCH_AMPLITUDE
-import com.maunc.toolbox.voicerecord.constant.DEFAULT_VIBRATOR_TIME
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_UP
+import com.maunc.toolbox.randomname.constant.DELAY_KEY_BROAD
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 
-class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
+class ChatRoomViewModel : BaseViewModel<BaseModel>() {
     private companion object {
         /**====== AudioRecord配置 =====*/
         private const val DEFAULT_SAMPLE_RATE = 44100
@@ -44,8 +53,14 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
     private var isRecording = MutableLiveData(false)
     var isWriteWavHeader = MutableLiveData(false)
 
+    private val mediaPlayer: MediaPlayer by lazy {
+        MediaPlayer()
+    }
+
     /**view相关*/
+    var chatRoomType = MutableLiveData(CHAT_ROOM_TEXT_TYPE)
     var recordViewStatus = MutableLiveData(RECORD_VIEW_STATUS_UP)
+    val chatHandler = Handler(Looper.getMainLooper())
 
     fun createVoiceRecordConfig() {
         cacheDir = ToolBoxApplication.app.cacheDir
@@ -126,6 +141,43 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
         if (isWriteWavHeader.value!!) {
             writeWavHeader()
         }
+    }
+
+    fun playerWavFilePath(file: File) {
+        if (mediaPlayer.isPlaying) {
+            mediaPlayer.stop()
+        }
+        try {
+            mediaPlayer.setDataSource(
+                ToolBoxApplication.app,
+                Uri.fromFile(file)
+            )
+            mediaPlayer.prepare()
+            mediaPlayer.start()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun editRequestFocusable(editText: EditText) {
+        editText.isFocusable = true
+        editText.isFocusableInTouchMode = true
+        editText.requestFocus()
+    }
+
+    fun showSoftInputKeyBoard(editText: EditText) {
+        chatHandler.postDelayed({
+            val inputManger = ToolBoxApplication.app.inputMethodManager
+            inputManger?.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+            editRequestFocusable(editText)
+        }, DELAY_KEY_BROAD)
+    }
+
+    fun hideSoftInputKeyBoard(editText: EditText) {
+        chatHandler.postDelayed({
+            val inputManger = ToolBoxApplication.app.inputMethodManager
+            inputManger?.hideSoftInputFromWindow(editText.windowToken, 0)
+        }, 50)
     }
 
     fun launchVibrator() {
@@ -213,10 +265,10 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
         }
     }
 
-    private fun shortArrayToByteArray(shortArray: ShortArray): ByteArray {
-        val byteArray = ByteArray(shortArray.size * 2)
-        for (i in shortArray.indices) {
-            val shortValue = shortArray[i]
+    fun ShortArray.shortArrayToByteArray(): ByteArray {
+        val byteArray = ByteArray(this.size * 2)
+        for (i in this.indices) {
+            val shortValue = this[i]
             byteArray[i * 2] = (shortValue.toInt() and 0xff).toByte()
             byteArray[i * 2 + 1] = ((shortValue.toInt() shr 8) and 0xff).toByte()
         }
@@ -235,6 +287,7 @@ class VoiceRecordViewModel : BaseViewModel<BaseModel>() {
 
     override fun onCleared() {
         destroyVoiceRecordConfig()
+        chatHandler.removeCallbacksAndMessages(null)
         super.onCleared()
     }
 }

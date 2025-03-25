@@ -23,8 +23,8 @@ class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
                 itemTitle = getString(R.string.tool_box_item_random_name_text)
             ),
             ToolBoxItemData(
-                itemIcon = R.drawable.icon_tool_box_record,
-                itemTitle = getString(R.string.tool_box_item_record_text)
+                itemIcon = R.drawable.icon_tool_box_chat_room,
+                itemTitle = getString(R.string.tool_box_item_chat_room_text)
             ),
         )
         return localItemData.value!!

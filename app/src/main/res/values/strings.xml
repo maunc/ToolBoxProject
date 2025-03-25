@@ -6,7 +6,7 @@
     <!--toolBoxWelcomePage-->
     <string name="tool_box_item_chronograph_text">计时器</string>
     <string name="tool_box_item_random_name_text">随机点名</string>
-    <string name="tool_box_item_record_text">录音</string>
+    <string name="tool_box_item_chat_room_text">聊天室</string>
 
     <!--welcomePage-->
     <string name="welcome_title_text">欢迎来到点名程序</string>

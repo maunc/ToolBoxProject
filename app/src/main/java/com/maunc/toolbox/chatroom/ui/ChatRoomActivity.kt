@@ -1,43 +1,46 @@
-package com.maunc.toolbox.voicerecord.ui
+package com.maunc.toolbox.chatroom.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.speech.RecognizerIntent
 import android.view.MotionEvent
+import android.widget.RelativeLayout
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.exoplayer2.ExoPlaybackException
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.source.UnrecognizedInputFormatException
+import androidx.core.view.updateLayoutParams
 import com.maunc.toolbox.R
+import com.maunc.toolbox.chatroom.constant.AUDIO_PERMISSION_START_DIALOG
+import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
+import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
+import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
+import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
+import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
+import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
+import com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel
+import com.maunc.toolbox.chronograph.adpater.ChronographAdapter
+import com.maunc.toolbox.chronograph.data.ChronographData
 import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.commonbase.ext.addEditTextListener
+import com.maunc.toolbox.commonbase.ext.addRecyclerViewScrollListener
 import com.maunc.toolbox.commonbase.ext.animateSetWidthAndHeight
 import com.maunc.toolbox.commonbase.ext.checkPermissionAvailable
 import com.maunc.toolbox.commonbase.ext.checkPermissionManualRequest
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.getDimens
-import com.maunc.toolbox.commonbase.ext.loge
-import com.maunc.toolbox.commonbase.ext.obtainActivityIntent
+import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.screenHeight
 import com.maunc.toolbox.commonbase.ext.screenWidth
 import com.maunc.toolbox.commonbase.ext.setTint
 import com.maunc.toolbox.commonbase.ext.startAppSystemSettingPage
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
-import com.maunc.toolbox.databinding.ActivityVoiceRecordBinding
-import com.maunc.toolbox.voicerecord.constant.AUDIO_PERMISSION_START_DIALOG
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_DOWN
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
-import com.maunc.toolbox.voicerecord.constant.RECORD_VIEW_STATUS_UP
-import com.maunc.toolbox.voicerecord.viewmodel.VoiceRecordViewModel
+import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
+import com.maunc.toolbox.commonbase.utils.ViewOffsetHelper
+import com.maunc.toolbox.databinding.ActivityChatRoomBinding
+import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
 
 @SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
-class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceRecordBinding>() {
+class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding>() {
 
     companion object {
         const val ENLARGE_ANIM = 0 //执行扩大动画
@@ -64,7 +67,6 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
     }
 
     private var userDownY = 0
-
     private var userDownX = 0
 
     private var percent12 = 12 / 100.0
@@ -82,21 +84,36 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
     //是否执行过确定缩小动画
     private var executeSureShrinkAnim = false
 
+    private val chronographAdapter: ChronographAdapter by lazy {
+        ChronographAdapter()
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
-        mDatabind.voiceRecordViewModel = mViewModel
+        mDatabind.chatRoomViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
-            getString(R.string.tool_box_item_record_text)
+            getString(R.string.tool_box_item_chat_room_text)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }
-
-        mDatabind.playMusic.clickScale {
-
-        }
-
         mViewModel.createVoiceRecordConfig()
         mDatabind.voiceWaveView.start()
-        mDatabind.voiceRecordStartButton.setOnTouchListener { v, event ->
+        mDatabind.chatRoomSelectIv.setOnClickListener {
+            mViewModel.chatRoomType.value =
+                if (mViewModel.chatRoomType.value!! == CHAT_ROOM_TEXT_TYPE) {
+                    CHAT_ROOM_RECORD_TYPE
+                } else {
+                    CHAT_ROOM_TEXT_TYPE
+                }
+        }
+        KeyBroadUtils.registerKeyBoardHeightListener(this) { keyBoardHeight ->
+            mViewModel.chatHandler.postDelayed({
+                mDatabind.chatRoomControllerLayoutRoot.updateLayoutParams<RelativeLayout.LayoutParams> {
+                    bottomMargin = keyBoardHeight
+                }
+                mDatabind.chatRoomRecycler.scrollToPosition(mDatabind.chatRoomRecycler.childCount)
+            }, DELAY_UPDATE_LAYOUT)
+        }
+        mDatabind.chatRoomRecordStartButton.setOnTouchListener { v, event ->
             if (!checkPermissionAvailable(Manifest.permission.RECORD_AUDIO)) {
                 requestAudioPermissionResult.launch(Manifest.permission.RECORD_AUDIO)
                 return@setOnTouchListener false
@@ -159,9 +176,48 @@ class VoiceRecordActivity : BaseActivity<VoiceRecordViewModel, ActivityVoiceReco
             }
             return@setOnTouchListener true
         }
+        mDatabind.chatRoomEditText.addEditTextListener(afterTextChanged = {
+
+        })
+        mDatabind.chatRoomRecycler.layoutManager = linearLayoutManager()
+        mDatabind.chatRoomRecycler.adapter = chronographAdapter
+        mDatabind.chatRoomRecycler.addRecyclerViewScrollListener(onScrollStateChanged = { _, _ ->
+            mViewModel.hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+        })
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
     }
 
     override fun createObserver() {
+        mViewModel.chatRoomType.observe(this) {
+            when (it) {
+                CHAT_ROOM_RECORD_TYPE -> {
+                    mViewModel.hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+                }
+
+                CHAT_ROOM_TEXT_TYPE -> {
+                    mViewModel.showSoftInputKeyBoard(mDatabind.chatRoomEditText)
+                }
+            }
+        }
     }
 
     private fun startScaleAnim(

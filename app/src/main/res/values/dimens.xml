@@ -17,13 +17,16 @@
     <dimen name="dp_35">35dp</dimen>
     <dimen name="dp_38">38dp</dimen>
     <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_45">45dp</dimen>
     <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_55">55dp</dimen>
     <dimen name="dp_60">60dp</dimen>
     <dimen name="dp_61">61dp</dimen>
     <dimen name="dp_62">62dp</dimen>
     <dimen name="dp_63">63dp</dimen>
     <dimen name="dp_64">64dp</dimen>
     <dimen name="dp_65">65dp</dimen>
+    <dimen name="dp_70">70dp</dimen>
     <dimen name="dp_75">75dp</dimen>
     <dimen name="dp_80">80dp</dimen>
     <dimen name="dp_85">85dp</dimen>
@@ -96,8 +99,10 @@
     <dimen name="chronograph_time_tv_translate_y">260dp</dimen>
     <dimen name="chronograph_adapter_item_height">40dp</dimen>
 
-    <!--**********************************  录音  **********************************-->
-    <dimen name="voice_start_record_button_width">330dp</dimen>
-    <dimen name="voice_start_record_button_height">60dp</dimen>
+    <!--**********************************  聊天室  **********************************-->
+    <dimen name="chat_room_controller_button_width">330dp</dimen>
+    <dimen name="chat_room_controller_button_height">60dp</dimen>
     <dimen name="voice_start_record_up_cancel_image_size">45dp</dimen>
+    <dimen name="voice_wave_view_width">270dp</dimen>
+    <dimen name="voice_wave_view_height">85dp</dimen>
 </resources>

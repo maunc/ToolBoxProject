@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="chatRoomViewModel"
+            type="com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".chatroom.ui.ChatRoomActivity">
+
+        <include
+            android:id="@+id/common_tool_bar"
+            layout="@layout/layout_tool_bar_common" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat_room_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/chat_room_controller_layout_root"
+            android:layout_below="@id/common_tool_bar" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/chat_room_controller_layout_root"
+            android:layout_marginBottom="@dimen/dp_55"
+            android:background="#99DBDBDB"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:handleRecordAnim="@{chatRoomViewModel.recordViewStatus}"
+            tools:visibility="visible">
+
+            <com.us.mauncview.VoiceWaveView
+                android:id="@+id/voice_wave_view"
+                android:layout_width="@dimen/voice_wave_view_width"
+                android:layout_height="@dimen/voice_wave_view_height"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:gravity="center"
+                app:handlerVoiceWaveView="@{chatRoomViewModel.recordViewStatus}"
+                app:lineColor="@color/blue"
+                app:waveMode="left_right" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/voice_record_move_controller_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_150"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <RelativeLayout
+                        android:id="@+id/voice_record_up_cancel_bg"
+                        android:layout_width="@dimen/dp_100"
+                        android:layout_height="@dimen/dp_100"
+                        android:background="@drawable/bg_record_controller_none_oval"
+                        tools:ignore="UselessParent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/voice_record_up_cancel_icon"
+                            android:layout_width="@dimen/voice_start_record_up_cancel_image_size"
+                            android:layout_height="@dimen/voice_start_record_up_cancel_image_size"
+                            android:layout_centerInParent="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_record_up_cancel"
+                            app:tint="@color/black" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <RelativeLayout
+                        android:id="@+id/voice_record_up_sure_bg"
+                        android:layout_width="@dimen/dp_100"
+                        android:layout_height="@dimen/dp_100"
+                        android:background="@drawable/bg_record_controller_none_oval"
+                        tools:ignore="UselessParent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/voice_record_up_sure_icon"
+                            android:layout_width="@dimen/voice_start_record_up_cancel_image_size"
+                            android:layout_height="@dimen/voice_start_record_up_cancel_image_size"
+                            android:layout_centerInParent="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_record_up_sure"
+                            app:tint="@color/black" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <RelativeLayout
+            android:id="@+id/chat_room_controller_layout_root"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_85"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_f0">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/chat_room_select_iv"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_toStartOf="@id/chat_room_controller_layout"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_chat_room_check_text"
+                app:handleChatRoomSelectIv="@{chatRoomViewModel.chatRoomType}"
+                app:tint="@color/black" />
+
+            <RelativeLayout
+                android:id="@+id/chat_room_controller_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/chat_room_record_start_button"
+                    android:layout_width="@dimen/chat_room_controller_button_width"
+                    android:layout_height="@dimen/chat_room_controller_button_height"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:handleChatRoomType="@{chatRoomViewModel.chatRoomType}"
+                    app:handleRecordButton="@{chatRoomViewModel.recordViewStatus}" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/chat_room_edit_text"
+                    android:layout_width="@dimen/chat_room_controller_button_width"
+                    android:layout_height="@dimen/chat_room_controller_button_height"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bg_white_radius_12"
+                    android:paddingStart="@dimen/dp_12"
+                    android:singleLine="true"
+                    app:handleChatRoomType="@{chatRoomViewModel.chatRoomType}"
+                    tools:ignore="RtlSymmetry" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>
