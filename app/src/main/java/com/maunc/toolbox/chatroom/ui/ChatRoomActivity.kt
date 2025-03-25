@@ -7,8 +7,11 @@ import android.view.MotionEvent
 import android.widget.RelativeLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.updateLayoutParams
+import androidx.recyclerview.widget.RecyclerView
 import com.maunc.toolbox.R
+import com.maunc.toolbox.chatroom.adapter.ChatDataAdapter
 import com.maunc.toolbox.chatroom.constant.AUDIO_PERMISSION_START_DIALOG
+import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_LAYOUT_UPDATE_TIME
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
@@ -16,8 +19,6 @@ import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel
-import com.maunc.toolbox.chronograph.adpater.ChronographAdapter
-import com.maunc.toolbox.chronograph.data.ChronographData
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.addEditTextListener
 import com.maunc.toolbox.commonbase.ext.addRecyclerViewScrollListener
@@ -35,9 +36,7 @@ import com.maunc.toolbox.commonbase.ext.startAppSystemSettingPage
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
-import com.maunc.toolbox.commonbase.utils.ViewOffsetHelper
 import com.maunc.toolbox.databinding.ActivityChatRoomBinding
-import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
 
 @SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
 class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding>() {
@@ -46,6 +45,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         const val ENLARGE_ANIM = 0 //执行扩大动画
         const val SHRINK_ANIM = 1 //执行缩小动画
 
+        // 执行动画的标识(录音中的俩个布局按钮)
         const val CONTROLLER_CANCEL_VIEW = 0
         const val CONTROLLER_SURE_VIEW = 1
     }
@@ -84,8 +84,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
     //是否执行过确定缩小动画
     private var executeSureShrinkAnim = false
 
-    private val chronographAdapter: ChronographAdapter by lazy {
-        ChronographAdapter()
+    private val chatDataAdapter: ChatDataAdapter by lazy {
+        ChatDataAdapter()
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -110,8 +110,12 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 mDatabind.chatRoomControllerLayoutRoot.updateLayoutParams<RelativeLayout.LayoutParams> {
                     bottomMargin = keyBoardHeight
                 }
-                mDatabind.chatRoomRecycler.scrollToPosition(mDatabind.chatRoomRecycler.childCount)
-            }, DELAY_UPDATE_LAYOUT)
+                if (keyBoardHeight > 0) {
+                    mDatabind.chatRoomRecycler.scrollToPosition(
+                        chatDataAdapter.itemCount - 1
+                    )
+                }
+            }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
         }
         mDatabind.chatRoomRecordStartButton.setOnTouchListener { v, event ->
             if (!checkPermissionAvailable(Manifest.permission.RECORD_AUDIO)) {
@@ -180,30 +184,18 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
 
         })
         mDatabind.chatRoomRecycler.layoutManager = linearLayoutManager()
-        mDatabind.chatRoomRecycler.adapter = chronographAdapter
-        mDatabind.chatRoomRecycler.addRecyclerViewScrollListener(onScrollStateChanged = { _, _ ->
-            mViewModel.hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+        mDatabind.chatRoomRecycler.adapter = chatDataAdapter
+        mDatabind.chatRoomRecycler.addRecyclerViewScrollListener(onScrollStateChanged = { _, newState ->
+            if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                // 只有触摸态才会收起布局
+                mViewModel.hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+            }
         })
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
-        chronographAdapter.addChronograph(ChronographData(0, 0.1f, 0.2f))
+        mDatabind.chatRoomSmartLayout.setOnRefreshListener {
+            mViewModel.chatHandler.postDelayed({
+                mDatabind.chatRoomSmartLayout.finishRefresh()
+            }, 100)
+        }
     }
 
     override fun createObserver() {

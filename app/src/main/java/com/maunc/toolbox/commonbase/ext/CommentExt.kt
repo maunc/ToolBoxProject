@@ -76,7 +76,10 @@ fun Context.screenHeight() = resources.displayMetrics.heightPixels
 @SuppressLint("WrongConstant")
 fun Context.linearLayoutManager(
     orientation: Int = LinearLayoutManager.VERTICAL,
-): LinearLayoutManager = LinearLayoutManager(this, orientation, false)
+    stackFromEnd: Boolean = false,
+): LinearLayoutManager = LinearLayoutManager(this, orientation, false).apply {
+    this.stackFromEnd = stackFromEnd
+}
 
 @SuppressLint("WrongConstant")
 fun Context.gridLayoutManager(

@@ -20,90 +20,112 @@
             android:id="@+id/common_tool_bar"
             layout="@layout/layout_tool_bar_common" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chat_room_recycler"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/chat_room_smart_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/chat_room_controller_layout_root"
-            android:layout_below="@id/common_tool_bar" />
+            android:layout_marginTop="@dimen/common_tool_bar_height">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/chat_room_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.scwang.smart.refresh.header.FalsifyFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/chat_room_controller_layout_root"
-            android:layout_marginBottom="@dimen/dp_55"
-            android:background="#99DBDBDB"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            app:handleRecordAnim="@{chatRoomViewModel.recordViewStatus}"
-            tools:visibility="visible">
-
-            <com.us.mauncview.VoiceWaveView
-                android:id="@+id/voice_wave_view"
-                android:layout_width="@dimen/voice_wave_view_width"
-                android:layout_height="@dimen/voice_wave_view_height"
-                android:layout_marginTop="@dimen/dp_20"
-                android:layout_marginBottom="@dimen/dp_10"
-                android:gravity="center"
-                app:handlerVoiceWaveView="@{chatRoomViewModel.recordViewStatus}"
-                app:lineColor="@color/blue"
-                app:waveMode="left_right" />
+            android:layout_height="match_parent"
+            android:layout_above="@id/chat_room_controller_layout_root"
+            android:layout_marginTop="@dimen/common_tool_bar_height"
+            android:background="@color/record_dialog_bg_color"
+            app:handleRecordAnim="@{chatRoomViewModel.recordViewStatus}">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/voice_record_move_controller_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_150"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/dp_60"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                tools:visibility="visible">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center">
+                <com.us.mauncview.VoiceWaveView
+                    android:id="@+id/voice_wave_view"
+                    android:layout_width="@dimen/voice_wave_view_width"
+                    android:layout_height="@dimen/voice_wave_view_height"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:gravity="center"
+                    app:handlerVoiceWaveView="@{chatRoomViewModel.recordViewStatus}"
+                    app:lineColor="@color/blue"
+                    app:waveMode="left_right" />
 
-                    <RelativeLayout
-                        android:id="@+id/voice_record_up_cancel_bg"
-                        android:layout_width="@dimen/dp_100"
-                        android:layout_height="@dimen/dp_100"
-                        android:background="@drawable/bg_record_controller_none_oval"
-                        tools:ignore="UselessParent">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/voice_record_move_controller_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_150"
+                    android:orientation="horizontal">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/voice_record_up_cancel_icon"
-                            android:layout_width="@dimen/voice_start_record_up_cancel_image_size"
-                            android:layout_height="@dimen/voice_start_record_up_cancel_image_size"
-                            android:layout_centerInParent="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/icon_record_up_cancel"
-                            app:tint="@color/black" />
-                    </RelativeLayout>
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center">
+                        <RelativeLayout
+                            android:id="@+id/voice_record_up_cancel_bg"
+                            android:layout_width="@dimen/dp_100"
+                            android:layout_height="@dimen/dp_100"
+                            android:background="@drawable/bg_record_controller_none_oval"
+                            tools:ignore="UselessParent">
 
-                    <RelativeLayout
-                        android:id="@+id/voice_record_up_sure_bg"
-                        android:layout_width="@dimen/dp_100"
-                        android:layout_height="@dimen/dp_100"
-                        android:background="@drawable/bg_record_controller_none_oval"
-                        tools:ignore="UselessParent">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/voice_record_up_cancel_icon"
+                                android:layout_width="@dimen/voice_start_record_up_cancel_image_size"
+                                android:layout_height="@dimen/voice_start_record_up_cancel_image_size"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/icon_record_up_cancel"
+                                app:tint="@color/black" />
+                        </RelativeLayout>
+                    </LinearLayout>
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/voice_record_up_sure_icon"
-                            android:layout_width="@dimen/voice_start_record_up_cancel_image_size"
-                            android:layout_height="@dimen/voice_start_record_up_cancel_image_size"
-                            android:layout_centerInParent="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/icon_record_up_sure"
-                            app:tint="@color/black" />
-                    </RelativeLayout>
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <RelativeLayout
+                            android:id="@+id/voice_record_up_sure_bg"
+                            android:layout_width="@dimen/dp_100"
+                            android:layout_height="@dimen/dp_100"
+                            android:background="@drawable/bg_record_controller_none_oval"
+                            tools:ignore="UselessParent">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/voice_record_up_sure_icon"
+                                android:layout_width="@dimen/voice_start_record_up_cancel_image_size"
+                                android:layout_height="@dimen/voice_start_record_up_cancel_image_size"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/icon_record_up_sure"
+                                app:tint="@color/black" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/chat_room_controller_layout_root"

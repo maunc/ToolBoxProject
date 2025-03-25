@@ -12,5 +12,5 @@
     <color name="gray_f0">#F0F0F0</color>
     <color name="transparent">#00000000</color>
 
-    <color name="test_color">#66FFFFFF</color>
+    <color name="record_dialog_bg_color">#99DBDBDB</color>
 </resources>

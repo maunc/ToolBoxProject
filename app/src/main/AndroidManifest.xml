@@ -20,7 +20,7 @@
         <activity
             android:name=".chatroom.ui.ChatRoomActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".chronograph.ui.ChronographMainActivity"
             android:exported="false" />

@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.ToolBoxApplication
+import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_LAYOUT_UPDATE_TIME
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
 import com.maunc.toolbox.chatroom.constant.DEFAULT_RECORD_TOUCH_AMPLITUDE
 import com.maunc.toolbox.chatroom.constant.DEFAULT_VIBRATOR_TIME
@@ -170,14 +171,14 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
             val inputManger = ToolBoxApplication.app.inputMethodManager
             inputManger?.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
             editRequestFocusable(editText)
-        }, DELAY_KEY_BROAD)
+        }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
     }
 
     fun hideSoftInputKeyBoard(editText: EditText) {
         chatHandler.postDelayed({
             val inputManger = ToolBoxApplication.app.inputMethodManager
             inputManger?.hideSoftInputFromWindow(editText.windowToken, 0)
-        }, 50)
+        }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
     }
 
     fun launchVibrator() {

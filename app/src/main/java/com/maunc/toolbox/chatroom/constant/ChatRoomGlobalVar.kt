@@ -8,6 +8,9 @@ const val DEFAULT_VIBRATOR_TIME = 15L
 //震动幅度
 const val DEFAULT_RECORD_TOUCH_AMPLITUDE = 2
 
+//键盘布局更新速度
+const val CHAT_ROOM_LAYOUT_UPDATE_TIME = 50L
+
 /**
  * 录音View状态
  */
