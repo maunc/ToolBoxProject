@@ -24,3 +24,8 @@ const val RECORD_VIEW_STATUS_MOVE_CANCEL_DONE = 3 //移动过可取消后返回�
  */
 const val CHAT_ROOM_TEXT_TYPE = 1
 const val CHAT_ROOM_RECORD_TYPE = 2
+
+//30秒
+const val THIRTY_SECOND = 30000
+//60秒
+const val SIXTY_SECOND = 60000

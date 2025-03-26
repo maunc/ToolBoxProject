@@ -31,7 +31,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-@SuppressLint("SimpleDateFormat", "ObjectAnimatorBinding", "Recycle")
+@SuppressLint("ObjectAnimatorBinding", "Recycle")
 class ChronographMainViewModel : BaseViewModel<BaseModel>() {
 
     companion object {
@@ -211,12 +211,6 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
         val minutesStr = String.format(Locale.getDefault(), "%02d", minutes)
         val secondStr = String.format(Locale.getDefault(), "%05.2f", (seconds + seconds2))
         return "$minutesStr:$secondStr"
-    }
-
-    fun currentTime() {
-        val currentTimeMillis = System.currentTimeMillis()
-        val sdf = SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss")
-        sdf.format(Date(currentTimeMillis)).loge()
     }
 
     override fun onCleared() {

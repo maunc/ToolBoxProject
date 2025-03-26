@@ -3,6 +3,9 @@ package com.maunc.toolbox.chatroom.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.view.MotionEvent
 import android.widget.RelativeLayout
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,8 +21,10 @@ import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
+import com.maunc.toolbox.chatroom.data.ChatData
 import com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.addEditTextListener
 import com.maunc.toolbox.commonbase.ext.addRecyclerViewScrollListener
 import com.maunc.toolbox.commonbase.ext.animateSetWidthAndHeight
@@ -48,6 +53,9 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         // 执行动画的标识(录音中的俩个布局按钮)
         const val CONTROLLER_CANCEL_VIEW = 0
         const val CONTROLLER_SURE_VIEW = 1
+
+        //Handler消息
+        const val MESSAGE_WELCOME_WHAT = 0
     }
 
     private val requestAudioPermissionResult = registerForActivityResult(
@@ -88,6 +96,23 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         ChatDataAdapter()
     }
 
+    private val chatRoomMessageHandler: Handler = object : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            when (msg.what) {
+                MESSAGE_WELCOME_WHAT -> {
+                    chatDataAdapter.addChatItem(
+                        ChatData(
+                            itemType = ChatData.CHAT_NONE_TYPE,
+                            chatContent = getString(R.string.chat_room_default_content_text),
+                            chatSendTime = System.currentTimeMillis()
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.chatRoomViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
@@ -104,6 +129,20 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 } else {
                     CHAT_ROOM_TEXT_TYPE
                 }
+        }
+        mDatabind.chatRoomSendContentTv.setOnClickListener {
+            val sendContent = mDatabind.chatRoomEditText.text.toString()
+            if (sendContent.isEmpty()) {
+                return@setOnClickListener
+            }
+            chatDataAdapter.addChatItem(
+                ChatData(
+                    itemType = ChatData.CHAT_TEXT_TYPE,
+                    chatContent = sendContent,
+                    chatSendTime = System.currentTimeMillis()
+                )
+            )
+            mDatabind.chatRoomEditText.setText(GLOBAL_NONE_STRING)
         }
         KeyBroadUtils.registerKeyBoardHeightListener(this) { keyBoardHeight ->
             mViewModel.chatHandler.postDelayed({
@@ -181,10 +220,12 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             return@setOnTouchListener true
         }
         mDatabind.chatRoomEditText.addEditTextListener(afterTextChanged = {
-
+            mViewModel.editLength.value = it.length
         })
         mDatabind.chatRoomRecycler.layoutManager = linearLayoutManager()
         mDatabind.chatRoomRecycler.adapter = chatDataAdapter
+        // 发送初始化消息
+        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_WELCOME_WHAT, 500L)
         mDatabind.chatRoomRecycler.addRecyclerViewScrollListener(onScrollStateChanged = { _, newState ->
             if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                 // 只有触摸态才会收起布局

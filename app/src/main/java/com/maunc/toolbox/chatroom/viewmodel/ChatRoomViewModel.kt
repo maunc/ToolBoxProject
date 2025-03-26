@@ -60,7 +60,8 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
 
     /**view相关*/
     var chatRoomType = MutableLiveData(CHAT_ROOM_TEXT_TYPE)
-    var recordViewStatus = MutableLiveData(RECORD_VIEW_STATUS_UP)
+    var recordViewStatus = MutableLiveData(RECORD_VIEW_STATUS_UP) // 录音状态
+    var editLength = MutableLiveData(0)
     val chatHandler = Handler(Looper.getMainLooper())
 
     fun createVoiceRecordConfig() {
@@ -276,7 +277,7 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
         return byteArray
     }
 
-    fun destroyVoiceRecordConfig() {
+    private fun destroyVoiceRecordConfig() {
         voiceThread?.interrupt()
         isRecording.value = false
         audioRecord?.stop()

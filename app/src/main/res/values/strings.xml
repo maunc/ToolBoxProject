@@ -58,8 +58,11 @@
     <!--chronographPage-->
     <string name="chronograph_tool_bar_title">计时器</string>
 
-    <!--voiceRecordPage-->
+    <!--chatRoomPage-->
     <string name="voice_record_down_tips">按住 录音</string>
     <string name="voice_record_up_tips">松开 保存</string>
     <string name="voice_record_up_cancel_tips">松开 取消</string>
+    <string name="chat_room_send_button_text">发送</string>
+    <string name="chat_room_default_content_text">欢迎来到聊天室</string>
+    <string name="chat_room_just_text">刚刚</string>
 </resources>
