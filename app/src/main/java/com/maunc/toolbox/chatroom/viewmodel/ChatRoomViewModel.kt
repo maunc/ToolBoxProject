@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.os.Process
@@ -25,7 +26,6 @@ import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.ext.inputMethodManager
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.vibrator
-import com.maunc.toolbox.randomname.constant.DELAY_KEY_BROAD
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -66,7 +66,10 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
 
     fun createVoiceRecordConfig() {
         cacheDir = ToolBoxApplication.app.cacheDir
+        val externalStorageState = Environment.getExternalStorageState()
+        "sdCardPath:${externalStorageState}".loge()
         audioFilePath = "${cacheDir?.absolutePath}/recorded_audio.wav"
+        "voiceRecordPath:${audioFilePath}".loge()
         audioRecord = createAudio()
     }
 

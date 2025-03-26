@@ -63,6 +63,8 @@
     <string name="voice_record_up_tips">松开 保存</string>
     <string name="voice_record_up_cancel_tips">松开 取消</string>
     <string name="chat_room_send_button_text">发送</string>
-    <string name="chat_room_default_content_text">欢迎来到聊天室</string>
+    <string name="chat_room_default_one_content_text">欢迎来到聊天室</string>
+    <string name="chat_room_default_two_content_text">很高兴您能体验这款DEMO产品</string>
+    <string name="chat_room_default_three_content_text">我是开发者:Maunc</string>
     <string name="chat_room_just_text">刚刚</string>
 </resources>

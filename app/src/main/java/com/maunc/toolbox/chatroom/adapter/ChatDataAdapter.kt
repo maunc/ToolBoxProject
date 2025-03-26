@@ -6,9 +6,8 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.constant.THIRTY_SECOND
+import com.maunc.toolbox.chatroom.constant.YYYY_MM_DD_HH_MM_SS
 import com.maunc.toolbox.chatroom.data.ChatData
-import com.maunc.toolbox.commonbase.ext.getString
-import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -32,12 +31,12 @@ class ChatDataAdapter :
         when (item.itemType) {
             ChatData.CHAT_NONE_TYPE -> {
                 holder.itemView.findViewById<TextView>(R.id.item_chat_room_content_tv).text =
-                    item.chatContent
+                    item.chatText
             }
 
             ChatData.CHAT_TEXT_TYPE -> {
                 holder.itemView.findViewById<TextView>(R.id.item_chat_room_content_tv).text =
-                    item.chatContent
+                    item.chatText
             }
 
             ChatData.CHAT_IMAGE_TYPE -> {
@@ -59,13 +58,13 @@ class ChatDataAdapter :
         return last - lastTwo > THIRTY_SECOND
     }
 
-    fun addChatItem(timeData: ChatData) {
-        data.add(timeData)
+    fun addChatItem(chatData: ChatData) {
+        data.add(chatData)
         notifyItemInserted(this.data.size - 1)
         recyclerView.scrollToPosition(this.data.size - 1)
     }
 
     private fun convertTime(time: Long): String {
-        return SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").format(Date(time))
+        return SimpleDateFormat(YYYY_MM_DD_HH_MM_SS).format(Date(time))
     }
 }

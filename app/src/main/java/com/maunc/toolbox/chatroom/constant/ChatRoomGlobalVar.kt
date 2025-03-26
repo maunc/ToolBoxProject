@@ -27,5 +27,11 @@ const val CHAT_ROOM_RECORD_TYPE = 2
 
 //30秒
 const val THIRTY_SECOND = 30000
+
 //60秒
 const val SIXTY_SECOND = 60000
+
+/**
+ * SimpleDate
+ */
+const val YYYY_MM_DD_HH_MM_SS = "yyyy年MM月dd日 HH:mm:ss"

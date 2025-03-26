@@ -19,6 +19,7 @@ lifecycleViewModelKtxVersion = "2.3.1"
 glideVersion = "4.11.0"
 webRtcVersion = "2.0.4"
 exoPlayerVersion = "2.18.6"
+pictureSelectVersion = "v3.11.2"
 
 [bundles]
 #集合管理
@@ -66,6 +67,7 @@ ext-web-rtc = { group = "com.github.gkonovalov.android-vad", name = "webrtc", ve
 ext-exo-player = { group = "com.google.android.exoplayer", name = "exoplayer", version.ref = "exoPlayerVersion" }
 ext-exo-player-core = { group = "com.google.android.exoplayer", name = "exoplayer-core", version.ref = "exoPlayerVersion" }
 ext-exo-player-ui = { group = "com.google.android.exoplayer", name = "exoplayer-ui", version.ref = "exoPlayerVersion" }
+picture-selector = { group = "io.github.lucksiege", name = "pictureselector", version.ref = "pictureSelectVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

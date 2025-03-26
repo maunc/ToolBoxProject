@@ -9,6 +9,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.ColorRes
@@ -72,6 +73,24 @@ fun Context.screenWidth() = resources.displayMetrics.widthPixels
 
 //获取屏幕高度
 fun Context.screenHeight() = resources.displayMetrics.heightPixels
+
+fun dp2px(dp: Int): Int {
+    val density = ToolBoxApplication.app.resources.displayMetrics.density
+    return (dp * density + 0.5f).toInt()
+}
+
+fun px2dp(px: Int): Int {
+    val density = ToolBoxApplication.app.resources.displayMetrics.density
+    return (px / density + 0.5f).toInt()
+}
+
+fun Int.toDp(): Int {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        this.toFloat(),
+        ToolBoxApplication.app.resources.displayMetrics
+    ).toInt()
+}
 
 @SuppressLint("WrongConstant")
 fun Context.linearLayoutManager(

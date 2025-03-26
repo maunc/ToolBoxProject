@@ -34,10 +34,12 @@ import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.getDimens
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
+import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.screenHeight
 import com.maunc.toolbox.commonbase.ext.screenWidth
 import com.maunc.toolbox.commonbase.ext.setTint
 import com.maunc.toolbox.commonbase.ext.startAppSystemSettingPage
+import com.maunc.toolbox.commonbase.ext.toDp
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
@@ -55,7 +57,9 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         const val CONTROLLER_SURE_VIEW = 1
 
         //Handler消息
-        const val MESSAGE_WELCOME_WHAT = 0
+        const val MESSAGE_FIRST_WELCOME_WHAT = 0
+        const val MESSAGE_SECOND_WELCOME_WHAT = 1
+        const val MESSAGE_THIRD_WELCOME_WHAT = 2
     }
 
     private val requestAudioPermissionResult = registerForActivityResult(
@@ -80,17 +84,12 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
     private var percent12 = 12 / 100.0
     private var percent50 = 50 / 100.0
 
-    // 是否执行过取消扩大动画
-    private var executeCancelEnlargeAnim = false
+    private var executeCancelEnlargeAnim = false//是否执行过取消扩大动画
+    private var executeCancelShrinkAnim = false //是否执行过取消缩小动画
+    private var executeSureEnlargeAnim = false //是否执行过确定扩大动画
+    private var executeSureShrinkAnim = false //是否执行过确定缩小动画
 
-    // 是否执行过取消缩小动画
-    private var executeCancelShrinkAnim = false
-
-    //是否执行过确定扩大动画
-    private var executeSureEnlargeAnim = false
-
-    //是否执行过确定缩小动画
-    private var executeSureShrinkAnim = false
+    private var keyBoardHeight = 0
 
     private val chatDataAdapter: ChatDataAdapter by lazy {
         ChatDataAdapter()
@@ -100,11 +99,33 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg.what) {
-                MESSAGE_WELCOME_WHAT -> {
+                MESSAGE_FIRST_WELCOME_WHAT -> {
                     chatDataAdapter.addChatItem(
                         ChatData(
                             itemType = ChatData.CHAT_NONE_TYPE,
-                            chatContent = getString(R.string.chat_room_default_content_text),
+                            chatText = getString(R.string.chat_room_default_one_content_text),
+                            chatSendTime = System.currentTimeMillis()
+                        )
+                    )
+                    sendSecondWelcomeMsg()
+                }
+
+                MESSAGE_SECOND_WELCOME_WHAT -> {
+                    chatDataAdapter.addChatItem(
+                        ChatData(
+                            itemType = ChatData.CHAT_NONE_TYPE,
+                            chatText = getString(R.string.chat_room_default_two_content_text),
+                            chatSendTime = System.currentTimeMillis()
+                        )
+                    )
+                    sendThirdWelcomeMsg()
+                }
+
+                MESSAGE_THIRD_WELCOME_WHAT -> {
+                    chatDataAdapter.addChatItem(
+                        ChatData(
+                            itemType = ChatData.CHAT_NONE_TYPE,
+                            chatText = getString(R.string.chat_room_default_three_content_text),
                             chatSendTime = System.currentTimeMillis()
                         )
                     )
@@ -138,7 +159,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             chatDataAdapter.addChatItem(
                 ChatData(
                     itemType = ChatData.CHAT_TEXT_TYPE,
-                    chatContent = sendContent,
+                    chatText = sendContent,
                     chatSendTime = System.currentTimeMillis()
                 )
             )
@@ -150,6 +171,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                     bottomMargin = keyBoardHeight
                 }
                 if (keyBoardHeight > 0) {
+                    this.keyBoardHeight = keyBoardHeight
                     mDatabind.chatRoomRecycler.scrollToPosition(
                         chatDataAdapter.itemCount - 1
                     )
@@ -225,7 +247,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         mDatabind.chatRoomRecycler.layoutManager = linearLayoutManager()
         mDatabind.chatRoomRecycler.adapter = chatDataAdapter
         // 发送初始化消息
-        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_WELCOME_WHAT, 500L)
+        sendFirstWelcomeMsg()
         mDatabind.chatRoomRecycler.addRecyclerViewScrollListener(onScrollStateChanged = { _, newState ->
             if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                 // 只有触摸态才会收起布局
@@ -253,6 +275,21 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         }
     }
 
+    private fun sendFirstWelcomeMsg() {
+        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_FIRST_WELCOME_WHAT, 500L)
+    }
+
+    private fun sendSecondWelcomeMsg() {
+        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_SECOND_WELCOME_WHAT, 750L)
+    }
+
+    private fun sendThirdWelcomeMsg() {
+        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_THIRD_WELCOME_WHAT, 750L)
+    }
+
+    /**
+     * 语音状态动画
+     */
     private fun startScaleAnim(
         animType: Int, viewType: Int,
         action: () -> Unit = {
