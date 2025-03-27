@@ -264,9 +264,43 @@ fun View.animateToAlpha(
     }.start()
 }
 
-/**
- * 设置宽度和高度，带有过渡动画
- */
+fun View.animateSetWidth(
+    targetValue: Int,
+    duration: Long = 400,
+    listener: Animator.AnimatorListener? = null,
+    action: ((Float) -> Unit)? = null,
+) {
+    post {
+        ValueAnimator.ofInt(width, targetValue).apply {
+            addUpdateListener {
+                setWidth(it.animatedValue as Int)
+                action?.invoke((it.animatedFraction))
+            }
+            if (listener != null) addListener(listener)
+            setDuration(duration)
+            start()
+        }
+    }
+}
+
+fun View.animateSetHeight(
+    targetValue: Int,
+    duration: Long = 120,
+    listener: Animator.AnimatorListener? = null,
+    action: ((Float) -> Unit)? = null,
+) {
+    post {
+        ValueAnimator.ofInt(height, targetValue).apply {
+            addUpdateListener {
+                setHeight(it.animatedValue as Int)
+                action?.invoke((it.animatedFraction))
+            }
+            if (listener != null) addListener(listener)
+            setDuration(duration)
+            start()
+        }
+    }
+}
 fun View.animateSetWidthAndHeight(
     targetWidth: Int = 100,
     targetHeight: Int = 100,
@@ -294,9 +328,26 @@ fun View.animateSetWidthAndHeight(
     }
 }
 
-/**
- * 设置View的宽度和高度
- */
+fun View.setWidth(width: Int): View {
+    val params = layoutParams ?: ViewGroup.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
+    )
+    params.width = width
+    layoutParams = params
+    return this
+}
+
+fun View.setHeight(height: Int): View {
+    val params = layoutParams ?: ViewGroup.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
+    )
+    params.height = height
+    layoutParams = params
+    return this
+}
+
 fun View.setWidthAndHeight(
     width: Int,
     height: Int,

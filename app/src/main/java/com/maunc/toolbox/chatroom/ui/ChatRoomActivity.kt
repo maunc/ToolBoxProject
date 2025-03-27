@@ -28,6 +28,7 @@ import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.addEditTextListener
 import com.maunc.toolbox.commonbase.ext.addRecyclerViewScrollListener
+import com.maunc.toolbox.commonbase.ext.animateSetHeight
 import com.maunc.toolbox.commonbase.ext.animateSetWidthAndHeight
 import com.maunc.toolbox.commonbase.ext.checkPermissionAvailable
 import com.maunc.toolbox.commonbase.ext.checkPermissionManualRequest
@@ -239,8 +240,19 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             }
             return@setOnTouchListener true
         }
-        mDatabind.chatRoomEditText.addEditTextListener(afterTextChanged = {
-            mViewModel.editLength.value = it.length
+        obtainEditTextViewConfig()
+        mDatabind.chatRoomEditText.addEditTextListener(afterTextChanged = { editString ->
+            mViewModel.editStringLength.value = editString.length
+//            handlerEditTextHeight(editString)
+//            if (overflowInt == 1) {
+//                mDatabind.chatRoomEditText.animateSetHeight(getDimens(R.dimen.dp_50))
+//            }
+//            if (overflowInt == 2) {
+//                mDatabind.chatRoomEditText.animateSetHeight(getDimens(R.dimen.dp_75))
+//            }
+//            if (overflowInt == 3) {
+//                mDatabind.chatRoomEditText.animateSetHeight(getDimens(R.dimen.dp_100))
+//            }
         })
         mDatabind.chatRoomRecycler.layoutManager = linearLayoutManager()
         mDatabind.chatRoomRecycler.adapter = chatDataAdapter
@@ -258,6 +270,43 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             }, 100)
         }
     }
+
+    private fun obtainEditTextViewConfig() {
+        val editView = mDatabind.chatRoomEditText
+        editView.post {
+            mViewModel.editTextViewMaxLineWidth.postValue(
+                editView.width - getDimens(R.dimen.dp_24)
+            )
+        }
+    }
+
+//    var overflowInt = 0
+//
+//    private fun handlerEditTextHeight(editString: String) {
+//        val textPaint = mDatabind.chatRoomEditText.paint
+//        mViewModel.editTextViewMaxLineWidth.value?.let { maxWidth ->
+//            val measureText = textPaint.measureText(editString)
+//            if (measureText > maxWidth) {
+//                overflowInt++
+//            } else {
+//                // 当文本宽度小于等于最大宽度时，检查是否有缩减导致不再溢出
+//                var tempCount = 0
+//                for (i in editString.length downTo 0) {
+//                    val tempTextWidth = textPaint.measureText(editString.substring(0, i))
+//                    if (tempTextWidth <= maxWidth) {
+//                        break
+//                    }
+//                    tempCount++
+//                }
+//                if (tempCount < overflowInt) {
+//                    overflowInt = tempCount
+//                } else {
+//
+//                }
+//            }
+//        }
+//        "当前超过了多少航:${overflowInt}".loge()
+//    }
 
     override fun createObserver() {
         mViewModel.chatRoomType.observe(this) {
