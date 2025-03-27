@@ -1,6 +1,7 @@
 package com.maunc.toolbox.chatroom.data
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.RawRes
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import java.io.Serializable
 
@@ -16,17 +17,18 @@ data class ChatData(
         const val CHAT_TEXT_TYPE = 1
         const val CHAT_IMAGE_TYPE = 2
         const val CHAT_VOICE_TYPE = 3
+        const val CHAT_BOT_TEXT_TYPE = 4
     }
 }
 
 data class ChatImageData(
     val filePath: String? = null,
     val url: String? = null,
-    @DrawableRes
-    val imageRes: Int,
+    @DrawableRes val imageRes: Int,
 )
 
 data class ChatRecordData(
     val filePath: String? = null,
-    val recordTime: Long? = null,
+    @RawRes val recordRes: Int,
+    val recordTime: Int? = null,
 )

@@ -3,8 +3,6 @@ package com.maunc.toolbox.chatroom.databindadapter
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.maunc.toolbox.R
@@ -16,7 +14,7 @@ import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.commonbase.ext.animateToAlpha
 import com.maunc.toolbox.commonbase.ext.getColor
-import com.maunc.toolbox.commonbase.ext.getDimens
+import com.maunc.toolbox.commonbase.ext.getDrawable
 import com.maunc.toolbox.commonbase.ext.getString
 import com.maunc.toolbox.commonbase.ext.gone
 import com.maunc.toolbox.commonbase.ext.visible
@@ -133,95 +131,25 @@ object ChatRoomDataBindAdapter {
     fun handleChatRoomSelectIv(view: ImageView, type: Int) {
         when (type) {
             CHAT_ROOM_TEXT_TYPE -> {
-                view.setImageResource(R.drawable.icon_chat_room_check_text)
-            }
-
-            CHAT_ROOM_RECORD_TYPE -> {
                 view.setImageResource(R.drawable.icon_chat_room_check_record)
             }
-        }
-    }
-
-    @JvmStatic
-    @BindingAdapter(value = ["handleChatRoomSendModeLayout"], requireAll = false)
-    fun handleChatRoomSendModeLayout(view: View, type: Int) {
-        when (type) {
-            CHAT_ROOM_TEXT_TYPE -> {
-                if (view is LinearLayout) {
-                    val layoutParams =
-                        (view.layoutParams as LinearLayout.LayoutParams)
-                    layoutParams.weight = 3.3f
-                }
-                if (view is RelativeLayout) {
-                    val layoutParams =
-                        (view.layoutParams as LinearLayout.LayoutParams)
-                    layoutParams.weight = 3f
-                }
-            }
 
             CHAT_ROOM_RECORD_TYPE -> {
-                if (view is LinearLayout) {
-                    val layoutParams =
-                        (view.layoutParams as LinearLayout.LayoutParams)
-                    layoutParams.weight = 1.3f
-                }
-                if (view is RelativeLayout) {
-                    val layoutParams =
-                        (view.layoutParams as LinearLayout.LayoutParams)
-                    layoutParams.weight = 5f
-                }
+                view.setImageResource(R.drawable.icon_chat_room_check_text)
             }
         }
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["handleChatRoomEditLength"], requireAll = false)
-    fun handleChatRoomEditLength(view: View, editLen: Int) {
-        val type = if (editLen <= 0) {
-            CHAT_ROOM_RECORD_TYPE
+    @BindingAdapter(value = ["handleSendButtonEnable"], requireAll = false)
+    fun handleSendButtonEnable(textView: TextView, editLen: Int) {
+        textView.isEnabled = editLen > 0
+        if (!textView.isEnabled) {
+            textView.background = getDrawable(R.drawable.chat_room_send_button_bg_not_enable)
+            textView.setTextColor(getColor(R.color.white_75))
         } else {
-            CHAT_ROOM_TEXT_TYPE
+            textView.background = getDrawable(R.drawable.chat_room_send_button_bg_enable)
+            textView.setTextColor(getColor(R.color.white))
         }
-        handleChatRoomSendModeLayout(view, type)
-        handleChatRoomTypeLayout(view, type)
-        if (view is EditText) {
-            handleChatRoomEditMarginStart(view, type)
-        }
-    }
-
-    @JvmStatic
-    @BindingAdapter(value = ["handleChatRoomTypeLayout"], requireAll = false)
-    fun handleChatRoomTypeLayout(view: View, type: Int) {
-        when (type) {
-            CHAT_ROOM_TEXT_TYPE -> {
-                if (view is TextView) {
-                    view.visible()
-                }
-                if (view is ImageView) {
-                    view.gone()
-                }
-            }
-
-            CHAT_ROOM_RECORD_TYPE -> {
-                if (view is TextView) {
-                    view.gone()
-                }
-                if (view is ImageView) {
-                    view.visible()
-                }
-            }
-        }
-    }
-
-    @JvmStatic
-    @BindingAdapter(value = ["handleChatRoomEditMarginStart"], requireAll = false)
-    fun handleChatRoomEditMarginStart(view: EditText, type: Int) {
-        val layoutParams = view.layoutParams as RelativeLayout.LayoutParams
-        if (type == CHAT_ROOM_TEXT_TYPE) {
-            layoutParams.marginStart = getDimens(R.dimen.dp_8)
-        } else {
-            layoutParams.marginStart = getDimens(R.dimen.dp_0)
-        }
-        view.layoutParams = layoutParams
     }
 }

@@ -62,6 +62,7 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
     var chatRoomType = MutableLiveData(CHAT_ROOM_TEXT_TYPE)
     var recordViewStatus = MutableLiveData(RECORD_VIEW_STATUS_UP) // 录音状态
     var editLength = MutableLiveData(0)
+    var editMaxInputNum = MutableLiveData(25)
     val chatHandler = Handler(Looper.getMainLooper())
 
     fun createVoiceRecordConfig() {

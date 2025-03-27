@@ -9,7 +9,11 @@ const val DEFAULT_VIBRATOR_TIME = 15L
 const val DEFAULT_RECORD_TOUCH_AMPLITUDE = 2
 
 //键盘布局更新速度
-const val CHAT_ROOM_LAYOUT_UPDATE_TIME = 50L
+const val CHAT_ROOM_LAYOUT_UPDATE_TIME = 100L
+
+//百分比
+const val PERCENT_TWELVE = 12 / 100.0
+const val PERCENT_FIFTY =50 / 100.0
 
 /**
  * 录音View状态

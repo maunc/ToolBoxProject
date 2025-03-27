@@ -129,30 +129,34 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/chat_room_controller_layout_root"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_75"
+            android:layout_height="@dimen/dp_70"
             android:layout_alignParentBottom="true"
             android:background="@color/gray_f0"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/chat_room_select_iv"
-                android:layout_width="@dimen/dp_35"
-                android:layout_height="@dimen/dp_35"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginHorizontal="@dimen/dp_5"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_chat_room_check_text"
-                app:handleChatRoomSelectIv="@{chatRoomViewModel.chatRoomType}"
-                app:tint="@color/black" />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.75">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/chat_room_select_iv"
+                    android:layout_width="@dimen/dp_32"
+                    android:layout_height="@dimen/dp_32"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="@dimen/dp_5"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_chat_room_check_text"
+                    app:handleChatRoomSelectIv="@{chatRoomViewModel.chatRoomType}"
+                    app:tint="@color/black" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/chat_room_send_layout_one"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5"
-                app:handleChatRoomEditLength="@{chatRoomViewModel.editLength}"
-                app:handleChatRoomSendModeLayout="@{chatRoomViewModel.chatRoomType}">
+                android:layout_weight="5">
 
                 <RelativeLayout
                     android:id="@+id/chat_room_controller_layout"
@@ -179,11 +183,10 @@
                         android:layout_height="@dimen/chat_room_controller_button_height"
                         android:layout_centerInParent="true"
                         android:background="@drawable/bg_white_radius_12"
-                        android:maxLength="18"
+                        android:maxLength="@{chatRoomViewModel.editMaxInputNum}"
                         android:paddingStart="@dimen/dp_12"
                         android:paddingEnd="@dimen/dp_12"
-                        android:singleLine="true"
-                        app:handleChatRoomEditMarginStart="@{chatRoomViewModel.chatRoomType}"
+                        android:lines="10"
                         app:handleChatRoomType="@{chatRoomViewModel.chatRoomType}"
                         tools:ignore="RtlSymmetry" />
                 </RelativeLayout>
@@ -194,42 +197,18 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.3"
-                android:gravity="center"
-                app:handleChatRoomEditLength="@{chatRoomViewModel.editLength}"
-                app:handleChatRoomSendModeLayout="@{chatRoomViewModel.chatRoomType}">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/chat_room_em_iv"
-                    android:layout_width="@dimen/dp_35"
-                    android:layout_height="@dimen/dp_35"
-                    android:layout_marginEnd="@dimen/dp_5"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_chat_room_em"
-                    app:tint="@color/black" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/chat_room_more_iv"
-                    android:layout_width="@dimen/dp_35"
-                    android:layout_height="@dimen/dp_35"
-                    android:layout_marginStart="@dimen/dp_5"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_chat_room_more"
-                    android:visibility="gone"
-                    app:handleChatRoomEditLength="@{chatRoomViewModel.editLength}"
-                    app:handleChatRoomTypeLayout="@{chatRoomViewModel.chatRoomType}"
-                    app:tint="@color/black" />
+                android:gravity="center">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/chat_room_send_content_tv"
-                    android:layout_width="@dimen/dp_70"
-                    android:layout_height="@dimen/dp_45"
-                    android:background="@drawable/chat_room_send_button_bg"
+                    android:layout_width="@dimen/chat_room_send_content_button_width"
+                    android:layout_height="@dimen/chat_room_send_content_button_height"
                     android:gravity="center"
                     android:text="@string/chat_room_send_button_text"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    app:handleChatRoomEditLength="@{chatRoomViewModel.editLength}"
-                    app:handleChatRoomTypeLayout="@{chatRoomViewModel.chatRoomType}" />
+                    app:handleSendButtonEnable="@{chatRoomViewModel.editLength}"
+                    tools:background="@drawable/chat_room_send_button_bg_enable" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

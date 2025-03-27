@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dp_10">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/item_chat_room_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,7 +12,7 @@
         android:textColor="@color/chat_item_time_gray"
         android:textSize="12sp" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/item_chat_room_content_tv"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_40"

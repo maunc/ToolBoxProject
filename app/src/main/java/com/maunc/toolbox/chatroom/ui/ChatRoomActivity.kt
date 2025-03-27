@@ -17,11 +17,12 @@ import com.maunc.toolbox.chatroom.constant.AUDIO_PERMISSION_START_DIALOG
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_LAYOUT_UPDATE_TIME
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
+import com.maunc.toolbox.chatroom.constant.PERCENT_FIFTY
+import com.maunc.toolbox.chatroom.constant.PERCENT_TWELVE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
-import com.maunc.toolbox.chatroom.data.ChatData
 import com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
@@ -39,7 +40,6 @@ import com.maunc.toolbox.commonbase.ext.screenHeight
 import com.maunc.toolbox.commonbase.ext.screenWidth
 import com.maunc.toolbox.commonbase.ext.setTint
 import com.maunc.toolbox.commonbase.ext.startAppSystemSettingPage
-import com.maunc.toolbox.commonbase.ext.toDp
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
@@ -81,9 +81,6 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
     private var userDownY = 0
     private var userDownX = 0
 
-    private var percent12 = 12 / 100.0
-    private var percent50 = 50 / 100.0
-
     private var executeCancelEnlargeAnim = false//是否执行过取消扩大动画
     private var executeCancelShrinkAnim = false //是否执行过取消缩小动画
     private var executeSureEnlargeAnim = false //是否执行过确定扩大动画
@@ -100,38 +97,33 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             super.handleMessage(msg)
             when (msg.what) {
                 MESSAGE_FIRST_WELCOME_WHAT -> {
-                    chatDataAdapter.addChatItem(
-                        ChatData(
-                            itemType = ChatData.CHAT_NONE_TYPE,
-                            chatText = getString(R.string.chat_room_default_one_content_text),
-                            chatSendTime = System.currentTimeMillis()
-                        )
-                    )
+                    chatDataAdapter.addChatBotTextItem(getString(R.string.chat_room_default_one_content_text))
                     sendSecondWelcomeMsg()
                 }
 
                 MESSAGE_SECOND_WELCOME_WHAT -> {
-                    chatDataAdapter.addChatItem(
-                        ChatData(
-                            itemType = ChatData.CHAT_NONE_TYPE,
-                            chatText = getString(R.string.chat_room_default_two_content_text),
-                            chatSendTime = System.currentTimeMillis()
-                        )
-                    )
+                    chatDataAdapter.addChatBotTextItem(getString(R.string.chat_room_default_two_content_text))
                     sendThirdWelcomeMsg()
                 }
 
                 MESSAGE_THIRD_WELCOME_WHAT -> {
-                    chatDataAdapter.addChatItem(
-                        ChatData(
-                            itemType = ChatData.CHAT_NONE_TYPE,
-                            chatText = getString(R.string.chat_room_default_three_content_text),
-                            chatSendTime = System.currentTimeMillis()
-                        )
-                    )
+                    chatDataAdapter.addChatBotTextItem(getString(R.string.chat_room_default_three_content_text))
                 }
             }
         }
+    }
+
+    private fun sendFirstWelcomeMsg() {
+        chatDataAdapter.addChatNoneItem(getString(R.string.chat_room_welcome_text))
+        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_FIRST_WELCOME_WHAT, 500L)
+    }
+
+    private fun sendSecondWelcomeMsg() {
+        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_SECOND_WELCOME_WHAT, 500L)
+    }
+
+    private fun sendThirdWelcomeMsg() {
+        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_THIRD_WELCOME_WHAT, 500L)
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -151,18 +143,24 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                     CHAT_ROOM_TEXT_TYPE
                 }
         }
+        /*val frameAnimHelper = FrameAnimHelper(
+            mDatabind.chatRoomEmIv,
+            R.array.array_voice_play_left_anim,
+            R.drawable.icon_voice_left_third,
+            200,
+            true
+        )*/
         mDatabind.chatRoomSendContentTv.setOnClickListener {
             val sendContent = mDatabind.chatRoomEditText.text.toString()
             if (sendContent.isEmpty()) {
+                "sendContent is empty".loge()
                 return@setOnClickListener
             }
-            chatDataAdapter.addChatItem(
-                ChatData(
-                    itemType = ChatData.CHAT_TEXT_TYPE,
-                    chatText = sendContent,
-                    chatSendTime = System.currentTimeMillis()
-                )
-            )
+            if (mViewModel.chatRoomType.value!! != CHAT_ROOM_TEXT_TYPE) {
+                "chat room type is text type".loge()
+                return@setOnClickListener
+            }
+            chatDataAdapter.addChatTextItem(sendContent)
             mDatabind.chatRoomEditText.setText(GLOBAL_NONE_STRING)
         }
         KeyBroadUtils.registerKeyBoardHeightListener(this) { keyBoardHeight ->
@@ -202,7 +200,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
 
                 MotionEvent.ACTION_MOVE -> {
                     // 未滑动到可以操作按钮范围
-                    if (userDownY - event.rawY.toInt() < (screenHeight() * (percent12))) {
+                    if (userDownY - event.rawY.toInt() < (screenHeight() * (PERCENT_TWELVE))) {
                         executeCancelEnlargeAnim = false
                         executeSureEnlargeAnim = false
                         if (!executeCancelShrinkAnim) {
@@ -219,7 +217,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                         return@setOnTouchListener true
                     }
                     // 选中sure
-                    if (event.rawX.toInt() > (screenWidth() * percent50)) {
+                    if (event.rawX.toInt() > (screenWidth() * PERCENT_FIFTY)) {
                         if (!executeSureEnlargeAnim) {
                             executeSureEnlargeAnim = true
                             mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
@@ -273,18 +271,6 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 }
             }
         }
-    }
-
-    private fun sendFirstWelcomeMsg() {
-        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_FIRST_WELCOME_WHAT, 500L)
-    }
-
-    private fun sendSecondWelcomeMsg() {
-        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_SECOND_WELCOME_WHAT, 750L)
-    }
-
-    private fun sendThirdWelcomeMsg() {
-        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_THIRD_WELCOME_WHAT, 750L)
     }
 
     /**
