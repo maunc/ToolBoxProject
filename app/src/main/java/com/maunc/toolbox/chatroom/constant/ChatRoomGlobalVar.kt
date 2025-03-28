@@ -5,7 +5,7 @@ import com.maunc.toolbox.commonbase.ext.getDimens
 
 const val AUDIO_PERMISSION_START_DIALOG = "startSystemPageAudioDialog"
 
-//键盘布局更新速度
+//整体布局更新速度
 const val CHAT_ROOM_LAYOUT_UPDATE_TIME = 100L
 
 //百分比

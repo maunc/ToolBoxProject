@@ -30,7 +30,7 @@ android {
         //读取的是项目下的gradle.properties文件
         versionCode = providers.gradleProperty(propertyNameVersionCodeKey).get().toInt()
         versionName = providers.gradleProperty(propertyNameVersionNameKey).get()
-
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

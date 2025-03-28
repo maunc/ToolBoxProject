@@ -116,9 +116,13 @@
     <!--**********************************  聊天室  **********************************-->
     <dimen name="chat_room_controller_button_width">330dp</dimen>
     <dimen name="chat_room_controller_button_height">50dp</dimen>
+    <dimen name="chat_room_controller_edit_width">330dp</dimen>
+    <dimen name="chat_room_controller_edit_height">50dp</dimen>
+    <dimen name="voice_start_record_up_cancel_layout_size">100dp</dimen>
     <dimen name="voice_start_record_up_cancel_image_size">45dp</dimen>
     <dimen name="voice_wave_view_width">270dp</dimen>
     <dimen name="voice_wave_view_height">85dp</dimen>
     <dimen name="chat_room_send_content_button_width">72dp</dimen>
     <dimen name="chat_room_send_content_button_height">42dp</dimen>
+    <dimen name="chat_room_select_iv_size">32dp</dimen>
 </resources>

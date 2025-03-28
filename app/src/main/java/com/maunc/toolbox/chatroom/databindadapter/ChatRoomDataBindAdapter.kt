@@ -28,6 +28,9 @@ import com.maunc.toolbox.commonbase.ext.getColor
 import com.maunc.toolbox.commonbase.ext.getDrawable
 import com.maunc.toolbox.commonbase.ext.getString
 import com.maunc.toolbox.commonbase.ext.gone
+import com.maunc.toolbox.commonbase.ext.obtainViewHeight
+import com.maunc.toolbox.commonbase.ext.px2dp
+import com.maunc.toolbox.commonbase.ext.setHeight
 import com.maunc.toolbox.commonbase.ext.visible
 import com.us.mauncview.VoiceWaveView
 
@@ -199,7 +202,7 @@ object ChatRoomDataBindAdapter {
     }
 
     /**
-     * 控制台高度处理
+     * 控制台所在位置处理
      */
     @JvmStatic
     @BindingAdapter(value = ["handleControllerLayoutParams"], requireAll = false)
@@ -223,6 +226,32 @@ object ChatRoomDataBindAdapter {
             view.postDelayed({
                 recyclerView.scrollToPosition(/*列表的最后一条数据的pos*/recyclerView.childCount - 1)
             }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
+        }
+    }
+
+    /**
+     * 处理软键盘下面的布局高度
+     */
+    @JvmStatic
+    @BindingAdapter(value = ["handleMoreLayoutParams"], requireAll = false)
+    fun handleMoreLayoutParams(view: View, handleHeight: Int) {
+        view.postDelayed({
+            view.updateLayoutParams<RelativeLayout.LayoutParams> {
+                bottomMargin = handleHeight
+            }
+        }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
+    }
+
+    /**
+     * 处理软键盘下面的布局高度
+     */
+    @JvmStatic
+    @BindingAdapter(value = ["handleMoreLayoutHeight"], requireAll = false)
+    fun handleMoreLayoutHeight(view: View, handleHeight: Int) {
+        view.obtainViewHeight {
+            if (handleHeight > 0) {
+                view.setHeight(px2dp(handleHeight))
+            }
         }
     }
 }

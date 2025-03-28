@@ -9,6 +9,10 @@ import android.os.Message
 import android.view.MotionEvent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
+import com.luck.picture.lib.basic.PictureSelector
+import com.luck.picture.lib.config.SelectMimeType
+import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.adapter.ChatDataAdapter
 import com.maunc.toolbox.chatroom.constant.AUDIO_PERMISSION_START_DIALOG
@@ -35,6 +39,7 @@ import com.maunc.toolbox.commonbase.ext.hideSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.ext.obtainGlideEngin
 import com.maunc.toolbox.commonbase.ext.obtainViewWidth
 import com.maunc.toolbox.commonbase.ext.screenHeight
 import com.maunc.toolbox.commonbase.ext.screenWidth
@@ -63,7 +68,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         const val MESSAGE_THIRD_WELCOME_WHAT = 2
     }
 
-    private val requestAudioPermissionResult = registerForActivityResult(
+    private val requestRecordAudioPermissionResult = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { result ->
         if (!result) {
@@ -164,9 +169,10 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         KeyBroadUtils.registerKeyBoardHeightListener(this) {
             mViewModel.softKeyBroadHeight.postValue(it)
         }
+        //录音按钮触摸
         mDatabind.chatRoomRecordStartButton.setOnTouchListener { v, event ->
             if (!checkPermissionAvailable(Manifest.permission.RECORD_AUDIO)) {
-                requestAudioPermissionResult.launch(Manifest.permission.RECORD_AUDIO)
+                requestRecordAudioPermissionResult.launch(Manifest.permission.RECORD_AUDIO)
                 return@setOnTouchListener false
             }
             when (event.action) {
@@ -245,6 +251,21 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             mDatabind.chatRoomSmartLayout.postDelayed({
                 mDatabind.chatRoomSmartLayout.finishRefresh()
             }, 100)
+        }
+        mDatabind.chatRoomPicIcon.setOnClickListener {
+            PictureSelector.create(this)
+                .openGallery(SelectMimeType.ofImage())
+                .setImageEngine(obtainGlideEngin)
+                .forResult(object : OnResultCallbackListener<LocalMedia> {
+                    override fun onResult(result: ArrayList<LocalMedia>?) {
+
+                    }
+
+                    override fun onCancel() {
+
+                    }
+                })
+
         }
     }
 
