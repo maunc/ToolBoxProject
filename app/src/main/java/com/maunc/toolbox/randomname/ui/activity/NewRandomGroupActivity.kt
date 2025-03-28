@@ -11,6 +11,7 @@ import com.maunc.toolbox.commonbase.ext.clickNoRepeat
 import com.maunc.toolbox.commonbase.ext.enterActivityAnim
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
+import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityNewRandomGroupBinding
 import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_GROUP_PAGE
@@ -36,7 +37,7 @@ class NewRandomGroupActivity :
         mDatabind.newGroupEdit.isFocusable = true
         mDatabind.newGroupEdit.isFocusableInTouchMode = true
         mDatabind.newGroupEdit.requestFocus()
-        mViewModel.showSoftInputKeyBoard(mDatabind.newGroupEdit)
+        showSoftInputKeyBoard(mDatabind.newGroupEdit)
         KeyBroadUtils.registerKeyBoardHeightListener(this) { keyBoardHeight ->
             mViewModel.updateNewGroupLayout(keyBoardHeight, mDatabind.newGroupMain)
         }

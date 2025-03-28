@@ -3,28 +3,21 @@ package com.maunc.toolbox.randomname.viewmodel
 import android.os.Handler
 import android.os.Looper
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
-import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.randomGroupDao
 import com.maunc.toolbox.commonbase.ext.getString
-import com.maunc.toolbox.commonbase.ext.inputMethodManager
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
-import com.maunc.toolbox.randomname.constant.DELAY_KEY_BROAD
 import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
 import com.maunc.toolbox.randomname.database.table.RandomNameGroup
 
 class NewRandomGroupViewModel : BaseViewModel<BaseModel>() {
-
-    private val handleEdit: Handler = Handler(Looper.getMainLooper())
 
     var showDeleteEditIcon = MutableLiveData(false)
     var showNameLimitTips = MutableLiveData(false)
@@ -74,30 +67,11 @@ class NewRandomGroupViewModel : BaseViewModel<BaseModel>() {
         showNameLimitTips.value = true
     }
 
-    fun showSoftInputKeyBoard(editText: EditText) {
-        handleEdit.postDelayed({
-            val inputManger = ToolBoxApplication.app.inputMethodManager
-            inputManger?.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
-        }, DELAY_KEY_BROAD)
-    }
-
-    fun hideSoftInputKeyBoard(editText: EditText) {
-        handleEdit.postDelayed({
-            val inputManger = ToolBoxApplication.app.inputMethodManager
-            inputManger?.hideSoftInputFromWindow(editText.windowToken, 0)
-        }, DELAY_KEY_BROAD)
-    }
-
     fun updateNewGroupLayout(keyBoardHeight: Int, newGroup: ViewGroup) {
-        handleEdit.postDelayed({
+        newGroup.postDelayed({
             newGroup.updateLayoutParams<RelativeLayout.LayoutParams> {
                 bottomMargin = keyBoardHeight
             }
         }, DELAY_UPDATE_LAYOUT)
-    }
-
-    override fun onCleared() {
-        handleEdit.removeCallbacksAndMessages(null)
-        super.onCleared()
     }
 }

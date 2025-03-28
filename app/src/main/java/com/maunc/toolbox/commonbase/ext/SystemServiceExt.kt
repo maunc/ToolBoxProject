@@ -17,7 +17,9 @@ import android.media.MediaRouter
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.BatteryManager
+import android.os.Build
 import android.os.PowerManager
+import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.storage.StorageManager
 import android.telephony.CarrierConfigManager
@@ -27,12 +29,15 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.core.content.ContextCompat
+import com.maunc.toolbox.ToolBoxApplication
 
 /**
  * Return system service which type is [T]
  */
-inline fun <reified T> Context.getSystemService(): T? = ContextCompat.getSystemService(this, T::class.java)
+inline fun <reified T> Context.getSystemService(): T? =
+    ContextCompat.getSystemService(this, T::class.java)
 
 val Context.windowManager get() = getSystemService<WindowManager>()
 val Context.clipboardManager get() = getSystemService<ClipboardManager>()
@@ -60,3 +65,39 @@ val Context.downloadManager get() = getSystemService<DownloadManager>()
 val Context.batteryManager get() = getSystemService<BatteryManager>()
 val Context.jobScheduler get() = getSystemService<JobScheduler>()
 val Context.accessibilityManager get() = getSystemService<AccessibilityManager>()
+
+
+//震动时间
+const val DEFAULT_VIBRATOR_TIME = 15L
+//震动幅度
+const val DEFAULT_RECORD_TOUCH_AMPLITUDE = 2
+fun launchVibrator(
+    milliseconds: Long = DEFAULT_VIBRATOR_TIME,
+    amplitude: Int = DEFAULT_RECORD_TOUCH_AMPLITUDE,
+) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        ToolBoxApplication.app.vibrator?.vibrate(
+            VibrationEffect.createOneShot(milliseconds, amplitude)
+        )
+    } else {
+        ToolBoxApplication.app.vibrator?.vibrate(DEFAULT_VIBRATOR_TIME)
+    }
+}
+
+//展示和收起键盘的间隔
+const val DELAY_KEY_BROAD = 100L
+fun showSoftInputKeyBoard(editText: EditText) {
+    editText.postDelayed({
+        editText.requestFocusable()
+        val inputManger = ToolBoxApplication.app.inputMethodManager
+        inputManger?.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+    }, DELAY_KEY_BROAD)
+}
+
+fun hideSoftInputKeyBoard(editText: EditText) {
+    editText.postDelayed({
+        val inputManger = ToolBoxApplication.app.inputMethodManager
+        inputManger?.hideSoftInputFromWindow(editText.windowToken, 0)
+    }, DELAY_KEY_BROAD)
+}
+

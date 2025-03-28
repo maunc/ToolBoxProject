@@ -8,10 +8,17 @@ import androidx.databinding.BindingAdapter
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
+import com.maunc.toolbox.chatroom.constant.EDIT_FIVE_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_FOUR_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_NONE_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_ONE_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_THREE_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_TWO_LINE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
+import com.maunc.toolbox.commonbase.ext.animateSetHeight
 import com.maunc.toolbox.commonbase.ext.animateToAlpha
 import com.maunc.toolbox.commonbase.ext.getColor
 import com.maunc.toolbox.commonbase.ext.getDrawable
@@ -142,14 +149,39 @@ object ChatRoomDataBindAdapter {
 
     @JvmStatic
     @BindingAdapter(value = ["handleSendButtonEnable"], requireAll = false)
-    fun handleSendButtonEnable(textView: TextView, editLen: Int) {
-        textView.isEnabled = editLen > 0
+    fun handleSendButtonEnable(textView: TextView, editString: String) {
+        textView.isEnabled = editString.isNotEmpty()
         if (!textView.isEnabled) {
             textView.background = getDrawable(R.drawable.chat_room_send_button_bg_not_enable)
             textView.setTextColor(getColor(R.color.white_75))
         } else {
             textView.background = getDrawable(R.drawable.chat_room_send_button_bg_enable)
             textView.setTextColor(getColor(R.color.white))
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["handleEditContent", "handleEditMaxWidth"], requireAll = true)
+    fun handlerEditTextHeight(editText: EditText, editString: String, editTextMaxWidth: Int) {
+        val textPaint = editText.paint
+        val oneCharChineseWidth = textPaint.measureText("A")
+        var exceedNum = 0
+        var currentWidth = 0
+        for (i in editString.indices) {
+            val measureText = textPaint.measureText(editString[i].toString()).toInt()
+            currentWidth += measureText
+            if (currentWidth > editTextMaxWidth - oneCharChineseWidth) {
+                exceedNum++
+                currentWidth = 0
+            }
+        }
+        when (exceedNum) {
+            0 -> editText.animateSetHeight(EDIT_NONE_LINE)
+            1 -> editText.animateSetHeight(EDIT_ONE_LINE)
+            2 -> editText.animateSetHeight(EDIT_TWO_LINE)
+            3 -> editText.animateSetHeight(EDIT_THREE_LINE)
+            4 -> editText.animateSetHeight(EDIT_FOUR_LINE)
+            5 -> editText.animateSetHeight(EDIT_FIVE_LINE)
         }
     }
 }

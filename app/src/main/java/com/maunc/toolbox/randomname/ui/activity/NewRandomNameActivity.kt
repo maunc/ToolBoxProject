@@ -9,6 +9,7 @@ import com.maunc.toolbox.commonbase.ext.clickNoRepeat
 import com.maunc.toolbox.commonbase.ext.enterActivityAnim
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
+import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityNewRandomNameBinding
 import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
@@ -38,7 +39,7 @@ class NewRandomNameActivity :
         mDatabind.newNameWithGroupEdit.isFocusable = true
         mDatabind.newNameWithGroupEdit.isFocusableInTouchMode = true
         mDatabind.newNameWithGroupEdit.requestFocus()
-        mViewModel.showSoftInputKeyBoard(mDatabind.newNameWithGroupEdit)
+        showSoftInputKeyBoard(mDatabind.newNameWithGroupEdit)
         KeyBroadUtils.registerKeyBoardHeightListener(this) { keyBoardHeight ->
             mViewModel.updateNewGroupLayout(keyBoardHeight, mDatabind.newNameWithGroupMain)
         }

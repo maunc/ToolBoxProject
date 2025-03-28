@@ -188,6 +188,8 @@
                         android:paddingEnd="@dimen/dp_12"
                         android:textSize="20sp"
                         app:handleChatRoomType="@{chatRoomViewModel.chatRoomType}"
+                        app:handleEditContent="@{chatRoomViewModel.editContentString}"
+                        app:handleEditMaxWidth="@{chatRoomViewModel.editTextViewMaxLineWidth}"
                         tools:ignore="RtlSymmetry" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -208,11 +210,9 @@
                     android:text="@string/chat_room_send_button_text"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    app:handleSendButtonEnable="@{chatRoomViewModel.editStringLength}"
+                    app:handleSendButtonEnable="@{chatRoomViewModel.editContentString}"
                     tools:background="@drawable/chat_room_send_button_bg_enable" />
             </RelativeLayout>
-
         </androidx.appcompat.widget.LinearLayoutCompat>
-
     </RelativeLayout>
 </layout>

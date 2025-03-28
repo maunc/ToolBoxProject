@@ -6,26 +6,16 @@ import android.media.AudioRecord
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
-import android.os.Handler
-import android.os.Looper
 import android.os.Process
-import android.os.VibrationEffect
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_LAYOUT_UPDATE_TIME
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
-import com.maunc.toolbox.chatroom.constant.DEFAULT_RECORD_TOUCH_AMPLITUDE
-import com.maunc.toolbox.chatroom.constant.DEFAULT_VIBRATOR_TIME
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.commonbase.ext.inputMethodManager
+import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.loge
-import com.maunc.toolbox.commonbase.ext.vibrator
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -61,10 +51,8 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
     /**view相关*/
     var chatRoomType = MutableLiveData(CHAT_ROOM_TEXT_TYPE)
     var recordViewStatus = MutableLiveData(RECORD_VIEW_STATUS_UP) // 录音状态
-    var editStringLength = MutableLiveData(0) //输入框当前字符串的长度
+    var editContentString = MutableLiveData(GLOBAL_NONE_STRING) //输入框当前字符串的长度
     var editTextViewMaxLineWidth = MutableLiveData<Int>() //输入框最大宽度
-
-    val chatHandler = Handler(Looper.getMainLooper())
 
     fun createVoiceRecordConfig() {
         cacheDir = ToolBoxApplication.app.cacheDir
@@ -128,7 +116,6 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
         }
         audioRecord?.let {
             isRecording.value = true
-            launchVibrator()
             it.startRecording()
             voiceThread = Thread(runRuntime)
             voiceThread?.start()
@@ -163,39 +150,6 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
             mediaPlayer.start()
         } catch (e: Exception) {
             e.printStackTrace()
-        }
-    }
-
-    fun editRequestFocusable(editText: EditText) {
-        editText.isFocusable = true
-        editText.isFocusableInTouchMode = true
-        editText.requestFocus()
-    }
-
-    fun showSoftInputKeyBoard(editText: EditText) {
-        chatHandler.postDelayed({
-            val inputManger = ToolBoxApplication.app.inputMethodManager
-            inputManger?.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
-            editRequestFocusable(editText)
-        }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
-    }
-
-    fun hideSoftInputKeyBoard(editText: EditText) {
-        chatHandler.postDelayed({
-            val inputManger = ToolBoxApplication.app.inputMethodManager
-            inputManger?.hideSoftInputFromWindow(editText.windowToken, 0)
-        }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
-    }
-
-    fun launchVibrator() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            ToolBoxApplication.app.vibrator?.vibrate(
-                VibrationEffect.createOneShot(
-                    DEFAULT_VIBRATOR_TIME, DEFAULT_RECORD_TOUCH_AMPLITUDE
-                )
-            )
-        } else {
-            ToolBoxApplication.app.vibrator?.vibrate(DEFAULT_VIBRATOR_TIME)
         }
     }
 
@@ -294,7 +248,6 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
 
     override fun onCleared() {
         destroyVoiceRecordConfig()
-        chatHandler.removeCallbacksAndMessages(null)
         super.onCleared()
     }
 }

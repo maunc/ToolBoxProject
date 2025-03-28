@@ -17,12 +17,6 @@ import com.maunc.toolbox.chatroom.constant.AUDIO_PERMISSION_START_DIALOG
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_LAYOUT_UPDATE_TIME
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
-import com.maunc.toolbox.chatroom.constant.EDIT_THREE_LINE
-import com.maunc.toolbox.chatroom.constant.EDIT_FOUR_LINE
-import com.maunc.toolbox.chatroom.constant.EDIT_FIVE_LINE
-import com.maunc.toolbox.chatroom.constant.EDIT_NONE_LINE
-import com.maunc.toolbox.chatroom.constant.EDIT_ONE_LINE
-import com.maunc.toolbox.chatroom.constant.EDIT_TWO_LINE
 import com.maunc.toolbox.chatroom.constant.PERCENT_FIFTY
 import com.maunc.toolbox.chatroom.constant.PERCENT_TWELVE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
@@ -34,18 +28,20 @@ import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.addEditTextListener
 import com.maunc.toolbox.commonbase.ext.addRecyclerViewScrollListener
-import com.maunc.toolbox.commonbase.ext.animateSetHeight
 import com.maunc.toolbox.commonbase.ext.animateSetWidthAndHeight
 import com.maunc.toolbox.commonbase.ext.checkPermissionAvailable
 import com.maunc.toolbox.commonbase.ext.checkPermissionManualRequest
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.getDimens
+import com.maunc.toolbox.commonbase.ext.hideSoftInputKeyBoard
+import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.screenHeight
 import com.maunc.toolbox.commonbase.ext.screenWidth
 import com.maunc.toolbox.commonbase.ext.setTint
+import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.ext.startAppSystemSettingPage
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
@@ -141,7 +137,6 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             finishCurrentActivity()
         }
         mViewModel.createVoiceRecordConfig()
-        mDatabind.voiceWaveView.start()
         mDatabind.chatRoomSelectIv.setOnClickListener {
             mViewModel.chatRoomType.value =
                 if (mViewModel.chatRoomType.value!! == CHAT_ROOM_TEXT_TYPE) {
@@ -171,7 +166,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             clearChatRoomEditContent()
         }
         KeyBroadUtils.registerKeyBoardHeightListener(this) { keyBoardHeight ->
-            mViewModel.chatHandler.postDelayed({
+            mDatabind.chatRoomControllerLayoutRoot.postDelayed({
                 mDatabind.chatRoomControllerLayoutRoot.updateLayoutParams<RelativeLayout.LayoutParams> {
                     bottomMargin = keyBoardHeight
                 }
@@ -190,7 +185,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             }
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    mViewModel.launchVibrator()
+                    launchVibrator()
                     userDownY = event.rawY.toInt()
                     userDownX = event.rawX.toInt()
                     mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_DOWN
@@ -248,8 +243,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         }
         obtainEditTextViewConfig()
         mDatabind.chatRoomEditText.addEditTextListener(afterTextChanged = { editString ->
-            mViewModel.editStringLength.value = editString.length
-            handlerEditTextHeight(editString)
+            mViewModel.editContentString.value = editString
         })
         mDatabind.chatRoomRecycler.layoutManager = linearLayoutManager()
         mDatabind.chatRoomRecycler.adapter = chatDataAdapter
@@ -258,11 +252,11 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         mDatabind.chatRoomRecycler.addRecyclerViewScrollListener(onScrollStateChanged = { _, newState ->
             if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                 // 只有触摸态才会收起布局
-                mViewModel.hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+                hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
             }
         })
         mDatabind.chatRoomSmartLayout.setOnRefreshListener {
-            mViewModel.chatHandler.postDelayed({
+            mDatabind.chatRoomSmartLayout.postDelayed({
                 mDatabind.chatRoomSmartLayout.finishRefresh()
             }, 100)
         }
@@ -277,53 +271,22 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         }
     }
 
-    /**
-     * 处理当前文本超过EditMaxWidth几次
-     */
-    private fun handlerEditTextHeight(editString: String) {
-        val editTextView = mDatabind.chatRoomEditText
-        val textPaint = mDatabind.chatRoomEditText.paint
-        val oneCharChineseWidth = textPaint.measureText("A")
-        val oneCharSignWidth = textPaint.measureText("微")
-        var exceedNum = 0
-        mViewModel.editTextViewMaxLineWidth.value?.let { maxWidth ->
-            var currentWidth = 0
-            for (i in editString.indices) {
-                val measureText = textPaint.measureText(editString[i].toString()).toInt()
-                currentWidth += measureText
-                if (currentWidth > maxWidth - oneCharChineseWidth) {
-                    exceedNum++
-                    currentWidth = 0
-                }
-            }
-        } ?: let {
-            exceedNum = 0
-        }
-        when (exceedNum) {
-            0 -> editTextView.animateSetHeight(EDIT_NONE_LINE)
-            1 -> editTextView.animateSetHeight(EDIT_ONE_LINE)
-            2 -> editTextView.animateSetHeight(EDIT_TWO_LINE)
-            3 -> editTextView.animateSetHeight(EDIT_THREE_LINE)
-            4 -> editTextView.animateSetHeight(EDIT_FOUR_LINE)
-            5 -> editTextView.animateSetHeight(EDIT_FIVE_LINE)
-        }
-    }
-
     // 清空输入框内容
     private fun clearChatRoomEditContent() {
         mDatabind.chatRoomEditText.setText(GLOBAL_NONE_STRING)
-        handlerEditTextHeight(GLOBAL_NONE_STRING)
+        mViewModel.editContentString.value = GLOBAL_NONE_STRING
     }
 
     override fun createObserver() {
         mViewModel.chatRoomType.observe(this) {
             when (it) {
                 CHAT_ROOM_RECORD_TYPE -> {
-                    mViewModel.hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+                    hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
                 }
 
                 CHAT_ROOM_TEXT_TYPE -> {
-                    mViewModel.showSoftInputKeyBoard(mDatabind.chatRoomEditText)
+                    "走了".loge()
+                    showSoftInputKeyBoard(mDatabind.chatRoomEditText)
                 }
             }
         }

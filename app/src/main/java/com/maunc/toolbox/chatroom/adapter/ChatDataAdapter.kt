@@ -2,6 +2,7 @@ package com.maunc.toolbox.chatroom.adapter
 
 import android.annotation.SuppressLint
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -12,6 +13,7 @@ import com.maunc.toolbox.chatroom.data.ChatData
 import com.maunc.toolbox.commonbase.ext.isChineseChar
 import com.maunc.toolbox.commonbase.ext.loadImageCircleCrop
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.ext.obtainLocationWithScreen
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -45,6 +47,11 @@ class ChatDataAdapter :
                 contentTv.text = item.chatText?.insertLineBreaks()
                 haveView.findViewById<ImageView>(R.id.item_chat_room_user_iv)
                     .loadImageCircleCrop(R.drawable.icon_default_iv)
+                contentTv.setOnClickListener {
+                    contentTv.obtainLocationWithScreen {
+                        "int[0]:${it[0]}  int[1]:${it[1]}".loge()
+                    }
+                }
             }
 
             ChatData.CHAT_IMAGE_TYPE -> {
@@ -60,6 +67,11 @@ class ChatDataAdapter :
                 contentTv.text = item.chatText?.insertLineBreaks()
                 haveView.findViewById<ImageView>(R.id.item_chat_room_user_iv)
                     .loadImageCircleCrop(R.drawable.icon_lucia)
+                contentTv.setOnClickListener {
+                    contentTv.obtainLocationWithScreen {
+                        "int[0]:${it[0]}  int[1]:${it[1]}".loge()
+                    }
+                }
             }
         }
     }
@@ -95,6 +107,9 @@ class ChatDataAdapter :
         return result.toString()
     }
 
+    /**
+     * 添加机器人文本布局
+     */
     fun addChatBotTextItem(content: String) {
         addChatItem(
             ChatData(
@@ -105,6 +120,9 @@ class ChatDataAdapter :
         )
     }
 
+    /**
+     * 添加Tips文本布局
+     */
     fun addChatNoneItem(content: String) {
         addChatItem(
             ChatData(
@@ -115,6 +133,9 @@ class ChatDataAdapter :
         )
     }
 
+    /**
+     * 添加个人文本布局
+     */
     fun addChatTextItem(sendContent: String) {
         addChatItem(
             ChatData(

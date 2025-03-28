@@ -13,10 +13,8 @@ const val RUN_STATUS_STOP = 3
 const val RANDOM_NAME_THREAD_NAME = "randomThread"
 
 /**
- * 展示和收起键盘的间隔          : DELAY_SHOW_KEY_BROAD
- * 键盘顶起后延迟更改布局的时间   : DELAY_UPDATE_LAYOUT
+ * 键盘顶起后延迟更改布局的时间
  */
-const val DELAY_KEY_BROAD = 100L
 const val DELAY_UPDATE_LAYOUT = 100L
 
 //进入随机名称前过滤分组中名称小于等于该数值的分组

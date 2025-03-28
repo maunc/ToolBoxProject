@@ -53,6 +53,9 @@ fun View.visibleOrGone(flag: Boolean) {
     }
 }
 
+/**
+ * 设置ImageView底色
+ */
 fun ImageView.setTint(@ColorRes colorRes: Int) {
     val toolContext = ToolBoxApplication.app
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -61,6 +64,29 @@ fun ImageView.setTint(@ColorRes colorRes: Int) {
     } else {
         setColorFilter(ContextCompat.getColor(toolContext, colorRes))
     }
+}
+
+/**
+ * 设置跑马灯
+ */
+fun TextView.marquee() {
+    ellipsize = TextUtils.TruncateAt.MARQUEE
+    marqueeRepeatLimit = -1
+    isSingleLine = true
+    isFocusable = true
+    isSelected = true
+    isFocusableInTouchMode = true
+}
+
+/**
+ * 输入框获取焦点
+ */
+fun EditText.requestFocusable() {
+    isSelected = true
+    isEnabled = true
+    isFocusable = true
+    isFocusableInTouchMode = true
+    requestFocus()
 }
 
 /**=========================================View  Listener  优化=========================================*/
@@ -301,6 +327,7 @@ fun View.animateSetHeight(
         }
     }
 }
+
 fun View.animateSetWidthAndHeight(
     targetWidth: Int = 100,
     targetHeight: Int = 100,
@@ -376,15 +403,16 @@ fun View.isTouchPointInView(x: Int, y: Int): Boolean {
 }
 
 /**
- * 设置跑马灯
+ * 获取View所在屏幕的位置
  */
-fun TextView.marquee() {
-    ellipsize = TextUtils.TruncateAt.MARQUEE
-    marqueeRepeatLimit = -1
-    isSingleLine = true
-    isFocusable = true
-    isSelected = true
-    isFocusableInTouchMode = true
+fun View.obtainLocationWithScreen(
+    resultCallback: (IntArray) -> Unit,
+) {
+    val locations = IntArray(2)
+    post {
+        this.getLocationOnScreen(locations)
+        resultCallback.invoke(locations)
+    }
 }
 
 /**
