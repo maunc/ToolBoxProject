@@ -285,7 +285,7 @@ fun View.animateSetWidth(
 
 fun View.animateSetHeight(
     targetValue: Int,
-    duration: Long = 120,
+    duration: Long = 100,
     listener: Animator.AnimatorListener? = null,
     action: ((Float) -> Unit)? = null,
 ) {

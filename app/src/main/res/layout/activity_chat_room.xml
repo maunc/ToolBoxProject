@@ -186,6 +186,7 @@
                         android:maxLength="10000"
                         android:paddingStart="@dimen/dp_12"
                         android:paddingEnd="@dimen/dp_12"
+                        android:textSize="20sp"
                         app:handleChatRoomType="@{chatRoomViewModel.chatRoomType}"
                         tools:ignore="RtlSymmetry" />
                 </RelativeLayout>
@@ -202,9 +203,9 @@
                     android:layout_width="@dimen/chat_room_send_content_button_width"
                     android:layout_height="@dimen/chat_room_send_content_button_height"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/dp_14"
                     android:gravity="center"
                     android:text="@string/chat_room_send_button_text"
-                    android:layout_marginBottom="@dimen/dp_14"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     app:handleSendButtonEnable="@{chatRoomViewModel.editStringLength}"

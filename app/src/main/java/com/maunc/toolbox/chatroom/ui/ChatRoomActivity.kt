@@ -17,6 +17,12 @@ import com.maunc.toolbox.chatroom.constant.AUDIO_PERMISSION_START_DIALOG
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_LAYOUT_UPDATE_TIME
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
+import com.maunc.toolbox.chatroom.constant.EDIT_THREE_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_FOUR_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_FIVE_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_NONE_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_ONE_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_TWO_LINE
 import com.maunc.toolbox.chatroom.constant.PERCENT_FIFTY
 import com.maunc.toolbox.chatroom.constant.PERCENT_TWELVE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
@@ -162,7 +168,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 return@setOnClickListener
             }
             chatDataAdapter.addChatTextItem(sendContent)
-            mDatabind.chatRoomEditText.setText(GLOBAL_NONE_STRING)
+            clearChatRoomEditContent()
         }
         KeyBroadUtils.registerKeyBoardHeightListener(this) { keyBoardHeight ->
             mViewModel.chatHandler.postDelayed({
@@ -243,16 +249,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         obtainEditTextViewConfig()
         mDatabind.chatRoomEditText.addEditTextListener(afterTextChanged = { editString ->
             mViewModel.editStringLength.value = editString.length
-//            handlerEditTextHeight(editString)
-//            if (overflowInt == 1) {
-//                mDatabind.chatRoomEditText.animateSetHeight(getDimens(R.dimen.dp_50))
-//            }
-//            if (overflowInt == 2) {
-//                mDatabind.chatRoomEditText.animateSetHeight(getDimens(R.dimen.dp_75))
-//            }
-//            if (overflowInt == 3) {
-//                mDatabind.chatRoomEditText.animateSetHeight(getDimens(R.dimen.dp_100))
-//            }
+            handlerEditTextHeight(editString)
         })
         mDatabind.chatRoomRecycler.layoutManager = linearLayoutManager()
         mDatabind.chatRoomRecycler.adapter = chatDataAdapter
@@ -275,38 +272,48 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         val editView = mDatabind.chatRoomEditText
         editView.post {
             mViewModel.editTextViewMaxLineWidth.postValue(
-                editView.width - getDimens(R.dimen.dp_24)
+                editView.width - getDimens(R.dimen.dp_24) /*减去的这个值是水平padding值 dp_24*/
             )
         }
     }
 
-//    var overflowInt = 0
-//
-//    private fun handlerEditTextHeight(editString: String) {
-//        val textPaint = mDatabind.chatRoomEditText.paint
-//        mViewModel.editTextViewMaxLineWidth.value?.let { maxWidth ->
-//            val measureText = textPaint.measureText(editString)
-//            if (measureText > maxWidth) {
-//                overflowInt++
-//            } else {
-//                // 当文本宽度小于等于最大宽度时，检查是否有缩减导致不再溢出
-//                var tempCount = 0
-//                for (i in editString.length downTo 0) {
-//                    val tempTextWidth = textPaint.measureText(editString.substring(0, i))
-//                    if (tempTextWidth <= maxWidth) {
-//                        break
-//                    }
-//                    tempCount++
-//                }
-//                if (tempCount < overflowInt) {
-//                    overflowInt = tempCount
-//                } else {
-//
-//                }
-//            }
-//        }
-//        "当前超过了多少航:${overflowInt}".loge()
-//    }
+    /**
+     * 处理当前文本超过EditMaxWidth几次
+     */
+    private fun handlerEditTextHeight(editString: String) {
+        val editTextView = mDatabind.chatRoomEditText
+        val textPaint = mDatabind.chatRoomEditText.paint
+        val oneCharChineseWidth = textPaint.measureText("A")
+        val oneCharSignWidth = textPaint.measureText("微")
+        var exceedNum = 0
+        mViewModel.editTextViewMaxLineWidth.value?.let { maxWidth ->
+            var currentWidth = 0
+            for (i in editString.indices) {
+                val measureText = textPaint.measureText(editString[i].toString()).toInt()
+                currentWidth += measureText
+                if (currentWidth > maxWidth - oneCharChineseWidth) {
+                    exceedNum++
+                    currentWidth = 0
+                }
+            }
+        } ?: let {
+            exceedNum = 0
+        }
+        when (exceedNum) {
+            0 -> editTextView.animateSetHeight(EDIT_NONE_LINE)
+            1 -> editTextView.animateSetHeight(EDIT_ONE_LINE)
+            2 -> editTextView.animateSetHeight(EDIT_TWO_LINE)
+            3 -> editTextView.animateSetHeight(EDIT_THREE_LINE)
+            4 -> editTextView.animateSetHeight(EDIT_FOUR_LINE)
+            5 -> editTextView.animateSetHeight(EDIT_FIVE_LINE)
+        }
+    }
+
+    // 清空输入框内容
+    private fun clearChatRoomEditContent() {
+        mDatabind.chatRoomEditText.setText(GLOBAL_NONE_STRING)
+        handlerEditTextHeight(GLOBAL_NONE_STRING)
+    }
 
     override fun createObserver() {
         mViewModel.chatRoomType.observe(this) {

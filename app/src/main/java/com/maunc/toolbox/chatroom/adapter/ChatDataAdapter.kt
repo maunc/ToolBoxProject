@@ -9,7 +9,9 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.constant.THIRTY_SECOND
 import com.maunc.toolbox.chatroom.constant.YYYY_MM_DD_HH_MM_SS
 import com.maunc.toolbox.chatroom.data.ChatData
+import com.maunc.toolbox.commonbase.ext.isChineseChar
 import com.maunc.toolbox.commonbase.ext.loadImageCircleCrop
+import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -77,14 +79,18 @@ class ChatDataAdapter :
     /**
      * 文本过长处理
      */
-    private fun String.insertLineBreaks(maxChars: Int = 15): String {
+    private fun String.insertLineBreaks(maxChars: Int = 28): String {
         val result = StringBuilder()
-        for (i in this.indices step maxChars) {
-            val end = if (i + maxChars < this.length) i + maxChars else this.length
-            result.append(this.substring(i, end))
-            if (end < this.length) {
+        var currentCount = 0
+        for (i in this.indices) {
+            val char = this[i]
+            val charCount = if (char.isChineseChar()) 2 else 1
+            if (currentCount + charCount > maxChars) {
                 result.append('\n')
+                currentCount = 0
             }
+            result.append(char)
+            currentCount += charCount
         }
         return result.toString()
     }
