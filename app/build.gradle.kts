@@ -86,6 +86,7 @@ dependencies {
     implementation(project(":ViewLib"))
 
     implementation(libs.bundles.android)
+    implementation(libs.ext.gson)
 
     implementation(libs.ext.baseAdapter)
     implementation(libs.ext.room.runtime)
@@ -96,5 +97,6 @@ dependencies {
     implementation(libs.bundles.smart.refrsh.layout)
     implementation(libs.bundles.exo.player)
     implementation(libs.ext.glide)
-    implementation(libs.picture.selector)
+    implementation(libs.ext.picture.selector)
+    implementation(libs.ext.immersionbar)
 }

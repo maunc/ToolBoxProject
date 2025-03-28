@@ -38,9 +38,16 @@
         android:theme="@style/Theme.RandomCallName"
         tools:targetApi="31">
         <activity
-            android:name=".chatroom.ui.ChatRoomActivity"
+            android:name=".chatroom.ui.activity.ChatRoomShowPicActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
+        <activity
+            android:name=".chatroom.ui.activity.ChatRoomActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
         <activity
             android:name=".chronograph.ui.ChronographMainActivity"
             android:exported="false" />

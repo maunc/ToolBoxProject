@@ -1,4 +1,4 @@
-package com.maunc.toolbox.chatroom.ui
+package com.maunc.toolbox.chatroom.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -9,6 +9,7 @@ import android.os.Message
 import android.view.MotionEvent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.entity.LocalMedia
@@ -18,12 +19,16 @@ import com.maunc.toolbox.chatroom.adapter.ChatDataAdapter
 import com.maunc.toolbox.chatroom.constant.AUDIO_PERMISSION_START_DIALOG
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
+import com.maunc.toolbox.chatroom.constant.FULL_SCREEN_IMAGE_DATA_EXTRA
+import com.maunc.toolbox.chatroom.constant.FULL_SCREEN_IMAGE_POS_EXTRA
 import com.maunc.toolbox.chatroom.constant.PERCENT_FIFTY
 import com.maunc.toolbox.chatroom.constant.PERCENT_TWELVE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
+import com.maunc.toolbox.chatroom.constant.SEND_IMAGE_MAX_NUM
+import com.maunc.toolbox.chatroom.data.ChatImageData
 import com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
@@ -45,6 +50,7 @@ import com.maunc.toolbox.commonbase.ext.screenHeight
 import com.maunc.toolbox.commonbase.ext.screenWidth
 import com.maunc.toolbox.commonbase.ext.setTint
 import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
+import com.maunc.toolbox.commonbase.ext.startActivityWithData
 import com.maunc.toolbox.commonbase.ext.startAppSystemSettingPage
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
@@ -52,7 +58,8 @@ import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityChatRoomBinding
 
 @SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
-class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding>() {
+class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding>(),
+    ChatDataAdapter.ChatRoomClickUserItemListener {
 
     companion object {
         const val ENLARGE_ANIM = 0 //执行扩大动画
@@ -132,6 +139,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
 
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.chatRoomViewModel = mViewModel
+        mDatabind.chatDataAdapter = chatDataAdapter
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             getString(R.string.tool_box_item_chat_room_text)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
@@ -239,6 +247,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         })
         mDatabind.chatRoomRecycler.layoutManager = linearLayoutManager()
         mDatabind.chatRoomRecycler.adapter = chatDataAdapter
+        chatDataAdapter.setClickUserItemListener(this@ChatRoomActivity)
         // 发送初始化消息
         sendFirstWelcomeMsg()
         mDatabind.chatRoomRecycler.addRecyclerViewScrollListener(onScrollStateChanged = { _, newState ->
@@ -256,14 +265,15 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             PictureSelector.create(this)
                 .openGallery(SelectMimeType.ofImage())
                 .setImageEngine(obtainGlideEngin)
+                .setMaxSelectNum(SEND_IMAGE_MAX_NUM)
                 .forResult(object : OnResultCallbackListener<LocalMedia> {
                     override fun onResult(result: ArrayList<LocalMedia>?) {
-
+                        result?.get(0)?.path?.let {
+                            chatDataAdapter.addChatImageFileItem(it)
+                        }
                     }
 
-                    override fun onCancel() {
-
-                    }
+                    override fun onCancel() {}
                 })
 
         }
@@ -293,6 +303,32 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 CHAT_ROOM_TEXT_TYPE -> showSoftInputKeyBoard(mDatabind.chatRoomEditText)
             }
         }
+    }
+
+    override fun clickUserTextItem() {
+
+    }
+
+    override fun clickUserImageItem(
+        chatImageData: ChatImageData,
+        chatImageList: MutableList<ChatImageData>,
+        position: Int,
+    ) {
+        var index = 0
+        for (i in chatImageList.indices) {
+            if (chatImageData == chatImageList[i]) {
+                index = i
+                break
+            }
+        }
+
+        startActivityWithData(
+            ChatRoomShowPicActivity::class.java,
+            mutableMapOf<String, Any>().apply {
+                put(FULL_SCREEN_IMAGE_DATA_EXTRA, Gson().toJson(chatImageList))
+                put(FULL_SCREEN_IMAGE_POS_EXTRA, index)
+            }
+        )
     }
 
     /**

@@ -22,13 +22,23 @@ data class ChatData(
 }
 
 data class ChatImageData(
+    val loadImageType: LoadImageType = LoadImageType.FILE,
     val filePath: String? = null,
     val url: String? = null,
-    @DrawableRes val imageRes: Int,
-)
+    @DrawableRes val imageRes: Int? = null,
+) : Serializable
+
+enum class LoadImageType {
+    FILE, URL, RES
+}
 
 data class ChatRecordData(
+    val loadRecordType: LoadRecordType = LoadRecordType.FILE,
     val filePath: String? = null,
     @RawRes val recordRes: Int,
     val recordTime: Int? = null,
-)
+) : Serializable
+
+enum class LoadRecordType {
+    FILE, RES
+}

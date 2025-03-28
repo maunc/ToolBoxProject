@@ -9,6 +9,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.maunc.toolbox.R
+import com.maunc.toolbox.chatroom.adapter.ChatDataAdapter
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_LAYOUT_UPDATE_TIME
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
@@ -218,13 +219,17 @@ object ChatRoomDataBindAdapter {
      * 软键盘弹出处理列表位置
      */
     @JvmStatic
-    @BindingAdapter(value = ["handleRecyclerLocation"], requireAll = false)
-    fun handleShowKeyBroadWithRecycler(view: View, handleHeight: Int) {
+    @BindingAdapter(value = ["handleRecyclerLocation", "handleRecyclerAdapter"], requireAll = false)
+    fun handleShowKeyBroadWithRecycler(
+        view: View,
+        handleHeight: Int,
+        recyclerAdapter: ChatDataAdapter,
+    ) {
         //传入的刷新布局为包含关系所以能findRecyclerView
         val recyclerView = view.findViewById<RecyclerView>(R.id.chat_room_recycler)
         if (handleHeight > 0) {
             view.postDelayed({
-                recyclerView.scrollToPosition(/*列表的最后一条数据的pos*/recyclerView.childCount - 1)
+                recyclerView.scrollToPosition(/*列表的最后一条数据的pos*/recyclerAdapter.itemCount - 1)
             }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
         }
     }

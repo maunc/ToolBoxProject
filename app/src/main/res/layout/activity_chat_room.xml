@@ -5,16 +5,22 @@
 
     <data>
 
+        <import type="com.maunc.toolbox.chatroom.adapter.ChatDataAdapter" />
+
         <variable
             name="chatRoomViewModel"
             type="com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel" />
+
+        <variable
+            name="chatDataAdapter"
+            type="com.maunc.toolbox.chatroom.adapter.ChatDataAdapter" />
     </data>
 
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".chatroom.ui.ChatRoomActivity">
+        tools:context=".chatroom.ui.activity.ChatRoomActivity">
         <!--toolbar-->
         <include
             android:id="@+id/common_tool_bar"
@@ -26,6 +32,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/chat_room_controller_layout_root"
             android:layout_marginTop="@dimen/common_tool_bar_height"
+            app:handleRecyclerAdapter="@{chatDataAdapter}"
             app:handleRecyclerLocation="@{chatRoomViewModel.softKeyBroadHeight}">
 
             <com.scwang.smart.refresh.header.ClassicsHeader
@@ -309,8 +316,8 @@
             android:layout_below="@id/chat_room_controller_layout_root"
             android:layout_alignParentBottom="true"
             android:background="@color/gray_f0"
-            app:handleMoreLayoutParams="@{chatRoomViewModel.softKeyBroadHeight}"
-            app:handleMoreLayoutHeight="@{chatRoomViewModel.softKeyBroadHeight}">
+            app:handleMoreLayoutHeight="@{chatRoomViewModel.softKeyBroadHeight}"
+            app:handleMoreLayoutParams="@{chatRoomViewModel.softKeyBroadHeight}">
 
         </RelativeLayout>
     </RelativeLayout>
