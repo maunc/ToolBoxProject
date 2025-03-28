@@ -46,11 +46,15 @@ fun View.gone() {
 }
 
 fun View.visibleOrGone(flag: Boolean) {
-    visibility = if (flag) {
-        View.VISIBLE
-    } else {
-        View.GONE
-    }
+    visibility = if (flag) View.VISIBLE else View.GONE
+}
+
+fun View.obtainViewWidth(action: (Int) -> Unit) {
+    post { action.invoke(width) }
+}
+
+fun View.obtainViewHeight(action: (Int) -> Unit) {
+    post { action.invoke(height) }
 }
 
 /**

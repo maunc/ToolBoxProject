@@ -3,9 +3,13 @@ package com.maunc.toolbox.chatroom.databindadapter
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.maunc.toolbox.R
+import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_LAYOUT_UPDATE_TIME
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
 import com.maunc.toolbox.chatroom.constant.EDIT_FIVE_LINE
@@ -29,6 +33,9 @@ import com.us.mauncview.VoiceWaveView
 
 object ChatRoomDataBindAdapter {
 
+    /**
+     * 录制语音按钮的样式文本
+     */
     @JvmStatic
     @BindingAdapter(value = ["handleRecordButton"], requireAll = false)
     fun handleRecordButton(textView: TextView, recordStatus: Int) {
@@ -49,9 +56,12 @@ object ChatRoomDataBindAdapter {
         }
     }
 
+    /**
+     * 波浪View的颜色
+     */
     @JvmStatic
-    @BindingAdapter(value = ["handlerVoiceWaveView"], requireAll = false)
-    fun handlerVoiceWaveView(voiceWaveView: VoiceWaveView, recordStatus: Int) {
+    @BindingAdapter(value = ["handleVoiceWaveViewColor"], requireAll = false)
+    fun handleVoiceWaveViewColor(voiceWaveView: VoiceWaveView, recordStatus: Int) {
         voiceWaveView.apply {
             when (recordStatus) {
                 RECORD_VIEW_STATUS_UP, RECORD_VIEW_STATUS_MOVE_CANCEL_DONE -> {
@@ -65,44 +75,43 @@ object ChatRoomDataBindAdapter {
         }
     }
 
+    /**
+     * 波浪动画是否启动
+     */
     @JvmStatic
-    @BindingAdapter(value = ["handleRecordAnim"], requireAll = false)
-    fun handleRecordAnim(view: View, recordStatus: Int) {
+    @BindingAdapter(value = ["handleVoiceWaveViewAnim"], requireAll = false)
+    fun handleVoiceWaveViewAnim(view: VoiceWaveView, recordStatus: Int) {
         when (recordStatus) {
-            RECORD_VIEW_STATUS_DOWN -> {
-                view.animateToAlpha(
-                    startAlpha = 0f, endAlpha = 1f, time = 200
-                ) {
-                    if (view is VoiceWaveView) {
-                        view.start()
-                    }
-                }
-            }
+            RECORD_VIEW_STATUS_DOWN -> view.start()
+            RECORD_VIEW_STATUS_UP -> view.stop()
+            RECORD_VIEW_STATUS_MOVE_CANCEL -> {}
+            RECORD_VIEW_STATUS_MOVE_CANCEL_DONE -> {}
+            else -> view.stop()
+        }
+    }
 
-            RECORD_VIEW_STATUS_UP -> {
-                view.animateToAlpha(
-                    startAlpha = 1f, endAlpha = 0f, time = 100
-                ) {
-                    if (view is VoiceWaveView) {
-                        view.stop()
-                    }
-                }
-            }
+    /**
+     * 录音布局的可见性
+     */
+    @JvmStatic
+    @BindingAdapter(value = ["handleRecordLayoutVisible"], requireAll = false)
+    fun handleRecordLayoutVisible(view: View, recordStatus: Int) {
+        when (recordStatus) {
+            RECORD_VIEW_STATUS_DOWN -> view.animateToAlpha(
+                startAlpha = 0f,
+                endAlpha = 1f,
+                time = 200
+            )
 
-            RECORD_VIEW_STATUS_MOVE_CANCEL -> {
+            RECORD_VIEW_STATUS_UP -> view.animateToAlpha(
+                startAlpha = 1f,
+                endAlpha = 0f,
+                time = 100
+            )
 
-            }
-
-            RECORD_VIEW_STATUS_MOVE_CANCEL_DONE -> {
-
-            }
-
-            else -> {
-                view.gone()
-                if (view is VoiceWaveView) {
-                    view.stop()
-                }
-            }
+            RECORD_VIEW_STATUS_MOVE_CANCEL -> {}
+            RECORD_VIEW_STATUS_MOVE_CANCEL_DONE -> {}
+            else -> view.gone()
         }
     }
 
@@ -133,20 +142,21 @@ object ChatRoomDataBindAdapter {
         }
     }
 
+    /**
+     * 切换模式按钮样式
+     */
     @JvmStatic
     @BindingAdapter(value = ["handleChatRoomSelectIv"], requireAll = false)
     fun handleChatRoomSelectIv(view: ImageView, type: Int) {
         when (type) {
-            CHAT_ROOM_TEXT_TYPE -> {
-                view.setImageResource(R.drawable.icon_chat_room_check_record)
-            }
-
-            CHAT_ROOM_RECORD_TYPE -> {
-                view.setImageResource(R.drawable.icon_chat_room_check_text)
-            }
+            CHAT_ROOM_TEXT_TYPE -> view.setImageResource(R.drawable.icon_chat_room_check_record)
+            CHAT_ROOM_RECORD_TYPE -> view.setImageResource(R.drawable.icon_chat_room_check_text)
         }
     }
 
+    /**
+     * 发送按钮样式
+     */
     @JvmStatic
     @BindingAdapter(value = ["handleSendButtonEnable"], requireAll = false)
     fun handleSendButtonEnable(textView: TextView, editString: String) {
@@ -160,6 +170,9 @@ object ChatRoomDataBindAdapter {
         }
     }
 
+    /**
+     * 输入框大小适配
+     */
     @JvmStatic
     @BindingAdapter(value = ["handleEditContent", "handleEditMaxWidth"], requireAll = true)
     fun handlerEditTextHeight(editText: EditText, editString: String, editTextMaxWidth: Int) {
@@ -182,6 +195,34 @@ object ChatRoomDataBindAdapter {
             3 -> editText.animateSetHeight(EDIT_THREE_LINE)
             4 -> editText.animateSetHeight(EDIT_FOUR_LINE)
             5 -> editText.animateSetHeight(EDIT_FIVE_LINE)
+        }
+    }
+
+    /**
+     * 控制台高度处理
+     */
+    @JvmStatic
+    @BindingAdapter(value = ["handleControllerLayoutParams"], requireAll = false)
+    fun handleControllerLayoutParams(view: View, handleHeight: Int) {
+        view.postDelayed({
+            view.updateLayoutParams<RelativeLayout.LayoutParams> {
+                bottomMargin = handleHeight
+            }
+        }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
+    }
+
+    /**
+     * 软键盘弹出处理列表位置
+     */
+    @JvmStatic
+    @BindingAdapter(value = ["handleRecyclerLocation"], requireAll = false)
+    fun handleShowKeyBroadWithRecycler(view: View, handleHeight: Int) {
+        //传入的刷新布局为包含关系所以能findRecyclerView
+        val recyclerView = view.findViewById<RecyclerView>(R.id.chat_room_recycler)
+        if (handleHeight > 0) {
+            view.postDelayed({
+                recyclerView.scrollToPosition(/*列表的最后一条数据的pos*/recyclerView.childCount - 1)
+            }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
         }
     }
 }

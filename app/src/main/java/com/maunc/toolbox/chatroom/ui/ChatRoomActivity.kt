@@ -7,14 +7,11 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.view.MotionEvent
-import android.widget.RelativeLayout
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.adapter.ChatDataAdapter
 import com.maunc.toolbox.chatroom.constant.AUDIO_PERMISSION_START_DIALOG
-import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_LAYOUT_UPDATE_TIME
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
 import com.maunc.toolbox.chatroom.constant.PERCENT_FIFTY
@@ -38,6 +35,7 @@ import com.maunc.toolbox.commonbase.ext.hideSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.ext.obtainViewWidth
 import com.maunc.toolbox.commonbase.ext.screenHeight
 import com.maunc.toolbox.commonbase.ext.screenWidth
 import com.maunc.toolbox.commonbase.ext.setTint
@@ -88,8 +86,6 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
     private var executeCancelShrinkAnim = false //是否执行过取消缩小动画
     private var executeSureEnlargeAnim = false //是否执行过确定扩大动画
     private var executeSureShrinkAnim = false //是否执行过确定缩小动画
-
-    private var keyBoardHeight = 0
 
     private val chatDataAdapter: ChatDataAdapter by lazy {
         ChatDataAdapter()
@@ -165,18 +161,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             chatDataAdapter.addChatTextItem(sendContent)
             clearChatRoomEditContent()
         }
-        KeyBroadUtils.registerKeyBoardHeightListener(this) { keyBoardHeight ->
-            mDatabind.chatRoomControllerLayoutRoot.postDelayed({
-                mDatabind.chatRoomControllerLayoutRoot.updateLayoutParams<RelativeLayout.LayoutParams> {
-                    bottomMargin = keyBoardHeight
-                }
-                if (keyBoardHeight > 0) {
-                    this.keyBoardHeight = keyBoardHeight
-                    mDatabind.chatRoomRecycler.scrollToPosition(
-                        chatDataAdapter.itemCount - 1
-                    )
-                }
-            }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
+        KeyBroadUtils.registerKeyBoardHeightListener(this) {
+            mViewModel.softKeyBroadHeight.postValue(it)
         }
         mDatabind.chatRoomRecordStartButton.setOnTouchListener { v, event ->
             if (!checkPermissionAvailable(Manifest.permission.RECORD_AUDIO)) {
@@ -262,11 +248,13 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         }
     }
 
+    /**
+     * 获取输入框最大宽度
+     */
     private fun obtainEditTextViewConfig() {
-        val editView = mDatabind.chatRoomEditText
-        editView.post {
+        mDatabind.chatRoomEditText.obtainViewWidth { viewWidth ->
             mViewModel.editTextViewMaxLineWidth.postValue(
-                editView.width - getDimens(R.dimen.dp_24) /*减去的这个值是水平padding值 dp_24*/
+                viewWidth - getDimens(R.dimen.dp_24) /*减去的这个值是水平padding值 dp_24*/
             )
         }
     }
@@ -280,14 +268,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
     override fun createObserver() {
         mViewModel.chatRoomType.observe(this) {
             when (it) {
-                CHAT_ROOM_RECORD_TYPE -> {
-                    hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
-                }
-
-                CHAT_ROOM_TEXT_TYPE -> {
-                    "走了".loge()
-                    showSoftInputKeyBoard(mDatabind.chatRoomEditText)
-                }
+                CHAT_ROOM_RECORD_TYPE -> hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+                CHAT_ROOM_TEXT_TYPE -> showSoftInputKeyBoard(mDatabind.chatRoomEditText)
             }
         }
     }

@@ -69,6 +69,7 @@ val Context.accessibilityManager get() = getSystemService<AccessibilityManager>(
 
 //震动时间
 const val DEFAULT_VIBRATOR_TIME = 15L
+
 //震动幅度
 const val DEFAULT_RECORD_TOUCH_AMPLITUDE = 2
 fun launchVibrator(
@@ -86,18 +87,23 @@ fun launchVibrator(
 
 //展示和收起键盘的间隔
 const val DELAY_KEY_BROAD = 100L
-fun showSoftInputKeyBoard(editText: EditText) {
+fun showSoftInputKeyBoard(
+    editText: EditText,
+    delayMillis: Long = DELAY_KEY_BROAD,
+) {
     editText.postDelayed({
         editText.requestFocusable()
         val inputManger = ToolBoxApplication.app.inputMethodManager
         inputManger?.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
-    }, DELAY_KEY_BROAD)
+    }, delayMillis)
 }
 
-fun hideSoftInputKeyBoard(editText: EditText) {
+fun hideSoftInputKeyBoard(
+    editText: EditText,
+    delayMillis: Long = DELAY_KEY_BROAD,
+) {
     editText.postDelayed({
         val inputManger = ToolBoxApplication.app.inputMethodManager
         inputManger?.hideSoftInputFromWindow(editText.windowToken, 0)
-    }, DELAY_KEY_BROAD)
+    }, delayMillis)
 }
-
