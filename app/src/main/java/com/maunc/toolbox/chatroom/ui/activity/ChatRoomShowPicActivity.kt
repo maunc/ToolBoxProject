@@ -4,12 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.maunc.toolbox.R
-import com.maunc.toolbox.chatroom.adapter.ChatRoomFullScreenViewPagerAdapter
+import com.maunc.toolbox.chatroom.adapter.ChatRoomShowImageViewPagerAdapter
 import com.maunc.toolbox.chatroom.constant.FULL_SCREEN_IMAGE_DATA_EXTRA
 import com.maunc.toolbox.chatroom.constant.FULL_SCREEN_IMAGE_POS_EXTRA
 import com.maunc.toolbox.chatroom.data.ChatImageData
@@ -31,7 +32,7 @@ class ChatRoomShowPicActivity :
         }
     }
 
-    private var showFullScreenFragments: MutableList<Fragment> = mutableListOf()
+    private var showImageFragments: MutableList<Fragment> = mutableListOf()
 
     override fun initView(savedInstanceState: Bundle?) {
         enterActivityAnim(R.anim.enter_new_data_page_anim)
@@ -43,20 +44,14 @@ class ChatRoomShowPicActivity :
             val type: Type = object : TypeToken<MutableList<ChatImageData>>() {}.type
             val imageDataMutableList = Gson().fromJson<MutableList<ChatImageData>>(it, type)
             imageDataMutableList.forEach { chatImageData ->
-                showFullScreenFragments.add(
-                    ChatRoomImageFragment.newInstance(
-                        chatImageData
-                    )
-                )
+                showImageFragments.add(ChatRoomImageFragment.newInstance(chatImageData))
             }
-            mDatabind.fullScreenImageViewPager.adapter = ChatRoomFullScreenViewPagerAdapter(
-                supportFragmentManager,
-                showFullScreenFragments
+            mDatabind.chatRoomShowImageViewPager.adapter = ChatRoomShowImageViewPagerAdapter(
+                supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, showImageFragments
             )
-            mDatabind.fullScreenImageViewPager.setCurrentItem(currentPos!!)
+            mDatabind.chatRoomShowImageViewPager.setCurrentItem(currentPos!!)
         }
-
-        mDatabind.fullScreenBackButton.setOnClickListener {
+        mDatabind.chatRoomShowImageBackButton.setOnClickListener {
             baseFinishCurrentActivity()
         }
         onBackPressedDispatcher.addCallback(this, backPressCallback)

@@ -30,15 +30,15 @@ class ChatRoomImageFragment :
         arguments?.getSerializable(FULL_SCREEN_IMAGE_DATA_EXTRA, ChatImageData::class.java)?.let {
             when (it.loadImageType) {
                 LoadImageType.FILE -> it.filePath?.let { filePath ->
-                    mDatabind.fullScreenZoomImageView.loadImage(filePath)
+                    mDatabind.showImageZoomImageView.loadImage(filePath)
                 }
 
                 LoadImageType.URL -> it.url?.let { url ->
-                    mDatabind.fullScreenZoomImageView.loadImage(url)
+                    mDatabind.showImageZoomImageView.loadImage(url)
                 }
 
                 LoadImageType.RES -> it.imageRes?.let { res ->
-                    mDatabind.fullScreenZoomImageView.loadImage(res)
+                    mDatabind.showImageZoomImageView.loadImage(res)
                 }
             }
         }

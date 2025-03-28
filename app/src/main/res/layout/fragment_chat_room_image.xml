@@ -15,7 +15,7 @@
         android:background="@color/black">
 
         <com.us.mauncview.ZoomImageView
-            android:id="@+id/full_screen_zoom_image_view"
+            android:id="@+id/show_image_zoom_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true" />

@@ -16,12 +16,12 @@
         android:background="@color/black">
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/full_screen_image_view_pager"
+            android:id="@+id/chat_room_show_image_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <RelativeLayout
-            android:id="@+id/full_screen_back_button"
+            android:id="@+id/chat_room_show_image_back_button"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
             android:layout_marginStart="@dimen/dp_30"

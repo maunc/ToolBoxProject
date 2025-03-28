@@ -321,7 +321,6 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 break
             }
         }
-
         startActivityWithData(
             ChatRoomShowPicActivity::class.java,
             mutableMapOf<String, Any>().apply {

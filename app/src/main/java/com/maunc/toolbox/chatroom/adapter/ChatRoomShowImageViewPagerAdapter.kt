@@ -4,11 +4,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
-class ChatRoomFullScreenViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+class ChatRoomShowImageViewPagerAdapter(
+    fm: FragmentManager, behavior: Int,
+) : FragmentStatePagerAdapter(fm, behavior) {
 
     private lateinit var fragmentList: MutableList<Fragment>
 
-    constructor(fm: FragmentManager, fragmentList: MutableList<Fragment>) : this(fm) {
+    constructor(
+        fm: FragmentManager,
+        behavior: Int,
+        fragmentList: MutableList<Fragment>,
+    ) : this(fm, behavior) {
         this.fragmentList = fragmentList
     }
 
