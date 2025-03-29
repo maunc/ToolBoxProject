@@ -54,6 +54,9 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
     var recordViewStatus = MutableLiveData(RECORD_VIEW_STATUS_UP) //录音状态
     var editContentString = MutableLiveData(GLOBAL_NONE_STRING) //输入框当前字符串的长度
     var editTextViewMaxLineWidth = MutableLiveData<Int>() //输入框最大宽度
+    var refreshLayout = MutableLiveData(true) //是否刷新整个Controller布局
+    var cleaMoreLayoutHeight = MutableLiveData<Boolean>() //是否清空软键盘遮挡的更多功能的布局的高度
+    var controllerButtonSelect = MutableLiveData(false) //控制台的按钮是否选中了
 
     fun createVoiceRecordConfig() {
         cacheDir = ToolBoxApplication.app.cacheDir

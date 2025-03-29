@@ -71,8 +71,6 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
 
         //Handler消息
         const val MESSAGE_FIRST_WELCOME_WHAT = 0
-        const val MESSAGE_SECOND_WELCOME_WHAT = 1
-        const val MESSAGE_THIRD_WELCOME_WHAT = 2
     }
 
     private val requestRecordAudioPermissionResult = registerForActivityResult(
@@ -109,16 +107,6 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             when (msg.what) {
                 MESSAGE_FIRST_WELCOME_WHAT -> {
                     chatDataAdapter.addChatBotTextItem(getString(R.string.chat_room_default_one_content_text))
-                    sendSecondWelcomeMsg()
-                }
-
-                MESSAGE_SECOND_WELCOME_WHAT -> {
-                    chatDataAdapter.addChatBotTextItem(getString(R.string.chat_room_default_two_content_text))
-                    sendThirdWelcomeMsg()
-                }
-
-                MESSAGE_THIRD_WELCOME_WHAT -> {
-                    chatDataAdapter.addChatBotTextItem(getString(R.string.chat_room_default_three_content_text))
                 }
             }
         }
@@ -127,14 +115,6 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
     private fun sendFirstWelcomeMsg() {
         chatDataAdapter.addChatNoneItem(getString(R.string.chat_room_welcome_text))
         chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_FIRST_WELCOME_WHAT, 500L)
-    }
-
-    private fun sendSecondWelcomeMsg() {
-        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_SECOND_WELCOME_WHAT, 500L)
-    }
-
-    private fun sendThirdWelcomeMsg() {
-        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_THIRD_WELCOME_WHAT, 500L)
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -147,12 +127,13 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         }
         mViewModel.createVoiceRecordConfig()
         mDatabind.chatRoomSelectIv.setOnClickListener {
-            mViewModel.chatRoomType.value =
-                if (mViewModel.chatRoomType.value!! == CHAT_ROOM_TEXT_TYPE) {
-                    CHAT_ROOM_RECORD_TYPE
-                } else {
-                    CHAT_ROOM_TEXT_TYPE
-                }
+            if (mViewModel.chatRoomType.value!! == CHAT_ROOM_TEXT_TYPE) {
+                mViewModel.chatRoomType.value = CHAT_ROOM_RECORD_TYPE
+            } else {
+                mViewModel.chatRoomType.value = CHAT_ROOM_TEXT_TYPE
+            }
+            mViewModel.cleaMoreLayoutHeight.value =
+                mViewModel.chatRoomType.value!! == CHAT_ROOM_RECORD_TYPE
         }
         /*val frameAnimHelper = FrameAnimHelper(
             mDatabind.chatRoomEmIv,
@@ -176,6 +157,9 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         }
         KeyBroadUtils.registerKeyBoardHeightListener(this) {
             mViewModel.softKeyBroadHeight.postValue(it)
+            if (!mViewModel.controllerButtonSelect.value!!) {
+                mViewModel.cleaMoreLayoutHeight.value = it <= 0
+            }
         }
         //录音按钮触摸
         mDatabind.chatRoomRecordStartButton.setOnTouchListener { v, event ->
@@ -186,6 +170,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     launchVibrator()
+                    mViewModel.controllerButtonSelect.value = false
                     userDownY = event.rawY.toInt()
                     userDownX = event.rawX.toInt()
                     mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_DOWN
@@ -242,6 +227,10 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             return@setOnTouchListener true
         }
         obtainEditTextViewConfig()
+        mDatabind.chatRoomEditText.setOnClickListener {
+            mViewModel.cleaMoreLayoutHeight.value = false
+            mViewModel.controllerButtonSelect.value = false
+        }
         mDatabind.chatRoomEditText.addEditTextListener(afterTextChanged = { editString ->
             mViewModel.editContentString.value = editString
         })
@@ -253,7 +242,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         mDatabind.chatRoomRecycler.addRecyclerViewScrollListener(onScrollStateChanged = { _, newState ->
             if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                 // 只有触摸态才会收起布局
-                hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+                restoreOriginalStateView()
             }
         })
         mDatabind.chatRoomSmartLayout.setOnRefreshListener {
@@ -268,6 +257,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 .setMaxSelectNum(SEND_IMAGE_MAX_NUM)
                 .forResult(object : OnResultCallbackListener<LocalMedia> {
                     override fun onResult(result: ArrayList<LocalMedia>?) {
+                        //重置一下UI
+                        restoreOriginalStateView()
                         result?.get(0)?.path?.let {
                             chatDataAdapter.addChatImageFileItem(it)
                         }
@@ -275,7 +266,16 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
 
                     override fun onCancel() {}
                 })
-
+        }
+        mDatabind.chatRoomMoreIcon.setOnClickListener {
+            mViewModel.controllerButtonSelect.value = true
+            mViewModel.refreshLayout.value = !mViewModel.refreshLayout.value!!
+            mViewModel.cleaMoreLayoutHeight.value = false
+            if (mViewModel.refreshLayout.value!!) {
+                showSoftInputKeyBoard(mDatabind.chatRoomEditText)
+            } else {
+                hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+            }
         }
     }
 
@@ -303,6 +303,15 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 CHAT_ROOM_TEXT_TYPE -> showSoftInputKeyBoard(mDatabind.chatRoomEditText)
             }
         }
+    }
+
+    /**
+     * 收起键盘，并收起更多功能Layout
+     */
+    private fun restoreOriginalStateView() {
+        hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+        mViewModel.cleaMoreLayoutHeight.value = true
+        mViewModel.controllerButtonSelect.value = false
     }
 
     override fun clickUserTextItem() {

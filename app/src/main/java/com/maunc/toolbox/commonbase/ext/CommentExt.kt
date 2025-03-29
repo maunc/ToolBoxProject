@@ -81,6 +81,7 @@ fun dp2px(dp: Int): Int {
 
 fun px2dp(px: Int): Int {
     val density = ToolBoxApplication.app.resources.displayMetrics.density
+   //2.25
     return (px / density + 0.5f).toInt()
 }
 

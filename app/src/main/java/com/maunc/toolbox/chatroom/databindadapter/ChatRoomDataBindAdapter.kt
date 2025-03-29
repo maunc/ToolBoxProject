@@ -3,8 +3,8 @@ package com.maunc.toolbox.chatroom.databindadapter
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -29,8 +29,6 @@ import com.maunc.toolbox.commonbase.ext.getColor
 import com.maunc.toolbox.commonbase.ext.getDrawable
 import com.maunc.toolbox.commonbase.ext.getString
 import com.maunc.toolbox.commonbase.ext.gone
-import com.maunc.toolbox.commonbase.ext.obtainViewHeight
-import com.maunc.toolbox.commonbase.ext.px2dp
 import com.maunc.toolbox.commonbase.ext.setHeight
 import com.maunc.toolbox.commonbase.ext.visible
 import com.us.mauncview.VoiceWaveView
@@ -123,26 +121,20 @@ object ChatRoomDataBindAdapter {
      * 语音模式布局与输入框布局切换
      */
     @JvmStatic
-    @BindingAdapter(value = ["handleChatRoomType"], requireAll = false)
-    fun handleChatRoomType(view: View, type: Int) {
+    @BindingAdapter(value = ["handleEditWithChatType"], requireAll = false)
+    fun handleEditWithChatRoomType(view: EditText, type: Int) {
         when (type) {
-            CHAT_ROOM_TEXT_TYPE -> {
-                if (view is TextView) {
-                    view.gone()
-                }
-                if (view is EditText) {
-                    view.visible()
-                }
-            }
+            CHAT_ROOM_TEXT_TYPE -> view.visible()
+            CHAT_ROOM_RECORD_TYPE -> view.gone()
+        }
+    }
 
-            CHAT_ROOM_RECORD_TYPE -> {
-                if (view is TextView) {
-                    view.visible()
-                }
-                if (view is EditText) {
-                    view.gone()
-                }
-            }
+    @JvmStatic
+    @BindingAdapter(value = ["handleRecordButtonWithChatType"], requireAll = false)
+    fun handleRecordButtonWithChatType(view: TextView, type: Int) {
+        when (type) {
+            CHAT_ROOM_TEXT_TYPE -> view.gone()
+            CHAT_ROOM_RECORD_TYPE -> view.visible()
         }
     }
 
@@ -203,19 +195,6 @@ object ChatRoomDataBindAdapter {
     }
 
     /**
-     * 控制台所在位置处理
-     */
-    @JvmStatic
-    @BindingAdapter(value = ["handleControllerLayoutParams"], requireAll = false)
-    fun handleControllerLayoutParams(view: View, handleHeight: Int) {
-        view.postDelayed({
-            view.updateLayoutParams<RelativeLayout.LayoutParams> {
-                bottomMargin = handleHeight
-            }
-        }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
-    }
-
-    /**
      * 软键盘弹出处理列表位置
      */
     @JvmStatic
@@ -235,13 +214,25 @@ object ChatRoomDataBindAdapter {
     }
 
     /**
-     * 处理软键盘下面的布局高度
+     * 控制台所在位置处理
      */
     @JvmStatic
-    @BindingAdapter(value = ["handleMoreLayoutParams"], requireAll = false)
-    fun handleMoreLayoutParams(view: View, handleHeight: Int) {
+    @BindingAdapter(
+        value = [
+            "handleControllerLayoutParams",
+            "handleRefreshControllerLayout"
+        ], requireAll = true
+    )
+    fun handleControllerLayoutParams(
+        view: View,
+        handleHeight: Int,
+        refreshLayout: Boolean,
+    ) {
+        if (!refreshLayout) {
+            return
+        }
         view.postDelayed({
-            view.updateLayoutParams<RelativeLayout.LayoutParams> {
+            view.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 bottomMargin = handleHeight
             }
         }, CHAT_ROOM_LAYOUT_UPDATE_TIME)
@@ -251,12 +242,15 @@ object ChatRoomDataBindAdapter {
      * 处理软键盘下面的布局高度
      */
     @JvmStatic
-    @BindingAdapter(value = ["handleMoreLayoutHeight"], requireAll = false)
-    fun handleMoreLayoutHeight(view: View, handleHeight: Int) {
-        view.obtainViewHeight {
-            if (handleHeight > 0) {
-                view.setHeight(px2dp(handleHeight))
-            }
+    @BindingAdapter(value = ["handleMoreLayoutHeight", "handleMoreClearHeight"], requireAll = true)
+    fun handleMoreLayoutHeight(view: View, handleHeight: Int, clearHeight: Boolean) {
+        if (clearHeight) {
+            view.gone()
+            return
+        }
+        view.visible()
+        if (handleHeight > 0) {
+            view.setHeight(handleHeight)
         }
     }
 }
