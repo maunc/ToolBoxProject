@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -48,25 +50,70 @@ fun Context.toastShort(
     text: String,
 ) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
-fun getString(
+fun obtainString(
     @StringRes strRes: Int,
 ): String = ContextCompat.getString(ToolBoxApplication.app, strRes)
 
-fun getDimens(
+fun obtainDimens(
     @DimenRes dimenRes: Int,
 ): Int = ToolBoxApplication.app.resources.getDimensionPixelOffset(dimenRes)
 
-fun getDimensFloat(
+fun obtainDimensFloat(
     @DimenRes dimenRes: Int,
 ): Float = ToolBoxApplication.app.resources.getDimension(dimenRes)
 
-fun getDrawable(
+fun obtainDrawable(
     @DrawableRes drawableRes: Int,
 ): Drawable? = ContextCompat.getDrawable(ToolBoxApplication.app, drawableRes)
 
-fun getColor(
+fun obtainColor(
     @ColorRes colorRes: Int,
 ): Int = ContextCompat.getColor(ToolBoxApplication.app, colorRes)
+
+fun obtainAppName(): String? {
+    val pm: PackageManager = ToolBoxApplication.app.packageManager
+    try {
+        val packageInfo: PackageInfo =
+            pm.getPackageInfo(ToolBoxApplication.app.packageName, 0)
+        val applicationInfo = packageInfo.applicationInfo
+        val labelRes = applicationInfo?.labelRes
+        return labelRes?.let {
+            ToolBoxApplication.app.resources.getString(it)
+        }
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+    }
+    return null
+}
+
+fun obtainVersionName(): String? {
+    try {
+        val packageManager: PackageManager = ToolBoxApplication.app.packageManager
+        val packageInfo: PackageInfo = packageManager.getPackageInfo(
+            ToolBoxApplication.app.packageName, 0
+        )
+        return packageInfo.versionName
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+    }
+    return null
+}
+
+fun obtainAppVersionCode(): Int {
+    var versionCode = 0
+    try {
+        val pm: PackageManager = ToolBoxApplication.app.packageManager
+        val pi: PackageInfo = pm.getPackageInfo(ToolBoxApplication.app.packageName, 0)
+        versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            pi.longVersionCode.toInt()
+        } else {
+            pi.versionCode
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return versionCode
+}
 
 //获取屏幕宽度
 fun Context.screenWidth() = resources.displayMetrics.widthPixels
@@ -74,24 +121,36 @@ fun Context.screenWidth() = resources.displayMetrics.widthPixels
 //获取屏幕高度
 fun Context.screenHeight() = resources.displayMetrics.heightPixels
 
-fun dp2px(dp: Int): Int {
-    val density = ToolBoxApplication.app.resources.displayMetrics.density
-    return (dp * density + 0.5f).toInt()
+/**
+ * 获取屏幕高度
+ * 可以选择是否带状态栏
+ */
+@SuppressLint("InternalInsetResource")
+fun Context.screenHeight(isAddStatusBar: Boolean): Int {
+    val heightPixels = resources.displayMetrics.heightPixels
+    if (isAddStatusBar) {
+        var statusBarHeight = 0
+        val resourceId =
+            resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            statusBarHeight = resources.getDimensionPixelSize(resourceId)
+        }
+        return heightPixels + statusBarHeight
+    }
+    return heightPixels
 }
 
-fun px2dp(px: Int): Int {
-    val density = ToolBoxApplication.app.resources.displayMetrics.density
-   //2.25
-    return (px / density + 0.5f).toInt()
-}
+fun dp2px(dp: Int): Int =
+    (dp * ToolBoxApplication.app.resources.displayMetrics.density + 0.5f).toInt()
 
-fun Int.toDp(): Int {
-    return TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        this.toFloat(),
-        ToolBoxApplication.app.resources.displayMetrics
-    ).toInt()
-}
+fun px2dp(px: Int): Int =
+    (px / ToolBoxApplication.app.resources.displayMetrics.density + 0.5f).toInt()
+
+fun Int.toDp(): Int = TypedValue.applyDimension(
+    TypedValue.COMPLEX_UNIT_DIP,
+    this.toFloat(),
+    ToolBoxApplication.app.resources.displayMetrics
+).toInt()
 
 @SuppressLint("WrongConstant")
 fun Context.linearLayoutManager(
@@ -119,10 +178,10 @@ fun <T> MutableList<T>.mutableListInsert(vararg data: T) {
 }
 
 fun RecyclerView.addCustomizeItemDecoration(
-    outLeft: Int = getDimens(R.dimen.dp_15),
-    outTop: Int = getDimens(R.dimen.dp_15),
-    outRight: Int = getDimens(R.dimen.dp_15),
-    outBottom: Int = getDimens(R.dimen.dp_15),
+    outLeft: Int = obtainDimens(R.dimen.dp_15),
+    outTop: Int = obtainDimens(R.dimen.dp_15),
+    outRight: Int = obtainDimens(R.dimen.dp_15),
+    outBottom: Int = obtainDimens(R.dimen.dp_15),
 ) {
     addItemDecoration(object : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(

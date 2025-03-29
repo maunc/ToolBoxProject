@@ -2,6 +2,7 @@ package com.maunc.toolbox.commonbase.ui.activity
 
 import android.os.Bundle
 import com.maunc.toolbox.R
+import com.maunc.toolbox.chatroom.ui.activity.ChatRoomActivity
 import com.maunc.toolbox.chronograph.ui.ChronographMainActivity
 import com.maunc.toolbox.commonbase.adapter.ToolBoxManagerAdapter
 import com.maunc.toolbox.commonbase.base.BaseActivity
@@ -11,7 +12,6 @@ import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.viewmodel.ToolBoxMainViewModel
 import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
 import com.maunc.toolbox.randomname.ui.activity.RandomNameWelcomeActivity
-import com.maunc.toolbox.chatroom.ui.activity.ChatRoomActivity
 
 class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMainBinding>() {
 
@@ -31,7 +31,8 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
                     getString(R.string.tool_box_item_random_name_text) -> {
                         startTargetActivity(RandomNameWelcomeActivity::class.java)
                     }
-                    getString(R.string.tool_box_item_chat_room_text) ->{
+
+                    getString(R.string.tool_box_item_chat_room_text) -> {
                         startTargetActivity(ChatRoomActivity::class.java)
                     }
                 }

@@ -12,36 +12,34 @@ import java.lang.reflect.ParameterizedType
 @JvmName("inflateWithGeneric")
 fun <VB : ViewBinding> AppCompatActivity.inflateBindingWithGeneric(
     layoutInflater: LayoutInflater,
-): VB =
-    withGenericBindingClass(this) { clazz ->
-        clazz.getMethod(
-            "inflate",
-            LayoutInflater::class.java
-        ).invoke(null, layoutInflater) as VB
-    }.also { binding ->
-        if (binding is ViewDataBinding) {
-            binding.lifecycleOwner = this
-        }
+): VB = withGenericBindingClass(this) { clazz ->
+    clazz.getMethod(
+        "inflate",
+        LayoutInflater::class.java
+    ).invoke(null, layoutInflater) as VB
+}.also { binding ->
+    if (binding is ViewDataBinding) {
+        binding.lifecycleOwner = this
     }
+}
 
 @JvmName("inflateWithGeneric")
 fun <VB : ViewBinding> Fragment.inflateBindingWithGeneric(
     layoutInflater: LayoutInflater,
     parent: ViewGroup?,
     attachToParent: Boolean,
-): VB =
-    withGenericBindingClass(this) { clazz ->
-        clazz.getMethod(
-            "inflate",
-            LayoutInflater::class.java,
-            ViewGroup::class.java,
-            Boolean::class.java
-        ).invoke(null, layoutInflater, parent, attachToParent) as VB
-    }.also { binding ->
-        if (binding is ViewDataBinding) {
-            binding.lifecycleOwner = viewLifecycleOwner
-        }
+): VB = withGenericBindingClass(this) { clazz ->
+    clazz.getMethod(
+        "inflate",
+        LayoutInflater::class.java,
+        ViewGroup::class.java,
+        Boolean::class.java
+    ).invoke(null, layoutInflater, parent, attachToParent) as VB
+}.also { binding ->
+    if (binding is ViewDataBinding) {
+        binding.lifecycleOwner = viewLifecycleOwner
     }
+}
 
 private fun <VB : ViewBinding> withGenericBindingClass(
     any: Any, block: (Class<VB>) -> VB,

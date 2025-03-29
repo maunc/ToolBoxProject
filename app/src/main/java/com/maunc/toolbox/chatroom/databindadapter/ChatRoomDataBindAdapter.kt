@@ -25,9 +25,9 @@ import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.commonbase.ext.animateSetHeight
 import com.maunc.toolbox.commonbase.ext.animateToAlpha
-import com.maunc.toolbox.commonbase.ext.getColor
-import com.maunc.toolbox.commonbase.ext.getDrawable
-import com.maunc.toolbox.commonbase.ext.getString
+import com.maunc.toolbox.commonbase.ext.obtainColor
+import com.maunc.toolbox.commonbase.ext.obtainDrawable
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.gone
 import com.maunc.toolbox.commonbase.ext.setHeight
 import com.maunc.toolbox.commonbase.ext.visible
@@ -43,17 +43,17 @@ object ChatRoomDataBindAdapter {
     fun handleRecordButton(textView: TextView, recordStatus: Int) {
         when (recordStatus) {
             RECORD_VIEW_STATUS_DOWN, RECORD_VIEW_STATUS_MOVE_CANCEL_DONE -> {
-                textView.text = getString(R.string.voice_record_up_tips)
+                textView.text = obtainString(R.string.voice_record_up_tips)
                 textView.setBackgroundResource(R.drawable.bg_white_50_radius_12)
             }
 
             RECORD_VIEW_STATUS_UP -> {
-                textView.text = getString(R.string.voice_record_down_tips)
+                textView.text = obtainString(R.string.voice_record_down_tips)
                 textView.setBackgroundResource(R.drawable.bg_white_radius_12)
             }
 
             RECORD_VIEW_STATUS_MOVE_CANCEL -> {
-                textView.text = getString(R.string.voice_record_up_cancel_tips)
+                textView.text = obtainString(R.string.voice_record_up_cancel_tips)
             }
         }
     }
@@ -67,11 +67,11 @@ object ChatRoomDataBindAdapter {
         voiceWaveView.apply {
             when (recordStatus) {
                 RECORD_VIEW_STATUS_UP, RECORD_VIEW_STATUS_MOVE_CANCEL_DONE -> {
-                    lineColor = getColor(R.color.blue)
+                    lineColor = obtainColor(R.color.blue)
                 }
 
                 RECORD_VIEW_STATUS_MOVE_CANCEL -> {
-                    lineColor = getColor(R.color.red)
+                    lineColor = obtainColor(R.color.red)
                 }
             }
         }
@@ -158,11 +158,11 @@ object ChatRoomDataBindAdapter {
     fun handleSendButtonEnable(textView: TextView, editString: String) {
         textView.isEnabled = editString.isNotEmpty()
         if (!textView.isEnabled) {
-            textView.background = getDrawable(R.drawable.chat_room_send_button_bg_not_enable)
-            textView.setTextColor(getColor(R.color.white_75))
+            textView.background = obtainDrawable(R.drawable.chat_room_send_button_bg_not_enable)
+            textView.setTextColor(obtainColor(R.color.white_75))
         } else {
-            textView.background = getDrawable(R.drawable.chat_room_send_button_bg_enable)
-            textView.setTextColor(getColor(R.color.white))
+            textView.background = obtainDrawable(R.drawable.chat_room_send_button_bg_enable)
+            textView.setTextColor(obtainColor(R.color.white))
         }
     }
 

@@ -32,6 +32,7 @@ import com.maunc.toolbox.chatroom.data.ChatImageData
 import com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
+import com.maunc.toolbox.commonbase.constant.ONE_DELAY_MILLIS
 import com.maunc.toolbox.commonbase.ext.addEditTextListener
 import com.maunc.toolbox.commonbase.ext.addRecyclerViewScrollListener
 import com.maunc.toolbox.commonbase.ext.animateSetWidthAndHeight
@@ -39,11 +40,10 @@ import com.maunc.toolbox.commonbase.ext.checkPermissionAvailable
 import com.maunc.toolbox.commonbase.ext.checkPermissionManualRequest
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.getDimens
+import com.maunc.toolbox.commonbase.ext.obtainDimens
 import com.maunc.toolbox.commonbase.ext.hideSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainGlideEngin
 import com.maunc.toolbox.commonbase.ext.obtainViewWidth
 import com.maunc.toolbox.commonbase.ext.screenHeight
@@ -145,11 +145,9 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         mDatabind.chatRoomSendContentTv.setOnClickListener {
             val sendContent = mDatabind.chatRoomEditText.text.toString()
             if (sendContent.isEmpty()) {
-                "sendContent is empty".loge()
                 return@setOnClickListener
             }
             if (mViewModel.chatRoomType.value!! != CHAT_ROOM_TEXT_TYPE) {
-                "chat room type is text type".loge()
                 return@setOnClickListener
             }
             chatDataAdapter.addChatTextItem(sendContent)
@@ -248,7 +246,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         mDatabind.chatRoomSmartLayout.setOnRefreshListener {
             mDatabind.chatRoomSmartLayout.postDelayed({
                 mDatabind.chatRoomSmartLayout.finishRefresh()
-            }, 100)
+            }, ONE_DELAY_MILLIS)
         }
         mDatabind.chatRoomPicIcon.setOnClickListener {
             PictureSelector.create(this)
@@ -285,7 +283,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
     private fun obtainEditTextViewConfig() {
         mDatabind.chatRoomEditText.obtainViewWidth { viewWidth ->
             mViewModel.editTextViewMaxLineWidth.postValue(
-                viewWidth - getDimens(R.dimen.dp_24) /*减去的这个值是水平padding值 dp_24*/
+                viewWidth - obtainDimens(R.dimen.dp_24) /*减去的这个值是水平padding值 dp_24*/
             )
         }
     }
@@ -362,8 +360,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             CONTROLLER_SURE_VIEW -> {
                 if (animType == ENLARGE_ANIM) {
                     mDatabind.voiceRecordUpSureBg.animateSetWidthAndHeight(
-                        targetWidth = getDimens(R.dimen.dp_120),
-                        targetHeight = getDimens(R.dimen.dp_120)
+                        targetWidth = obtainDimens(R.dimen.dp_120),
+                        targetHeight = obtainDimens(R.dimen.dp_120)
                     ) {
                         action()
                         mDatabind.voiceRecordUpSureBg.setBackgroundResource(
@@ -374,8 +372,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 }
                 if (animType == SHRINK_ANIM) {
                     mDatabind.voiceRecordUpSureBg.animateSetWidthAndHeight(
-                        targetWidth = getDimens(R.dimen.dp_100),
-                        targetHeight = getDimens(R.dimen.dp_100)
+                        targetWidth = obtainDimens(R.dimen.dp_100),
+                        targetHeight = obtainDimens(R.dimen.dp_100)
                     ) {
                         action()
                         mDatabind.voiceRecordUpSureBg.setBackgroundResource(
@@ -389,8 +387,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             CONTROLLER_CANCEL_VIEW -> {
                 if (animType == ENLARGE_ANIM) {
                     mDatabind.voiceRecordUpCancelBg.animateSetWidthAndHeight(
-                        targetWidth = getDimens(R.dimen.dp_120),
-                        targetHeight = getDimens(R.dimen.dp_120)
+                        targetWidth = obtainDimens(R.dimen.dp_120),
+                        targetHeight = obtainDimens(R.dimen.dp_120)
                     ) {
                         action()
                         mDatabind.voiceRecordUpCancelBg.setBackgroundResource(
@@ -401,8 +399,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 }
                 if (animType == SHRINK_ANIM) {
                     mDatabind.voiceRecordUpCancelBg.animateSetWidthAndHeight(
-                        targetWidth = getDimens(R.dimen.dp_100),
-                        targetHeight = getDimens(R.dimen.dp_100)
+                        targetWidth = obtainDimens(R.dimen.dp_100),
+                        targetHeight = obtainDimens(R.dimen.dp_100)
                     ) {
                         action()
                         mDatabind.voiceRecordUpCancelBg.setBackgroundResource(

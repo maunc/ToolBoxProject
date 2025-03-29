@@ -1,22 +1,25 @@
 package com.maunc.toolbox.chatroom.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.chatroom.constant.THIRTY_SECOND
-import com.maunc.toolbox.chatroom.constant.YYYY_MM_DD_HH_MM_SS
 import com.maunc.toolbox.chatroom.data.ChatData
 import com.maunc.toolbox.chatroom.data.ChatImageData
 import com.maunc.toolbox.chatroom.data.LoadImageType
+import com.maunc.toolbox.commonbase.constant.THIRTY_SECOND
+import com.maunc.toolbox.commonbase.constant.YYYY_MM_DD_HH_MM_SS
 import com.maunc.toolbox.commonbase.ext.isChineseChar
 import com.maunc.toolbox.commonbase.ext.loadImage
 import com.maunc.toolbox.commonbase.ext.loadImageCircleCrop
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainLocationWithScreen
+import com.maunc.toolbox.commonbase.ext.setWidthAndHeight
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -79,9 +82,7 @@ class ChatDataAdapter :
                             chatData.chatImage?.let { chatImageList.add(it) }
                         }
                         clickUserItemListener?.clickUserImageItem(
-                            chatImage,
-                            chatImageList,
-                            itemPosition
+                            chatImage, chatImageList, itemPosition
                         )
                     }
                 }

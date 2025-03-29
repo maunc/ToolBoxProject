@@ -31,14 +31,14 @@ fun Activity.exitActivityAnim(@AnimRes exitAnim: Int) {
 }
 
 /**========================================  Intent跳转  ========================================*/
-fun <T> Context.startTargetActivity(clazz: Class<T>) = startActivity(obtainActivityIntent(clazz))
+fun <T> Context.startTargetActivity(
+    clazz: Class<T>
+) = startActivity(obtainActivityIntent(clazz))
 
 fun <T> Context.startActivityWithData(
     clazz: Class<T>,
     dataMap: MutableMap<String, Any> = mutableMapOf(),
-) {
-    startActivity(obtainActivityIntentPutData(clazz, dataMap))
-}
+) = startActivity(obtainActivityIntentPutData(clazz, dataMap))
 
 /**========================================  Intent构造  ========================================*/
 fun <T> Context.obtainActivityIntent(
@@ -54,7 +54,10 @@ fun <T> Context.obtainActivityIntentPutData(
     dataMap: MutableMap<String, Any> = mutableMapOf(),
 ): Intent = intentPutData(Intent(this, clazz), dataMap)
 
-fun intentPutData(intent: Intent, dataMap: MutableMap<String, Any> = mutableMapOf()): Intent {
+fun intentPutData(
+    intent: Intent,
+    dataMap: MutableMap<String, Any> = mutableMapOf(),
+): Intent {
     val bundle = Bundle()
     return intent.apply {
         for ((key, value) in dataMap) {

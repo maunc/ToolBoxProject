@@ -12,8 +12,8 @@ import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.randomNameDao
-import com.maunc.toolbox.commonbase.ext.getColor
-import com.maunc.toolbox.commonbase.ext.getString
+import com.maunc.toolbox.commonbase.ext.obtainColor
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
@@ -28,7 +28,7 @@ class NewRandomNameViewModel : BaseViewModel<BaseModel>() {
     var showDeleteEditIcon = MutableLiveData(false)
     var showNameLimitTips = MutableLiveData(false)
     var nameLimitTips = MutableLiveData(GLOBAL_NONE_STRING)
-    var nameLimitTipsTextColor = MutableLiveData(getColor(R.color.red))
+    var nameLimitTipsTextColor = MutableLiveData(obtainColor(R.color.red))
     var newRandomName = MutableLiveData(GLOBAL_NONE_STRING)
     var newRandomNameToGroup = MutableLiveData(GLOBAL_NONE_STRING)
     var newRandomNameSuccess = MutableLiveData(false)
@@ -41,7 +41,7 @@ class NewRandomNameViewModel : BaseViewModel<BaseModel>() {
     fun initiateCreateNewNameWithGroupEvent() {
         if (newRandomName.value!!.isEmpty()) {
             handleShowTipsEvent(
-                getString(R.string.new_name_with_group_edit_none_tips_text),
+                obtainString(R.string.new_name_with_group_edit_none_tips_text),
                 false
             )
             return
@@ -56,7 +56,7 @@ class NewRandomNameViewModel : BaseViewModel<BaseModel>() {
                 createNewNameWithGroup()
             } else {
                 handleShowTipsEvent(
-                    getString(R.string.new_name_with_group_edit_exist_tips_text),
+                    obtainString(R.string.new_name_with_group_edit_exist_tips_text),
                     false
                 )
             }
@@ -92,9 +92,9 @@ class NewRandomNameViewModel : BaseViewModel<BaseModel>() {
                 handleShowTipsEvent(
                     if (success) {
                         whetherDataHasChange.value = true
-                        getString(R.string.new_name_with_group_edit_success_tips_text)
+                        obtainString(R.string.new_name_with_group_edit_success_tips_text)
                     } else {
-                        getString(R.string.new_name_with_group_edit_error_tips_text)
+                        obtainString(R.string.new_name_with_group_edit_error_tips_text)
                     }, success
                 )
             }
@@ -110,9 +110,9 @@ class NewRandomNameViewModel : BaseViewModel<BaseModel>() {
 
     fun handleTipsTextColor(isSuccess: Boolean) {
         nameLimitTipsTextColor.value = if (isSuccess) {
-            getColor(R.color.green_75)
+            obtainColor(R.color.green_75)
         } else {
-            getColor(R.color.red)
+            obtainColor(R.color.red)
         }
     }
 

@@ -1,7 +1,7 @@
 package com.maunc.toolbox.chatroom.constant
 
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.getDimens
+import com.maunc.toolbox.commonbase.ext.obtainDimens
 
 const val AUDIO_PERMISSION_START_DIALOG = "startSystemPageAudioDialog"
 
@@ -26,26 +26,15 @@ const val RECORD_VIEW_STATUS_MOVE_CANCEL_DONE = 3 //移动过可取消后返回�
 const val CHAT_ROOM_TEXT_TYPE = 1
 const val CHAT_ROOM_RECORD_TYPE = 2
 
-//30秒
-const val THIRTY_SECOND = 30000
-
-//60秒
-const val SIXTY_SECOND = 60000
-
-/**
- * SimpleDate
- */
-const val YYYY_MM_DD_HH_MM_SS = "yyyy年MM月dd日 HH:mm:ss"
-
 /**
  * 输入框高度enum
  */
-var EDIT_NONE_LINE = getDimens(R.dimen.dp_50)
-var EDIT_ONE_LINE = getDimens(R.dimen.dp_80)
-var EDIT_TWO_LINE = getDimens(R.dimen.dp_110)
-var EDIT_THREE_LINE = getDimens(R.dimen.dp_140)
-var EDIT_FOUR_LINE = getDimens(R.dimen.dp_170)
-var EDIT_FIVE_LINE = getDimens(R.dimen.dp_200)
+var EDIT_NONE_LINE = obtainDimens(R.dimen.dp_50)
+var EDIT_ONE_LINE = obtainDimens(R.dimen.dp_80)
+var EDIT_TWO_LINE = obtainDimens(R.dimen.dp_110)
+var EDIT_THREE_LINE = obtainDimens(R.dimen.dp_140)
+var EDIT_FOUR_LINE = obtainDimens(R.dimen.dp_170)
+var EDIT_FIVE_LINE = obtainDimens(R.dimen.dp_200)
 
 //只能选择一张照片发送
 const val SEND_IMAGE_MAX_NUM = 1

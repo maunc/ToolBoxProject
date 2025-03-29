@@ -2,6 +2,7 @@ package com.maunc.toolbox.commonbase.ext
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
@@ -26,6 +27,9 @@ fun ImageView.loadImage(@RawRes @DrawableRes resId: Int) =
 
 fun ImageView.loadImage(string: String) =
     Glide.with(ToolBoxApplication.app).load(string).into(this)
+
+fun ImageView.loadImage(bitmap: Bitmap) =
+    Glide.with(ToolBoxApplication.app).load(bitmap).into(this)
 
 fun Activity.loadImage(imageView: ImageView, uri: Uri) =
     Glide.with(this).load(uri).into(imageView)

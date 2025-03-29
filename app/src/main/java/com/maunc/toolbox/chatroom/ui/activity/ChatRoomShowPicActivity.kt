@@ -54,6 +54,7 @@ class ChatRoomShowPicActivity :
         mDatabind.chatRoomShowImageBackButton.setOnClickListener {
             baseFinishCurrentActivity()
         }
+        mDatabind.chatRoomShowImageToolButton.setOnClickListener {}
         onBackPressedDispatcher.addCallback(this, backPressCallback)
     }
 

@@ -24,10 +24,7 @@ import com.maunc.toolbox.commonbase.constant.SCALE_X
 import com.maunc.toolbox.commonbase.constant.SCALE_Y
 import com.maunc.toolbox.commonbase.constant.TRANSLATION_Y
 import com.maunc.toolbox.commonbase.ext.animateToAlpha
-import com.maunc.toolbox.commonbase.ext.getDimensFloat
-import com.maunc.toolbox.commonbase.ext.loge
-import java.text.SimpleDateFormat
-import java.util.Date
+import com.maunc.toolbox.commonbase.ext.obtainDimensFloat
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
@@ -132,7 +129,7 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
             endScale = 0.7f,
             view = textView,
             startTranslationY = 0f,
-            endTranslationY = -getDimensFloat(R.dimen.chronograph_time_tv_translate_y)
+            endTranslationY = -obtainDimensFloat(R.dimen.chronograph_time_tv_translate_y)
         )
         recyclerView.animateToAlpha(
             startAlpha = 0f,
@@ -149,7 +146,7 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
             startScale = 0.7f,
             endScale = 1f,
             view = textView,
-            startTranslationY = -getDimensFloat(R.dimen.chronograph_time_tv_translate_y),
+            startTranslationY = -obtainDimensFloat(R.dimen.chronograph_time_tv_translate_y),
             endTranslationY = 0f
         )
         recyclerView.animateToAlpha(
@@ -165,7 +162,7 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
         startScale: Float = 1f,
         endScale: Float = 0.7f,
         startTranslationY: Float = 0f,
-        endTranslationY: Float = -getDimensFloat(R.dimen.chronograph_time_tv_translate_y),
+        endTranslationY: Float = -obtainDimensFloat(R.dimen.chronograph_time_tv_translate_y),
         time: Long = 200,
     ) {
         val scaleXAnimator = ObjectAnimator.ofFloat(

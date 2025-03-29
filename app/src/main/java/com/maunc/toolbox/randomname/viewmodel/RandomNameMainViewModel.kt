@@ -12,7 +12,7 @@ import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
 import com.maunc.toolbox.randomname.constant.RANDOM_NAME_THREAD_NAME
 import com.maunc.toolbox.randomname.database.table.RandomNameData
-import com.maunc.toolbox.commonbase.ext.getString
+import com.maunc.toolbox.commonbase.ext.obtainString
 import java.util.Random
 
 class RandomNameMainViewModel : BaseViewModel<BaseModel>() {
@@ -23,7 +23,7 @@ class RandomNameMainViewModel : BaseViewModel<BaseModel>() {
 
     var runRandomStatus = MutableLiveData(RUN_STATUS_NONE)
 
-    var targetRandomName = MutableLiveData(getString(R.string.random_none_text))
+    var targetRandomName = MutableLiveData(obtainString(R.string.random_none_text))
 
     var runDelayTime = MutableLiveData(15L)
 

@@ -1,7 +1,5 @@
 package com.maunc.toolbox.randomname.viewmodel
 
-import android.os.Handler
-import android.os.Looper
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.core.view.updateLayoutParams
@@ -11,7 +9,7 @@ import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.randomGroupDao
-import com.maunc.toolbox.commonbase.ext.getString
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
@@ -33,7 +31,7 @@ class NewRandomGroupViewModel : BaseViewModel<BaseModel>() {
 
     fun initiateCreateNewGroupEvent() {
         if (newGroupName.value!!.isEmpty()) {
-            handleShowTipsEvent(getString(R.string.new_group_edit_none_tips_text))
+            handleShowTipsEvent(obtainString(R.string.new_group_edit_none_tips_text))
             return
         }
         launch({
@@ -42,7 +40,7 @@ class NewRandomGroupViewModel : BaseViewModel<BaseModel>() {
             if (it == null) {
                 createNewGroup()
             } else {
-                handleShowTipsEvent(getString(R.string.new_group_edit_exist_tips_text))
+                handleShowTipsEvent(obtainString(R.string.new_group_edit_exist_tips_text))
             }
         })
     }

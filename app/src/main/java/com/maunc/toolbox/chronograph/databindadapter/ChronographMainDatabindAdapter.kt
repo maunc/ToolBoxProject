@@ -6,7 +6,6 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_NONE
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_START
@@ -31,13 +30,8 @@ object ChronographMainDatabindAdapter {
     @BindingAdapter(value = ["handleControllerRightButton"], requireAll = false)
     fun handleControllerRightButton(imageView: ImageView, chronographStatus: Int) {
         when (chronographStatus) {
-            CHRONOGRAPH_STATUS_START -> {
-                imageView.setImageResource(R.drawable.icon_chronograph_start)
-            }
-
-            CHRONOGRAPH_STATUS_STOP -> {
-                imageView.setImageResource(R.drawable.icon_chronograph_stop)
-            }
+            CHRONOGRAPH_STATUS_START -> imageView.setImageResource(R.drawable.icon_chronograph_start)
+            CHRONOGRAPH_STATUS_STOP -> imageView.setImageResource(R.drawable.icon_chronograph_stop)
         }
     }
 
@@ -45,13 +39,8 @@ object ChronographMainDatabindAdapter {
     @BindingAdapter(value = ["handleControllerLeftButton"], requireAll = false)
     fun handleControllerLeftButton(imageView: ImageView, chronographStatus: Int) {
         when (chronographStatus) {
-            CHRONOGRAPH_STATUS_START -> {
-                imageView.setImageResource(R.drawable.icon_chronograph_rank)
-            }
-
-            CHRONOGRAPH_STATUS_STOP -> {
-                imageView.setImageResource(R.drawable.icon_chronograph_end)
-            }
+            CHRONOGRAPH_STATUS_START -> imageView.setImageResource(R.drawable.icon_chronograph_rank)
+            CHRONOGRAPH_STATUS_STOP -> imageView.setImageResource(R.drawable.icon_chronograph_end)
         }
     }
 

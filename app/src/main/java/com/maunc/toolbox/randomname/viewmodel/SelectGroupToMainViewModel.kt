@@ -7,7 +7,7 @@ import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.randomname.constant.GROUP_REMOVE_THRESHOLD
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
 import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
-import com.maunc.toolbox.commonbase.ext.getString
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 
@@ -52,7 +52,7 @@ class SelectGroupToMainViewModel : BaseViewModel<BaseModel>() {
             showTipsBool.value = false
         } else {
             showTipsBool.value = true
-            tipsStrVar.value = getString(R.string.select_group_to_main_tips_text)
+            tipsStrVar.value = obtainString(R.string.select_group_to_main_tips_text)
         }
     }
 }
