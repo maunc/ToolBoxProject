@@ -9,6 +9,8 @@ import android.net.Uri
 import android.os.Environment
 import android.os.Process
 import androidx.lifecycle.MutableLiveData
+import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
@@ -239,6 +241,15 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
             byteArray[i * 2 + 1] = ((shortValue.toInt() shr 8) and 0xff).toByte()
         }
         return byteArray
+    }
+
+    //PicSelect回调简化
+    fun onPicSelectResultCallbackListener(
+        onCancel: () -> Unit = {},
+        onResult: (ArrayList<LocalMedia>?) -> Unit = {},
+    ): OnResultCallbackListener<LocalMedia> = object : OnResultCallbackListener<LocalMedia> {
+        override fun onResult(result: ArrayList<LocalMedia>?) = onResult.invoke(result)
+        override fun onCancel() = onCancel()
     }
 
     private fun destroyVoiceRecordConfig() {

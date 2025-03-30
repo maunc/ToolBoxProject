@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
-import com.luck.picture.lib.entity.LocalMedia
-import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.adapter.ChatDataAdapter
 import com.maunc.toolbox.chatroom.constant.AUDIO_PERMISSION_START_DIALOG
@@ -271,16 +269,23 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 .openGallery(SelectMimeType.ofImage())
                 .setImageEngine(obtainGlideEngin)
                 .setMaxSelectNum(SEND_IMAGE_MAX_NUM)
-                .forResult(object : OnResultCallbackListener<LocalMedia> {
-                    override fun onResult(result: ArrayList<LocalMedia>?) {
-                        //重置一下UI
-                        restoreOriginalStateView()
-                        result?.get(0)?.path?.let {
+                .forResult(mViewModel.onPicSelectResultCallbackListener { resultList ->
+                    restoreOriginalStateView()
+                    resultList?.forEach { resultItem ->
+                        resultItem.path?.let {
                             chatDataAdapter.addChatImageFileItem(it)
                         }
                     }
-
-                    override fun onCancel() {}
+                })
+        }
+        mDatabind.chatRoomPhotoIcon.setOnClickListener {
+            PictureSelector.create(this)
+                .openCamera(SelectMimeType.ofImage())
+                .forResult(mViewModel.onPicSelectResultCallbackListener { resultList ->
+                    restoreOriginalStateView()
+                    resultList?.get(0)?.path?.let {
+                        chatDataAdapter.addChatImageFileItem(it)
+                    }
                 })
         }
         mDatabind.chatRoomMoreIcon.setOnClickListener {

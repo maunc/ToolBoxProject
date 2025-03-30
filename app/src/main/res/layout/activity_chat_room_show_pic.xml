@@ -4,8 +4,10 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
-            name="ChatRoomShowPicViewModel"
+            name="chatRoomShowPicViewModel"
             type="com.maunc.toolbox.chatroom.viewmodel.ChatRoomShowPicViewModel" />
     </data>
 
@@ -19,6 +21,19 @@
             android:id="@+id/chat_room_show_image_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <com.zhpan.indicator.IndicatorView
+            android:id="@+id/chat_room_show_image_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_100"
+            android:visibility="@{chatRoomShowPicViewModel.showIndicatorView?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:vpi_slider_checked_color="@color/white"
+            app:vpi_slider_normal_color="@color/white_50"
+            app:vpi_slider_radius="@dimen/dp_5" />
 
         <RelativeLayout
             android:id="@+id/chat_room_show_image_back_button"

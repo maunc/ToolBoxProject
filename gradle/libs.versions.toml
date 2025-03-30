@@ -22,6 +22,7 @@ exoPlayerVersion = "2.19.1"
 pictureSelectVersion = "v3.11.2"
 immersionbarVersion = "3.2.2"
 gsonVersion = "2.8.5"
+viewPagerIndicatiorVersion = "1.2.3"
 
 [bundles]
 #集合管理
@@ -72,6 +73,7 @@ ext-exo-player-core = { group = "com.google.android.exoplayer", name = "exoplaye
 ext-exo-player-ui = { group = "com.google.android.exoplayer", name = "exoplayer-ui", version.ref = "exoPlayerVersion" }
 ext-picture-selector = { group = "io.github.lucksiege", name = "pictureselector", version.ref = "pictureSelectVersion" }
 ext-immersionbar = { group = "com.geyifeng.immersionbar", name = "immersionbar", version.ref = "immersionbarVersion" }
+ext-pager-indicator = { group = "com.github.zhpanvip", name = "viewpagerindicator", version.ref = "viewPagerIndicatiorVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

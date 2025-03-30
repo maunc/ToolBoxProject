@@ -32,7 +32,7 @@ fun Activity.exitActivityAnim(@AnimRes exitAnim: Int) {
 
 /**========================================  Intent跳转  ========================================*/
 fun <T> Context.startTargetActivity(
-    clazz: Class<T>
+    clazz: Class<T>,
 ) = startActivity(obtainActivityIntent(clazz))
 
 fun <T> Context.startActivityWithData(
@@ -90,9 +90,7 @@ fun intentPutData(
 /**========================================  Activity销毁  ========================================*/
 fun AppCompatActivity.finishCurrentActivity(
     @AnimRes exitAnim: Int = ACTIVITY_ANIM_DEFAULT,
-    action: () -> Unit = {},
 ) {
-    action()
     finish()
     if (exitAnim != ACTIVITY_ANIM_DEFAULT) {
         exitActivityAnim(exitAnim)
@@ -103,14 +101,10 @@ fun AppCompatActivity.finishCurrentResultToActivity(
     resultCode: Int = RESULT_OK,
     intent: Intent? = null,
     @AnimRes exitAnim: Int = ACTIVITY_ANIM_DEFAULT,
-    action: () -> Unit = {},
 ) {
-    action()
-    if (intent == null) {
-        setResult(resultCode)
-    } else {
+    intent?.let {
         setResult(resultCode, intent)
-    }
+    } ?: setResult(resultCode)
     finish()
     if (exitAnim != ACTIVITY_ANIM_DEFAULT) {
         exitActivityAnim(exitAnim)
