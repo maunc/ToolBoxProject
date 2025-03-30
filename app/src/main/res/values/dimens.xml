@@ -126,5 +126,5 @@
     <dimen name="voice_wave_view_height">85dp</dimen>
     <dimen name="chat_room_send_content_button_width">72dp</dimen>
     <dimen name="chat_room_send_content_button_height">42dp</dimen>
-    <dimen name="chat_room_select_iv_size">32dp</dimen>
+    <dimen name="chat_room_select_iv_size">35dp</dimen>
 </resources>

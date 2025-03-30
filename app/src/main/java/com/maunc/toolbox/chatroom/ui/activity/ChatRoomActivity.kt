@@ -298,6 +298,16 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
             }
         }
+        mDatabind.chatRoomEmIcon.setOnClickListener {
+            mViewModel.refreshLayout.value = !mViewModel.refreshLayout.value!!
+            mViewModel.controllerButtonSelect.value = true
+            mViewModel.cleaMoreLayoutHeight.value = false
+            if (mViewModel.refreshLayout.value!!) {
+                showSoftInputKeyBoard(mDatabind.chatRoomEditText)
+            } else {
+                hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
+            }
+        }
     }
 
     // 清空输入框内容

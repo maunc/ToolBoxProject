@@ -241,7 +241,7 @@
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_40"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/dp_5">
@@ -254,8 +254,8 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/chat_room_em_icon"
-                            android:layout_width="@dimen/dp_25"
-                            android:layout_height="@dimen/dp_25"
+                            android:layout_width="@dimen/dp_30"
+                            android:layout_height="@dimen/dp_30"
                             android:src="@drawable/icon_chat_room_em"
                             app:tint="@color/black" />
                     </RelativeLayout>
@@ -268,8 +268,8 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/chat_room_pic_icon"
-                            android:layout_width="@dimen/dp_25"
-                            android:layout_height="@dimen/dp_25"
+                            android:layout_width="@dimen/dp_30"
+                            android:layout_height="@dimen/dp_30"
                             android:src="@drawable/icon_chat_room_pic"
                             app:tint="@color/black" />
                     </RelativeLayout>
@@ -282,8 +282,8 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/chat_room_photo_icon"
-                            android:layout_width="@dimen/dp_25"
-                            android:layout_height="@dimen/dp_25"
+                            android:layout_width="@dimen/dp_30"
+                            android:layout_height="@dimen/dp_30"
                             android:src="@drawable/icon_chat_room_photo"
                             app:tint="@color/black" />
                     </RelativeLayout>
@@ -296,8 +296,8 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/chat_room_money_icon"
-                            android:layout_width="@dimen/dp_25"
-                            android:layout_height="@dimen/dp_25"
+                            android:layout_width="@dimen/dp_30"
+                            android:layout_height="@dimen/dp_30"
                             android:src="@drawable/icon_chat_room_money"
                             app:tint="@color/black" />
                     </RelativeLayout>
@@ -310,8 +310,8 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/chat_room_more_icon"
-                            android:layout_width="@dimen/dp_25"
-                            android:layout_height="@dimen/dp_25"
+                            android:layout_width="@dimen/dp_30"
+                            android:layout_height="@dimen/dp_30"
                             android:src="@drawable/icon_chat_room_more"
                             app:tint="@color/black" />
                     </RelativeLayout>
