@@ -3,15 +3,14 @@ package com.maunc.toolbox.randomname.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.randomname.constant.GROUP_REMOVE_THRESHOLD
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
-import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.randomname.constant.GROUP_REMOVE_THRESHOLD
+import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 
-class SelectGroupToMainViewModel : BaseViewModel<BaseModel>() {
+class SelectGroupToMainViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     var groupData = MutableLiveData<MutableList<RandomNameWithGroup>>(mutableListOf())
 

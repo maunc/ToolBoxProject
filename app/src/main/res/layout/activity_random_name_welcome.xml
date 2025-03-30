@@ -25,35 +25,50 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/common_tool_bar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="@dimen/dp_100"
             android:text="@string/welcome_title_text"
-            android:textSize="35sp" />
+            android:textColor="@color/black"
+            android:textSize="40sp"
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/welcome_start_random_tv"
-            android:layout_width="@dimen/common_control_button_width"
-            android:layout_height="@dimen/common_control_button_height"
+            android:layout_width="@dimen/welcome_control_button_width"
+            android:layout_height="@dimen/welcome_control_button_height"
             android:layout_below="@id/welcome_title_tv"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/dp_50"
             android:background="@drawable/bg_random_control_button"
             android:gravity="center"
             android:text="@string/welcome_start_random_text"
             android:textColor="@color/black"
-            android:textSize="@dimen/common_control_button_tv_size" />
+            android:textSize="@dimen/welcome_control_button_tv_size" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/welcome_start_manage_group_tv"
-            android:layout_width="@dimen/common_control_button_width"
-            android:layout_height="@dimen/common_control_button_height"
+            android:layout_width="@dimen/welcome_control_button_width"
+            android:layout_height="@dimen/welcome_control_button_height"
             android:layout_below="@id/welcome_start_random_tv"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="@dimen/dp_35"
             android:background="@drawable/bg_random_control_button"
             android:gravity="center"
             android:text="@string/welcome_start_query_all_text"
             android:textColor="@color/black"
-            android:textSize="@dimen/common_control_button_tv_size" />
+            android:textSize="@dimen/welcome_control_button_tv_size" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/welcome_start_setting_tv"
+            android:layout_width="@dimen/welcome_control_button_width"
+            android:layout_height="@dimen/welcome_control_button_height"
+            android:layout_below="@id/welcome_start_manage_group_tv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_35"
+            android:background="@drawable/bg_random_control_button"
+            android:gravity="center"
+            android:text="@string/random_setting_text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/welcome_control_button_tv_size" />
 
     </RelativeLayout>
 </layout>

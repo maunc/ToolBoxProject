@@ -1,10 +1,10 @@
 package com.maunc.toolbox.randomname.ui.activity
 
 import android.os.Bundle
-import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
+import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.databinding.ActivityRandomNameWelcomeBinding
 import com.maunc.toolbox.randomname.constant.SELECT_GROUP_TO_MAIN_DIALOG
@@ -19,17 +19,20 @@ class RandomNameWelcomeActivity :
 
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.welcomeViewModel = mViewModel
-        mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
+            mViewModel.buttonClickSoundEffect()
             finishCurrentActivity()
         }
         mDatabind.welcomeStartRandomTv.clickScale {
+            mViewModel.buttonClickSoundEffect()
             SelectGroupToMainDialog().show(supportFragmentManager, SELECT_GROUP_TO_MAIN_DIALOG)
         }
-        mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
+        mDatabind.welcomeStartSettingTv.clickScale {
+            mViewModel.buttonClickSoundEffect()
             startTargetActivity(RandomSettingActivity::class.java)
         }
         mDatabind.welcomeStartManageGroupTv.clickScale {
+            mViewModel.buttonClickSoundEffect()
             startTargetActivity(ManageGroupActivity::class.java)
         }
     }

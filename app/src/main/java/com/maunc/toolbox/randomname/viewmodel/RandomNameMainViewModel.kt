@@ -6,8 +6,9 @@ import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.randomSpeed
 import com.maunc.toolbox.randomname.constant.RANDOM_NAME_THREAD_NAME
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
@@ -15,7 +16,7 @@ import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
 import com.maunc.toolbox.randomname.database.table.RandomNameData
 import java.util.Random
 
-class RandomNameMainViewModel : BaseViewModel<BaseModel>() {
+class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     companion object {
         class RandomNameHandler(looper: Looper) : Handler(looper)
@@ -25,7 +26,7 @@ class RandomNameMainViewModel : BaseViewModel<BaseModel>() {
 
     var targetRandomName = MutableLiveData(obtainString(R.string.random_none_text))
 
-    var runDelayTime = MutableLiveData(15L)
+    var runDelayTime = MutableLiveData(obtainMMKV.getLong(randomSpeed))
 
     private var mTimeThread: HandlerThread? = null
     private var mHandler: RandomNameHandler? = null

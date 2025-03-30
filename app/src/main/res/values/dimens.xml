@@ -64,35 +64,37 @@
     <dimen name="tool_box_main_item_size">210dp</dimen>
     <dimen name="tool_box_main_item_icon_size">80dp</dimen>
 
-    <!--**********************************  随机点名  **********************************-->
-    <!--mainPage-->
-    <dimen name="main_start_random_button_width">260dp</dimen>
-    <dimen name="main_start_random_button_height">85dp</dimen>
     <!--commonToolBar-->
     <dimen name="common_tool_bar_height">60dp</dimen>
-    <dimen name="common_control_button_tv_size">22sp</dimen>
-    <dimen name="common_control_button_width">200dp</dimen>
-    <dimen name="common_control_button_height">65dp</dimen>
     <dimen name="common_tool_bar_icon_size">30dp</dimen>
     <!--commonDialog-->
     <dimen name="common_dialog_width">300dp</dimen>
     <dimen name="common_dialog_height">200dp</dimen>
     <dimen name="common_dialog_control_width">140dp</dimen>
     <dimen name="common_dialog_control_height">55dp</dimen>
-    <!--manageGroupPage-->
+
+    <!--**********************************  随机点名  **********************************-->
+    <!--randomWelcomePage-->
+    <dimen name="welcome_control_button_width">260dp</dimen>
+    <dimen name="welcome_control_button_height">80dp</dimen>
+    <dimen name="welcome_control_button_tv_size">24sp</dimen>
+    <!--randomMainPage-->
+    <dimen name="main_start_random_button_width">260dp</dimen>
+    <dimen name="main_start_random_button_height">85dp</dimen>
+    <!--randomManageGroupPage-->
     <dimen name="manage_group_item_height">100dp</dimen>
     <dimen name="manage_group_item_line_margin_horizontal">40dp</dimen>
     <dimen name="manage_group_item_expand_icon_size">30dp</dimen>
-    <!--newGroupPage-->
+    <!--randomNewGroupPage-->
     <dimen name="new_group_layout_height">170dp</dimen>
     <dimen name="new_group_edit_height">55dp</dimen>
-    <!--newNameWithGroupPage-->
+    <!--randomNewNameWithGroupPage-->
     <dimen name="new_name_with_group_layout_height">170dp</dimen>
     <dimen name="new_name_with_group_edit_height">55dp</dimen>
     <dimen name="new_name_with_group_loading_size">25dp</dimen>
     <dimen name="new_name_with_group_button_width">45dp</dimen>
     <dimen name="new_name_with_group_button_height">30dp</dimen>
-    <!--selectGroupToMain-->
+    <!--randomSelectGroupToMain-->
     <dimen name="select_group_to_main_dialog_width">350dp</dimen>
     <dimen name="select_group_to_main_dialog_height">500dp</dimen>
     <dimen name="select_group_to_main_item_height">80dp</dimen>

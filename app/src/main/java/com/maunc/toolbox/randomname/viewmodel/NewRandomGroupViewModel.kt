@@ -6,16 +6,15 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.randomGroupDao
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
 import com.maunc.toolbox.randomname.database.table.RandomNameGroup
 
-class NewRandomGroupViewModel : BaseViewModel<BaseModel>() {
+class NewRandomGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     var showDeleteEditIcon = MutableLiveData(false)
     var showNameLimitTips = MutableLiveData(false)

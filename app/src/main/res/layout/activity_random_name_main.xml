@@ -52,7 +52,7 @@
                     android:background="@drawable/bg_random_control_button"
                     android:gravity="center"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/common_control_button_tv_size"
+                    android:textSize="@dimen/welcome_control_button_tv_size"
                     app:handleControlButtonTv="@{mainViewModel.runRandomStatus}" />
             </RelativeLayout>
             <!--侧滑视图内容-->

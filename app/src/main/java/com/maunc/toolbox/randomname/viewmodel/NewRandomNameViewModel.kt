@@ -9,17 +9,16 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.randomNameDao
-import com.maunc.toolbox.commonbase.ext.obtainColor
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.ext.obtainColor
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
 import com.maunc.toolbox.randomname.database.table.RandomNameData
 
-class NewRandomNameViewModel : BaseViewModel<BaseModel>() {
+class NewRandomNameViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     private val handleEdit: Handler = Handler(Looper.getMainLooper())
 

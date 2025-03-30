@@ -51,9 +51,8 @@
                     android:id="@+id/dialog_select_group_to_main_none_tips_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginHorizontal="@dimen/dp_30"
-                    android:layout_marginTop="150dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginHorizontal="@dimen/dp_20"
                     android:text="@string/select_group_to_main_none_tips_text"
                     android:textColor="@color/black"
                     android:textSize="25sp"
@@ -69,7 +68,7 @@
                 android:layout_marginBottom="@dimen/dp_5"
                 android:gravity="center"
                 android:text="@{selectGroupToMainViewModel.tipsStrVar}"
-                android:textColor="@color/red"
+                android:textColor="@color/green_75"
                 android:textSize="16sp"
                 android:visibility="@{selectGroupToMainViewModel.showTipsBool?View.VISIBLE:View.GONE}" />
         </RelativeLayout>

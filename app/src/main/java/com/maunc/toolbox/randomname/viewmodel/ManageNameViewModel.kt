@@ -2,14 +2,13 @@ package com.maunc.toolbox.randomname.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.database.randomNameDao
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
-import com.maunc.toolbox.randomname.database.table.RandomNameData
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.randomname.database.table.RandomNameData
 
-class ManageNameViewModel : BaseViewModel<BaseModel>() {
+class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     var groupData = MutableLiveData<List<RandomNameData>>(mutableListOf())
 

@@ -1,5 +1,9 @@
 package com.maunc.toolbox.randomname.constant
 
+import android.media.MediaPlayer
+import com.maunc.toolbox.R
+import com.maunc.toolbox.ToolBoxApplication
+
 /**
  * 随机未开始状态 : RUN_STATUS_NONE
  * 随机开始状态  : RUN_STATUS_START
@@ -11,6 +15,11 @@ const val RUN_STATUS_STOP = 3
 
 //随机点名的线程名称
 const val RANDOM_NAME_THREAD_NAME = "randomThread"
+
+//按钮点击的音效
+val mediaPlayer: MediaPlayer by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+    MediaPlayer.create(ToolBoxApplication.app, R.raw.random_button_click)
+}
 
 /**
  * 键盘顶起后延迟更改布局的时间

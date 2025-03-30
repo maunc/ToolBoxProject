@@ -10,6 +10,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
@@ -36,20 +37,20 @@ fun String.loge(
     tag: String = GLOBAL_TAG,
 ) = Log.e(tag, this)
 
-fun Context.developmentToast() = toastShort(
-    getString(R.string.functions_are_under_development)
+fun developmentToast() = toastShort(
+    obtainString(R.string.functions_are_under_development)
 )
 
-fun Context.toast(text: String, time: Int = Toast.LENGTH_SHORT) =
-    Toast.makeText(this, text, time).show()
+fun toast(text: String, time: Int = Toast.LENGTH_SHORT) =
+    Toast.makeText(ToolBoxApplication.app, text, time).show()
 
-fun Context.toastLong(
+fun toastLong(
     text: String,
-) = Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+) = Toast.makeText(ToolBoxApplication.app, text, Toast.LENGTH_LONG).show()
 
-fun Context.toastShort(
+fun toastShort(
     text: String,
-) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+) = Toast.makeText(ToolBoxApplication.app, text, Toast.LENGTH_SHORT).show()
 
 fun obtainString(
     @StringRes strRes: Int,
@@ -218,9 +219,17 @@ fun Activity.startAppSystemSettingPage() = startActivity(
     }
 )
 
-fun Activity.startAllFileSettingPage() = startActivity(
-    Intent().apply {
-        action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
-        data = Uri.parse("package:" + applicationContext.packageName)
+fun Activity.startAllFileSettingPage() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        if (!Environment.isExternalStorageManager()) {
+            startActivity(
+                Intent().apply {
+                    action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+                    data = Uri.parse("package:" + applicationContext.packageName)
+                }
+            )
+        }
+    } else {
+        toastShort(obtainString(R.string.android_version_not_support_text))
     }
-)
+}

@@ -10,22 +10,36 @@ val obtainMMKV: MMKVUtils by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
 private const val DEFAULT_STRING = ""
 private const val DEFAULT_INT = -1
 
+/**通用*/
+const val commonNotFirstLaunchApp = "notFirstLaunchApp"
+
 /** 随机名称用到的 */
 //随机速度
-const val randomSpeed = "RandomSpeed"
+const val randomSpeed = "randomSpeed"
+const val randomButtonClickVibrator = "randomButtonClickVibrator"
 
 class MMKVUtils {
 
+    fun init() {
+        if (obtainMMKV.getBoolean(commonNotFirstLaunchApp)) {
+            return
+        }
+        obtainMMKV.putBoolean(commonNotFirstLaunchApp, true)
+        //随机名相关
+        obtainMMKV.putLong(randomSpeed, 10L)
+        obtainMMKV.putBoolean(randomButtonClickVibrator, true)
+    }
+
     fun getString(
-        key: String
+        key: String,
     ): String? = MMKV.defaultMMKV().decodeString(key, DEFAULT_STRING)
 
     fun getInt(
-        key: String
+        key: String,
     ): Int = MMKV.defaultMMKV().decodeInt(key, DEFAULT_INT)
 
     fun getLong(
-        key: String
+        key: String,
     ): Long = MMKV.defaultMMKV().decodeLong(key)
 
     fun getBoolean(
@@ -39,16 +53,16 @@ class MMKVUtils {
 
     fun putBoolean(
         key: String,
-        value: Boolean
+        value: Boolean,
     ) = MMKV.defaultMMKV().encode(key, value)
 
     fun putString(
         key: String,
-        value: String
+        value: String,
     ) = MMKV.defaultMMKV().encode(key, value)
 
     fun putInt(
         key: String,
-        value: Int
+        value: Int,
     ) = MMKV.defaultMMKV().encode(key, value)
 }

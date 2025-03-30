@@ -60,8 +60,8 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/manage_group_new_group_tv"
-                android:layout_width="@dimen/common_control_button_width"
-                android:layout_height="@dimen/common_control_button_height"
+                android:layout_width="@dimen/welcome_control_button_width"
+                android:layout_height="@dimen/welcome_control_button_height"
                 android:layout_below="@id/manage_group_none_data_tips_tv"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
@@ -69,7 +69,7 @@
                 android:gravity="center"
                 android:text="@string/manage_group_page_new_group_text"
                 android:textColor="@color/black"
-                android:textSize="@dimen/common_control_button_tv_size" />
+                android:textSize="@dimen/welcome_control_button_tv_size" />
         </RelativeLayout>
     </RelativeLayout>
 </layout>

@@ -19,6 +19,7 @@ class SelectGroupToMainDialog :
     private val selectGroupToMainAdapter: SelectGroupToMainAdapter by lazy {
         SelectGroupToMainAdapter().apply {
             setOnItemClickListener { adapter, view, pos ->
+                mViewModel.buttonClickSoundEffect()
                 val randomNameWithGroup = data[pos]
                 randomNameWithGroup.randomNameGroup.isExpand =
                     !randomNameWithGroup.randomNameGroup.isExpand

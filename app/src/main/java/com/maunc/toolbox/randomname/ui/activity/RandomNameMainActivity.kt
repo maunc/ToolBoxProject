@@ -10,6 +10,7 @@ import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.addDrawLayoutListener
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
+import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.utils.ViewOffsetHelper
 import com.maunc.toolbox.databinding.ActivityRandomNameMainBinding
@@ -52,23 +53,21 @@ class RandomNameMainActivity :
         }
         mViewModel.initHandler()
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
+            mViewModel.buttonClickSoundEffect()
             finishCurrentActivity()
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_main_tool)
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
+            mViewModel.buttonClickSoundEffect()
             mViewModel.endRandom {
                 mDatabind.randomNameDrawerLayout.openDrawer(GravityCompat.END)
             }
         }
         mDatabind.randomControlTv.clickScale {
+            mViewModel.buttonClickSoundEffect()
             when (mViewModel.runRandomStatus.value) {
-                RUN_STATUS_NONE, RUN_STATUS_STOP -> {
-                    mViewModel.startRandom()
-                }
-
-                RUN_STATUS_START -> {
-                    mViewModel.stopRandom()
-                }
+                RUN_STATUS_NONE, RUN_STATUS_STOP -> mViewModel.startRandom()
+                RUN_STATUS_START -> mViewModel.stopRandom()
             }
         }
         val viewOffsetHelper = ViewOffsetHelper(mDatabind.randomNameMainContentLayout)

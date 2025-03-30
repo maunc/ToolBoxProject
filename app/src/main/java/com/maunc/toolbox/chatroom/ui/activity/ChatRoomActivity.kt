@@ -80,15 +80,30 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
     ) { result ->
         if (!result) {
             if (checkPermissionManualRequest(Manifest.permission.RECORD_AUDIO)) {
-                CommonDialog().setTitle(
-                    getString(R.string.permission_manual_request_text)
-                ).setSureListener {
-                    startAppSystemSettingPage()
-                }.setCancelListener {
-                    toast(getString(R.string.permission_manual_request_text))
-                }.show(supportFragmentManager, AUDIO_PERMISSION_START_DIALOG)
+                showPermissionForeverNotTips()
             }
         }
+    }
+
+    private val requestCameraPermissionResult = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { result ->
+        if (!result) {
+            if (checkPermissionManualRequest(Manifest.permission.CAMERA)) {
+                showPermissionForeverNotTips()
+            }
+        }
+    }
+
+    private fun showPermissionForeverNotTips() {
+        restoreOriginalStateView()
+        CommonDialog().setTitle(
+            getString(R.string.permission_manual_request_text)
+        ).setSureListener {
+            startAppSystemSettingPage()
+        }.setCancelListener {
+            toast(getString(R.string.permission_manual_request_text))
+        }.show(supportFragmentManager, AUDIO_PERMISSION_START_DIALOG)
     }
 
     private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -279,6 +294,10 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 })
         }
         mDatabind.chatRoomPhotoIcon.setOnClickListener {
+            if (!checkPermissionAvailable(Manifest.permission.CAMERA)) {
+                requestCameraPermissionResult.launch(Manifest.permission.CAMERA)
+                return@setOnClickListener
+            }
             PictureSelector.create(this)
                 .openCamera(SelectMimeType.ofImage())
                 .forResult(mViewModel.onPicSelectResultCallbackListener { resultList ->
