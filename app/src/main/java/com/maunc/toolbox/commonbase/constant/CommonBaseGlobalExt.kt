@@ -31,10 +31,8 @@ const val SIXTY_SECOND = 60000
 //1毫秒
 const val ONE_DELAY_MILLIS = 100L
 
-//2毫秒
-const val TWO_DELAY_MILLIS = 100L
+//3毫秒
+const val THREE_DELAY_MILLIS = 300L
 
-/**
- * SimpleDate
- */
-const val YYYY_MM_DD_HH_MM_SS = "yyyy年MM月dd日 HH:mm:ss"
+//5毫秒
+const val FIVE_DELAY_MILLIS = 500L

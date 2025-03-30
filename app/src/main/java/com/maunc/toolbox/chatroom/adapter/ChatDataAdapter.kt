@@ -1,8 +1,5 @@
 package com.maunc.toolbox.chatroom.adapter
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
@@ -12,24 +9,19 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.data.ChatData
 import com.maunc.toolbox.chatroom.data.ChatImageData
 import com.maunc.toolbox.chatroom.data.LoadImageType
+import com.maunc.toolbox.chatroom.data.convertTime
 import com.maunc.toolbox.commonbase.constant.THIRTY_SECOND
-import com.maunc.toolbox.commonbase.constant.YYYY_MM_DD_HH_MM_SS
+import com.maunc.toolbox.commonbase.ext.addGestureDetector
 import com.maunc.toolbox.commonbase.ext.isChineseChar
 import com.maunc.toolbox.commonbase.ext.loadImage
 import com.maunc.toolbox.commonbase.ext.loadImageCircleCrop
-import com.maunc.toolbox.commonbase.ext.loge
-import com.maunc.toolbox.commonbase.ext.obtainLocationWithScreen
-import com.maunc.toolbox.commonbase.ext.setWidthAndHeight
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
-import java.text.SimpleDateFormat
-import java.util.Date
 
-@SuppressLint("SimpleDateFormat")
 class ChatDataAdapter :
     BaseMultiItemQuickAdapter<ChatData, BaseViewHolder>() {
 
-    private var clickUserItemListener: ChatRoomClickUserItemListener? = null
-    private var clickBotItemListener: ChatRoomClickBotItemListener? = null
+    private var clickUserItemListener: ChatRoomOnUserItemListener? = null
+    private var clickBotItemListener: ChatRoomOnBotItemListener? = null
 
     init {
         addItemType(ChatData.CHAT_NONE_TYPE, R.layout.item_chat_none)
@@ -44,7 +36,7 @@ class ChatDataAdapter :
         val haveView = holder.itemView
         haveView.findViewById<TextView>(R.id.item_chat_room_time_tv).apply {
             visibleOrGone(showTimeTextView())
-            text = convertTime(item.chatSendTime)
+            text = item.chatSendTime.convertTime()
         }
         //其他Tips布局不做处理  后续可叠加
         if (item.itemType != ChatData.CHAT_NONE_TYPE) {
@@ -59,11 +51,11 @@ class ChatDataAdapter :
             ChatData.CHAT_TEXT_TYPE -> {
                 val contentTv: TextView = haveView.findViewById(R.id.item_chat_room_content_tv)
                 contentTv.text = item.chatText?.insertLineBreaks()
-                contentTv.setOnClickListener {
-                    contentTv.obtainLocationWithScreen {
-                        "int[0]:${it[0]}  int[1]:${it[1]}".loge()
+                contentTv.addGestureDetector(onDoubleTap = {
+                    item.chatText?.let { content ->
+                        clickUserItemListener?.onDoubleTapUserTextItem(content, item.chatSendTime)
                     }
-                }
+                })
             }
 
             ChatData.CHAT_IMAGE_TYPE -> {
@@ -81,8 +73,12 @@ class ChatDataAdapter :
                         data.forEach { chatData ->
                             chatData.chatImage?.let { chatImageList.add(it) }
                         }
-                        clickUserItemListener?.clickUserImageItem(
-                            chatImage, chatImageList, itemPosition
+                        var index = 0
+                        chatImageList.forEachIndexed { pos, data ->
+                            if (item.chatImage == data) index = pos
+                        }
+                        clickUserItemListener?.onClickUserImageItem(
+                            chatImage, chatImageList, itemPosition, index
                         )
                     }
                 }
@@ -95,11 +91,11 @@ class ChatDataAdapter :
             ChatData.CHAT_BOT_TEXT_TYPE -> {
                 val contentTv: TextView = haveView.findViewById(R.id.item_chat_room_content_tv)
                 contentTv.text = item.chatText?.insertLineBreaks()
-                contentTv.setOnClickListener {
-                    contentTv.obtainLocationWithScreen {
-                        "int[0]:${it[0]}  int[1]:${it[1]}".loge()
+                contentTv.addGestureDetector(onDoubleTap = {
+                    item.chatText?.let { content ->
+                        clickBotItemListener?.onDoubleTapBotTextItem(content, item.chatSendTime)
                     }
-                }
+                })
             }
         }
     }
@@ -154,80 +150,68 @@ class ChatDataAdapter :
     /**
      * 添加机器人文本布局
      */
-    fun addChatBotTextItem(content: String) {
-        addChatItem(
-            ChatData(
-                itemType = ChatData.CHAT_BOT_TEXT_TYPE,
-                chatText = content,
-                chatSendTime = System.currentTimeMillis()
-            )
+    fun addChatBotTextItem(content: String) = addChatItem(
+        ChatData(
+            itemType = ChatData.CHAT_BOT_TEXT_TYPE,
+            chatText = content,
+            chatSendTime = System.currentTimeMillis()
         )
-    }
+    )
 
     /**
      * 添加Tips文本布局
      */
-    fun addChatNoneItem(content: String) {
-        addChatItem(
-            ChatData(
-                itemType = ChatData.CHAT_NONE_TYPE,
-                chatText = content,
-                chatSendTime = System.currentTimeMillis()
-            )
+    fun addChatNoneItem(content: String) = addChatItem(
+        ChatData(
+            itemType = ChatData.CHAT_NONE_TYPE,
+            chatText = content,
+            chatSendTime = System.currentTimeMillis()
         )
-    }
+    )
 
     /**
      * 添加个人文本布局
      */
-    fun addChatTextItem(sendContent: String) {
-        addChatItem(
-            ChatData(
-                itemType = ChatData.CHAT_TEXT_TYPE,
-                chatText = sendContent,
-                chatSendTime = System.currentTimeMillis()
-            )
+    fun addChatTextItem(sendContent: String) = addChatItem(
+        ChatData(
+            itemType = ChatData.CHAT_TEXT_TYPE,
+            chatText = sendContent,
+            chatSendTime = System.currentTimeMillis()
         )
-    }
+    )
 
     /**
      * 添加个人Image布局  file类型
      */
-    fun addChatImageFileItem(filePath: String) {
-        addChatItem(
-            ChatData(
-                itemType = ChatData.CHAT_IMAGE_TYPE,
-                chatImage = ChatImageData(loadImageType = LoadImageType.FILE, filePath = filePath),
-                chatSendTime = System.currentTimeMillis()
-            )
+    fun addChatImageFileItem(filePath: String) = addChatItem(
+        ChatData(
+            itemType = ChatData.CHAT_IMAGE_TYPE,
+            chatImage = ChatImageData(loadImageType = LoadImageType.FILE, filePath = filePath),
+            chatSendTime = System.currentTimeMillis()
         )
-    }
+    )
 
     /**
      * 添加个人Image布局  url类型
      */
-    fun addChatImageUrlItem(url: String) {
-        addChatItem(
-            ChatData(
-                itemType = ChatData.CHAT_IMAGE_TYPE,
-                chatImage = ChatImageData(loadImageType = LoadImageType.URL, url = url),
-                chatSendTime = System.currentTimeMillis()
-            )
+    fun addChatImageUrlItem(url: String) = addChatItem(
+        ChatData(
+            itemType = ChatData.CHAT_IMAGE_TYPE,
+            chatImage = ChatImageData(loadImageType = LoadImageType.URL, url = url),
+            chatSendTime = System.currentTimeMillis()
         )
-    }
+    )
 
     /**
      * 添加个人Image布局  Res类型
      */
-    fun addChatImageResItem(@DrawableRes res: Int) {
-        addChatItem(
-            ChatData(
-                itemType = ChatData.CHAT_IMAGE_TYPE,
-                chatImage = ChatImageData(loadImageType = LoadImageType.RES, imageRes = res),
-                chatSendTime = System.currentTimeMillis()
-            )
+    fun addChatImageResItem(@DrawableRes res: Int) = addChatItem(
+        ChatData(
+            itemType = ChatData.CHAT_IMAGE_TYPE,
+            chatImage = ChatImageData(loadImageType = LoadImageType.RES, imageRes = res),
+            chatSendTime = System.currentTimeMillis()
         )
-    }
+    )
 
     private fun addChatItem(chatData: ChatData) {
         data.add(chatData)
@@ -235,28 +219,33 @@ class ChatDataAdapter :
         recyclerView.scrollToPosition(this.data.size - 1)
     }
 
-    private fun convertTime(time: Long): String {
-        return SimpleDateFormat(YYYY_MM_DD_HH_MM_SS).format(Date(time))
-    }
-
-    fun setClickUserItemListener(clickUserItemListener: ChatRoomClickUserItemListener) {
+    fun setClickUserItemListener(clickUserItemListener: ChatRoomOnUserItemListener) {
         this.clickUserItemListener = clickUserItemListener
     }
 
-    fun setClickBotItemListener(clickBotItemListener: ChatRoomClickBotItemListener) {
+    fun setClickBotItemListener(clickBotItemListener: ChatRoomOnBotItemListener) {
         this.clickBotItemListener = clickBotItemListener
     }
 
-    interface ChatRoomClickUserItemListener {
-        fun clickUserTextItem()
-        fun clickUserImageItem(
+    interface ChatRoomOnUserItemListener {
+        fun onClickUserTextItem()
+        fun onDoubleTapUserTextItem(
+            content: String,
+            sendTime: Long,
+        )
+
+        fun onClickUserImageItem(
             chatImageData: ChatImageData,
             chatImageList: MutableList<ChatImageData>,
-            position: Int,
+            itemViewPosition: Int,
+            clickImagePosition: Int,
         )
     }
 
-    interface ChatRoomClickBotItemListener {
-
+    interface ChatRoomOnBotItemListener {
+        fun onDoubleTapBotTextItem(
+            content: String,
+            sendTime: Long,
+        )
     }
 }

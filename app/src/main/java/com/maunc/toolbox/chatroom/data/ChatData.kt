@@ -1,9 +1,12 @@
 package com.maunc.toolbox.chatroom.data
 
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.RawRes
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.Date
 
 data class ChatData(
     override val itemType: Int,
@@ -41,4 +44,9 @@ data class ChatRecordData(
 
 enum class LoadRecordType {
     FILE, RES
+}
+
+@SuppressLint("SimpleDateFormat")
+fun Long.convertTime(): String {
+    return SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss").format(Date(this))
 }

@@ -9,13 +9,16 @@ import android.net.Uri
 import android.os.Environment
 import android.os.Process
 import androidx.lifecycle.MutableLiveData
+import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
+import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.ext.obtainDimens
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -50,10 +53,12 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
 
     /**view相关*/
     var softKeyBroadHeight = MutableLiveData<Int>() //软键盘高度
-    var chatRoomType = MutableLiveData(CHAT_ROOM_RECORD_TYPE) //是文本输入还是语音输入状态
+    var chatRoomType = MutableLiveData(CHAT_ROOM_TEXT_TYPE) //是文本输入还是语音输入状态
     var recordViewStatus = MutableLiveData(RECORD_VIEW_STATUS_UP) //录音状态
     var editContentString = MutableLiveData(GLOBAL_NONE_STRING) //输入框当前字符串的长度
-    var editTextViewMaxLineWidth = MutableLiveData<Int>() //输入框最大宽度
+    var editTextViewMaxLineWidth = MutableLiveData(
+        obtainDimens(R.dimen.chat_room_controller_edit_width) - obtainDimens(R.dimen.dp_24)
+    ) //输入框最大宽度
     var refreshLayout = MutableLiveData(true) //是否刷新整个Controller布局
     var cleaMoreLayoutHeight = MutableLiveData<Boolean>() //是否清空软键盘遮挡的更多功能的布局的高度
     var controllerButtonSelect = MutableLiveData(false) //控制台的按钮是否选中了

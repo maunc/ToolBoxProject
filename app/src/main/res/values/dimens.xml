@@ -54,6 +54,7 @@
     <dimen name="dp_170">170dp</dimen>
     <dimen name="dp_175">175dp</dimen>
     <dimen name="dp_200">200dp</dimen>
+    <dimen name="dp_230">230dp</dimen>
     <dimen name="dp_250">250dp</dimen>
     <dimen name="dp_260">260dp</dimen>
     <dimen name="dp_300">300dp</dimen>

@@ -17,6 +17,7 @@ import com.maunc.toolbox.chatroom.constant.EDIT_FIVE_LINE
 import com.maunc.toolbox.chatroom.constant.EDIT_FOUR_LINE
 import com.maunc.toolbox.chatroom.constant.EDIT_NONE_LINE
 import com.maunc.toolbox.chatroom.constant.EDIT_ONE_LINE
+import com.maunc.toolbox.chatroom.constant.EDIT_SIX_LINE
 import com.maunc.toolbox.chatroom.constant.EDIT_THREE_LINE
 import com.maunc.toolbox.chatroom.constant.EDIT_TWO_LINE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
@@ -25,10 +26,10 @@ import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.commonbase.ext.animateSetHeight
 import com.maunc.toolbox.commonbase.ext.animateToAlpha
+import com.maunc.toolbox.commonbase.ext.gone
 import com.maunc.toolbox.commonbase.ext.obtainColor
 import com.maunc.toolbox.commonbase.ext.obtainDrawable
 import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.ext.gone
 import com.maunc.toolbox.commonbase.ext.setHeight
 import com.maunc.toolbox.commonbase.ext.visible
 import com.us.mauncview.VoiceWaveView
@@ -191,6 +192,7 @@ object ChatRoomDataBindAdapter {
             3 -> editText.animateSetHeight(EDIT_THREE_LINE)
             4 -> editText.animateSetHeight(EDIT_FOUR_LINE)
             5 -> editText.animateSetHeight(EDIT_FIVE_LINE)
+            6 -> editText.animateSetHeight(EDIT_SIX_LINE)
         }
     }
 

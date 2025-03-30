@@ -64,6 +64,6 @@
     <string name="voice_record_up_cancel_tips">松开 取消</string>
     <string name="chat_room_send_button_text">发送</string>
     <string name="chat_room_welcome_text">你们已经成为好友~</string>
-    <string name="chat_room_default_one_content_text">你好朋友!我是开发者:Maunc。很高兴您能体验DEMO~</string>
+    <string name="chat_room_default_one_content_text">很高兴能和你见面,嘻嘻~</string>
     <string name="chat_room_just_text">刚刚</string>
 </resources>

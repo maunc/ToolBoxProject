@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="chatRoomShowTextViewModel"
+            type="com.maunc.toolbox.chatroom.viewmodel.ChatRoomShowTextViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_f0"
+        tools:context=".chatroom.ui.activity.ChatRoomShowTextActivity">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/show_text_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="@dimen/dp_15"
+            android:textColor="@color/black"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_75"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/black_50" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/show_text_send_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

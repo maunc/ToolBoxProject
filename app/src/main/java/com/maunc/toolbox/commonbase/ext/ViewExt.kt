@@ -12,6 +12,7 @@ import android.os.Build
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.TouchDelegate
 import android.view.View
@@ -55,6 +56,84 @@ fun View.obtainViewWidth(action: (Int) -> Unit) {
 
 fun View.obtainViewHeight(action: (Int) -> Unit) {
     post { action.invoke(height) }
+}
+
+@SuppressLint("ClickableViewAccessibility")
+fun View.addGestureDetector(
+    onDown: (MotionEvent) -> Unit = {},
+    onShowPress: (MotionEvent) -> Unit = {},
+    onSingleTapUp: (MotionEvent) -> Unit = {},
+    onScroll: (MotionEvent?, MotionEvent, Float, Float) -> Unit = { _, _, _, _ -> },
+    onLongPress: (MotionEvent) -> Unit = {},
+    onFling: (MotionEvent?, MotionEvent, Float, Float) -> Unit = { _, _, _, _ -> },
+    onSingleTapConfirmed: (MotionEvent) -> Unit = {},
+    onDoubleTap: (MotionEvent) -> Unit = {},
+    onDoubleTapEvent: (MotionEvent) -> Unit = {},
+) {
+    val gestureDetector = GestureDetector(this.context, object : GestureDetector.OnGestureListener {
+        override fun onDown(e: MotionEvent): Boolean {
+            // 手指按下时触发
+            onDown.invoke(e)
+            return true
+        }
+
+        override fun onShowPress(e: MotionEvent) {
+            // 手指按下一段时间，但还未松开或拖动时触发
+            onShowPress.invoke(e)
+        }
+
+        override fun onSingleTapUp(e: MotionEvent): Boolean {
+            // 手指轻点抬起时触发
+            onSingleTapUp.invoke(e)
+            return true
+        }
+
+        override fun onScroll(
+            e1: MotionEvent?, e2: MotionEvent,
+            distanceX: Float, distanceY: Float,
+        ): Boolean {
+            // 手指拖动时触发
+            onScroll.invoke(e1, e2, distanceX, distanceY)
+            return true
+        }
+
+        override fun onLongPress(e: MotionEvent) {
+            // 手指长按屏幕时触发
+            onLongPress.invoke(e)
+        }
+
+        override fun onFling(
+            e1: MotionEvent?, e2: MotionEvent,
+            velocityX: Float, velocityY: Float,
+        ): Boolean {
+            // 手指快速滑动并松开时触发
+            onFling.invoke(e1, e2, velocityX, velocityY)
+            return true
+        }
+    })
+    gestureDetector.setOnDoubleTapListener(object : GestureDetector.OnDoubleTapListener {
+        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+            // 确认是单次点击时触发
+            onSingleTapConfirmed.invoke(e)
+            return true
+        }
+
+        override fun onDoubleTap(e: MotionEvent): Boolean {
+            // 检测到双击时触发
+            onDoubleTap.invoke(e)
+            return true
+        }
+
+        override fun onDoubleTapEvent(e: MotionEvent): Boolean {
+            // 双击过程中的事件，如按下、移动、抬起
+            onDoubleTapEvent.invoke(e)
+            return true
+        }
+
+    })
+    this.setOnTouchListener { v, event ->
+        return@setOnTouchListener gestureDetector.onTouchEvent(event)
+    }
 }
 
 /**

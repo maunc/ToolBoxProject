@@ -62,7 +62,5 @@ class ChatRoomShowPicActivity :
         finishCurrentActivity(exitAnim = R.anim.exit_new_data_page_anim)
     }
 
-    override fun createObserver() {
-
-    }
+    override fun createObserver() {}
 }

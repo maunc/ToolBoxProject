@@ -35,6 +35,7 @@ var EDIT_TWO_LINE = obtainDimens(R.dimen.dp_110)
 var EDIT_THREE_LINE = obtainDimens(R.dimen.dp_140)
 var EDIT_FOUR_LINE = obtainDimens(R.dimen.dp_170)
 var EDIT_FIVE_LINE = obtainDimens(R.dimen.dp_200)
+var EDIT_SIX_LINE = obtainDimens(R.dimen.dp_230)
 
 //只能选择一张照片发送
 const val SEND_IMAGE_MAX_NUM = 1
@@ -42,3 +43,6 @@ const val SEND_IMAGE_MAX_NUM = 1
 /**============================================== 跳转IntentKey ==============================================*/
 const val FULL_SCREEN_IMAGE_POS_EXTRA = "imagePositionExtra"
 const val FULL_SCREEN_IMAGE_DATA_EXTRA = "imageDataExtra"
+
+const val TEXT_CONTENT_DATA_EXTRA = "textDataExtra"
+const val TEXT_SEND_TIME_DATA_EXTRA = "textDataSendTimeExtra"

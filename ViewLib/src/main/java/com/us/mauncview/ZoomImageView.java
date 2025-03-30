@@ -1,6 +1,7 @@
 package com.us.mauncview;
 
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -232,7 +233,6 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 获取当前手势状态
-     *
      * @see #PINCH_MODE_FREE
      * @see #PINCH_MODE_SCROLL
      * @see #PINCH_MODE_SCALE
@@ -243,9 +243,6 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 与ViewPager结合的时候使用
-     *
-     * @param direction
-     * @return
      */
     @Override
     public boolean canScrollHorizontally(int direction) {
@@ -268,9 +265,6 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 与ViewPager结合的时候使用
-     *
-     * @param direction
-     * @return
      */
     @Override
     public boolean canScrollVertically(int direction) {
@@ -398,8 +392,6 @@ public class ZoomImageView extends AppCompatImageView {
          * <p>
          * 外部矩阵的任何变化后都收到此回调.
          * 外部矩阵变化后,总变化矩阵,图片的展示位置都将发生变化.
-         *
-         * @param ZoomImageView
          * @see #getOuterMatrix(Matrix)
          * @see #getCurrentImageMatrix(Matrix)
          * @see #getImageBound(RectF)
@@ -409,7 +401,6 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 所有OuterMatrixChangedListener监听列表
-     *
      * @see #addOuterMatrixChangedListener(OuterMatrixChangedListener)
      * @see #removeOuterMatrixChangedListener(OuterMatrixChangedListener)
      */
@@ -417,7 +408,6 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 当mOuterMatrixChangedListeners被锁定不允许修改时,临时将修改写到这个副本中
-     *
      * @see #mOuterMatrixChangedListeners
      */
     private List<OuterMatrixChangedListener> mOuterMatrixChangedListenersCopy;
@@ -435,8 +425,6 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 添加外部矩阵变化监听
-     *
-     * @param listener
      */
     public void addOuterMatrixChangedListener(OuterMatrixChangedListener listener) {
         if (listener == null) {
@@ -464,8 +452,6 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 删除外部矩阵变化监听
-     *
-     * @param listener
      */
     public void removeOuterMatrixChangedListener(OuterMatrixChangedListener listener) {
         if (listener == null) {
@@ -492,7 +478,6 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 触发外部矩阵修改事件
-     * <p>
      * 需要在每次给外部矩阵设置值时都调用此方法.
      *
      * @see #mOuterMatrix
@@ -528,7 +513,6 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 获取图片最大可放大的比例
-     * <p>
      * 如果放大大于这个比例则不被允许.
      * 在双手缩放过程中如果图片放大比例大于这个值,手指释放将回弹到这个比例.
      * 在双击放大过程中不允许放大比例大于这个值.
@@ -544,7 +528,6 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 计算双击之后图片接下来应该被缩放的比例
-     * <p>
      * 如果值大于getMaxScale或者小于fit center尺寸，则实际使用取边界值.
      * 通过覆盖此方法可以定制不同的图片被双击时使用不同的放大策略.
      *
@@ -565,7 +548,6 @@ public class ZoomImageView extends AppCompatImageView {
 
 
     ////////////////////////////////初始化////////////////////////////////
-
     public ZoomImageView(Context context) {
         super(context);
         initView();
@@ -591,9 +573,7 @@ public class ZoomImageView extends AppCompatImageView {
     public void setScaleType(ScaleType scaleType) {
     }
 
-
     ////////////////////////////////绘制////////////////////////////////
-
     @Override
     protected void onDraw(Canvas canvas) {
         //在绘制前设置变换矩阵
@@ -613,12 +593,9 @@ public class ZoomImageView extends AppCompatImageView {
         }
     }
 
-
     ////////////////////////////////有效性判断////////////////////////////////
-
     /**
      * 判断当前情况是否能执行手势相关计算
-     * <p>
      * 包括:是否有图片,图片是否有尺寸,控件是否有尺寸.
      *
      * @return 是否能执行手势相关计算
@@ -628,21 +605,16 @@ public class ZoomImageView extends AppCompatImageView {
                 && getWidth() > 0 && getHeight() > 0;
     }
 
-
     ////////////////////////////////mask动画处理////////////////////////////////
-
     /**
      * mask修改的动画
-     * <p>
-     * 和图片的动画相互独立.
-     *
+     * 和图片的动画相互独立
      * @see #zoomMaskTo(RectF, long)
      */
     private MaskAnimator mMaskAnimator;
 
     /**
      * mask变换动画
-     * <p>
      * 将mask从一个rect动画到另外一个rect
      */
     private class MaskAnimator extends ValueAnimator implements ValueAnimator.AnimatorUpdateListener {
@@ -650,21 +622,20 @@ public class ZoomImageView extends AppCompatImageView {
         /**
          * 开始mask
          */
-        private float[] mStart = new float[4];
+        private final float[] mStart = new float[4];
 
         /**
          * 结束mask
          */
-        private float[] mEnd = new float[4];
+        private final float[] mEnd = new float[4];
 
         /**
          * 中间结果mask
          */
-        private float[] mResult = new float[4];
+        private final float[] mResult = new float[4];
 
         /**
          * 创建mask变换动画
-         *
          * @param start    动画起始状态
          * @param end      动画终点状态
          * @param duration 动画持续时间
@@ -703,26 +674,21 @@ public class ZoomImageView extends AppCompatImageView {
         }
     }
 
-
     ////////////////////////////////手势动画处理////////////////////////////////
-
     /**
      * 在单指模式下:
      * 记录上一次手指的位置,用于计算新的位置和上一次位置的差值.
-     * <p>
      * 双指模式下:
      * 记录两个手指的中点,作为和mScaleCenter绑定的点.
      * 这个绑定可以保证mScaleCenter无论如何都会跟随这个中点.
-     *
      * @see #mScaleCenter
      * @see #scale(PointF, float, float, PointF)
      * @see #scaleEnd()
      */
-    private PointF mLastMovePoint = new PointF();
+    private final PointF mLastMovePoint = new PointF();
 
     /**
      * 缩放模式下图片的缩放中点.
-     * <p>
      * 为其指代的点经过innerMatrix变换之后的值.
      * 其指代的点在手势过程中始终跟随mLastMovePoint.
      * 通过双指缩放时,其为缩放中心点.
@@ -731,11 +697,10 @@ public class ZoomImageView extends AppCompatImageView {
      * @see #mLastMovePoint
      * @see #scale(PointF, float, float, PointF)
      */
-    private PointF mScaleCenter = new PointF();
+    private final PointF mScaleCenter = new PointF();
 
     /**
      * 缩放模式下的基础缩放比例
-     * <p>
      * 为外层缩放值除以开始缩放时两指距离.
      * 其值乘上最新的两指之间距离为最新的图片缩放比例.
      *
@@ -746,11 +711,9 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 图片缩放动画
-     * <p>
      * 缩放模式把图片的位置大小超出限制之后触发.
      * 双击图片放大或缩小时触发.
      * 手动调用outerMatrixTo触发.
-     *
      * @see #scaleEnd()
      * @see #doubleTap(float, float)
      * @see #outerMatrixTo(Matrix, long)
@@ -759,19 +722,17 @@ public class ZoomImageView extends AppCompatImageView {
 
     /**
      * 滑动产生的惯性动画
-     *
      * @see #fling(float, float)
      */
     private FlingAnimator mFlingAnimator;
 
     /**
      * 常用手势处理
-     * <p>
      * 在onTouchEvent末尾被执行.
      */
-    private GestureDetector mGestureDetector = new GestureDetector(ZoomImageView.this.getContext(), new GestureDetector.SimpleOnGestureListener() {
+    private final GestureDetector mGestureDetector = new GestureDetector(ZoomImageView.this.getContext(), new GestureDetector.SimpleOnGestureListener() {
 
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        public boolean onFling(MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
             //只有在单指模式结束之后才允许执行fling
             if (mPinchMode == PINCH_MODE_FREE && !(mScaleAnimator != null && mScaleAnimator.isRunning())) {
                 fling(velocityX, velocityY);
@@ -779,14 +740,14 @@ public class ZoomImageView extends AppCompatImageView {
             return true;
         }
 
-        public void onLongPress(MotionEvent e) {
+        public void onLongPress(@NonNull MotionEvent e) {
             //触发长按
             if (mOnLongClickListener != null) {
                 mOnLongClickListener.onLongClick(ZoomImageView.this);
             }
         }
 
-        public boolean onDoubleTap(MotionEvent e) {
+        public boolean onDoubleTap(@NonNull MotionEvent e) {
             //当手指快速第二次按下触发,此时必须是单指模式才允许执行doubleTap
             if (mPinchMode == PINCH_MODE_SCROLL && !(mScaleAnimator != null && mScaleAnimator.isRunning())) {
                 doubleTap(e.getX(), e.getY());
@@ -803,6 +764,7 @@ public class ZoomImageView extends AppCompatImageView {
         }
     });
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);

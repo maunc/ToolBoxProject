@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
@@ -37,6 +36,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RandomCallName"
         tools:targetApi="31">
+        <activity
+            android:name=".chatroom.ui.activity.ChatRoomShowTextActivity"
+            android:exported="false" />
         <activity
             android:name=".chatroom.ui.activity.ChatRoomShowPicActivity"
             android:exported="false"

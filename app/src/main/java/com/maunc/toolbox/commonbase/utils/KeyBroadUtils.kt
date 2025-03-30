@@ -52,7 +52,7 @@ object KeyBroadUtils {
         onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
             val height = getDecorViewInvisibleHeight(activity)
             if (sDecorViewInvisibleHeightPre != height) {
-                "软键盘高度:$height".loge("KeyBroadUtils")
+                /*"软键盘高度:$height".loge("KeyBroadUtils")*/
                 listener.onKeyboardHeightChanged(height)
                 sDecorViewInvisibleHeightPre = height
             }

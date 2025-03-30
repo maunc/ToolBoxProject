@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.view.MotionEvent
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -28,9 +29,12 @@ import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.chatroom.constant.SEND_IMAGE_MAX_NUM
+import com.maunc.toolbox.chatroom.constant.TEXT_CONTENT_DATA_EXTRA
+import com.maunc.toolbox.chatroom.constant.TEXT_SEND_TIME_DATA_EXTRA
 import com.maunc.toolbox.chatroom.data.ChatImageData
 import com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.commonbase.constant.FIVE_DELAY_MILLIS
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.constant.ONE_DELAY_MILLIS
 import com.maunc.toolbox.commonbase.ext.addEditTextListener
@@ -40,12 +44,11 @@ import com.maunc.toolbox.commonbase.ext.checkPermissionAvailable
 import com.maunc.toolbox.commonbase.ext.checkPermissionManualRequest
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.obtainDimens
 import com.maunc.toolbox.commonbase.ext.hideSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
+import com.maunc.toolbox.commonbase.ext.obtainDimens
 import com.maunc.toolbox.commonbase.ext.obtainGlideEngin
-import com.maunc.toolbox.commonbase.ext.obtainViewWidth
 import com.maunc.toolbox.commonbase.ext.screenHeight
 import com.maunc.toolbox.commonbase.ext.screenWidth
 import com.maunc.toolbox.commonbase.ext.setTint
@@ -59,7 +62,8 @@ import com.maunc.toolbox.databinding.ActivityChatRoomBinding
 
 @SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
 class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding>(),
-    ChatDataAdapter.ChatRoomClickUserItemListener {
+    ChatDataAdapter.ChatRoomOnUserItemListener,
+    ChatDataAdapter.ChatRoomOnBotItemListener {
 
     companion object {
         const val ENLARGE_ANIM = 0 //执行扩大动画
@@ -89,6 +93,16 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         }
     }
 
+    private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (mViewModel.controllerButtonSelect.value!!) {
+                restoreOriginalStateView()
+                return
+            }
+            finishCurrentActivity()
+        }
+    }
+
     private var userDownY = 0
     private var userDownX = 0
 
@@ -114,7 +128,10 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
 
     private fun sendFirstWelcomeMsg() {
         chatDataAdapter.addChatNoneItem(getString(R.string.chat_room_welcome_text))
-        chatRoomMessageHandler.sendEmptyMessageDelayed(MESSAGE_FIRST_WELCOME_WHAT, 500L)
+        chatRoomMessageHandler.sendEmptyMessageDelayed(
+            MESSAGE_FIRST_WELCOME_WHAT,
+            FIVE_DELAY_MILLIS
+        )
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -122,10 +139,11 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         mDatabind.chatDataAdapter = chatDataAdapter
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             getString(R.string.tool_box_item_chat_room_text)
+        mViewModel.createVoiceRecordConfig()
+        onBackPressedDispatcher.addCallback(this, backPressCallback)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }
-        mViewModel.createVoiceRecordConfig()
         mDatabind.chatRoomSelectIv.setOnClickListener {
             if (mViewModel.chatRoomType.value!! == CHAT_ROOM_TEXT_TYPE) {
                 mViewModel.chatRoomType.value = CHAT_ROOM_RECORD_TYPE
@@ -224,7 +242,6 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             }
             return@setOnTouchListener true
         }
-        obtainEditTextViewConfig()
         mDatabind.chatRoomEditText.setOnClickListener {
             mViewModel.cleaMoreLayoutHeight.value = false
             mViewModel.controllerButtonSelect.value = false
@@ -235,6 +252,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         mDatabind.chatRoomRecycler.layoutManager = linearLayoutManager()
         mDatabind.chatRoomRecycler.adapter = chatDataAdapter
         chatDataAdapter.setClickUserItemListener(this@ChatRoomActivity)
+        chatDataAdapter.setClickBotItemListener(this@ChatRoomActivity)
         // 发送初始化消息
         sendFirstWelcomeMsg()
         mDatabind.chatRoomRecycler.addRecyclerViewScrollListener(onScrollStateChanged = { _, newState ->
@@ -266,25 +284,14 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 })
         }
         mDatabind.chatRoomMoreIcon.setOnClickListener {
-            mViewModel.controllerButtonSelect.value = true
             mViewModel.refreshLayout.value = !mViewModel.refreshLayout.value!!
+            mViewModel.controllerButtonSelect.value = true
             mViewModel.cleaMoreLayoutHeight.value = false
             if (mViewModel.refreshLayout.value!!) {
                 showSoftInputKeyBoard(mDatabind.chatRoomEditText)
             } else {
                 hideSoftInputKeyBoard(mDatabind.chatRoomEditText)
             }
-        }
-    }
-
-    /**
-     * 获取输入框最大宽度
-     */
-    private fun obtainEditTextViewConfig() {
-        mDatabind.chatRoomEditText.obtainViewWidth { viewWidth ->
-            mViewModel.editTextViewMaxLineWidth.postValue(
-                viewWidth - obtainDimens(R.dimen.dp_24) /*减去的这个值是水平padding值 dp_24*/
-            )
         }
     }
 
@@ -312,27 +319,39 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         mViewModel.controllerButtonSelect.value = false
     }
 
-    override fun clickUserTextItem() {
+    override fun onClickUserTextItem() {
 
     }
 
-    override fun clickUserImageItem(
+    override fun onDoubleTapUserTextItem(
+        content: String,
+        sendTime: Long,
+    ) = startShowTextPage(content, sendTime)
+
+    override fun onClickUserImageItem(
         chatImageData: ChatImageData,
         chatImageList: MutableList<ChatImageData>,
-        position: Int,
-    ) {
-        var index = 0
-        for (i in chatImageList.indices) {
-            if (chatImageData == chatImageList[i]) {
-                index = i
-                break
-            }
+        itemViewPosition: Int,
+        clickImagePosition: Int,
+    ) = startActivityWithData(
+        ChatRoomShowPicActivity::class.java,
+        mutableMapOf<String, Any>().apply {
+            put(FULL_SCREEN_IMAGE_DATA_EXTRA, Gson().toJson(chatImageList))
+            put(FULL_SCREEN_IMAGE_POS_EXTRA, clickImagePosition)
         }
+    )
+
+    override fun onDoubleTapBotTextItem(
+        content: String,
+        sendTime: Long,
+    ) = startShowTextPage(content, sendTime)
+
+    private fun startShowTextPage(content: String, sendTime: Long) {
         startActivityWithData(
-            ChatRoomShowPicActivity::class.java,
+            ChatRoomShowTextActivity::class.java,
             mutableMapOf<String, Any>().apply {
-                put(FULL_SCREEN_IMAGE_DATA_EXTRA, Gson().toJson(chatImageList))
-                put(FULL_SCREEN_IMAGE_POS_EXTRA, index)
+                put(TEXT_CONTENT_DATA_EXTRA, content)
+                put(TEXT_SEND_TIME_DATA_EXTRA, sendTime)
             }
         )
     }
