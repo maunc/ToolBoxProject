@@ -55,17 +55,44 @@
                     android:textSize="@dimen/common_control_button_tv_size"
                     app:handleControlButtonTv="@{mainViewModel.runRandomStatus}" />
             </RelativeLayout>
-
+            <!--侧滑视图内容-->
             <RelativeLayout
                 android:id="@+id/random_name_main_swipe_content_layout"
-                android:layout_width="300dp"
+                android:layout_width="@dimen/dp_300"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:background="@color/white">
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/random_name_main_swipe_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/gray_f0"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dp_15"
+                    android:text="@string/random_name_main_swipe_tips"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
+                <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/random_name_main_swipe_tips">
+
+                    <com.scwang.smart.refresh.header.FalsifyHeader
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/random_name_main_swipe_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <com.scwang.smart.refresh.header.FalsifyFooter
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.scwang.smart.refresh.layout.SmartRefreshLayout>
             </RelativeLayout>
         </androidx.drawerlayout.widget.DrawerLayout>
-
     </RelativeLayout>
 </layout>

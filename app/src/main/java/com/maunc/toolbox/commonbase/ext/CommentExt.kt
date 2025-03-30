@@ -10,6 +10,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -212,7 +213,14 @@ fun Activity.checkPermissionManualRequest(
 //前往当前app设置页面
 fun Activity.startAppSystemSettingPage() = startActivity(
     Intent().apply {
-        action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
         data = Uri.fromParts("package", packageName, null)
+    }
+)
+
+fun Activity.startAllFileSettingPage() = startActivity(
+    Intent().apply {
+        action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+        data = Uri.parse("package:" + applicationContext.packageName)
     }
 )

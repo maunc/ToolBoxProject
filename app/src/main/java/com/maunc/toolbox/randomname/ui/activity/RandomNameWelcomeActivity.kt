@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.developmentToast
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.databinding.ActivityRandomNameWelcomeBinding
@@ -28,7 +27,7 @@ class RandomNameWelcomeActivity :
             SelectGroupToMainDialog().show(supportFragmentManager, SELECT_GROUP_TO_MAIN_DIALOG)
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            developmentToast()
+            startTargetActivity(RandomSettingActivity::class.java)
         }
         mDatabind.welcomeStartManageGroupTv.clickScale {
             startTargetActivity(ManageGroupActivity::class.java)

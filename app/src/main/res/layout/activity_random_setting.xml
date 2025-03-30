@@ -4,13 +4,16 @@
 
     <data>
 
+        <variable
+            name="randomSettingViewModel"
+            type="com.maunc.toolbox.randomname.viewmodel.RandomSettingViewModel" />
     </data>
 
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".randomname.ui.activity.SettingActivity">
+        tools:context=".randomname.ui.activity.RandomSettingActivity">
 
         <include
             android:id="@+id/common_tool_bar"

@@ -8,16 +8,20 @@
     <string name="tool_box_item_random_name_text">随机点名</string>
     <string name="tool_box_item_chat_room_text">聊天室</string>
 
-    <!--welcomePage-->
+    <!--randomWelcomePage-->
     <string name="welcome_title_text">欢迎来到点名程序</string>
     <string name="welcome_start_random_text">进入点名系统</string>
     <string name="welcome_start_query_all_text">查看所有分组</string>
     <string name="welcome_start_add_table_text">增加新的分组</string>
 
-    <!--mainPage-->
+    <!--randomMainPage-->
     <string name="random_none_text">未开始点名</string>
     <string name="random_stop_text">暂停点名</string>
     <string name="random_start_text">开始点名</string>
+    <string name="random_name_main_swipe_tips">当前分组列表</string>
+
+    <!--randomSettingPage-->
+    <string name="random_setting_text">设置</string>
 
     <!--manageGroupPage-->
     <string name="manage_group_page_title_text">管理分组</string>
@@ -49,7 +53,7 @@
     <!--selectGroupToMain-->
     <string name="select_group_to_main_title_text">请选择分组</string>
     <string name="select_group_to_main_none_tips_text">没有筛选到有数据且大于一的分组哦~</string>
-    <string name="select_group_to_main_tips_text">已筛选出分组啦,长按进入点名,单击查看分组明细~</string>
+    <string name="select_group_to_main_tips_text">已筛选出分组啦,长按进入点名~</string>
 
     <!--commonDialog-->
     <string name="common_dialog_sure_text">确定</string>
