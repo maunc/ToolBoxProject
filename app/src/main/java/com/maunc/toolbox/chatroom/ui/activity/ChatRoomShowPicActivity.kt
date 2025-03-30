@@ -44,7 +44,6 @@ class ChatRoomShowPicActivity :
         intent?.extras?.getString(FULL_SCREEN_IMAGE_DATA_EXTRA)?.let {
             val type: Type = object : TypeToken<MutableList<ChatImageData>>() {}.type
             val imageDataMutableList = Gson().fromJson<MutableList<ChatImageData>>(it, type)
-            /*mViewModel.showIndicatorView.value = imageDataMutableList.size > 1*/
             imageDataMutableList.forEach { chatImageData ->
                 showImageFragments.add(ChatRoomImageFragment.newInstance(chatImageData))
             }
@@ -52,20 +51,6 @@ class ChatRoomShowPicActivity :
                 supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, showImageFragments
             )
             mDatabind.chatRoomShowImageViewPager.setCurrentItem(currentPos!!)
-            if (!mViewModel.showIndicatorView.value!!) {
-                return
-            }
-            mDatabind.chatRoomShowImageIndicator.setupWithViewPager(mDatabind.chatRoomShowImageViewPager)
-            mDatabind.chatRoomShowImageIndicator.setCurrentPosition(currentPos)
-            mDatabind.chatRoomShowImageViewPager.addViewPageListener(
-                onPageSelected = { pos ->
-                    mDatabind.chatRoomShowImageIndicator.onPageSelected(pos)
-                }, onPageScrolled = { pos, posOffset, posOffsetPx ->
-                    mDatabind.chatRoomShowImageIndicator.onPageScrolled(pos, posOffset, posOffsetPx)
-                }, onPageScrollStateChanged = { pos ->
-                    mDatabind.chatRoomShowImageIndicator.onPageScrollStateChanged(pos)
-                }
-            )
         }
         mDatabind.chatRoomShowImageBackButton.setOnClickListener {
             baseFinishCurrentActivity()
