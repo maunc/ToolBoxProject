@@ -60,16 +60,16 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 val radioButtonMax =
                     haveView.findViewById<RadioButton>(R.id.item_random_setting_sleep_max)
                 when (obtainMMKV.getLong(randomSpeed)) {
-                    50L -> radioGroup.check(radioButtonMin.id)
-                    30L -> radioGroup.check(radioButtonMedium.id)
-                    10L -> radioGroup.check(radioButtonMax.id)
+                    320L -> radioGroup.check(radioButtonMin.id)
+                    120L -> radioGroup.check(radioButtonMedium.id)
+                    20L -> radioGroup.check(radioButtonMax.id)
                 }
                 radioGroup.setOnCheckedChangeListener { group, checkedId ->
                     group.check(checkedId)
                     when (checkedId) {
-                        radioButtonMin.id -> obtainMMKV.putLong(randomSpeed, 50L)
-                        radioButtonMedium.id -> obtainMMKV.putLong(randomSpeed, 30L)
-                        radioButtonMax.id -> obtainMMKV.putLong(randomSpeed, 10L)
+                        radioButtonMin.id -> obtainMMKV.putLong(randomSpeed, 320L)
+                        radioButtonMedium.id -> obtainMMKV.putLong(randomSpeed, 120L)
+                        radioButtonMax.id -> obtainMMKV.putLong(randomSpeed, 20L)
                     }
                 }
             }

@@ -10,14 +10,13 @@ import com.google.gson.reflect.TypeToken
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.maunc.toolbox.R
-import com.maunc.toolbox.chatroom.adapter.ChatRoomShowImageViewPagerAdapter
+import com.maunc.toolbox.chatroom.adapter.ChatRoomShowPicPagerAdapter
 import com.maunc.toolbox.chatroom.constant.FULL_SCREEN_IMAGE_DATA_EXTRA
 import com.maunc.toolbox.chatroom.constant.FULL_SCREEN_IMAGE_POS_EXTRA
 import com.maunc.toolbox.chatroom.data.ChatImageData
 import com.maunc.toolbox.chatroom.ui.fragment.ChatRoomImageFragment
 import com.maunc.toolbox.chatroom.viewmodel.ChatRoomShowPicViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.addViewPageListener
 import com.maunc.toolbox.commonbase.ext.enterActivityAnim
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.databinding.ActivityChatRoomShowPicBinding
@@ -47,7 +46,7 @@ class ChatRoomShowPicActivity :
             imageDataMutableList.forEach { chatImageData ->
                 showImageFragments.add(ChatRoomImageFragment.newInstance(chatImageData))
             }
-            mDatabind.chatRoomShowImageViewPager.adapter = ChatRoomShowImageViewPagerAdapter(
+            mDatabind.chatRoomShowImageViewPager.adapter = ChatRoomShowPicPagerAdapter(
                 supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, showImageFragments
             )
             mDatabind.chatRoomShowImageViewPager.setCurrentItem(currentPos!!)

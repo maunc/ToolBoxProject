@@ -6,6 +6,8 @@ import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
+import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
+import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomSpeed
@@ -28,6 +30,8 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     var runDelayTime = MutableLiveData(obtainMMKV.getLong(randomSpeed))
 
+    var transitRandomName = MutableLiveData(GLOBAL_NONE_STRING)
+
     private var mTimeThread: HandlerThread? = null
     private var mHandler: RandomNameHandler? = null
 
@@ -39,11 +43,17 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     private val runRuntime = object : Runnable {
         override fun run() {
             runDelayTime.value?.let { delay ->
-                mHandler?.postDelayed(this, delay)
                 //随机点名
                 randomGroupValue.value?.let { data ->
-                    val nextInt = Random().nextInt(data.size)
-                    targetRandomName.postValue(data[nextInt].randomName)
+                    while (true) {
+                        val nextInt = Random().nextInt(data.size)
+                        if (data[nextInt].randomName != transitRandomName.value) {
+                            targetRandomName.postValue(data[nextInt].randomName)
+                            transitRandomName.postValue(data[nextInt].randomName)
+                            mHandler?.postDelayed(this, delay)
+                            break
+                        }
+                    }
                 }
             }
         }

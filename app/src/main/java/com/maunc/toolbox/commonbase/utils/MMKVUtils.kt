@@ -27,7 +27,7 @@ class MMKVUtils {
         }
         obtainMMKV.putBoolean(commonNotFirstLaunchApp, true)
         //随机名相关
-        obtainMMKV.putLong(randomSpeed, 10L)
+        obtainMMKV.putLong(randomSpeed, 20L)
         obtainMMKV.putBoolean(randomButtonClickVibrator, true)
         obtainMMKV.putBoolean(randomEggs, false)
     }

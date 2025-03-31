@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
-class ChatRoomShowImageViewPagerAdapter(
+class ChatRoomShowPicPagerAdapter(
     fm: FragmentManager, behavior: Int,
 ) : FragmentStatePagerAdapter(fm, behavior) {
 
