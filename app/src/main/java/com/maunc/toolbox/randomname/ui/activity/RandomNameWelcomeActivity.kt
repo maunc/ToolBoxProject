@@ -20,19 +20,19 @@ class RandomNameWelcomeActivity :
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.welcomeViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
-            mViewModel.buttonClickSoundEffect()
+            mViewModel.buttonClickLaunchVibrator()
             finishCurrentActivity()
         }
         mDatabind.welcomeStartRandomTv.clickScale {
-            mViewModel.buttonClickSoundEffect()
+            mViewModel.buttonClickLaunchVibrator()
             SelectGroupToMainDialog().show(supportFragmentManager, SELECT_GROUP_TO_MAIN_DIALOG)
         }
         mDatabind.welcomeStartSettingTv.clickScale {
-            mViewModel.buttonClickSoundEffect()
+            mViewModel.buttonClickLaunchVibrator()
             startTargetActivity(RandomSettingActivity::class.java)
         }
         mDatabind.welcomeStartManageGroupTv.clickScale {
-            mViewModel.buttonClickSoundEffect()
+            mViewModel.buttonClickLaunchVibrator()
             startTargetActivity(ManageGroupActivity::class.java)
         }
     }

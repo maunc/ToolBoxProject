@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <declare-styleable name="WaterRipplesView">
         <!--中心圆颜色-->
         <attr name="spreadCenterColor" format="color" />
@@ -87,5 +87,32 @@
         <attr name="bsb_rtl" format="boolean"/> <!--right to left, default: false-->
         <attr name="android:enabled"/>
     </declare-styleable>
+
+
+    <declare-styleable name="SwitchButtonView" tools:ignore="ResourceName">
+        <attr name="kswThumbDrawable" format="reference"/>
+        <attr name="kswThumbColor" format="color|reference"/>
+        <attr name="kswThumbMargin" format="dimension|reference"/>
+        <attr name="kswThumbMarginTop" format="dimension|reference"/>
+        <attr name="kswThumbMarginBottom" format="dimension|reference"/>
+        <attr name="kswThumbMarginLeft" format="dimension|reference"/>
+        <attr name="kswThumbMarginRight" format="dimension|reference"/>
+        <attr name="kswThumbWidth" format="dimension|reference"/>
+        <attr name="kswThumbHeight" format="dimension|reference"/>
+        <attr name="kswThumbRadius" format="dimension|reference"/>
+        <attr name="kswBackRadius" format="dimension|reference"/>
+        <attr name="kswBackDrawable" format="reference"/>
+        <attr name="kswBackColor" format="color|reference"/>
+        <attr name="kswFadeBack" format="boolean"/>
+        <attr name="kswThumbRangeRatio" format="float"/>
+        <attr name="kswAnimationDuration" format="integer"/>
+        <attr name="kswTintColor" format="color|reference"/>
+        <attr name="kswTextOn" format="string"/>
+        <attr name="kswTextOff" format="string"/>
+        <attr name="kswTextThumbInset" format="dimension"/>
+        <attr name="kswTextExtra" format="dimension"/>
+        <attr name="kswTextAdjust" format="dimension"/>
+    </declare-styleable>
+
 
 </resources>

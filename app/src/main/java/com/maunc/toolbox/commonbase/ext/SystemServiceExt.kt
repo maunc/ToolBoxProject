@@ -21,6 +21,7 @@ import android.os.Build
 import android.os.PowerManager
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.os.VibratorManager
 import android.os.storage.StorageManager
 import android.telephony.CarrierConfigManager
 import android.telephony.SubscriptionManager
@@ -51,6 +52,7 @@ val Context.locationManager get() = getSystemService<LocationManager>()
 val Context.searchManager get() = getSystemService<SearchManager>()
 val Context.storageManager get() = getSystemService<StorageManager>()
 val Context.vibrator get() = getSystemService<Vibrator>()
+val Context.vibratorManager get() = getSystemService<VibratorManager>()
 val Context.connectivityManager get() = getSystemService<ConnectivityManager>()
 val Context.wifiManager get() = getSystemService<WifiManager>()
 val Context.audioManager get() = getSystemService<AudioManager>()
@@ -68,20 +70,28 @@ val Context.accessibilityManager get() = getSystemService<AccessibilityManager>(
 
 
 //震动时间
-const val DEFAULT_VIBRATOR_TIME = 15L
+const val DEFAULT_VIBRATOR_TIME = 10L
 
 //震动幅度
-const val DEFAULT_RECORD_TOUCH_AMPLITUDE = 2
+const val DEFAULT_RECORD_TOUCH_AMPLITUDE = 1
 fun launchVibrator(
     milliseconds: Long = DEFAULT_VIBRATOR_TIME,
     amplitude: Int = DEFAULT_RECORD_TOUCH_AMPLITUDE,
 ) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        ToolBoxApplication.app.vibrator?.vibrate(
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val vibratorManager = ToolBoxApplication.app.vibratorManager
+        val vibrationEffect =
             VibrationEffect.createOneShot(milliseconds, amplitude)
-        )
+        vibratorManager?.defaultVibrator?.vibrate(vibrationEffect)
     } else {
-        ToolBoxApplication.app.vibrator?.vibrate(DEFAULT_VIBRATOR_TIME)
+        val vibrator = ToolBoxApplication.app.vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val vibrationEffect =
+                VibrationEffect.createOneShot(milliseconds, amplitude)
+            vibrator?.vibrate(vibrationEffect)
+        } else {
+            vibrator?.vibrate(milliseconds)
+        }
     }
 }
 

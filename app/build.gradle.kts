@@ -99,5 +99,4 @@ dependencies {
     implementation(libs.ext.glide)
     implementation(libs.ext.picture.selector)
     implementation(libs.ext.immersionbar)
-    implementation(libs.ext.pager.indicator)
 }

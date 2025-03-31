@@ -10,6 +10,7 @@ data class RandomSettingData(
 ) : Serializable, MultiItemEntity {
     companion object {
         const val RANDOM_SLEEP_TYPE = 0
-        const val RANDOM_BUTTON_CLICK_VIBRATOR_TYPE = 1
+        const val RANDOM_BUTTON_VIBRATOR_TYPE = 1
+        const val RANDOM_BUTTON_EGGS_TYPE = 2
     }
 }

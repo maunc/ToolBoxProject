@@ -4,26 +4,28 @@ import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RelativeLayout
-import android.widget.Switch
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
+import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomButtonClickVibrator
+import com.maunc.toolbox.commonbase.utils.randomEggs
 import com.maunc.toolbox.commonbase.utils.randomSpeed
-import com.maunc.toolbox.randomname.constant.mediaPlayer
 import com.maunc.toolbox.randomname.data.RandomSettingData
+import com.us.mauncview.SwitchButtonView
 
 class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseViewHolder>() {
 
     init {
         addItemType(RandomSettingData.RANDOM_SLEEP_TYPE, R.layout.item_random_setting_sleep)
         addItemType(
-            RandomSettingData.RANDOM_BUTTON_CLICK_VIBRATOR_TYPE,
+            RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
             R.layout.item_random_setting_vibrator
         )
+        addItemType(RandomSettingData.RANDOM_BUTTON_EGGS_TYPE, R.layout.item_random_setting_eggs)
     }
 
     override fun convert(holder: BaseViewHolder, item: RandomSettingData) {
@@ -72,13 +74,25 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 }
             }
 
-            RandomSettingData.RANDOM_BUTTON_CLICK_VIBRATOR_TYPE -> {
-                val vibratorSwitch = haveView.findViewById<Switch>(R.id.item_random_vibrator_switch)
+            RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE -> {
+                val vibratorSwitch =
+                    haveView.findViewById<SwitchButtonView>(R.id.item_random_vibrator_switch)
                 vibratorSwitch.isChecked = obtainMMKV.getBoolean(randomButtonClickVibrator)
                 vibratorSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                     vibratorSwitch.isChecked = isChecked
                     obtainMMKV.putBoolean(randomButtonClickVibrator, isChecked)
-                    if (obtainMMKV.getBoolean(randomButtonClickVibrator)) mediaPlayer.start()
+                    if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
+                }
+            }
+
+            RandomSettingData.RANDOM_BUTTON_EGGS_TYPE -> {
+                val eggsSwitch =
+                    haveView.findViewById<SwitchButtonView>(R.id.item_random_eggs_switch)
+                eggsSwitch.isChecked = obtainMMKV.getBoolean(randomEggs)
+                eggsSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                    eggsSwitch.isChecked = isChecked
+                    obtainMMKV.putBoolean(randomEggs, isChecked)
+                    if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
                 }
             }
         }

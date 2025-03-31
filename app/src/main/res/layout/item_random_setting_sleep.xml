@@ -12,10 +12,10 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_random_setting_type_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/dp_30"
+            android:gravity="center_vertical"
             android:textColor="@color/black"
             android:textSize="22sp" />
 
@@ -39,11 +39,12 @@
 
         <RadioGroup
             android:id="@+id/item_random_setting_sleep_radio_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
             android:layout_centerHorizontal="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:gravity="center"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
 
             <RadioButton
                 android:id="@+id/item_random_setting_sleep_min"

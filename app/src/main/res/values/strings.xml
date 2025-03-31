@@ -58,7 +58,8 @@
 
     <!--randomSettingPage-->
     <string name="random_setting_sleep_text">速度设置</string>
-    <string name="random_setting_vibrator_text">按钮点击音效</string>
+    <string name="random_setting_vibrator_text">按钮震动</string>
+    <string name="random_setting_eggs_text">彩蛋功能</string>
     <string name="random_setting_sleep_one_text">最低速度</string>
     <string name="random_setting_sleep_two_text">中等速度</string>
     <string name="random_setting_sleep_three_text">最高速度</string>

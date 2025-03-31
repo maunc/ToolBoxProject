@@ -16,7 +16,8 @@
         <RelativeLayout
             android:id="@+id/item_select_to_main_click_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/select_group_to_main_item_height">
+            android:layout_height="@dimen/select_group_to_main_item_height"
+            android:background="@drawable/bg_random_select_recycler_item">
 
             <LinearLayout
                 android:layout_width="wrap_content"

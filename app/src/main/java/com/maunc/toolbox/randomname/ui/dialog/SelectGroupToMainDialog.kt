@@ -3,7 +3,6 @@ package com.maunc.toolbox.randomname.ui.dialog
 import android.os.Bundle
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseDialog
-import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.marquee
 import com.maunc.toolbox.commonbase.ext.startActivityWithData
@@ -27,7 +26,7 @@ class SelectGroupToMainDialog :
 
             setOnItemLongClickListener { adpater, view, pos ->
                 val randomNameWithGroup = data[pos]
-                launchVibrator()
+                mViewModel.buttonClickLaunchVibrator()
                 activity?.startActivityWithData(
                     RandomNameMainActivity::class.java,
                     mutableMapOf<String, Any>().apply {

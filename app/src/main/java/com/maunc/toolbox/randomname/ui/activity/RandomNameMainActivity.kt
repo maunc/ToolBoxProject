@@ -53,18 +53,18 @@ class RandomNameMainActivity :
         }
         mViewModel.initHandler()
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
-            mViewModel.buttonClickSoundEffect()
+            mViewModel.buttonClickLaunchVibrator()
             finishCurrentActivity()
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_main_tool)
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            mViewModel.buttonClickSoundEffect()
+            mViewModel.buttonClickLaunchVibrator()
             mViewModel.endRandom {
                 mDatabind.randomNameDrawerLayout.openDrawer(GravityCompat.END)
             }
         }
         mDatabind.randomControlTv.clickScale {
-            mViewModel.buttonClickSoundEffect()
+            mViewModel.buttonClickLaunchVibrator()
             when (mViewModel.runRandomStatus.value) {
                 RUN_STATUS_NONE, RUN_STATUS_STOP -> mViewModel.startRandom()
                 RUN_STATUS_START -> mViewModel.stopRandom()

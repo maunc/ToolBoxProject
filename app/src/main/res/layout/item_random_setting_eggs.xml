@@ -31,7 +31,7 @@
             android:visibility="gone" />
 
         <com.us.mauncview.SwitchButtonView
-            android:id="@+id/item_random_vibrator_switch"
+            android:id="@+id/item_random_eggs_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -42,7 +42,8 @@
             app:kswThumbHeight="@dimen/dp_30"
             app:kswThumbRadius="@dimen/dp_15"
             app:kswThumbWidth="@dimen/dp_30"
-            app:kswTintColor="@color/blue" />
+            app:kswTintColor="@color/blue"
+            tools:ignore="RelativeOverlap" />
     </RelativeLayout>
 
     <RelativeLayout

@@ -21,7 +21,7 @@ webRtcVersion = "2.0.4"
 exoPlayerVersion = "2.19.1"
 pictureSelectVersion = "v3.11.2"
 immersionbarVersion = "3.2.2"
-gsonVersion = "2.8.5"
+gsonVersion = "2.10.1"
 viewPagerIndicatiorVersion = "1.2.3"
 
 [bundles]

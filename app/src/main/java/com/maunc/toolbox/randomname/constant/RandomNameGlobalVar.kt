@@ -16,11 +16,6 @@ const val RUN_STATUS_STOP = 3
 //随机点名的线程名称
 const val RANDOM_NAME_THREAD_NAME = "randomThread"
 
-//按钮点击的音效
-val mediaPlayer: MediaPlayer by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-    MediaPlayer.create(ToolBoxApplication.app, R.raw.random_button_click)
-}
-
 /**
  * 键盘顶起后延迟更改布局的时间
  */

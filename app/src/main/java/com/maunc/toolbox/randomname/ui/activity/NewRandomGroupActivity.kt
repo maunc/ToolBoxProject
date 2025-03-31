@@ -42,15 +42,15 @@ class NewRandomGroupActivity :
             mViewModel.updateNewGroupLayout(keyBoardHeight, mDatabind.newGroupMain)
         }
         mDatabind.newGroupCancelButton.setOnClickListener {
-            mViewModel.buttonClickSoundEffect()
+            mViewModel.buttonClickLaunchVibrator()
             baseFinishCurrentActivity()
         }
         mDatabind.newGroupDeleteIv.setOnClickListener {
-            mViewModel.buttonClickSoundEffect()
+            mViewModel.buttonClickLaunchVibrator()
             mDatabind.newGroupEdit.setText(GLOBAL_NONE_STRING)
         }
         mDatabind.newGroupCreateButton.clickNoRepeat {
-            mViewModel.buttonClickSoundEffect()
+            mViewModel.buttonClickLaunchVibrator()
             mViewModel.initiateCreateNewGroupEvent()
         }
         mDatabind.newGroupEdit.addEditTextListener(afterTextChanged = { editStr ->

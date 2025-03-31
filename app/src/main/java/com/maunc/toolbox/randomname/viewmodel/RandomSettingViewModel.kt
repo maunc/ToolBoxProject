@@ -18,8 +18,12 @@ class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
                 settingType = obtainString(R.string.random_setting_sleep_text)
             ),
             RandomSettingData(
-                itemType = RandomSettingData.RANDOM_BUTTON_CLICK_VIBRATOR_TYPE,
+                itemType = RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
                 settingType = obtainString(R.string.random_setting_vibrator_text)
+            ),
+            RandomSettingData(
+                itemType = RandomSettingData.RANDOM_BUTTON_EGGS_TYPE,
+                settingType = obtainString(R.string.random_setting_eggs_text)
             )
         )
         return settingItemData.value!!

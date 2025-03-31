@@ -17,6 +17,7 @@ const val commonNotFirstLaunchApp = "notFirstLaunchApp"
 //随机速度
 const val randomSpeed = "randomSpeed"
 const val randomButtonClickVibrator = "randomButtonClickVibrator"
+const val randomEggs = "randomEggs"
 
 class MMKVUtils {
 
@@ -28,6 +29,7 @@ class MMKVUtils {
         //随机名相关
         obtainMMKV.putLong(randomSpeed, 10L)
         obtainMMKV.putBoolean(randomButtonClickVibrator, true)
+        obtainMMKV.putBoolean(randomEggs, false)
     }
 
     fun getString(
