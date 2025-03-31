@@ -35,7 +35,7 @@ class NewRandomNameViewModel : BaseRandomNameViewModel<BaseModel>() {
     private var newNameWithNameLoadingTime = 300L
 
     //EditText最多输入字数
-    val newNameEditMaxNum = 8
+    val newNameEditMaxNum = 5
 
     fun initiateCreateNewNameWithGroupEvent() {
         if (newRandomName.value!!.isEmpty()) {

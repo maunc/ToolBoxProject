@@ -20,7 +20,7 @@ interface RandomNameTransactionDao {
      * 删掉分组并删掉分组对应的所有名称，然后再组合查一遍
      */
     @Transaction
-    fun deleteGroupAndQueryRandomAllData(groupName: String): List<RandomNameWithGroup> {
+    fun deleteGroupAndQueryRandomAllData(groupName: String): MutableList<RandomNameWithGroup> {
         randomGroupDao.deleteGroupName(groupName)
         randomNameDao.deleteNameWithGroup(groupName)
         return randomNameTransactionDao.queryNameWithGroup()
@@ -30,7 +30,10 @@ interface RandomNameTransactionDao {
      * 删掉名称并查一遍 分组下的所有名称
      */
     @Transaction
-    fun deleteNameAndQueryNameData(groupName: String, randomName: String) :List<RandomNameData>{
+    fun deleteNameAndQueryNameData(
+        groupName: String,
+        randomName: String,
+    ): MutableList<RandomNameData> {
         randomNameDao.deleteNameWithGroupNameAndRandomName(groupName, randomName)
         return randomNameDao.queryGroupName(groupName)
     }

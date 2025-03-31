@@ -10,7 +10,7 @@ import com.maunc.toolbox.randomname.database.table.RandomNameGroup
 interface RandomNameGroupDao {
 
     @Query("SELECT * FROM random_name_group")
-    fun queryRandomNameGroup(): List<RandomNameGroup>
+    fun queryRandomNameGroup(): MutableList<RandomNameGroup>
 
     @Query("SELECT * FROM random_name_group WHERE groupName=:groupName")
     fun queryRandomNameGroup(groupName: String): RandomNameGroup?

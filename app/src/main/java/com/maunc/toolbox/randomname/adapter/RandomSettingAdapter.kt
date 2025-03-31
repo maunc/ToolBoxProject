@@ -9,10 +9,12 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.launchVibrator
+import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomButtonClickVibrator
 import com.maunc.toolbox.commonbase.utils.randomEggs
+import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
 import com.maunc.toolbox.randomname.data.RandomSettingData
 import com.us.mauncview.SwitchButtonView
@@ -24,6 +26,10 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         addItemType(
             RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
             R.layout.item_random_setting_vibrator
+        )
+        addItemType(
+            RandomSettingData.RANDOM_NOT_IS_SELECT_TYPE,
+            R.layout.item_random_setting_select
         )
         addItemType(RandomSettingData.RANDOM_BUTTON_EGGS_TYPE, R.layout.item_random_setting_eggs)
     }
@@ -81,6 +87,18 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 vibratorSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                     vibratorSwitch.isChecked = isChecked
                     obtainMMKV.putBoolean(randomButtonClickVibrator, isChecked)
+                    if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
+                }
+            }
+
+            RandomSettingData.RANDOM_NOT_IS_SELECT_TYPE -> {
+                val selectRecyclerVisibleSwitch =
+                    haveView.findViewById<SwitchButtonView>(R.id.item_random_select_recycler_visible_switch)
+                selectRecyclerVisibleSwitch.isChecked =
+                    obtainMMKV.getBoolean(randomSelectRecyclerVisible)
+                selectRecyclerVisibleSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                    selectRecyclerVisibleSwitch.isChecked = isChecked
+                    obtainMMKV.putBoolean(randomSelectRecyclerVisible, isChecked)
                     if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
                 }
             }

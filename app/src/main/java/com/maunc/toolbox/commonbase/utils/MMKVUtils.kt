@@ -18,6 +18,7 @@ const val commonNotFirstLaunchApp = "notFirstLaunchApp"
 const val randomSpeed = "randomSpeed"
 const val randomButtonClickVibrator = "randomButtonClickVibrator"
 const val randomEggs = "randomEggs"
+const val randomSelectRecyclerVisible = "randomSelectRecyclerVisible"
 
 class MMKVUtils {
 
@@ -30,6 +31,7 @@ class MMKVUtils {
         obtainMMKV.putLong(randomSpeed, 20L)
         obtainMMKV.putBoolean(randomButtonClickVibrator, true)
         obtainMMKV.putBoolean(randomEggs, false)
+        obtainMMKV.putBoolean(randomSelectRecyclerVisible, false)
     }
 
     fun getString(

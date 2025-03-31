@@ -32,7 +32,7 @@
             android:visibility="gone" />
 
         <com.us.mauncview.SwitchButtonView
-            android:id="@+id/item_random_eggs_switch"
+            android:id="@+id/item_random_select_recycler_visible_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

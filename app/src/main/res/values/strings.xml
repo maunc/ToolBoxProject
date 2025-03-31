@@ -17,9 +17,13 @@
 
     <!--randomMainPage-->
     <string name="random_none_text">未开始点名</string>
+    <string name="random_start_error_tips">当前已经点完了,可以重置已点名单</string>
     <string name="random_stop_text">暂停点名</string>
     <string name="random_start_text">开始点名</string>
     <string name="random_name_main_swipe_tips">当前分组列表</string>
+    <string name="random_main_not_select_recycler">----------待点名单----------</string>
+    <string name="random_main_is_select_recycler">----------已点名单----------</string>
+    <string name="random_main_reset_select_recycler_text">重置已点名单</string>
 
     <!--randomSettingPage-->
     <string name="random_setting_text">设置</string>
@@ -60,6 +64,7 @@
     <string name="random_setting_sleep_text">速度设置</string>
     <string name="random_setting_vibrator_text">按钮震动</string>
     <string name="random_setting_eggs_text">彩蛋功能</string>
+    <string name="random_setting_not_select_text">未点到与点到名单展示</string>
     <string name="random_setting_sleep_one_text">最低速度</string>
     <string name="random_setting_sleep_two_text">中等速度</string>
     <string name="random_setting_sleep_three_text">最高速度</string>

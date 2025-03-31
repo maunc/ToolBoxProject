@@ -14,5 +14,5 @@ data class RandomNameWithGroup(
         /*entityColumn 是子表对应父表的字段*/
         entityColumn = "toGroupName"
     )
-    val randomNameDataList: List<RandomNameData>,
+    val randomNameDataList: MutableList<RandomNameData>,
 ) : Serializable

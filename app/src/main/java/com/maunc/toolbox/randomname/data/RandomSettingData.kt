@@ -12,5 +12,6 @@ data class RandomSettingData(
         const val RANDOM_SLEEP_TYPE = 0
         const val RANDOM_BUTTON_VIBRATOR_TYPE = 1
         const val RANDOM_BUTTON_EGGS_TYPE = 2
+        const val RANDOM_NOT_IS_SELECT_TYPE = 3
     }
 }

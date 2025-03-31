@@ -16,7 +16,7 @@ interface RandomNameDao {
     fun queryGroupNameAndRandomName(groupName: String, randomName: String): RandomNameData?
 
     @Query("SELECT * FROM random_name WHERE toGroupName=:toGroupName")
-    fun queryGroupName(toGroupName: String): List<RandomNameData>
+    fun queryGroupName(toGroupName: String): MutableList<RandomNameData>
 
     @Query("DELETE FROM random_name WHERE toGroupName=:toGroupName AND randomName=:randomName")
     fun deleteNameWithGroupNameAndRandomName(toGroupName: String, randomName: String)
