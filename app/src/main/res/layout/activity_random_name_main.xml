@@ -41,19 +41,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
-
+                        <!--当前名称-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/random_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="@dimen/dp_200"
+                            android:layout_marginTop="@dimen/dp_150"
                             android:textColor="@color/black"
                             android:textSize="56sp"
                             app:randomNameText="@{randomNameMainViewModel.targetRandomName}"
                             app:runStatus="@{randomNameMainViewModel.runRandomStatus}"
                             tools:text="@string/random_none_text" />
-
+                        <!--控制按钮-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/random_control_tv"
                             android:layout_width="@dimen/main_start_random_button_width"
@@ -64,8 +64,9 @@
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:textSize="@dimen/welcome_control_button_tv_size"
-                            app:handleControlButtonTv="@{randomNameMainViewModel.runRandomStatus}" />
-
+                            app:handleControlButtonTv="@{randomNameMainViewModel.runRandomStatus}"
+                            tools:text="@string/random_start_text" />
+                        <!--重置名单-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/random_control_reset_select_tv"
                             android:layout_width="@dimen/main_start_random_button_width"
@@ -80,6 +81,7 @@
                             android:visibility="@{randomNameMainViewModel.showSelectRecycler?View.VISIBLE:View.GONE}" />
 
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/random_main_start_error_tips_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -89,7 +91,7 @@
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:visibility="@{randomNameMainViewModel.showDoneRandomTips?View.VISIBLE:View.GONE}" />
-
+                        <!--已点名单-->
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/random_main_select_layout"
                             android:layout_width="match_parent"
@@ -116,7 +118,7 @@
                                 app:heightSpace="@dimen/dp_10"
                                 app:widthSpace="@dimen/dp_10" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
-
+                        <!--未点名单-->
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/random_main_not_select_layout"
                             android:layout_width="match_parent"

@@ -44,8 +44,7 @@
             android:layout_height="@dimen/dp_60"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/item_random_setting_random_type_now"
@@ -89,5 +88,17 @@
                 android:textColor="@drawable/random_setting_sleep_color_selector"
                 android:textSize="16sp" />
         </RadioGroup>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_random_setting_select_auto_tips_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_random_setting_random_type_radio_group"
+            android:layout_centerHorizontal="true"
+            android:text="@string/random_setting_select_random_type_auto_tips_text"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:visibility="gone"
+            tools:visibility="visible" />
     </RelativeLayout>
 </RelativeLayout>

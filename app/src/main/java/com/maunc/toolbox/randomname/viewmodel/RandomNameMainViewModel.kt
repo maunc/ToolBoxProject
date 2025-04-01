@@ -93,7 +93,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
                         if (data[nextInt].randomName != transitRandomName.value) {
                             updateTargetName(data[nextInt].randomName, data[nextInt].randomName)
                             autoTypeRunNum.postValue(autoTypeRunNum.value!! + 1)
-                            if (autoTypeRunNum.value!! == 20) {
+                            if (autoTypeRunNum.value!! == autoTypeRunNumThreshold.value!!) {
                                 stopAutoRandom()
                             } else {
                                 mHandler?.postDelayed(this, delay)
@@ -134,8 +134,15 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         }
         notSelects.addAll(randomGroupValue.value!!)
         selects.clear()
-        selectNameList.postValue(selects)
-        notSelectNameList.postValue(notSelects)
+        selectNameList.value = selects
+        notSelectNameList.value = notSelects
+        if (runRandomType.value == RANDOM_AUTO) {
+            when (runDelayTime.value) {
+                20L -> autoTypeRunNumThreshold.value = 50
+                120L -> autoTypeRunNumThreshold.value = 20
+                320L -> autoTypeRunNumThreshold.value = 10
+            }
+        }
     }
 
     fun initHandler() {

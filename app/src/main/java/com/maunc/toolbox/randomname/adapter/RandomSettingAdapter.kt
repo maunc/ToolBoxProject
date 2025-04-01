@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.launchVibrator
-import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.ext.marquee
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.RANDOM_AUTO
 import com.maunc.toolbox.commonbase.utils.RANDOM_MANUAL
@@ -112,6 +112,8 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             }
 
             RandomSettingData.RANDOM_NAME_TYPE_TYPE -> {
+                val selectAutoTipsTv =
+                    haveView.findViewById<TextView>(R.id.item_random_setting_select_auto_tips_tv)
                 val radioGroup =
                     haveView.findViewById<RadioGroup>(R.id.item_random_setting_random_type_radio_group)
                 val radioButtonNow =
@@ -120,13 +122,18 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     haveView.findViewById<RadioButton>(R.id.item_random_setting_random_type_auto)
                 val radioButtonManual =
                     haveView.findViewById<RadioButton>(R.id.item_random_setting_random_type_manual)
-                when (obtainMMKV.getInt(randomType)) {
+                val mRandomType = obtainMMKV.getInt(randomType)
+                selectAutoTipsTv.visibleOrGone(mRandomType == RANDOM_AUTO)
+                selectAutoTipsTv.marquee()
+                when (mRandomType) {
                     RANDOM_NOW -> radioGroup.check(radioButtonNow.id)
                     RANDOM_AUTO -> radioGroup.check(radioButtonAuto.id)
                     RANDOM_MANUAL -> radioGroup.check(radioButtonManual.id)
                 }
                 radioGroup.setOnCheckedChangeListener { group, checkedId ->
                     group.check(checkedId)
+                    selectAutoTipsTv.visibleOrGone(checkedId == radioButtonAuto.id)
+                    selectAutoTipsTv.marquee()
                     when (checkedId) {
                         radioButtonNow.id -> obtainMMKV.putInt(randomType, RANDOM_NOW)
                         radioButtonAuto.id -> obtainMMKV.putInt(randomType, RANDOM_AUTO)
