@@ -51,7 +51,8 @@
                             android:textColor="@color/black"
                             android:textSize="56sp"
                             app:randomNameText="@{randomNameMainViewModel.targetRandomName}"
-                            app:runStatus="@{randomNameMainViewModel.runRandomStatus}" />
+                            app:runStatus="@{randomNameMainViewModel.runRandomStatus}"
+                            tools:text="@string/random_none_text" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/random_control_tv"
@@ -87,7 +88,7 @@
                             android:textColor="@color/red"
                             android:textSize="18sp"
                             android:textStyle="bold"
-                            android:visibility="@{randomNameMainViewModel.showDoneRandomTips?View.VISIBLE:View.GONE}"/>
+                            android:visibility="@{randomNameMainViewModel.showDoneRandomTips?View.VISIBLE:View.GONE}" />
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/random_main_select_layout"

@@ -11,11 +11,15 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
+import com.maunc.toolbox.commonbase.utils.RANDOM_AUTO
+import com.maunc.toolbox.commonbase.utils.RANDOM_MANUAL
+import com.maunc.toolbox.commonbase.utils.RANDOM_NOW
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomButtonClickVibrator
 import com.maunc.toolbox.commonbase.utils.randomEggs
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
+import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.randomname.data.RandomSettingData
 import com.us.mauncview.SwitchButtonView
 
@@ -30,6 +34,10 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         addItemType(
             RandomSettingData.RANDOM_NOT_IS_SELECT_TYPE,
             R.layout.item_random_setting_select
+        )
+        addItemType(
+            RandomSettingData.RANDOM_NAME_TYPE_TYPE,
+            R.layout.item_random_setting_random_type
         )
         addItemType(RandomSettingData.RANDOM_BUTTON_EGGS_TYPE, R.layout.item_random_setting_eggs)
     }
@@ -56,6 +64,17 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             notifyItemChanged(itemPosition)
         }
         when (item.itemType) {
+            RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE -> {
+                val vibratorSwitch =
+                    haveView.findViewById<SwitchButtonView>(R.id.item_random_vibrator_switch)
+                vibratorSwitch.isChecked = obtainMMKV.getBoolean(randomButtonClickVibrator)
+                vibratorSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                    vibratorSwitch.isChecked = isChecked
+                    obtainMMKV.putBoolean(randomButtonClickVibrator, isChecked)
+                    if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
+                }
+            }
+
             RandomSettingData.RANDOM_SLEEP_TYPE -> {
                 val radioGroup =
                     haveView.findViewById<RadioGroup>(R.id.item_random_setting_sleep_radio_group)
@@ -80,17 +99,6 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 }
             }
 
-            RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE -> {
-                val vibratorSwitch =
-                    haveView.findViewById<SwitchButtonView>(R.id.item_random_vibrator_switch)
-                vibratorSwitch.isChecked = obtainMMKV.getBoolean(randomButtonClickVibrator)
-                vibratorSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-                    vibratorSwitch.isChecked = isChecked
-                    obtainMMKV.putBoolean(randomButtonClickVibrator, isChecked)
-                    if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
-                }
-            }
-
             RandomSettingData.RANDOM_NOT_IS_SELECT_TYPE -> {
                 val selectRecyclerVisibleSwitch =
                     haveView.findViewById<SwitchButtonView>(R.id.item_random_select_recycler_visible_switch)
@@ -100,6 +108,30 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     selectRecyclerVisibleSwitch.isChecked = isChecked
                     obtainMMKV.putBoolean(randomSelectRecyclerVisible, isChecked)
                     if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
+                }
+            }
+
+            RandomSettingData.RANDOM_NAME_TYPE_TYPE -> {
+                val radioGroup =
+                    haveView.findViewById<RadioGroup>(R.id.item_random_setting_random_type_radio_group)
+                val radioButtonNow =
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_random_type_now)
+                val radioButtonAuto =
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_random_type_auto)
+                val radioButtonManual =
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_random_type_manual)
+                when (obtainMMKV.getInt(randomType)) {
+                    RANDOM_NOW -> radioGroup.check(radioButtonNow.id)
+                    RANDOM_AUTO -> radioGroup.check(radioButtonAuto.id)
+                    RANDOM_MANUAL -> radioGroup.check(radioButtonManual.id)
+                }
+                radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                    group.check(checkedId)
+                    when (checkedId) {
+                        radioButtonNow.id -> obtainMMKV.putInt(randomType, RANDOM_NOW)
+                        radioButtonAuto.id -> obtainMMKV.putInt(randomType, RANDOM_AUTO)
+                        radioButtonManual.id -> obtainMMKV.putInt(randomType, RANDOM_MANUAL)
+                    }
                 }
             }
 

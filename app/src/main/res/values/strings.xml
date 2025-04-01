@@ -25,9 +25,6 @@
     <string name="random_main_is_select_recycler">----------已点名单----------</string>
     <string name="random_main_reset_select_recycler_text">重置已点名单</string>
 
-    <!--randomSettingPage-->
-    <string name="random_setting_text">设置</string>
-
     <!--manageGroupPage-->
     <string name="manage_group_page_title_text">管理分组</string>
     <string name="manage_group_page_none_group_tips_text">您还没有创建分组</string>
@@ -61,6 +58,7 @@
     <string name="select_group_to_main_tips_text">已筛选出分组啦,长按进入点名,单击查看分组明细~</string>
 
     <!--randomSettingPage-->
+    <string name="random_setting_text">设置</string>
     <string name="random_setting_sleep_text">速度设置</string>
     <string name="random_setting_vibrator_text">按钮震动</string>
     <string name="random_setting_eggs_text">彩蛋功能</string>
@@ -68,6 +66,10 @@
     <string name="random_setting_sleep_one_text">最低速度</string>
     <string name="random_setting_sleep_two_text">中等速度</string>
     <string name="random_setting_sleep_three_text">最高速度</string>
+    <string name="random_setting_random_type_text">点名类型</string>
+    <string name="random_setting_random_type_now_text">立即点名</string>
+    <string name="random_setting_random_type_auto_text">自动点名</string>
+    <string name="random_setting_random_type_manual_text">手动点名</string>
 
     <!--commonDialog-->
     <string name="common_dialog_sure_text">确定</string>

@@ -26,6 +26,10 @@ class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
                 settingType = obtainString(R.string.random_setting_not_select_text)
             ),
             RandomSettingData(
+                itemType = RandomSettingData.RANDOM_NAME_TYPE_TYPE,
+                settingType = obtainString(R.string.random_setting_random_type_text)
+            ),
+            RandomSettingData(
                 itemType = RandomSettingData.RANDOM_BUTTON_EGGS_TYPE,
                 settingType = obtainString(R.string.random_setting_eggs_text)
             )

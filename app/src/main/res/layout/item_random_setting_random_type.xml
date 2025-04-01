@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/dp_5">
+
+    <RelativeLayout
+        android:id="@+id/item_random_setting_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_random_setting_type_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp_30"
+            android:gravity="center_vertical"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            tools:ignore="RelativeOverlap" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_random_setting_expand_iv"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:src="@drawable/icon_group_expand_no" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/item_random_setting_more_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_random_setting_tab"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <RadioGroup
+            android:id="@+id/item_random_setting_random_type_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
+
+            <RadioButton
+                android:id="@+id/item_random_setting_random_type_now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_8"
+                android:background="@drawable/random_setting_sleep_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_15"
+                android:paddingVertical="@dimen/dp_5"
+                android:text="@string/random_setting_random_type_now_text"
+                android:textColor="@drawable/random_setting_sleep_color_selector"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/item_random_setting_random_type_auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_8"
+                android:background="@drawable/random_setting_sleep_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_15"
+                android:paddingVertical="@dimen/dp_5"
+                android:text="@string/random_setting_random_type_auto_text"
+                android:textColor="@drawable/random_setting_sleep_color_selector"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/item_random_setting_random_type_manual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_8"
+                android:background="@drawable/random_setting_sleep_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_15"
+                android:paddingVertical="@dimen/dp_5"
+                android:text="@string/random_setting_random_type_manual_text"
+                android:textColor="@drawable/random_setting_sleep_color_selector"
+                android:textSize="16sp" />
+        </RadioGroup>
+    </RelativeLayout>
+</RelativeLayout>
