@@ -51,13 +51,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_8"
-                android:background="@drawable/random_setting_sleep_bg_selector"
+                android:background="@drawable/random_setting_speed_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/random_setting_random_type_now_text"
-                android:textColor="@drawable/random_setting_sleep_color_selector"
+                android:textColor="@drawable/random_setting_speed_color_selector"
                 android:textSize="16sp" />
 
             <RadioButton
@@ -65,13 +65,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_8"
-                android:background="@drawable/random_setting_sleep_bg_selector"
+                android:background="@drawable/random_setting_speed_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/random_setting_random_type_auto_text"
-                android:textColor="@drawable/random_setting_sleep_color_selector"
+                android:textColor="@drawable/random_setting_speed_color_selector"
                 android:textSize="16sp" />
 
             <RadioButton
@@ -79,13 +79,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_8"
-                android:background="@drawable/random_setting_sleep_bg_selector"
+                android:background="@drawable/random_setting_speed_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/random_setting_random_type_manual_text"
-                android:textColor="@drawable/random_setting_sleep_color_selector"
+                android:textColor="@drawable/random_setting_speed_color_selector"
                 android:textSize="16sp" />
         </RadioGroup>
 

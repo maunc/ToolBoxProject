@@ -1,5 +1,7 @@
 package com.maunc.toolbox.commonbase.utils
 
+import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
+import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
 import com.tencent.mmkv.MMKV
 
 val obtainMMKV: MMKVUtils by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -21,13 +23,6 @@ const val randomEggs = "randomEggs"
 const val randomSelectRecyclerVisible = "randomSelectRecyclerVisible" //是否启用已点列表功能
 const val randomType = "randomType"//点名类型
 
-/**
- * 只有三种点名类型
- */
-const val RANDOM_NOW = 0
-const val RANDOM_AUTO = 1
-const val RANDOM_MANUAL = 2
-
 class MMKVUtils {
 
     fun init() {
@@ -36,7 +31,7 @@ class MMKVUtils {
         }
         obtainMMKV.putBoolean(commonNotFirstLaunchApp, true)
         //随机名相关
-        obtainMMKV.putLong(randomSpeed, 20L)
+        obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MAX)
         obtainMMKV.putBoolean(randomButtonClickVibrator, true)
         obtainMMKV.putBoolean(randomEggs, false)
         obtainMMKV.putBoolean(randomSelectRecyclerVisible, false)

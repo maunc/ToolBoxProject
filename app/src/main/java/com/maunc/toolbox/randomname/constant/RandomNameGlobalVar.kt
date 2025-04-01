@@ -1,9 +1,5 @@
 package com.maunc.toolbox.randomname.constant
 
-import android.media.MediaPlayer
-import com.maunc.toolbox.R
-import com.maunc.toolbox.ToolBoxApplication
-
 /**
  * 随机未开始状态 : RUN_STATUS_NONE
  * 随机开始状态  : RUN_STATUS_START
@@ -23,6 +19,20 @@ const val DELAY_UPDATE_LAYOUT = 100L
 
 //进入随机名称前过滤分组中名称小于等于该数值的分组
 const val GROUP_REMOVE_THRESHOLD = 1
+
+/**
+ * 三种点名类型
+ */
+const val RANDOM_NOW = 0
+const val RANDOM_AUTO = 1
+const val RANDOM_MANUAL = 2
+
+/**
+ * 三个档位速度
+ */
+const val RANDOM_SPEED_MIN = 320L
+const val RANDOM_SPEED_MEDIUM = 120L
+const val RANDOM_SPEED_MAX = 20L
 
 /**============================================== Dialog名称 ==============================================*/
 //选择分组dialog

@@ -12,22 +12,25 @@ import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.marquee
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
-import com.maunc.toolbox.commonbase.utils.RANDOM_AUTO
-import com.maunc.toolbox.commonbase.utils.RANDOM_MANUAL
-import com.maunc.toolbox.commonbase.utils.RANDOM_NOW
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomButtonClickVibrator
 import com.maunc.toolbox.commonbase.utils.randomEggs
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
 import com.maunc.toolbox.commonbase.utils.randomType
+import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
+import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
+import com.maunc.toolbox.randomname.constant.RANDOM_NOW
+import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
+import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MEDIUM
+import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MIN
 import com.maunc.toolbox.randomname.data.RandomSettingData
 import com.us.mauncview.SwitchButtonView
 
 class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseViewHolder>() {
 
     init {
-        addItemType(RandomSettingData.RANDOM_SLEEP_TYPE, R.layout.item_random_setting_sleep)
+        addItemType(RandomSettingData.RANDOM_SLEEP_TYPE, R.layout.item_random_setting_speed)
         addItemType(
             RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
             R.layout.item_random_setting_vibrator
@@ -78,24 +81,24 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
 
             RandomSettingData.RANDOM_SLEEP_TYPE -> {
                 val radioGroup =
-                    haveView.findViewById<RadioGroup>(R.id.item_random_setting_sleep_radio_group)
+                    haveView.findViewById<RadioGroup>(R.id.item_random_setting_speed_radio_group)
                 val radioButtonMin =
-                    haveView.findViewById<RadioButton>(R.id.item_random_setting_sleep_min)
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_speed_min)
                 val radioButtonMedium =
-                    haveView.findViewById<RadioButton>(R.id.item_random_setting_sleep_medium)
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_speed_medium)
                 val radioButtonMax =
-                    haveView.findViewById<RadioButton>(R.id.item_random_setting_sleep_max)
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_speed_max)
                 when (obtainMMKV.getLong(randomSpeed)) {
-                    320L -> radioGroup.check(radioButtonMin.id)
-                    120L -> radioGroup.check(radioButtonMedium.id)
-                    20L -> radioGroup.check(radioButtonMax.id)
+                    RANDOM_SPEED_MIN -> radioGroup.check(radioButtonMin.id)
+                    RANDOM_SPEED_MEDIUM -> radioGroup.check(radioButtonMedium.id)
+                    RANDOM_SPEED_MAX -> radioGroup.check(radioButtonMax.id)
                 }
                 radioGroup.setOnCheckedChangeListener { group, checkedId ->
                     group.check(checkedId)
                     when (checkedId) {
-                        radioButtonMin.id -> obtainMMKV.putLong(randomSpeed, 320L)
-                        radioButtonMedium.id -> obtainMMKV.putLong(randomSpeed, 120L)
-                        radioButtonMax.id -> obtainMMKV.putLong(randomSpeed, 20L)
+                        radioButtonMin.id -> obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MIN)
+                        radioButtonMedium.id -> obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MEDIUM)
+                        radioButtonMax.id -> obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MAX)
                     }
                 }
             }

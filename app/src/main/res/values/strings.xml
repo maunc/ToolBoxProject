@@ -63,9 +63,9 @@
     <string name="random_setting_vibrator_text">按钮震动</string>
     <string name="random_setting_eggs_text">彩蛋功能</string>
     <string name="random_setting_not_select_text">未点到与点到名单展示</string>
-    <string name="random_setting_sleep_one_text">最低速度</string>
-    <string name="random_setting_sleep_two_text">中等速度</string>
-    <string name="random_setting_sleep_three_text">最高速度</string>
+    <string name="random_setting_speed_one_text">最低速度</string>
+    <string name="random_setting_speed_two_text">中等速度</string>
+    <string name="random_setting_speed_three_text">最高速度</string>
     <string name="random_setting_random_type_text">点名类型</string>
     <string name="random_setting_random_type_now_text">立即点名</string>
     <string name="random_setting_random_type_auto_text">自动点名</string>

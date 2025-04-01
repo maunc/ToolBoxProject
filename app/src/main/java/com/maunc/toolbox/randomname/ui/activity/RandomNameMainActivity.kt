@@ -12,15 +12,14 @@ import com.maunc.toolbox.commonbase.ext.addDrawLayoutListener
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.loge
-import com.maunc.toolbox.commonbase.utils.RANDOM_AUTO
-import com.maunc.toolbox.commonbase.utils.RANDOM_MANUAL
 import com.maunc.toolbox.commonbase.utils.ViewOffsetHelper
 import com.maunc.toolbox.databinding.ActivityRandomNameMainBinding
 import com.maunc.toolbox.randomname.adapter.RandomMainNotSelectAdapter
 import com.maunc.toolbox.randomname.adapter.RandomMainSelectAdapter
 import com.maunc.toolbox.randomname.adapter.RandomMainSwipeNameAdapter
 import com.maunc.toolbox.randomname.constant.GROUP_WITH_NAME_EXTRA
+import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
+import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
@@ -80,9 +79,9 @@ class RandomNameMainActivity :
             when (mViewModel.runRandomStatus.value) {
                 RUN_STATUS_NONE, RUN_STATUS_STOP -> mViewModel.startRandom()
                 RUN_STATUS_START -> {
-                    when(mViewModel.runRandomType.value!!) {
+                    when (mViewModel.runRandomType.value!!) {
                         RANDOM_MANUAL -> mViewModel.stopManualRandom()
-                        RANDOM_AUTO ->mViewModel.stopAutoRandom()
+                        RANDOM_AUTO -> mViewModel.stopAutoRandom()
                     }
                 }
             }

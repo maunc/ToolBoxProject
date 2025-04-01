@@ -8,14 +8,14 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.utils.RANDOM_AUTO
-import com.maunc.toolbox.commonbase.utils.RANDOM_MANUAL
-import com.maunc.toolbox.commonbase.utils.RANDOM_NOW
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
 import com.maunc.toolbox.commonbase.utils.randomType
+import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
+import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_NAME_THREAD_NAME
+import com.maunc.toolbox.randomname.constant.RANDOM_NOW
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP

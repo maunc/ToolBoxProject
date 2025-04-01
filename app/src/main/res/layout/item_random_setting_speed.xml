@@ -39,7 +39,7 @@
         tools:visibility="visible">
 
         <RadioGroup
-            android:id="@+id/item_random_setting_sleep_radio_group"
+            android:id="@+id/item_random_setting_speed_radio_group"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_60"
             android:layout_centerHorizontal="true"
@@ -48,45 +48,45 @@
             tools:ignore="UselessParent">
 
             <RadioButton
-                android:id="@+id/item_random_setting_sleep_min"
+                android:id="@+id/item_random_setting_speed_min"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_8"
-                android:background="@drawable/random_setting_sleep_bg_selector"
+                android:background="@drawable/random_setting_speed_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
-                android:text="@string/random_setting_sleep_one_text"
-                android:textColor="@drawable/random_setting_sleep_color_selector"
+                android:text="@string/random_setting_speed_one_text"
+                android:textColor="@drawable/random_setting_speed_color_selector"
                 android:textSize="16sp" />
 
             <RadioButton
-                android:id="@+id/item_random_setting_sleep_medium"
+                android:id="@+id/item_random_setting_speed_medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_8"
-                android:background="@drawable/random_setting_sleep_bg_selector"
+                android:background="@drawable/random_setting_speed_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
-                android:text="@string/random_setting_sleep_two_text"
-                android:textColor="@drawable/random_setting_sleep_color_selector"
+                android:text="@string/random_setting_speed_two_text"
+                android:textColor="@drawable/random_setting_speed_color_selector"
                 android:textSize="16sp" />
 
             <RadioButton
-                android:id="@+id/item_random_setting_sleep_max"
+                android:id="@+id/item_random_setting_speed_max"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_8"
-                android:background="@drawable/random_setting_sleep_bg_selector"
+                android:background="@drawable/random_setting_speed_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
-                android:text="@string/random_setting_sleep_three_text"
-                android:textColor="@drawable/random_setting_sleep_color_selector"
+                android:text="@string/random_setting_speed_three_text"
+                android:textColor="@drawable/random_setting_speed_color_selector"
                 android:textSize="16sp" />
         </RadioGroup>
     </RelativeLayout>
