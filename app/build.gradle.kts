@@ -93,7 +93,9 @@ dependencies {
     kapt(libs.ext.room.compiler)
     implementation(libs.androidx.lifecycle.ktx)
     implementation(libs.ext.auto.size)
-    implementation(libs.ext.mmkv)
+    implementation(libs.ext.mmkv) {
+        exclude("org.jetbrains.kotlin", "kotlin-stdlib")
+    }
     implementation(libs.bundles.smart.refrsh.layout)
     implementation(libs.bundles.exo.player)
     implementation(libs.ext.glide)

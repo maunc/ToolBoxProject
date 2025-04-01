@@ -21,12 +21,16 @@ const val ACTIVITY_ANIM_DEFAULT = -1
 fun Activity.enterActivityAnim(@AnimRes enterAnim: Int) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
         overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, enterAnim, ACTIVITY_ANIM_DEFAULT)
+    } else {
+        overridePendingTransition(enterAnim, ACTIVITY_ANIM_DEFAULT)
     }
 }
 
 fun Activity.exitActivityAnim(@AnimRes exitAnim: Int) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
         overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, ACTIVITY_ANIM_DEFAULT, exitAnim)
+    } else {
+        overridePendingTransition(ACTIVITY_ANIM_DEFAULT, exitAnim)
     }
 }
 

@@ -1,6 +1,7 @@
 package com.maunc.toolbox.chatroom.ui.fragment
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import com.maunc.toolbox.chatroom.constant.FULL_SCREEN_IMAGE_DATA_EXTRA
 import com.maunc.toolbox.chatroom.data.ChatImageData
@@ -9,6 +10,7 @@ import com.maunc.toolbox.chatroom.viewmodel.ChatRoomImageViewModel
 import com.maunc.toolbox.commonbase.base.BaseFragment
 import com.maunc.toolbox.commonbase.ext.loadImage
 import com.maunc.toolbox.databinding.FragmentChatRoomImageBinding
+import com.maunc.toolbox.randomname.constant.GROUP_WITH_NAME_EXTRA
 
 @SuppressLint("NewApi")
 class ChatRoomImageFragment :
@@ -27,7 +29,7 @@ class ChatRoomImageFragment :
 
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.chatRoomImageViewModel = mViewModel
-        arguments?.getSerializable(FULL_SCREEN_IMAGE_DATA_EXTRA, ChatImageData::class.java)?.let {
+        obtainImageData()?.let {
             when (it.loadImageType) {
                 LoadImageType.FILE -> it.filePath?.let { filePath ->
                     mDatabind.showImageZoomImageView.loadImage(filePath)
@@ -42,6 +44,21 @@ class ChatRoomImageFragment :
                 }
             }
         }
+    }
+
+    private fun obtainImageData(): ChatImageData? {
+        val chatImageData: ChatImageData? =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                arguments?.getSerializable(
+                    FULL_SCREEN_IMAGE_DATA_EXTRA,
+                    ChatImageData::class.java
+                )
+            } else {
+                arguments?.getSerializable(
+                    FULL_SCREEN_IMAGE_DATA_EXTRA
+                ) as ChatImageData
+            }
+        return chatImageData
     }
 
     override fun lazyLoadData() {

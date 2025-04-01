@@ -1,6 +1,7 @@
 package com.maunc.toolbox.randomname.ui.activity
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
@@ -54,10 +55,7 @@ class RandomNameMainActivity :
 
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.randomNameMainViewModel = mViewModel
-        intent?.extras?.getSerializable(
-            GROUP_WITH_NAME_EXTRA,
-            RandomNameWithGroup::class.java
-        )?.let {
+        obtainRandomNameSerializable()?.let {
             mViewModel.toGroupName.value = it.randomNameGroup.groupName
             mViewModel.randomGroupValue.value = it.randomNameDataList
             mViewModel.notSelectNameList.value = it.randomNameDataList
@@ -96,11 +94,27 @@ class RandomNameMainActivity :
         mDatabind.randomMainNotSelectRecycler.setAdapter(randomMainNotSelectAdapter)
         mDatabind.randomMainSelectRecycler.setAdapter(randomMainSelectAdapter)
         mDatabind.randomControlResetSelectTv.clickScale {
+            mViewModel.buttonClickLaunchVibrator()
             mViewModel.showDoneRandomTips.value = false
             mViewModel.endRandom()
             mViewModel.initData()
         }
         onBackPressedDispatcher.addCallback(backPressCallback)
+    }
+
+    private fun obtainRandomNameSerializable(): RandomNameWithGroup? {
+        val randomData: RandomNameWithGroup? =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent?.extras?.getSerializable(
+                    GROUP_WITH_NAME_EXTRA,
+                    RandomNameWithGroup::class.java
+                )
+            } else {
+                intent?.extras?.getSerializable(
+                    GROUP_WITH_NAME_EXTRA
+                ) as RandomNameWithGroup
+            }
+        return randomData
     }
 
     override fun createObserver() {
