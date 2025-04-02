@@ -1,5 +1,6 @@
 package com.maunc.toolbox.commonbase.utils
 
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
 import com.tencent.mmkv.MMKV
@@ -22,6 +23,7 @@ const val randomButtonClickVibrator = "randomButtonClickVibrator" //按钮点击
 const val randomEggs = "randomEggs"
 const val randomSelectRecyclerVisible = "randomSelectRecyclerVisible" //是否启用已点列表功能
 const val randomType = "randomType"//点名类型
+const val randomListSortType = "randomListSortType"//点名类型
 
 class MMKVUtils {
 
@@ -36,6 +38,7 @@ class MMKVUtils {
         obtainMMKV.putBoolean(randomEggs, false)
         obtainMMKV.putBoolean(randomSelectRecyclerVisible, false)
         obtainMMKV.putInt(randomType, RANDOM_MANUAL)
+        obtainMMKV.putInt(randomListSortType, RANDOM_DB_SORT_BY_INSERT_TIME_ASC)
     }
 
     fun getString(

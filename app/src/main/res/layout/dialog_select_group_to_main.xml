@@ -32,7 +32,26 @@
                 android:text="@string/select_group_to_main_title_text"
                 android:textColor="@color/black"
                 android:textSize="30sp"
-                android:visibility="@{selectGroupToMainViewModel.groupDataIsNull?View.GONE:View.VISIBLE}" />
+                android:visibility="@{selectGroupToMainViewModel.groupDataIsNull?View.INVISIBLE:View.VISIBLE}"
+                tools:ignore="RelativeOverlap" />
+
+            <RelativeLayout
+                android:id="@+id/dialog_select_group_to_main_back_iv"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_alignTop="@+id/dialog_select_group_to_main_title_tv"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginEnd="@dimen/dp_15"
+                android:background="@drawable/bg_record_controller_none_oval"
+                android:padding="@dimen/dp_10">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_record_up_cancel"
+                    android:tint="@color/black" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"

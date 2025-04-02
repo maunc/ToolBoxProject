@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
+import com.maunc.toolbox.chatroom.data.convertTime
 import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 import com.maunc.toolbox.databinding.ItemManageGroupBinding
 
@@ -18,6 +19,8 @@ class ManageGroupAdapter :
         holder.dataBinding?.let { mDataBind ->
             mDataBind.itemManageGroupNameTv.text = item.randomNameGroup.groupName
             mDataBind.itemManageGroupNameSizeTv.text = "数量:${item.randomNameDataList.size}"
+            mDataBind.itemManageGroupNameInsertTimeTv.text =
+                "添加时间:${item.randomNameGroup.insertGroupTime.convertTime()}"
         }
     }
 }

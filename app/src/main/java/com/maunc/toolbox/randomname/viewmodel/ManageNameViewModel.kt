@@ -6,9 +6,13 @@ import com.maunc.toolbox.commonbase.database.randomNameDao
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.randomListSortType
 import com.maunc.toolbox.randomname.database.table.RandomNameData
 
 class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
+
+    private var dbSortType = MutableLiveData(obtainMMKV.getInt(randomListSortType))
 
     var groupData = MutableLiveData<List<RandomNameData>>(mutableListOf())
 
@@ -21,7 +25,7 @@ class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
         groupName: String,
     ) {
         launch({
-            randomNameDao.queryGroupName(groupName)
+            randomNameDao.queryGroupNameByInsertTime(groupName, dbSortType.value!!)
         }, {
             handleGroupData(it, it.isEmpty())
         }, {
@@ -35,7 +39,9 @@ class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
         randomName: String,
     ) {
         launch({
-            randomNameTransactionDao.deleteNameAndQueryNameData(groupName, randomName)
+            randomNameTransactionDao.deleteNameAndQueryNameData(
+                groupName, randomName, dbSortType.value!!
+            )
         }, {
             whetherDataHasChange.value = true
             handleGroupData(it, it.isEmpty())

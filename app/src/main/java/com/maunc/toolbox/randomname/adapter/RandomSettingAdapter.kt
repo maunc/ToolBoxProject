@@ -15,10 +15,13 @@ import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomButtonClickVibrator
 import com.maunc.toolbox.commonbase.utils.randomEggs
+import com.maunc.toolbox.commonbase.utils.randomListSortType
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
 import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_DESC
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_NOW
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
@@ -30,23 +33,30 @@ import com.us.mauncview.SwitchButtonView
 class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseViewHolder>() {
 
     init {
-        addItemType(RandomSettingData.RANDOM_SLEEP_TYPE, R.layout.item_random_setting_speed)
+        addItemType(RandomSettingData.RANDOM_SPEED_TYPE, R.layout.item_random_setting_speed)
         addItemType(
             RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
             R.layout.item_random_setting_vibrator
         )
         addItemType(
-            RandomSettingData.RANDOM_NOT_IS_SELECT_TYPE,
+            RandomSettingData.RANDOM_SELECT_LIST_TYPE,
             R.layout.item_random_setting_select
         )
         addItemType(
             RandomSettingData.RANDOM_NAME_TYPE_TYPE,
             R.layout.item_random_setting_random_type
         )
+        addItemType(
+            RandomSettingData.RANDOM_MANAGE_SORT_TYPE,
+            R.layout.item_random_setting_db_sort
+        )
         addItemType(RandomSettingData.RANDOM_BUTTON_EGGS_TYPE, R.layout.item_random_setting_eggs)
     }
 
-    override fun convert(holder: BaseViewHolder, item: RandomSettingData) {
+    override fun convert(
+        holder: BaseViewHolder,
+        item: RandomSettingData,
+    ) {
         val itemPosition = getItemPosition(item)
         val haveView = holder.itemView
         haveView.findViewById<TextView>(R.id.item_random_setting_type_tv).apply {
@@ -79,7 +89,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 }
             }
 
-            RandomSettingData.RANDOM_SLEEP_TYPE -> {
+            RandomSettingData.RANDOM_SPEED_TYPE -> {
                 val radioGroup =
                     haveView.findViewById<RadioGroup>(R.id.item_random_setting_speed_radio_group)
                 val radioButtonMin =
@@ -103,7 +113,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 }
             }
 
-            RandomSettingData.RANDOM_NOT_IS_SELECT_TYPE -> {
+            RandomSettingData.RANDOM_SELECT_LIST_TYPE -> {
                 val selectRecyclerVisibleSwitch =
                     haveView.findViewById<SwitchButtonView>(R.id.item_random_select_recycler_visible_switch)
                 selectRecyclerVisibleSwitch.isChecked =
@@ -117,7 +127,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
 
             RandomSettingData.RANDOM_NAME_TYPE_TYPE -> {
                 val randomTypeTipsTv =
-                    haveView.findViewById<TextView>(R.id.item_random_setting_random_tips_tv)
+                    haveView.findViewById<TextView>(R.id.item_random_setting_random_type_tips_tv)
                 val radioGroup =
                     haveView.findViewById<RadioGroup>(R.id.item_random_setting_random_type_radio_group)
                 val radioButtonNow =
@@ -169,6 +179,33 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                         }
                     }
                     randomTypeTipsTv.marquee()
+                }
+            }
+
+            RandomSettingData.RANDOM_MANAGE_SORT_TYPE -> {
+                val radioGroup =
+                    haveView.findViewById<RadioGroup>(R.id.item_random_setting_sort_radio_group)
+                val radioButtonByTimeAsc =
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_sort_by_time_asc)
+                val radioButtonByTimeDesc =
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_sort_by_time_desc)
+                when (obtainMMKV.getInt(randomListSortType)) {
+                    RANDOM_DB_SORT_BY_INSERT_TIME_ASC -> radioGroup.check(radioButtonByTimeAsc.id)
+                    RANDOM_DB_SORT_BY_INSERT_TIME_DESC -> radioGroup.check(radioButtonByTimeDesc.id)
+                }
+                radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                    group.check(checkedId)
+                    when (checkedId) {
+                        radioButtonByTimeAsc.id -> obtainMMKV.putInt(
+                            randomListSortType,
+                            RANDOM_DB_SORT_BY_INSERT_TIME_ASC
+                        )
+
+                        radioButtonByTimeDesc.id -> obtainMMKV.putInt(
+                            randomListSortType,
+                            RANDOM_DB_SORT_BY_INSERT_TIME_DESC
+                        )
+                    }
                 }
             }
 

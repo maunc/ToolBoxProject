@@ -34,6 +34,12 @@ const val RANDOM_SPEED_MIN = 320L
 const val RANDOM_SPEED_MEDIUM = 120L
 const val RANDOM_SPEED_MAX = 20L
 
+/**
+ * 数据库排序方式
+ */
+const val RANDOM_DB_SORT_BY_INSERT_TIME_ASC = 0
+const val RANDOM_DB_SORT_BY_INSERT_TIME_DESC = 1
+
 /**============================================== Dialog名称 ==============================================*/
 //选择分组dialog
 const val SELECT_GROUP_TO_MAIN_DIALOG = "selectGroupToMainDialog"

@@ -39,6 +39,8 @@ class NewRandomGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
             it?.let {
                 handleShowTipsEvent(obtainString(R.string.new_group_edit_exist_tips_text))
             } ?: createNewGroup()
+        },{
+            "queryRandomNameGroup error:${it.message}  ${it.stackTrace}".loge()
         })
     }
 

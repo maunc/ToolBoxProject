@@ -3,6 +3,7 @@ package com.maunc.toolbox.randomname.ui.dialog
 import android.os.Bundle
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseDialog
+import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.marquee
 import com.maunc.toolbox.commonbase.ext.startActivityWithData
@@ -49,6 +50,9 @@ class SelectGroupToMainDialog :
         mDatabind.dialogSelectGroupToMainRecycler.adapter = selectGroupToMainAdapter
         mDatabind.dialogSelectGroupToMainNoneTipsTv.marquee()
         mDatabind.dialogSelectGroupToMainTipsTv.marquee()
+        mDatabind.dialogSelectGroupToMainBackIv.clickScale {
+            dismissAllowingStateLoss()
+        }
         mViewModel.queryGroupData()
     }
 

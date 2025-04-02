@@ -7,10 +7,14 @@ import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.randomListSortType
 import com.maunc.toolbox.randomname.constant.GROUP_REMOVE_THRESHOLD
 import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 
 class SelectGroupToMainViewModel : BaseRandomNameViewModel<BaseModel>() {
+
+    private var dbSortType = MutableLiveData(obtainMMKV.getInt(randomListSortType))
 
     var groupData = MutableLiveData<MutableList<RandomNameWithGroup>>(mutableListOf())
 
@@ -21,7 +25,7 @@ class SelectGroupToMainViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     fun queryGroupData() {
         launch({
-            randomNameTransactionDao.queryNameWithGroup()
+            randomNameTransactionDao.queryNameWithGroup(dbSortType.value!!)
         }, {
             handleGroupData(it)
         }, {

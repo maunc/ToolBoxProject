@@ -9,11 +9,19 @@ import com.maunc.toolbox.randomname.database.table.RandomNameGroup
 @Dao
 interface RandomNameGroupDao {
 
-    @Query("SELECT * FROM random_name_group")
-    fun queryRandomNameGroup(): MutableList<RandomNameGroup>
+    @Query(
+        "SELECT * FROM random_name_group order by " +
+                "CASE WHEN :querySortType=0 THEN insertGroupTime END ASC," +
+                "CASE WHEN :querySortType=1 THEN insertGroupTime END DESC"
+    )
+    fun queryRandomNameGroup(
+        querySortType: Int,
+    ): MutableList<RandomNameGroup>
 
     @Query("SELECT * FROM random_name_group WHERE groupName=:groupName")
-    fun queryRandomNameGroup(groupName: String): RandomNameGroup?
+    fun queryRandomNameGroup(
+        groupName: String,
+    ): RandomNameGroup?
 
     @Query("SELECT COUNT(*) FROM random_name_group")
     fun queryRandomNameGroupSize(): Int

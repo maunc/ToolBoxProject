@@ -32,6 +32,7 @@ import com.maunc.toolbox.chatroom.constant.TEXT_SEND_TIME_DATA_EXTRA
 import com.maunc.toolbox.chatroom.data.ChatImageData
 import com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ONE
 import com.maunc.toolbox.commonbase.constant.FIVE_DELAY_MILLIS
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.constant.ONE_DELAY_MILLIS
@@ -302,7 +303,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 .openCamera(SelectMimeType.ofImage())
                 .forResult(mViewModel.onPicSelectResultCallbackListener { resultList ->
                     restoreOriginalStateView()
-                    resultList?.get(0)?.path?.let {
+                    resultList?.get(ARRAY_INDEX_ONE)?.path?.let {
                         chatDataAdapter.addChatImageFileItem(it)
                     }
                 })

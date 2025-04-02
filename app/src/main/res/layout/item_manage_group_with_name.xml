@@ -14,15 +14,30 @@
         android:clickable="true"
         android:focusable="true">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/item_manage_group_with_name_name_tv"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dp_30"
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            tools:ignore="RelativeOverlap,RtlSymmetry" />
+            android:layout_marginStart="@dimen/dp_32"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/item_manage_group_with_name_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                tools:text="姓名" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/item_manage_group_with_name_insert_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_5"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                tools:text="添加时间" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <View
             android:id="@+id/item_manage_group_with_name_line"

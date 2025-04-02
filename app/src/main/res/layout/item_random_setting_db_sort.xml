@@ -35,19 +35,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/item_random_setting_tab"
-        android:visibility="gone"
         tools:visibility="visible">
 
         <RadioGroup
-            android:id="@+id/item_random_setting_random_type_radio_group"
+            android:id="@+id/item_random_setting_sort_radio_group"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_60"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
 
             <RadioButton
-                android:id="@+id/item_random_setting_random_type_now"
+                android:id="@+id/item_random_setting_sort_by_time_asc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_8"
@@ -56,12 +56,12 @@
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
-                android:text="@string/random_setting_random_type_now_text"
+                android:text="@string/random_setting_random_db_sort_by_time_asc_text"
                 android:textColor="@drawable/random_setting_speed_color_selector"
                 android:textSize="16sp" />
 
             <RadioButton
-                android:id="@+id/item_random_setting_random_type_auto"
+                android:id="@+id/item_random_setting_sort_by_time_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_8"
@@ -70,33 +70,19 @@
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
-                android:text="@string/random_setting_random_type_auto_text"
-                android:textColor="@drawable/random_setting_speed_color_selector"
-                android:textSize="16sp" />
-
-            <RadioButton
-                android:id="@+id/item_random_setting_random_type_manual"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dp_8"
-                android:background="@drawable/random_setting_speed_bg_selector"
-                android:button="@null"
-                android:gravity="center"
-                android:paddingHorizontal="@dimen/dp_15"
-                android:paddingVertical="@dimen/dp_5"
-                android:text="@string/random_setting_random_type_manual_text"
+                android:text="@string/random_setting_random_db_sort_by_time_desc_text"
                 android:textColor="@drawable/random_setting_speed_color_selector"
                 android:textSize="16sp" />
         </RadioGroup>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/item_random_setting_random_type_tips_tv"
+            android:id="@+id/item_random_setting_random_sort_tips_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/item_random_setting_random_type_radio_group"
+            android:layout_below="@+id/item_random_setting_sort_radio_group"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_5"
-            android:text="@string/random_setting_select_random_type_auto_tips_text"
+            android:text="@string/random_setting_random_db_sort_tips_text"
             android:textColor="@color/red"
             android:textSize="16sp" />
     </RelativeLayout>
