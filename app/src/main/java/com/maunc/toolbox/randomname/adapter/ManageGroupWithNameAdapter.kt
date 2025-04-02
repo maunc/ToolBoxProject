@@ -7,6 +7,8 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.data.convertTime
 import com.maunc.toolbox.databinding.ItemManageGroupWithNameBinding
 import com.maunc.toolbox.randomname.database.table.RandomNameData
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class ManageGroupWithNameAdapter :
     BaseQuickAdapter<RandomNameData, BaseDataBindingHolder<ItemManageGroupWithNameBinding>>(
@@ -21,7 +23,12 @@ class ManageGroupWithNameAdapter :
         holder.dataBinding?.let { mDataBind ->
             mDataBind.itemManageGroupWithNameNameTv.text = item.randomName
             mDataBind.itemManageGroupWithNameInsertTimeTv.text =
-                "添加时间:${item.insertNameTime.convertTime()}"
+                "添加时间:${convertTime(item.insertNameTime)}"
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun convertTime(time: Long): String {
+        return SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(Date(time))
     }
 }
