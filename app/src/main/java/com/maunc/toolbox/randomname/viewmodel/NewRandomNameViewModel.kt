@@ -40,8 +40,7 @@ class NewRandomNameViewModel : BaseRandomNameViewModel<BaseModel>() {
     fun initiateCreateNewNameWithGroupEvent() {
         if (newRandomName.value!!.isEmpty()) {
             handleShowTipsEvent(
-                obtainString(R.string.new_name_with_group_edit_none_tips_text),
-                false
+                obtainString(R.string.new_name_with_group_edit_none_tips_text), false
             )
             return
         }
@@ -51,14 +50,11 @@ class NewRandomNameViewModel : BaseRandomNameViewModel<BaseModel>() {
                 newRandomName.value!!
             )
         }, {
-            if (it == null) {
-                createNewNameWithGroup()
-            } else {
+            it?.let {
                 handleShowTipsEvent(
-                    obtainString(R.string.new_name_with_group_edit_exist_tips_text),
-                    false
+                    obtainString(R.string.new_name_with_group_edit_exist_tips_text), false
                 )
-            }
+            } ?: createNewNameWithGroup()
         })
     }
 
@@ -75,7 +71,6 @@ class NewRandomNameViewModel : BaseRandomNameViewModel<BaseModel>() {
                 )
             )
         }, {
-            "createNewNameWithGroup Success:$it".loge()
             handleNewNameLoadingEnd(true)
         }, {
             "createNewNameWithGroup Error:${it.message},${it.stackTrace}".loge()

@@ -23,7 +23,6 @@ class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
         launch({
             randomNameDao.queryGroupName(groupName)
         }, {
-            "queryGroupWithNameData Success data->${it.isEmpty()}".loge()
             handleGroupData(it, it.isEmpty())
         }, {
             "queryGroupWithNameData Error ${it.message}  ${it.stackTrace}".loge()
@@ -38,7 +37,6 @@ class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
         launch({
             randomNameTransactionDao.deleteNameAndQueryNameData(groupName, randomName)
         }, {
-            "deleteGroupWithNameData Success".loge()
             whetherDataHasChange.value = true
             handleGroupData(it, it.isEmpty())
         }, {
@@ -46,7 +44,10 @@ class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
         })
     }
 
-    fun handleGroupData(randomNameDataList: List<RandomNameData>, isEmpty: Boolean) {
+    private fun handleGroupData(
+        randomNameDataList: List<RandomNameData>,
+        isEmpty: Boolean,
+    ) {
         groupData.value = randomNameDataList
         groupDataIsNull.value = isEmpty
     }

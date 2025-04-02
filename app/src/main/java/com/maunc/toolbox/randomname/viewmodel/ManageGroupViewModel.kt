@@ -17,7 +17,6 @@ class ManageGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
         launch({
             randomNameTransactionDao.queryNameWithGroup()
         }, {
-            "queryGroupData Success data->${it.isEmpty()}".loge()
             groupData.value = it
             groupDataIsNull.value = it.isEmpty()
         }, {
@@ -30,7 +29,6 @@ class ManageGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
         launch({
             randomNameTransactionDao.deleteGroupAndQueryRandomAllData(groupName)
         }, {
-            "deleteGroupData Success".loge()
             groupData.value = it
             groupDataIsNull.value = it.isEmpty()
         }, {

@@ -26,7 +26,7 @@ class NewRandomGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
     var newGroupName = MutableLiveData(GLOBAL_NONE_STRING)
 
     //EditText最多输入字数
-    val newGroupEditMaxNum = 12
+    val newGroupEditMaxNum = 10
 
     fun initiateCreateNewGroupEvent() {
         if (newGroupName.value!!.isEmpty()) {
@@ -36,11 +36,9 @@ class NewRandomGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
         launch({
             randomGroupDao.queryRandomNameGroup(newGroupName.value!!)
         }, {
-            if (it == null) {
-                createNewGroup()
-            } else {
+            it?.let {
                 handleShowTipsEvent(obtainString(R.string.new_group_edit_exist_tips_text))
-            }
+            } ?: createNewGroup()
         })
     }
 
@@ -51,7 +49,6 @@ class NewRandomGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
         launch({
             randomGroupDao.insertRandomNameGroup(RandomNameGroup(newGroupName.value!!))
         }, {
-            "createNewGroup Success:$it".loge()
             whetherDataHasChange.value = true
         }, {
             "createNewGroup error:${it.message}  ${it.stackTrace}".loge()

@@ -23,7 +23,6 @@ class SelectGroupToMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         launch({
             randomNameTransactionDao.queryNameWithGroup()
         }, {
-            "queryGroupData Success data->${it.isEmpty()}".loge()
             handleGroupData(it)
         }, {
             "queryGroupData Error ${it.message}  ${it.stackTrace}".loge()

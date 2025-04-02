@@ -38,7 +38,7 @@
     <string name="new_group_create_tips_text">新建分组</string>
     <string name="new_group_cancel_text">取消</string>
     <string name="new_group_create_text">创建</string>
-    <string name="new_group_edit_max_tips_text">最多输入12位哦~</string>
+    <string name="new_group_edit_max_tips_text">最多输入10位哦~</string>
     <string name="new_group_edit_none_tips_text">请输入分组名称哦~</string>
     <string name="new_group_edit_exist_tips_text">该分组已经存在~</string>
 
@@ -46,7 +46,7 @@
     <string name="new_name_with_group_create_tips_text">新增名称</string>
     <string name="new_name_with_group_cancel_text">取消</string>
     <string name="new_name_with_group_create_text">创建</string>
-    <string name="new_name_with_group_edit_max_tips_text">最多输入8位哦~</string>
+    <string name="new_name_with_group_edit_max_tips_text">最多输入5位哦~</string>
     <string name="new_name_with_group_edit_none_tips_text">请输入名称哦~</string>
     <string name="new_name_with_group_edit_exist_tips_text">该名称已经存在~</string>
     <string name="new_name_with_group_edit_success_tips_text">创建成功！</string>

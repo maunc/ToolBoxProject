@@ -6,6 +6,8 @@ import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
+import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ONE
+import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ZERO
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
@@ -16,6 +18,9 @@ import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_NAME_THREAD_NAME
 import com.maunc.toolbox.randomname.constant.RANDOM_NOW
+import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
+import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MEDIUM
+import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MIN
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
@@ -60,8 +65,11 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
             runDelayTime.value?.let { delay ->
                 obtainRandomList().let { data ->
                     while (true) {
-                        if (data.size == 1) {
-                            updateTargetName(data[0].randomName, data[0].randomName)
+                        if (data.size == ARRAY_INDEX_ONE) {
+                            updateTargetName(
+                                data[ARRAY_INDEX_ZERO].randomName,
+                                data[ARRAY_INDEX_ZERO].randomName
+                            )
                             break
                         }
                         val nextInt = Random().nextInt(data.size)
@@ -84,8 +92,11 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
             runDelayTime.value?.let { delay ->
                 obtainRandomList().let { data ->
                     while (true) {
-                        if (data.size == 1) {
-                            updateTargetName(data[0].randomName, data[0].randomName)
+                        if (data.size == ARRAY_INDEX_ONE) {
+                            updateTargetName(
+                                data[ARRAY_INDEX_ZERO].randomName,
+                                data[ARRAY_INDEX_ZERO].randomName
+                            )
                             stopAutoRandom()
                             break
                         }
@@ -138,9 +149,9 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         notSelectNameList.value = notSelects
         if (runRandomType.value == RANDOM_AUTO) {
             when (runDelayTime.value) {
-                20L -> autoTypeRunNumThreshold.value = 50
-                120L -> autoTypeRunNumThreshold.value = 20
-                320L -> autoTypeRunNumThreshold.value = 10
+                RANDOM_SPEED_MAX -> autoTypeRunNumThreshold.value = 40
+                RANDOM_SPEED_MEDIUM -> autoTypeRunNumThreshold.value = 20
+                RANDOM_SPEED_MIN -> autoTypeRunNumThreshold.value = 10
             }
         }
     }

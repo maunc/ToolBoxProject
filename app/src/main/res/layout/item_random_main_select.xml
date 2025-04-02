@@ -14,7 +14,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_stroke_gray_radius_12"
-            android:padding="@dimen/dp_10"
-            android:text="@string/random_main_is_select_recycler" />
+            android:paddingHorizontal="@dimen/dp_10"
+            android:paddingVertical="@dimen/dp_5"
+            android:text="@string/random_start_text" />
     </RelativeLayout>
 </layout>
