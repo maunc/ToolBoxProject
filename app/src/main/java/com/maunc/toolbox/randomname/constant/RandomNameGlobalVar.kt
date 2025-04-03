@@ -46,9 +46,6 @@ const val RANDOM_DB_SORT_BY_NAME_DESC = 3
 //选择分组dialog
 const val SELECT_GROUP_TO_MAIN_DIALOG = "selectGroupToMainDialog"
 
-//公共Dialog
-const val COMMON_DIALOG = "commonDialog"
-
 /**============================================== 跳转IntentKey ==============================================*/
 const val GROUP_NAME_EXTRA = "GroupName"
 const val GROUP_WITH_NAME_EXTRA = "RandomGroupWithName"

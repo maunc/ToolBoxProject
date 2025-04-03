@@ -15,5 +15,6 @@ data class RandomSettingData(
         const val RANDOM_SELECT_LIST_TYPE = 3//选择名单功能启用
         const val RANDOM_NAME_TYPE_TYPE = 4//点名类型配置
         const val RANDOM_MANAGE_SORT_TYPE = 5 //asc升序,desc降序
+        const val RANDOM_DELETE_ALL_DATA_TYPE = 6//删除所有数据
     }
 }

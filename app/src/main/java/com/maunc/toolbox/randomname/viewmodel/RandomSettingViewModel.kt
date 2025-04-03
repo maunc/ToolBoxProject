@@ -3,6 +3,9 @@ package com.maunc.toolbox.randomname.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
+import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
+import com.maunc.toolbox.commonbase.ext.launch
+import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.mutableListInsert
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.randomname.data.RandomSettingData
@@ -34,10 +37,24 @@ class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
                 settingType = obtainString(R.string.random_setting_random_db_sort_text)
             ),
             RandomSettingData(
+                itemType = RandomSettingData.RANDOM_DELETE_ALL_DATA_TYPE,
+                settingType = obtainString(R.string.random_setting_random_delete_all_data_text)
+            ),
+            RandomSettingData(
                 itemType = RandomSettingData.RANDOM_BUTTON_EGGS_TYPE,
                 settingType = obtainString(R.string.random_setting_eggs_text)
             )
         )
         return settingItemData.value!!
+    }
+
+    fun deleteAllData() {
+        launch({
+            randomNameTransactionDao.deleteAllRandomDataBase()
+        },{
+            "delete all data success".loge()
+        },{
+            "delete all data error:${it.message}  ${it.stackTrace}".loge()
+        })
     }
 }

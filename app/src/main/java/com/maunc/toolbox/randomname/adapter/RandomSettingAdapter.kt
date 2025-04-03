@@ -52,6 +52,10 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             RandomSettingData.RANDOM_MANAGE_SORT_TYPE,
             R.layout.item_random_setting_db_sort
         )
+        addItemType(
+            RandomSettingData.RANDOM_DELETE_ALL_DATA_TYPE,
+            R.layout.item_random_setting_delete_all_data
+        )
         addItemType(RandomSettingData.RANDOM_BUTTON_EGGS_TYPE, R.layout.item_random_setting_eggs)
     }
 
@@ -227,6 +231,14 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 }
             }
 
+            RandomSettingData.RANDOM_DELETE_ALL_DATA_TYPE -> {
+                val deleteAllDataButton =
+                    haveView.findViewById<RelativeLayout>(R.id.item_random_setting_tab)
+                deleteAllDataButton.setOnClickListener {
+                    settingAdapterDeleteAllListener?.deleteAllDataClick()
+                }
+            }
+
             RandomSettingData.RANDOM_BUTTON_EGGS_TYPE -> {
                 val eggsSwitch =
                     haveView.findViewById<SwitchButtonView>(R.id.item_random_eggs_switch)
@@ -238,5 +250,15 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 }
             }
         }
+    }
+
+    private var settingAdapterDeleteAllListener: SettingAdapterDeleteAllListener? = null
+
+    fun setSettingAdapterDeleteAllListener(deleteAllListener: SettingAdapterDeleteAllListener) {
+        this.settingAdapterDeleteAllListener = deleteAllListener
+    }
+
+    fun interface SettingAdapterDeleteAllListener {
+        fun deleteAllDataClick()
     }
 }

@@ -104,4 +104,13 @@ interface RandomNameTransactionDao {
             else -> randomNameDao.queryGroupNameByInsertTime(groupName, querySortType)
         }
     }
+
+    /**
+     * 删除所有数据
+     */
+    @Transaction
+    fun deleteAllRandomDataBase() {
+        randomGroupDao.deleteAllGroupName()
+        randomNameDao.deleteAllRandomName()
+    }
 }

@@ -6,15 +6,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.commonbase.constant.COMMON_DIALOG
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.databinding.ActivityManageNameBinding
 import com.maunc.toolbox.randomname.adapter.ManageGroupWithNameAdapter
-import com.maunc.toolbox.randomname.constant.COMMON_DIALOG
 import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
 import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_MANAGE_GROUP_WITH_NAME_PAGE
 import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE
@@ -64,14 +65,17 @@ class ManageNameActivity :
             }
             setOnItemLongClickListener { adapter, view, pos ->
                 val randomNameGroupWithName = data[pos]
-                val commonDialogTitle = "是否删除:${randomNameGroupWithName.randomName}？"
-                CommonDialog().setTitle(commonDialogTitle)
-                    .setSureListener {
-                        mViewModel.deleteGroupWithNameData(
-                            randomNameGroupWithName.toGroupName,
-                            randomNameGroupWithName.randomName
-                        )
-                    }.show(supportFragmentManager, COMMON_DIALOG)
+                CommonDialog().setTitle(
+                    String.format(
+                        obtainString(R.string.manage_delete_tips_text),
+                        randomNameGroupWithName.randomName
+                    )
+                ).setSureListener {
+                    mViewModel.deleteGroupWithNameData(
+                        randomNameGroupWithName.toGroupName,
+                        randomNameGroupWithName.randomName
+                    )
+                }.show(supportFragmentManager, COMMON_DIALOG)
                 return@setOnItemLongClickListener true
             }
         }

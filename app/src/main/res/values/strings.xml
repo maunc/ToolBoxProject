@@ -29,6 +29,7 @@
     <string name="manage_group_page_title_text">管理分组</string>
     <string name="manage_group_page_none_group_tips_text">您还没有创建分组</string>
     <string name="manage_group_page_new_group_text">添加分组</string>
+    <string name="manage_delete_tips_text">是否删除:%s?</string>
 
     <!--manageGroupWithNamePage-->
     <string name="manage_group_with_name_page_none_group_tips_text">该分组还没有数据</string>
@@ -80,6 +81,7 @@
     <string name="random_setting_random_db_sort_by_time_desc_text">按时间降序</string>
     <string name="random_setting_random_db_sort_by_name_asc_text">按名称升序</string>
     <string name="random_setting_random_db_sort_by_name_desc_text">按名称降序</string>
+    <string name="random_setting_random_delete_all_data_text">删除所有的数据</string>
 
     <!--commonDialog-->
     <string name="common_dialog_sure_text">确定</string>

@@ -7,21 +7,22 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maunc.toolbox.R
-import com.maunc.toolbox.randomname.adapter.ManageGroupAdapter
 import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.randomname.constant.COMMON_DIALOG
-import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
-import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_MANAGE_GROUP_WITH_NAME_PAGE
-import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_GROUP_PAGE
-import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NONE_PAGE
-import com.maunc.toolbox.randomname.constant.WHETHER_DATA_HAS_CHANGE
-import com.maunc.toolbox.databinding.ActivityManageGroupBinding
+import com.maunc.toolbox.commonbase.constant.COMMON_DIALOG
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntent
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntentPutData
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
+import com.maunc.toolbox.databinding.ActivityManageGroupBinding
+import com.maunc.toolbox.randomname.adapter.ManageGroupAdapter
+import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
+import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_MANAGE_GROUP_WITH_NAME_PAGE
+import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_GROUP_PAGE
+import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NONE_PAGE
+import com.maunc.toolbox.randomname.constant.WHETHER_DATA_HAS_CHANGE
 import com.maunc.toolbox.randomname.viewmodel.ManageGroupViewModel
 
 /**
@@ -66,11 +67,14 @@ class ManageGroupActivity : BaseActivity<ManageGroupViewModel, ActivityManageGro
             }
             setOnItemLongClickListener { adapter, view, pos ->
                 val randomNameWithGroup = data[pos]
-                val commonDialogTitle = "是否删除:${randomNameWithGroup.randomNameGroup.groupName}？"
-                CommonDialog().setTitle(commonDialogTitle)
-                    .setSureListener {
-                        mViewModel.deleteGroupData(randomNameWithGroup.randomNameGroup.groupName)
-                    }.show(supportFragmentManager, COMMON_DIALOG)
+                CommonDialog().setTitle(
+                    String.format(
+                        obtainString(R.string.manage_delete_tips_text),
+                        randomNameWithGroup.randomNameGroup.groupName
+                    )
+                ).setSureListener {
+                    mViewModel.deleteGroupData(randomNameWithGroup.randomNameGroup.groupName)
+                }.show(supportFragmentManager, COMMON_DIALOG)
                 return@setOnItemLongClickListener true
             }
         }

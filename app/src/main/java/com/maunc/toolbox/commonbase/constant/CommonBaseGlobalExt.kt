@@ -41,3 +41,6 @@ const val FIVE_DELAY_MILLIS = 500L
 const val ARRAY_INDEX_ZERO = 0
 const val ARRAY_INDEX_ONE = 1
 const val ARRAY_INDEX_TWO = 2
+
+//公共Dialog
+const val COMMON_DIALOG = "commonDialog"
