@@ -8,6 +8,10 @@ import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomListSortType
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_DESC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_ASC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_DESC
 import com.maunc.toolbox.randomname.database.table.RandomNameData
 
 class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
@@ -21,11 +25,20 @@ class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
     //是否更改过数据库
     var whetherDataHasChange = MutableLiveData(false)
 
-    fun queryGroupWithNameData(
-        groupName: String,
-    ) {
+    fun queryGroupWithNameData(toGroupName: String) {
         launch({
-            randomNameDao.queryGroupNameByInsertTime(groupName, dbSortType.value!!)
+            when (dbSortType.value!!) {
+                RANDOM_DB_SORT_BY_INSERT_TIME_ASC, RANDOM_DB_SORT_BY_INSERT_TIME_DESC ->
+                    randomNameDao.queryGroupNameByInsertTime(toGroupName, dbSortType.value!!)
+
+                RANDOM_DB_SORT_BY_NAME_ASC, RANDOM_DB_SORT_BY_NAME_DESC ->
+                    randomNameDao.queryGroupNameByName(toGroupName, dbSortType.value!!)
+
+                else -> randomNameDao.queryGroupNameByInsertTime(
+                    toGroupName,
+                    RANDOM_DB_SORT_BY_INSERT_TIME_ASC
+                )
+            }
         }, {
             handleGroupData(it, it.isEmpty())
         }, {
@@ -35,12 +48,12 @@ class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
     }
 
     fun deleteGroupWithNameData(
-        groupName: String,
+        toGroupName: String,
         randomName: String,
     ) {
         launch({
             randomNameTransactionDao.deleteNameAndQueryNameData(
-                groupName, randomName, dbSortType.value!!
+                toGroupName, randomName, dbSortType.value!!
             )
         }, {
             whetherDataHasChange.value = true

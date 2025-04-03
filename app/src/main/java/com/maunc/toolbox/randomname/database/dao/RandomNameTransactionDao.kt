@@ -3,10 +3,13 @@ package com.maunc.toolbox.randomname.database.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ZERO
 import com.maunc.toolbox.commonbase.database.randomGroupDao
 import com.maunc.toolbox.commonbase.database.randomNameDao
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_DESC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_ASC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_DESC
 import com.maunc.toolbox.randomname.database.table.RandomNameData
 import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 
@@ -15,10 +18,10 @@ interface RandomNameTransactionDao {
 
     @Transaction
     @Query("SELECT * FROM random_name_group") /*from 父表*/
-    fun queryNameWithGroup(
+    fun queryNameWithGroupByInsertTime(
         querySortType: Int,
     ): MutableList<RandomNameWithGroup> {
-        val randomGroupList = randomGroupDao.queryRandomNameGroup(querySortType)
+        val randomGroupList = randomGroupDao.queryRandomNameGroupByInsertTime(querySortType)
         if (randomGroupList.isEmpty()) {
             return mutableListOf()
         }
@@ -35,6 +38,29 @@ interface RandomNameTransactionDao {
         return resultList
     }
 
+    @Transaction
+    @Query("SELECT * FROM random_name_group") /*from 父表*/
+    fun queryNameWithGroupByName(
+        querySortType: Int,
+    ): MutableList<RandomNameWithGroup> {
+        val randomGroupList = randomGroupDao.queryRandomNameGroupByGroupName(querySortType)
+        if (randomGroupList.isEmpty()) {
+            return mutableListOf()
+        }
+        val resultList: MutableList<RandomNameWithGroup> = mutableListOf()
+        randomGroupList.forEach { groupData ->
+            val randomNameData: MutableList<RandomNameData> = mutableListOf()
+            randomNameDao.queryGroupNameByName(groupData.groupName, querySortType).let {
+                it.forEach { data ->
+                    randomNameData.add(data)
+                }
+            }
+            resultList.add(RandomNameWithGroup(groupData, randomNameData))
+        }
+        return resultList
+    }
+
+
     /**
      * 删掉分组并删掉分组对应的所有名称，然后再组合查一遍
      */
@@ -45,7 +71,17 @@ interface RandomNameTransactionDao {
     ): MutableList<RandomNameWithGroup> {
         randomGroupDao.deleteGroupName(groupName)
         randomNameDao.deleteNameWithGroup(groupName)
-        return randomNameTransactionDao.queryNameWithGroup(querySortType)
+        return when (querySortType) {
+            RANDOM_DB_SORT_BY_INSERT_TIME_ASC, RANDOM_DB_SORT_BY_INSERT_TIME_DESC ->
+                randomNameTransactionDao.queryNameWithGroupByInsertTime(querySortType)
+
+            RANDOM_DB_SORT_BY_NAME_ASC, RANDOM_DB_SORT_BY_NAME_DESC ->
+                randomNameTransactionDao.queryNameWithGroupByName(querySortType)
+
+            else -> randomNameTransactionDao.queryNameWithGroupByInsertTime(
+                RANDOM_DB_SORT_BY_INSERT_TIME_ASC
+            )
+        }
     }
 
     /**
@@ -58,6 +94,14 @@ interface RandomNameTransactionDao {
         querySortType: Int,
     ): MutableList<RandomNameData> {
         randomNameDao.deleteNameWithGroupNameAndRandomName(groupName, randomName)
-        return randomNameDao.queryGroupNameByInsertTime(groupName, querySortType)
+        return when (querySortType) {
+            RANDOM_DB_SORT_BY_INSERT_TIME_ASC, RANDOM_DB_SORT_BY_INSERT_TIME_DESC ->
+                randomNameDao.queryGroupNameByInsertTime(groupName, querySortType)
+
+            RANDOM_DB_SORT_BY_NAME_ASC, RANDOM_DB_SORT_BY_NAME_DESC ->
+                randomNameDao.queryGroupNameByName(groupName, querySortType)
+
+            else -> randomNameDao.queryGroupNameByInsertTime(groupName, querySortType)
+        }
     }
 }

@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
+import com.maunc.toolbox.commonbase.constant.THREE_DELAY_MILLIS
 import com.maunc.toolbox.commonbase.database.randomNameDao
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
@@ -25,14 +26,14 @@ class NewRandomNameViewModel : BaseRandomNameViewModel<BaseModel>() {
     //是否更改过数据库
     var whetherDataHasChange = MutableLiveData(false)
     var showDeleteEditIcon = MutableLiveData(false)
-    var showNameLimitTips = MutableLiveData(false)
-    var nameLimitTips = MutableLiveData(GLOBAL_NONE_STRING)
+    var showInputTips = MutableLiveData(false)
+    var inputTips = MutableLiveData(GLOBAL_NONE_STRING)
     var nameLimitTipsTextColor = MutableLiveData(obtainColor(R.color.red))
     var newRandomName = MutableLiveData(GLOBAL_NONE_STRING)
     var newRandomNameToGroup = MutableLiveData(GLOBAL_NONE_STRING)
     var newRandomNameSuccess = MutableLiveData(false)
     var newNameWithLoading = MutableLiveData(false)
-    private var newNameWithNameLoadingTime = 300L
+    private var newNameWithNameLoadingTime = THREE_DELAY_MILLIS
 
     //EditText最多输入字数
     val newNameEditMaxNum = 5
@@ -97,9 +98,9 @@ class NewRandomNameViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     //仅处理需要展示时的状态
     private fun handleShowTipsEvent(message: String, isSuccess: Boolean) {
-        nameLimitTips.value = message
+        inputTips.value = message
         handleTipsTextColor(isSuccess)
-        showNameLimitTips.value = true
+        showInputTips.value = true
     }
 
     fun handleTipsTextColor(isSuccess: Boolean) {

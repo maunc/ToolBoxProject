@@ -95,6 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/new_name_with_group_edit_height"
                     android:background="@drawable/bg_new_group_edit"
+                    android:inputType="text"
                     android:maxLength="@{newNameWithGroupViewModel.newNameEditMaxNum}"
                     android:paddingStart="@dimen/dp_12"
                     android:singleLine="true"
@@ -120,10 +121,10 @@
                 android:layout_below="@id/new_name_with_group_edit_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp_5"
-                android:text="@{newNameWithGroupViewModel.nameLimitTips}"
+                android:text="@{newNameWithGroupViewModel.inputTips}"
                 android:textColor="@{newNameWithGroupViewModel.nameLimitTipsTextColor}"
                 android:textSize="16sp"
-                android:visibility="@{newNameWithGroupViewModel.showNameLimitTips?View.VISIBLE:View.GONE}"
+                android:visibility="@{newNameWithGroupViewModel.showInputTips?View.VISIBLE:View.GONE}"
                 tools:text="@string/new_name_with_group_edit_max_tips_text"
                 tools:textColor="@color/green_75" />
         </RelativeLayout>

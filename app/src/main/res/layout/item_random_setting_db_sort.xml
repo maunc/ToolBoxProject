@@ -50,11 +50,11 @@
                 android:id="@+id/item_random_setting_sort_by_time_asc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dp_8"
+                android:layout_marginHorizontal="@dimen/dp_5"
                 android:background="@drawable/random_setting_speed_bg_selector"
                 android:button="@null"
                 android:gravity="center"
-                android:paddingHorizontal="@dimen/dp_15"
+                android:paddingHorizontal="@dimen/dp_10"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/random_setting_random_db_sort_by_time_asc_text"
                 android:textColor="@drawable/random_setting_speed_color_selector"
@@ -64,15 +64,44 @@
                 android:id="@+id/item_random_setting_sort_by_time_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dp_8"
+                android:layout_marginHorizontal="@dimen/dp_5"
                 android:background="@drawable/random_setting_speed_bg_selector"
                 android:button="@null"
                 android:gravity="center"
-                android:paddingHorizontal="@dimen/dp_15"
+                android:paddingHorizontal="@dimen/dp_10"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/random_setting_random_db_sort_by_time_desc_text"
                 android:textColor="@drawable/random_setting_speed_color_selector"
                 android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/item_random_setting_sort_by_name_asc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_5"
+                android:background="@drawable/random_setting_speed_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:paddingVertical="@dimen/dp_5"
+                android:text="@string/random_setting_random_db_sort_by_name_asc_text"
+                android:textColor="@drawable/random_setting_speed_color_selector"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/item_random_setting_sort_by_name_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_5"
+                android:background="@drawable/random_setting_speed_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:paddingVertical="@dimen/dp_5"
+                android:text="@string/random_setting_random_db_sort_by_name_desc_text"
+                android:textColor="@drawable/random_setting_speed_color_selector"
+                android:textSize="16sp" />
+
         </RadioGroup>
 
         <androidx.appcompat.widget.AppCompatTextView

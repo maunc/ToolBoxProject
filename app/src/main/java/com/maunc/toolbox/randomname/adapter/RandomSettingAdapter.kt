@@ -22,6 +22,8 @@ import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_DESC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_ASC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_DESC
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_NOW
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
@@ -189,9 +191,15 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     haveView.findViewById<RadioButton>(R.id.item_random_setting_sort_by_time_asc)
                 val radioButtonByTimeDesc =
                     haveView.findViewById<RadioButton>(R.id.item_random_setting_sort_by_time_desc)
+                val radioButtonByNameAsc =
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_sort_by_name_asc)
+                val radioButtonByNameDesc =
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_sort_by_name_desc)
                 when (obtainMMKV.getInt(randomListSortType)) {
                     RANDOM_DB_SORT_BY_INSERT_TIME_ASC -> radioGroup.check(radioButtonByTimeAsc.id)
                     RANDOM_DB_SORT_BY_INSERT_TIME_DESC -> radioGroup.check(radioButtonByTimeDesc.id)
+                    RANDOM_DB_SORT_BY_NAME_ASC -> radioGroup.check(radioButtonByNameAsc.id)
+                    RANDOM_DB_SORT_BY_NAME_DESC -> radioGroup.check(radioButtonByNameDesc.id)
                 }
                 radioGroup.setOnCheckedChangeListener { group, checkedId ->
                     group.check(checkedId)
@@ -204,6 +212,16 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                         radioButtonByTimeDesc.id -> obtainMMKV.putInt(
                             randomListSortType,
                             RANDOM_DB_SORT_BY_INSERT_TIME_DESC
+                        )
+
+                        radioButtonByNameAsc.id -> obtainMMKV.putInt(
+                            randomListSortType,
+                            RANDOM_DB_SORT_BY_NAME_ASC
+                        )
+
+                        radioButtonByNameDesc.id -> obtainMMKV.putInt(
+                            randomListSortType,
+                            RANDOM_DB_SORT_BY_NAME_DESC
                         )
                     }
                 }

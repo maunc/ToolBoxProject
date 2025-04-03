@@ -39,6 +39,8 @@ const val RANDOM_SPEED_MAX = 20L
  */
 const val RANDOM_DB_SORT_BY_INSERT_TIME_ASC = 0
 const val RANDOM_DB_SORT_BY_INSERT_TIME_DESC = 1
+const val RANDOM_DB_SORT_BY_NAME_ASC = 2
+const val RANDOM_DB_SORT_BY_NAME_DESC = 3
 
 /**============================================== Dialog名称 ==============================================*/
 //选择分组dialog

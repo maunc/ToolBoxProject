@@ -10,6 +10,10 @@ import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomListSortType
 import com.maunc.toolbox.randomname.constant.GROUP_REMOVE_THRESHOLD
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_DESC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_ASC
+import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_DESC
 import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 
 class SelectGroupToMainViewModel : BaseRandomNameViewModel<BaseModel>() {
@@ -25,7 +29,17 @@ class SelectGroupToMainViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     fun queryGroupData() {
         launch({
-            randomNameTransactionDao.queryNameWithGroup(dbSortType.value!!)
+            when (dbSortType.value!!) {
+                RANDOM_DB_SORT_BY_INSERT_TIME_ASC, RANDOM_DB_SORT_BY_INSERT_TIME_DESC ->
+                    randomNameTransactionDao.queryNameWithGroupByInsertTime(dbSortType.value!!)
+
+                RANDOM_DB_SORT_BY_NAME_ASC, RANDOM_DB_SORT_BY_NAME_DESC ->
+                    randomNameTransactionDao.queryNameWithGroupByName(dbSortType.value!!)
+
+                else -> randomNameTransactionDao.queryNameWithGroupByInsertTime(
+                    RANDOM_DB_SORT_BY_INSERT_TIME_ASC
+                )
+            }
         }, {
             handleGroupData(it)
         }, {

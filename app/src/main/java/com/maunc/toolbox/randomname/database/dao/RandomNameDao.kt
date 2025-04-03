@@ -11,13 +11,13 @@ interface RandomNameDao {
 
     @Query("SELECT COUNT(*) FROM random_name WHERE toGroupName=:groupName")
     fun queryGroupToRandomNameSize(
-        groupName: String
+        groupName: String,
     ): Int
 
     @Query("SELECT * FROM random_name WHERE toGroupName=:groupName AND randomName=:randomName")
     fun queryGroupNameAndRandomName(
         groupName: String,
-        randomName: String
+        randomName: String,
     ): RandomNameData?
 
     @Query(
@@ -26,6 +26,16 @@ interface RandomNameDao {
                 "CASE WHEN :querySortType=1 THEN insertNameTime END DESC"
     )
     fun queryGroupNameByInsertTime(
+        toGroupName: String,
+        querySortType: Int,
+    ): MutableList<RandomNameData>
+
+    @Query(
+        "SELECT * FROM random_name WHERE toGroupName=:toGroupName order by " +
+                "CASE WHEN :querySortType=2 THEN randomName COLLATE LOCALIZED END ASC," +
+                "CASE WHEN :querySortType=3 THEN randomName COLLATE LOCALIZED END DESC"
+    )
+    fun queryGroupNameByName(
         toGroupName: String,
         querySortType: Int,
     ): MutableList<RandomNameData>

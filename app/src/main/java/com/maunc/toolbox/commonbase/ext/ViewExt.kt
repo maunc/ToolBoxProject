@@ -10,6 +10,8 @@ import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Build
 import android.text.Editable
+import android.text.InputFilter
+import android.text.Spanned
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.GestureDetector
@@ -33,6 +35,7 @@ import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.constant.ALPHA
 import com.maunc.toolbox.commonbase.constant.SCALE_X
 import com.maunc.toolbox.commonbase.constant.SCALE_Y
+
 
 fun View.visible() {
     visibility = View.VISIBLE
@@ -170,6 +173,44 @@ fun EditText.requestFocusable() {
     isFocusable = true
     isFocusableInTouchMode = true
     requestFocus()
+}
+
+/**
+ * 输入框禁止输入非中文
+ */
+fun EditText.chineseProhibitedInput(tipsAction: () -> Unit = {}) {
+    this.filters = arrayOf(object : InputFilter {
+        override fun filter(
+            source: CharSequence?, start: Int, end: Int, dest: Spanned?, dstart: Int, dend: Int,
+        ): CharSequence? {
+            for (i in start until end) {
+                if (!source.toString()[i].isChineseChar()) {
+                    tipsAction.invoke()
+                    return "" // 返回空字符，禁止输入非中文字符
+                }
+            }
+            return null
+        }
+    })
+}
+
+/**
+ * 输入框禁止输入空格
+ */
+fun EditText.spaceProhibitedInput(tipsAction: () -> Unit = {}) {
+    this.filters = arrayOf(object : InputFilter {
+        override fun filter(
+            source: CharSequence?, start: Int, end: Int, dest: Spanned?, dstart: Int, dend: Int,
+        ): CharSequence? {
+            for (i in start until end) {
+                if (source.toString()[i].isWhitespace()) {
+                    tipsAction.invoke()
+                    return "" // 返回空字符，禁止输入空格
+                }
+            }
+            return null
+        }
+    })
 }
 
 /**=========================================View  Listener  优化=========================================*/

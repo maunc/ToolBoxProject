@@ -76,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/new_group_edit_height"
                     android:background="@drawable/bg_new_group_edit"
+                    android:inputType="text"
                     android:maxLength="@{newGroupViewModel.newGroupEditMaxNum}"
                     android:paddingStart="@dimen/dp_12"
                     android:singleLine="true"
@@ -101,10 +102,10 @@
                 android:layout_below="@id/new_group_edit_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp_5"
-                android:text="@{newGroupViewModel.nameLimitTips}"
+                android:text="@{newGroupViewModel.inputErrorTips}"
                 android:textColor="@color/red"
                 android:textSize="16sp"
-                android:visibility="@{newGroupViewModel.showNameLimitTips?View.VISIBLE:View.GONE}" />
+                android:visibility="@{newGroupViewModel.showInputErrorTips?View.VISIBLE:View.GONE}" />
         </RelativeLayout>
 
     </RelativeLayout>

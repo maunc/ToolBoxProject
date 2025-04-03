@@ -12,6 +12,7 @@ import com.maunc.toolbox.commonbase.ext.enterActivityAnim
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
 import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
+import com.maunc.toolbox.commonbase.ext.spaceProhibitedInput
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityNewRandomGroupBinding
 import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_GROUP_PAGE
@@ -53,10 +54,14 @@ class NewRandomGroupActivity :
             mViewModel.buttonClickLaunchVibrator()
             mViewModel.initiateCreateNewGroupEvent()
         }
+        mDatabind.newGroupEdit.spaceProhibitedInput {
+            mViewModel.inputErrorTips.value = getString(R.string.new_group_edit_no_space_tips_text)
+            mViewModel.showInputErrorTips.value = true
+        }
         mDatabind.newGroupEdit.addEditTextListener(afterTextChanged = { editStr ->
             mViewModel.showDeleteEditIcon.value = editStr.isNotEmpty()
-            mViewModel.nameLimitTips.value = getString(R.string.new_group_edit_max_tips_text)
-            mViewModel.showNameLimitTips.value = editStr.length >= mViewModel.newGroupEditMaxNum
+            mViewModel.inputErrorTips.value = getString(R.string.new_group_edit_max_tips_text)
+            mViewModel.showInputErrorTips.value = editStr.length >= mViewModel.newGroupEditMaxNum
             mViewModel.newGroupName.value = editStr
         })
         onBackPressedDispatcher.addCallback(this, backPressCallback)

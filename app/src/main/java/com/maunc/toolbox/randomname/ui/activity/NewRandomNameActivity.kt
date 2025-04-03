@@ -10,6 +10,7 @@ import com.maunc.toolbox.commonbase.ext.enterActivityAnim
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
 import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
+import com.maunc.toolbox.commonbase.ext.spaceProhibitedInput
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityNewRandomNameBinding
 import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
@@ -55,11 +56,15 @@ class NewRandomNameActivity :
             mViewModel.buttonClickLaunchVibrator()
             mViewModel.initiateCreateNewNameWithGroupEvent()
         }
+        mDatabind.newNameWithGroupEdit.spaceProhibitedInput {
+            mViewModel.inputTips.value = getString(R.string.new_group_edit_no_space_tips_text)
+            mViewModel.showInputTips.value = true
+        }
         mDatabind.newNameWithGroupEdit.addEditTextListener(afterTextChanged = { editStr ->
             mViewModel.showDeleteEditIcon.value = editStr.isNotEmpty()
-            mViewModel.nameLimitTips.value =
+            mViewModel.inputTips.value =
                 getString(R.string.new_name_with_group_edit_max_tips_text)
-            mViewModel.showNameLimitTips.value = editStr.length >= mViewModel.newNameEditMaxNum
+            mViewModel.showInputTips.value = editStr.length >= mViewModel.newNameEditMaxNum
             mViewModel.handleTipsTextColor(editStr.length < mViewModel.newNameEditMaxNum)
             mViewModel.newRandomName.value = editStr
         })

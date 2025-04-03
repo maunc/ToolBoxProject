@@ -17,11 +17,11 @@ import com.maunc.toolbox.randomname.database.table.RandomNameGroup
 class NewRandomGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     var showDeleteEditIcon = MutableLiveData(false)
-    var showNameLimitTips = MutableLiveData(false)
+    var showInputErrorTips = MutableLiveData(false)
 
     //是否更改过数据库
     var whetherDataHasChange = MutableLiveData(false)
-    var nameLimitTips = MutableLiveData(GLOBAL_NONE_STRING)
+    var inputErrorTips = MutableLiveData(GLOBAL_NONE_STRING)
 
     var newGroupName = MutableLiveData(GLOBAL_NONE_STRING)
 
@@ -40,7 +40,7 @@ class NewRandomGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
                 handleShowTipsEvent(obtainString(R.string.new_group_edit_exist_tips_text))
             } ?: createNewGroup()
         },{
-            "queryRandomNameGroup error:${it.message}  ${it.stackTrace}".loge()
+            "queryRandomNameGroupByInsertTime error:${it.message}  ${it.stackTrace}".loge()
         })
     }
 
@@ -59,8 +59,8 @@ class NewRandomGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     //仅处理需要展示时的状态
     private fun handleShowTipsEvent(message: String) {
-        nameLimitTips.value = message
-        showNameLimitTips.value = true
+        inputErrorTips.value = message
+        showInputErrorTips.value = true
     }
 
     fun updateNewGroupLayout(keyBoardHeight: Int, newGroup: ViewGroup) {

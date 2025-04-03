@@ -14,7 +14,16 @@ interface RandomNameGroupDao {
                 "CASE WHEN :querySortType=0 THEN insertGroupTime END ASC," +
                 "CASE WHEN :querySortType=1 THEN insertGroupTime END DESC"
     )
-    fun queryRandomNameGroup(
+    fun queryRandomNameGroupByInsertTime(
+        querySortType: Int,
+    ): MutableList<RandomNameGroup>
+
+    @Query(
+        "SELECT * FROM random_name_group order by " +
+                "CASE WHEN :querySortType=2 THEN groupName COLLATE LOCALIZED END ASC," +
+                "CASE WHEN :querySortType=3 THEN groupName COLLATE LOCALIZED END DESC"
+    )
+    fun queryRandomNameGroupByGroupName(
         querySortType: Int,
     ): MutableList<RandomNameGroup>
 
