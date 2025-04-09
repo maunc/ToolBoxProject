@@ -37,6 +37,9 @@ const val THREE_DELAY_MILLIS = 300L
 //5毫秒
 const val FIVE_DELAY_MILLIS = 500L
 
+//1秒
+const val ONE_DELAY_S = 1000L
+
 /**          数组下标                */
 const val ARRAY_INDEX_ZERO = 0
 const val ARRAY_INDEX_ONE = 1

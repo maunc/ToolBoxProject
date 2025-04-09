@@ -1,5 +1,7 @@
 package com.maunc.toolbox.randomname.viewmodel
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
@@ -13,6 +15,8 @@ import com.maunc.toolbox.randomname.data.RandomSettingData
 class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     private var settingItemData = MutableLiveData<MutableList<RandomSettingData>>(mutableListOf())
+
+    var handler: Handler? = Handler(Looper.getMainLooper())
 
     fun initRecyclerData(): MutableList<RandomSettingData> {
         settingItemData.value?.mutableListInsert(
@@ -48,13 +52,23 @@ class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
         return settingItemData.value!!
     }
 
-    fun deleteAllData() {
+    fun deleteAllData(
+        deleteResultCallback: (Boolean) -> Unit = {},
+    ) {
         launch({
             randomNameTransactionDao.deleteAllRandomDataBase()
-        },{
+        }, {
+            deleteResultCallback(true)
             "delete all data success".loge()
-        },{
+        }, {
+            deleteResultCallback(false)
             "delete all data error:${it.message}  ${it.stackTrace}".loge()
         })
+    }
+
+    override fun onCleared() {
+        handler?.removeCallbacksAndMessages(null)
+        handler = null
+        super.onCleared()
     }
 }

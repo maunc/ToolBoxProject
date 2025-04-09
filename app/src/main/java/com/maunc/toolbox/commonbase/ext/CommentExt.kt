@@ -118,17 +118,17 @@ fun obtainAppVersionCode(): Int {
 }
 
 //获取屏幕宽度
-fun Context.screenWidth() = resources.displayMetrics.widthPixels
+fun Context.obtainScreenWidth() = resources.displayMetrics.widthPixels
 
 //获取屏幕高度
-fun Context.screenHeight() = resources.displayMetrics.heightPixels
+fun Context.obtainScreenHeight() = resources.displayMetrics.heightPixels
 
 /**
  * 获取屏幕高度
  * 可以选择是否带状态栏
  */
 @SuppressLint("InternalInsetResource")
-fun Context.screenHeight(isAddStatusBar: Boolean): Int {
+fun Context.obtainScreenHeight(isAddStatusBar: Boolean): Int {
     val heightPixels = resources.displayMetrics.heightPixels
     if (isAddStatusBar) {
         var statusBarHeight = 0

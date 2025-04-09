@@ -48,8 +48,8 @@ import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainDimens
 import com.maunc.toolbox.commonbase.ext.obtainGlideEngin
-import com.maunc.toolbox.commonbase.ext.screenHeight
-import com.maunc.toolbox.commonbase.ext.screenWidth
+import com.maunc.toolbox.commonbase.ext.obtainScreenHeight
+import com.maunc.toolbox.commonbase.ext.obtainScreenWidth
 import com.maunc.toolbox.commonbase.ext.setTint
 import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.ext.startActivityWithData
@@ -217,7 +217,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
 
                 MotionEvent.ACTION_MOVE -> {
                     // 未滑动到可以操作按钮范围
-                    if (userDownY - event.rawY.toInt() < (screenHeight() * (PERCENT_TWELVE))) {
+                    if (userDownY - event.rawY.toInt() < (obtainScreenHeight() * (PERCENT_TWELVE))) {
                         executeCancelEnlargeAnim = false
                         executeSureEnlargeAnim = false
                         if (!executeCancelShrinkAnim) {
@@ -234,7 +234,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                         return@setOnTouchListener true
                     }
                     // 选中sure
-                    if (event.rawX.toInt() > (screenWidth() * PERCENT_FIFTY)) {
+                    if (event.rawX.toInt() > (obtainScreenWidth() * PERCENT_FIFTY)) {
                         if (!executeSureEnlargeAnim) {
                             executeSureEnlargeAnim = true
                             mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_MOVE_CANCEL_DONE

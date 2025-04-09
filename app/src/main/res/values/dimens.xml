@@ -72,6 +72,8 @@
     <dimen name="common_dialog_height">200dp</dimen>
     <dimen name="common_dialog_control_width">140dp</dimen>
     <dimen name="common_dialog_control_height">55dp</dimen>
+    <!--commonLoadingDialog-->
+    <dimen name="common_loading_dialog_size">190dp</dimen>
 
     <!--**********************************  随机点名  **********************************-->
     <!--randomWelcomePage-->

@@ -35,7 +35,10 @@ import com.us.mauncview.SwitchButtonView
 class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseViewHolder>() {
 
     init {
-        addItemType(RandomSettingData.RANDOM_SPEED_TYPE, R.layout.item_random_setting_speed)
+        addItemType(
+            RandomSettingData.RANDOM_SPEED_TYPE,
+            R.layout.item_random_setting_speed
+        )
         addItemType(
             RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
             R.layout.item_random_setting_vibrator
@@ -56,7 +59,10 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             RandomSettingData.RANDOM_DELETE_ALL_DATA_TYPE,
             R.layout.item_random_setting_delete_all_data
         )
-        addItemType(RandomSettingData.RANDOM_BUTTON_EGGS_TYPE, R.layout.item_random_setting_eggs)
+        addItemType(
+            RandomSettingData.RANDOM_BUTTON_EGGS_TYPE,
+            R.layout.item_random_setting_eggs
+        )
     }
 
     override fun convert(
@@ -72,11 +78,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         val expandIv = haveView.findViewById<ImageView>(R.id.item_random_setting_expand_iv)
         moreLayout.visibleOrGone(item.isExpand)
         expandIv.setImageResource(
-            if (item.isExpand) {
-                R.drawable.icon_group_expand_yes
-            } else {
-                R.drawable.icon_group_expand_no
-            }
+            if (item.isExpand) R.drawable.icon_group_expand_yes else R.drawable.icon_group_expand_no
         )
         haveView.findViewById<RelativeLayout>(R.id.item_random_setting_tab).setOnClickListener {
             val settingData = data[itemPosition]
@@ -146,20 +148,23 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 when (obtainMMKV.getInt(randomType)) {
                     RANDOM_NOW -> {
                         radioGroup.check(radioButtonNow.id)
-                        randomTypeTipsTv.text =
-                            obtainString(R.string.random_setting_select_random_type_now_tips_text)
+                        randomTypeTipsTv.text = obtainString(
+                            R.string.random_setting_select_random_type_now_tips_text
+                        )
                     }
 
                     RANDOM_AUTO -> {
                         radioGroup.check(radioButtonAuto.id)
-                        randomTypeTipsTv.text =
-                            obtainString(R.string.random_setting_select_random_type_auto_tips_text)
+                        randomTypeTipsTv.text = obtainString(
+                            R.string.random_setting_select_random_type_auto_tips_text
+                        )
                     }
 
                     RANDOM_MANUAL -> {
                         radioGroup.check(radioButtonManual.id)
-                        randomTypeTipsTv.text =
-                            obtainString(R.string.random_setting_select_random_type_manual_tips_text)
+                        randomTypeTipsTv.text = obtainString(
+                            R.string.random_setting_select_random_type_manual_tips_text
+                        )
                     }
                 }
                 randomTypeTipsTv.marquee()
@@ -168,20 +173,23 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     when (checkedId) {
                         radioButtonNow.id -> {
                             obtainMMKV.putInt(randomType, RANDOM_NOW)
-                            randomTypeTipsTv.text =
-                                obtainString(R.string.random_setting_select_random_type_now_tips_text)
+                            randomTypeTipsTv.text = obtainString(
+                                R.string.random_setting_select_random_type_now_tips_text
+                            )
                         }
 
                         radioButtonAuto.id -> {
                             obtainMMKV.putInt(randomType, RANDOM_AUTO)
-                            randomTypeTipsTv.text =
-                                obtainString(R.string.random_setting_select_random_type_auto_tips_text)
+                            randomTypeTipsTv.text = obtainString(
+                                R.string.random_setting_select_random_type_auto_tips_text
+                            )
                         }
 
                         radioButtonManual.id -> {
                             obtainMMKV.putInt(randomType, RANDOM_MANUAL)
-                            randomTypeTipsTv.text =
-                                obtainString(R.string.random_setting_select_random_type_manual_tips_text)
+                            randomTypeTipsTv.text = obtainString(
+                                R.string.random_setting_select_random_type_manual_tips_text
+                            )
                         }
                     }
                     randomTypeTipsTv.marquee()
