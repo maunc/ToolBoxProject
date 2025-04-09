@@ -38,7 +38,7 @@ enum class LoadImageType {
 data class ChatRecordData(
     val loadRecordType: LoadRecordType = LoadRecordType.FILE,
     val filePath: String? = null,
-    @RawRes val recordRes: Int,
+    @RawRes val recordRes: Int? = null,
     val recordTime: Int? = null,
 ) : Serializable
 

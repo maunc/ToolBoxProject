@@ -30,12 +30,14 @@ import com.maunc.toolbox.chatroom.constant.SEND_IMAGE_MAX_NUM
 import com.maunc.toolbox.chatroom.constant.TEXT_CONTENT_DATA_EXTRA
 import com.maunc.toolbox.chatroom.constant.TEXT_SEND_TIME_DATA_EXTRA
 import com.maunc.toolbox.chatroom.data.ChatImageData
+import com.maunc.toolbox.chatroom.data.ChatRecordData
 import com.maunc.toolbox.chatroom.viewmodel.ChatRoomViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ONE
 import com.maunc.toolbox.commonbase.constant.FIVE_DELAY_MILLIS
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.constant.ONE_DELAY_MILLIS
+import com.maunc.toolbox.commonbase.constant.ONE_DELAY_S
 import com.maunc.toolbox.commonbase.ext.addEditTextListener
 import com.maunc.toolbox.commonbase.ext.addRecyclerViewScrollListener
 import com.maunc.toolbox.commonbase.ext.animateSetWidthAndHeight
@@ -58,6 +60,7 @@ import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityChatRoomBinding
+import java.io.File
 
 @SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
 class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding>(),
@@ -73,7 +76,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         const val CONTROLLER_SURE_VIEW = 1
 
         //Handler消息
-        const val MESSAGE_FIRST_WELCOME_WHAT = 0
+        const val MESSAGE_FIRST_WELCOME_WHAT = 0//初次打招呼消息
+        const val MESSAGE_AUDIO_CURRENT_TIME_WHAT = 1//录音中时间消息
     }
 
     private val requestRecordAudioPermissionResult = registerForActivityResult(
@@ -129,12 +133,16 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         ChatDataAdapter()
     }
 
-    private val chatRoomMessageHandler: Handler = object : Handler(Looper.getMainLooper()) {
+    private val chatRoomHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg.what) {
                 MESSAGE_FIRST_WELCOME_WHAT -> {
                     chatDataAdapter.addChatBotTextItem(getString(R.string.chat_room_default_one_content_text))
+                }
+
+                MESSAGE_AUDIO_CURRENT_TIME_WHAT -> {
+                    sendAudioTimeMsg()
                 }
             }
         }
@@ -142,10 +150,20 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
 
     private fun sendFirstWelcomeMsg() {
         chatDataAdapter.addChatNoneItem(getString(R.string.chat_room_welcome_text))
-        chatRoomMessageHandler.sendEmptyMessageDelayed(
+        chatRoomHandler.sendEmptyMessageDelayed(
             MESSAGE_FIRST_WELCOME_WHAT,
             FIVE_DELAY_MILLIS
         )
+    }
+
+    private fun sendAudioTimeMsg() {
+        mViewModel.currentAudioTime.value = mViewModel.currentAudioTime.value!! + 1
+        chatRoomHandler.sendEmptyMessageDelayed(MESSAGE_AUDIO_CURRENT_TIME_WHAT, ONE_DELAY_S)
+    }
+
+    private fun clearAudioTimeMsg() {
+        mViewModel.currentAudioTime.value = 0
+        chatRoomHandler.removeMessages(MESSAGE_AUDIO_CURRENT_TIME_WHAT)
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -205,6 +223,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                     userDownX = event.rawX.toInt()
                     mViewModel.recordViewStatus.value = RECORD_VIEW_STATUS_DOWN
                     mViewModel.startRecordVoice()
+                    sendAudioTimeMsg()
                     mViewModel.isWriteWavHeader.postValue(true)
                 }
 
@@ -213,6 +232,13 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                     startScaleAnim(SHRINK_ANIM, CONTROLLER_CANCEL_VIEW)
                     startScaleAnim(SHRINK_ANIM, CONTROLLER_SURE_VIEW)
                     mViewModel.stopRecordVoice()
+                    if (mViewModel.isWriteWavHeader.value!!) {
+                        chatDataAdapter.addChatAudioItem(
+                            mViewModel.audioFilePath,
+                            mViewModel.currentAudioTime.value!!
+                        )
+                    }
+                    clearAudioTimeMsg()
                 }
 
                 MotionEvent.ACTION_MOVE -> {
@@ -375,6 +401,15 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             put(FULL_SCREEN_IMAGE_POS_EXTRA, clickImagePosition)
         }
     )
+
+    override fun onClickUserAudioItem(
+        chatRecordData: ChatRecordData,
+        itemViewPosition: Int,
+    ) {
+        chatRecordData.filePath?.let { File(it) }?.let { audioFile ->
+            mViewModel.playerWavFilePath(audioFile)
+        }
+    }
 
     override fun onDoubleTapBotTextItem(
         content: String,

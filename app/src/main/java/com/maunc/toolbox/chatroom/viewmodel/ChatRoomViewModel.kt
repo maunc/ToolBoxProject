@@ -6,14 +6,12 @@ import android.media.AudioRecord
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
-import android.os.Environment
 import android.os.Process
 import androidx.lifecycle.MutableLiveData
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.commonbase.base.BaseModel
@@ -43,11 +41,12 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
     /**录音相关*/
     private var audioRecord: AudioRecord? = null
     private var cacheDir: File? = null
-    private var audioFilePath: String = ""
+    var audioFilePath: String = ""
     private var voiceThread: Thread? = null
     private lateinit var audioFile: File
     private var isRecording = MutableLiveData(false)
     var isWriteWavHeader = MutableLiveData(false)
+    var currentAudioTime = MutableLiveData(0)
 
     private val mediaPlayer: MediaPlayer by lazy {
         MediaPlayer()
@@ -67,10 +66,6 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
 
     fun createVoiceRecordConfig() {
         cacheDir = ToolBoxApplication.app.cacheDir
-        val externalStorageState = Environment.getExternalStorageState()
-        "sdCardPath:${externalStorageState}".loge()
-        audioFilePath = "${cacheDir?.absolutePath}/recorded_audio.wav"
-        "voiceRecordPath:${audioFilePath}".loge()
         audioRecord = createAudio()
     }
 
@@ -90,8 +85,6 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
         }
         return null
     }
-
-    fun getAudioFilePath(): String = audioFilePath
 
     private val runRuntime = Runnable {
         Process.setThreadPriority(Process.THREAD_PRIORITY_AUDIO)
@@ -117,6 +110,7 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
             "start error now recording".loge()
             return
         }
+        audioFilePath = "${cacheDir?.absolutePath}/recordedAudio_${System.currentTimeMillis()}.wav"
         audioFile = File(audioFilePath)
         if (audioFile.exists()) {
             audioFile.delete()
@@ -228,6 +222,8 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
             if (file.delete()) {
                 tempFile.renameTo(file)
             }
+            // todo 获取录取时间
+            currentAudioTime.value.toString().loge("testtest")
         } catch (e: IOException) {
             e.printStackTrace()
         }

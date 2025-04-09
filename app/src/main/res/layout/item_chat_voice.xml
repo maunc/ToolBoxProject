@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_chat_room_rootView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,22 +10,53 @@
         android:id="@+id/item_chat_room_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:textColor="@color/chat_item_time_gray"
         android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/item_chat_room_content_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_40"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_chat_room_user_iv"
+        android:layout_width="@dimen/dp_55"
+        android:layout_height="@dimen/dp_55"
         android:layout_below="@id/item_chat_room_time_tv"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/dp_50"
-        android:layout_marginEnd="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_3"
+        android:layout_marginEnd="@dimen/dp_5"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/icon_lucia" />
+
+    <RelativeLayout
+        android:id="@+id/item_chat_room_audio_layout"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_chat_room_time_tv"
+        android:layout_alignTop="@id/item_chat_room_user_iv"
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_toStartOf="@id/item_chat_room_user_iv"
         android:background="@drawable/bg_blue_radius_12"
-        android:gravity="center"
-        android:paddingHorizontal="@dimen/dp_10"
-        android:paddingVertical="@dimen/dp_5"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:paddingHorizontal="@dimen/dp_15"
+        android:paddingVertical="@dimen/dp_10">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_chat_room_audio_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dp_5"
+            android:layout_toStartOf="@id/item_chat_room_audio_anim_iv"
+            android:gravity="start"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            tools:text="1'" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_chat_room_audio_anim_iv"
+            android:layout_width="@dimen/dp_35"
+            android:layout_height="@dimen/dp_35"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_voice_left_third"
+            android:tint="@color/white" />
+    </RelativeLayout>
 </RelativeLayout>
