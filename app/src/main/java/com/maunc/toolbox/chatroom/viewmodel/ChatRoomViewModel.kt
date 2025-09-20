@@ -139,9 +139,7 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
     }
 
     fun playerWavFilePath(file: File) {
-        if (mediaPlayer.isPlaying) {
-            mediaPlayer.stop()
-        }
+        mediaPlayer.reset()
         try {
             mediaPlayer.setDataSource(
                 ToolBoxApplication.app,
@@ -223,7 +221,7 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
                 tempFile.renameTo(file)
             }
             // todo 获取录取时间
-            currentAudioTime.value.toString().loge("testtest")
+            currentAudioTime.value.toString().loge("ww")
         } catch (e: IOException) {
             e.printStackTrace()
         }
