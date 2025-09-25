@@ -111,7 +111,8 @@ abstract class BaseFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> : Fragm
      * 创建viewModel
      */
     private fun createViewModel(): VM {
-        return ViewModelProvider(this)[getVmClazz(this)]
+//        return ViewModelProvider(this)[getVmClazz(this)]
+        return defaultViewModelProviderFactory.create(getVmClazz(this))
     }
 
     /**

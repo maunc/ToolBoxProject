@@ -24,3 +24,5 @@ dependencyResolutionManagement {
 rootProject.name = "ToolBox"
 include(":app")
 include(":ViewLib")
+include(":LiveEventBus")
+include(":FileDownload")

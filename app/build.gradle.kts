@@ -84,6 +84,8 @@ dependencies {
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
     implementation(project(":ViewLib"))
+    implementation(project(":LiveEventBus"))
+    implementation(project(":FileDownload"))
 
     implementation(libs.bundles.android)
     implementation(libs.ext.gson)
