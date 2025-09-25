@@ -37,6 +37,12 @@
         android:theme="@style/Theme.RandomCallName"
         tools:targetApi="31">
         <activity
+            android:name=".signaturecanvas.ui.SignatureCanvasMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".signaturecanvas.ui.SignatureCanvasSettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".chatroom.ui.activity.ChatRoomShowTextActivity"
             android:exported="false" />
         <activity

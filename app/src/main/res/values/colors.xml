@@ -13,6 +13,10 @@
     <color name="gray">#CCCCCC</color>
     <color name="gray_f0">#F0F0F0</color>
     <color name="transparent">#00000000</color>
+    <color name="alpha_seek">#ABABAB</color>
+    <color name="red_seek">#FF8484</color>
+    <color name="green_seek">#80D083</color>
+    <color name="blue_seek">#63CEFF</color>
 
     <color name="record_dialog_bg_color">#99DBDBDB</color>
     <color name="chat_item_time_gray">#C3C3C3</color>

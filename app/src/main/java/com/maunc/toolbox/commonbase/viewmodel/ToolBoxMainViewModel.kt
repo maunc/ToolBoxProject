@@ -26,6 +26,10 @@ class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
                 itemIcon = R.drawable.icon_tool_box_chat_room,
                 itemTitle = obtainString(R.string.tool_box_item_chat_room_text)
             ),
+            ToolBoxItemData(
+                itemIcon = R.drawable.icon_tool_box_signature_canvas,
+                itemTitle = obtainString(R.string.tool_box_item_signature_canvas_text)
+            ),
         )
         return localItemData.value!!
     }

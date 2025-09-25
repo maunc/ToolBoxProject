@@ -13,6 +13,7 @@ import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.viewmodel.ToolBoxMainViewModel
 import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
 import com.maunc.toolbox.randomname.ui.activity.RandomNameWelcomeActivity
+import com.maunc.toolbox.signaturecanvas.ui.SignatureCanvasMainActivity
 
 class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMainBinding>() {
 
@@ -35,6 +36,10 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
 
                     getString(R.string.tool_box_item_chat_room_text) -> {
                         startTargetActivity(ChatRoomActivity::class.java)
+                    }
+
+                    getString(R.string.tool_box_item_signature_canvas_text) -> {
+                        startTargetActivity(SignatureCanvasMainActivity::class.java)
                     }
                 }
             }

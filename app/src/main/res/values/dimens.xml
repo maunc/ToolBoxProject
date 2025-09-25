@@ -60,6 +60,8 @@
     <dimen name="dp_260">260dp</dimen>
     <dimen name="dp_300">300dp</dimen>
     <dimen name="dp_320">320dp</dimen>
+    <dimen name="dp_380">380dp</dimen>
+    <dimen name="dp_420">420dp</dimen>
 
     <!--toolboxPage-->
     <dimen name="tool_box_main_item_size">210dp</dimen>
