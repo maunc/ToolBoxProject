@@ -8,6 +8,7 @@ import com.maunc.toolbox.commonbase.adapter.ToolBoxManagerAdapter
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.addCustomizeItemDecoration
 import com.maunc.toolbox.commonbase.ext.gridLayoutManager
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.viewmodel.ToolBoxMainViewModel
@@ -26,19 +27,19 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
             setOnItemClickListener { adapter, view, pos ->
                 val itemData = getItem(pos)
                 when (itemData.itemTitle) {
-                    getString(R.string.tool_box_item_chronograph_text) -> {
+                    obtainString(R.string.tool_box_item_chronograph_text) -> {
                         startTargetActivity(ChronographMainActivity::class.java)
                     }
 
-                    getString(R.string.tool_box_item_random_name_text) -> {
+                    obtainString(R.string.tool_box_item_random_name_text) -> {
                         startTargetActivity(RandomNameWelcomeActivity::class.java)
                     }
 
-                    getString(R.string.tool_box_item_chat_room_text) -> {
+                    obtainString(R.string.tool_box_item_chat_room_text) -> {
                         startTargetActivity(ChatRoomActivity::class.java)
                     }
 
-                    getString(R.string.tool_box_item_signature_canvas_text) -> {
+                    obtainString(R.string.tool_box_item_signature_canvas_text) -> {
                         startTargetActivity(SignatureCanvasMainActivity::class.java)
                     }
                 }

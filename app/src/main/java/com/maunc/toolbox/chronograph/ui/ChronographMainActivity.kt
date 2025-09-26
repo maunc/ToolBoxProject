@@ -8,6 +8,7 @@ import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.databinding.ActivityChronographMainBinding
 
 class ChronographMainActivity :
@@ -21,7 +22,7 @@ class ChronographMainActivity :
         mDatabind.chronographViewModel = mViewModel
         mViewModel.initHandler()
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
-            getString(R.string.chronograph_tool_bar_title)
+            obtainString(R.string.chronograph_tool_bar_title)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }

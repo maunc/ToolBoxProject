@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="signatureCanvasMainViewModel"
+            type="com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasMainViewModel" />
     </data>
 
     <RelativeLayout
@@ -23,14 +26,22 @@
             android:orientation="vertical">
 
             <com.us.mauncview.SignatureCanvasView
+                android:id="@+id/signature_canvas_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_0"
-                android:layout_weight="12" />
+                android:layout_weight="20" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_0"
-                android:layout_weight="1" />
+                android:layout_weight="1.5"
+                android:gravity="center">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/signature_canvas_controller_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </RelativeLayout>

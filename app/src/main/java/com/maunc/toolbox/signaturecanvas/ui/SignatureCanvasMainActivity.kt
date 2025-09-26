@@ -5,15 +5,49 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
+import com.maunc.toolbox.commonbase.ext.gridLayoutManager
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.databinding.ActivitySignatureCanvasMainBinding
+import com.maunc.toolbox.signaturecanvas.adapter.SignatureCanvasControllerAdapter
+import com.maunc.toolbox.signaturecanvas.constant.MODE_ERASER
+import com.maunc.toolbox.signaturecanvas.constant.MODE_PEN
 import com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasMainViewModel
 
 class SignatureCanvasMainActivity :
     BaseActivity<SignatureCanvasMainViewModel, ActivitySignatureCanvasMainBinding>() {
+
+    private val signatureCanvasControllerAdapter by lazy {
+        SignatureCanvasControllerAdapter().apply {
+            setControllerListener(object :
+                SignatureCanvasControllerAdapter.SignatureCanvasControllerListener {
+                override fun onBackListener() {
+
+                }
+
+                override fun onNextListener() {
+
+                }
+
+                override fun onPenListener() {
+                    mViewModel.drawModel.value = MODE_PEN
+                }
+
+                override fun onEraserListener() {
+                    mViewModel.drawModel.value = MODE_ERASER
+                }
+
+                override fun onClearListener() {
+                    mDatabind.signatureCanvasView.clear()
+                }
+            })
+        }
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
+        mDatabind.signatureCanvasMainViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
-            getString(R.string.signature_canvas_title)
+            obtainString(R.string.signature_canvas_title)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }
@@ -21,10 +55,18 @@ class SignatureCanvasMainActivity :
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
             startTargetActivity(SignatureCanvasSettingActivity::class.java)
         }
+        mDatabind.signatureCanvasControllerRecycler.layoutManager = gridLayoutManager(spanCount = 5)
+        mDatabind.signatureCanvasControllerRecycler.adapter = signatureCanvasControllerAdapter
+        signatureCanvasControllerAdapter.setList(mViewModel.controllerDataList)
     }
 
     override fun createObserver() {
+        mViewModel.drawModel.observe(this) { model ->
+            when (model) {
+                MODE_PEN -> mDatabind.signatureCanvasView.setPenMode()
 
+                MODE_ERASER -> mDatabind.signatureCanvasView.setEraserMode()
+            }
+        }
     }
-
 }

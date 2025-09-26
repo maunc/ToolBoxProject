@@ -106,5 +106,10 @@
 
     <!--signatureCanvas-->
     <string name="signature_canvas_title">画板</string>
+    <string name="signature_canvas_next_tv">前进</string>
+    <string name="signature_canvas_back_tv">后退</string>
+    <string name="signature_canvas_pen_tv">画笔</string>
+    <string name="signature_canvas_eraser_tv">橡皮</string>
+    <string name="signature_canvas_clear_tv">清空</string>
     <string name="signature_canvas_setting_text">设置</string>
 </resources>

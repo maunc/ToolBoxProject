@@ -93,7 +93,7 @@ class ManageGroupActivity : BaseActivity<ManageGroupViewModel, ActivityManageGro
             manageGroupActivityResult.launch(obtainActivityIntent(NewRandomGroupActivity::class.java))
         }
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
-            getString(R.string.manage_group_page_title_text)
+            obtainString(R.string.manage_group_page_title_text)
         mDatabind.manageGroupNewGroupTv.clickScale {
             mViewModel.buttonClickLaunchVibrator()
             manageGroupActivityResult.launch(obtainActivityIntent(NewRandomGroupActivity::class.java))

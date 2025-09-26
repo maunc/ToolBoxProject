@@ -8,6 +8,7 @@ import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.addSeekBarListener
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.databinding.ActivitySignatureCanvasSettingBinding
 import com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasSettingViewModel
 
@@ -18,7 +19,7 @@ class SignatureCanvasSettingActivity :
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.signatureCanvasSettingViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
-            getString(R.string.signature_canvas_setting_text)
+            obtainString(R.string.signature_canvas_setting_text)
         handlerColor()
         initSeekProgress()
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {

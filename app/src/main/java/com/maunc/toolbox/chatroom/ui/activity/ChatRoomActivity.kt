@@ -52,6 +52,7 @@ import com.maunc.toolbox.commonbase.ext.obtainDimens
 import com.maunc.toolbox.commonbase.ext.obtainGlideEngin
 import com.maunc.toolbox.commonbase.ext.obtainScreenHeight
 import com.maunc.toolbox.commonbase.ext.obtainScreenWidth
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.setTint
 import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.ext.startActivityWithData
@@ -103,7 +104,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
     private fun showPermissionForeverNotTips() {
         restoreOriginalStateView()
         CommonDialog().setTitle(
-            getString(R.string.permission_manual_request_text)
+            obtainString(R.string.permission_manual_request_text)
         ).setSureListener {
             startAppSystemSettingPage()
         }.setCancelListener {
@@ -138,7 +139,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
             super.handleMessage(msg)
             when (msg.what) {
                 MESSAGE_FIRST_WELCOME_WHAT -> {
-                    chatDataAdapter.addChatBotTextItem(getString(R.string.chat_room_default_one_content_text))
+                    chatDataAdapter.addChatBotTextItem(obtainString(R.string.chat_room_default_one_content_text))
                 }
 
                 MESSAGE_AUDIO_CURRENT_TIME_WHAT -> {
