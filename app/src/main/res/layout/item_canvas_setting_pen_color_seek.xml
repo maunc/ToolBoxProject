@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginHorizontal="@dimen/dp_40"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_canvas_setting_color_title"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/color_r_text"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <SeekBar
+            android:id="@+id/item_canvas_setting_color_seek"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_weight="8"
+            android:progressBackgroundTint="@color/red_seek"
+            android:progressTint="@color/red"
+            android:thumbTint="@color/red" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_canvas_setting_color_value"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:fontFeatureSettings="tnum"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="255" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

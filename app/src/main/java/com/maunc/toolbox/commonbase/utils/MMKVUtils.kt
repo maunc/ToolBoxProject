@@ -3,6 +3,8 @@ package com.maunc.toolbox.commonbase.utils
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
+import com.maunc.toolbox.signaturecanvas.constant.RGB_SEEK_MAX_VALUE
+import com.maunc.toolbox.signaturecanvas.constant.RGB_SEEK_MIN_VALUE
 import com.tencent.mmkv.MMKV
 
 val obtainMMKV: MMKVUtils by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
@@ -25,6 +27,12 @@ const val randomSelectRecyclerVisible = "randomSelectRecyclerVisible" //是否�
 const val randomType = "randomType"//点名类型
 const val randomListSortType = "randomListSortType"//点名类型
 
+/**颜色画板用到的**/
+const val canvasPenColorA = "canvasPenColorA"
+const val canvasPenColorR = "canvasPenColorR"
+const val canvasPenColorG = "canvasPenColorG"
+const val canvasPenColorB = "canvasPenColorB"
+
 class MMKVUtils {
 
     fun init() {
@@ -39,6 +47,12 @@ class MMKVUtils {
         obtainMMKV.putBoolean(randomSelectRecyclerVisible, false)
         obtainMMKV.putInt(randomType, RANDOM_MANUAL)
         obtainMMKV.putInt(randomListSortType, RANDOM_DB_SORT_BY_INSERT_TIME_ASC)
+
+        //画板相关
+        obtainMMKV.putInt(canvasPenColorA, RGB_SEEK_MAX_VALUE)
+        obtainMMKV.putInt(canvasPenColorR, RGB_SEEK_MIN_VALUE)
+        obtainMMKV.putInt(canvasPenColorG, RGB_SEEK_MIN_VALUE)
+        obtainMMKV.putInt(canvasPenColorB, RGB_SEEK_MIN_VALUE)
     }
 
     fun getString(

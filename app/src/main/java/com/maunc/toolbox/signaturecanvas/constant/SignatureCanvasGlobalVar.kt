@@ -14,3 +14,9 @@ const val SIGN_CONTROLLER_NEXT = 2
 const val SIGN_CONTROLLER_PEN = 3
 const val SIGN_CONTROLLER_ERASER = 4
 const val SIGN_CONTROLLER_CLEAR = 5
+
+/**
+ * 设置颜色的最大进度和最小进度
+ */
+const val RGB_SEEK_MIN_VALUE = 0
+const val RGB_SEEK_MAX_VALUE = 255

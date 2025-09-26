@@ -84,7 +84,7 @@ class SignatureCanvasView : View {
         eraserPaint = Paint().apply {
             //橡皮颜色和底层画板颜色需要一样
             color = Color.rgb(rgbMaxValue, rgbMaxValue, rgbMaxValue)
-            style = Paint.Style.STROKE
+            style = Paint.Style.FILL_AND_STROKE
             strokeWidth = eraserWidth.toFloat()
             isAntiAlias = true
             isDither = true

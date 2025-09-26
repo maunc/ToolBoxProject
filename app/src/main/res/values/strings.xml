@@ -111,5 +111,11 @@
     <string name="signature_canvas_pen_tv">画笔</string>
     <string name="signature_canvas_eraser_tv">橡皮</string>
     <string name="signature_canvas_clear_tv">清空</string>
-    <string name="signature_canvas_setting_text">设置</string>
+    <string name="signature_canvas_setting_text">画板设置</string>
+    <string name="signature_canvas_setting_pen_color_text">画笔颜色</string>
+    <string name="canvas_setting_color_a_text">A</string>
+    <string name="canvas_setting_color_r_text">R</string>
+    <string name="canvas_setting_color_g_text">G</string>
+    <string name="canvas_setting_color_b_text">B</string>
+    <string name="signature_canvas_setting_pen_width_text">画笔宽度</string>
 </resources>

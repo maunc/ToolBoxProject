@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -71,6 +72,14 @@ fun obtainDrawable(
 fun obtainColor(
     @ColorRes colorRes: Int,
 ): Int = ContextCompat.getColor(ToolBoxApplication.app, colorRes)
+
+fun obtainColorToARAG(
+    a: Int = 255, r: Int = 0, g: Int = 0, b: Int = 0,
+)= Color.argb(a, r, g, b)
+
+fun obtainColorStateList(
+    @ColorRes colorRes: Int,
+) = ContextCompat.getColorStateList(ToolBoxApplication.app, colorRes)
 
 fun obtainAppName(): String? {
     val pm: PackageManager = ToolBoxApplication.app.packageManager
