@@ -36,5 +36,38 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/item_canvas_setting_tab"
         android:visibility="gone"
-        tools:visibility="visible" />
+        tools:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_canvas_setting_pen_width_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_5"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="画笔宽度:30" />
+
+        <SeekBar
+            android:id="@+id/item_canvas_setting_pen_width_seek"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_below="@id/item_canvas_setting_pen_width_tv"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_5"
+            android:progressBackgroundTint="@color/alpha_seek"
+            android:progressTint="@color/black"
+            android:thumbTint="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/item_canvas_setting_pen_width_tips_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/item_canvas_setting_pen_width_tv"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/dp_30"
+            android:textColor="@color/red"
+            tools:ignore="RelativeOverlap"
+            tools:text="画笔不可以设置为0" />
+    </RelativeLayout>
 </RelativeLayout>

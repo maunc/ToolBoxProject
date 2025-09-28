@@ -4,21 +4,22 @@ import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.databinding.ItemSignatureCanvasControllerBinding
+import com.maunc.toolbox.databinding.ItemCanvasControllerBinding
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_BACK
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_CLEAR
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_ERASER
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_NEXT
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_PEN
+import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_SAVE
 import com.maunc.toolbox.signaturecanvas.data.SignatureCanvasControllerData
 
 @SuppressLint("NotifyDataSetChanged")
 class SignatureCanvasControllerAdapter :
-    BaseQuickAdapter<SignatureCanvasControllerData, BaseDataBindingHolder<ItemSignatureCanvasControllerBinding>>(
-        R.layout.item_signature_canvas_controller
+    BaseQuickAdapter<SignatureCanvasControllerData, BaseDataBindingHolder<ItemCanvasControllerBinding>>(
+        R.layout.item_canvas_controller
     ) {
     override fun convert(
-        holder: BaseDataBindingHolder<ItemSignatureCanvasControllerBinding>,
+        holder: BaseDataBindingHolder<ItemCanvasControllerBinding>,
         item: SignatureCanvasControllerData,
     ) {
         holder.dataBinding?.let { dataBind ->
@@ -31,6 +32,7 @@ class SignatureCanvasControllerAdapter :
                     SIGN_CONTROLLER_PEN -> mSignatureCanvasListener?.onPenListener()
                     SIGN_CONTROLLER_ERASER -> mSignatureCanvasListener?.onEraserListener()
                     SIGN_CONTROLLER_CLEAR -> mSignatureCanvasListener?.onClearListener()
+                    SIGN_CONTROLLER_SAVE -> mSignatureCanvasListener?.onSaveListener()
                 }
             }
         }
@@ -48,5 +50,6 @@ class SignatureCanvasControllerAdapter :
         fun onPenListener()
         fun onEraserListener()
         fun onClearListener()
+        fun onSaveListener()
     }
 }

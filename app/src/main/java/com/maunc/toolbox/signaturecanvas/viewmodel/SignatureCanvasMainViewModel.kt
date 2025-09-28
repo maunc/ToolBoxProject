@@ -12,6 +12,7 @@ import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_CLEAR
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_ERASER
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_NEXT
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_PEN
+import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_SAVE
 import com.maunc.toolbox.signaturecanvas.data.SignatureCanvasControllerData
 
 class SignatureCanvasMainViewModel : BaseViewModel<BaseModel>() {
@@ -45,6 +46,11 @@ class SignatureCanvasMainViewModel : BaseViewModel<BaseModel>() {
                 image = R.drawable.icon_signature_canvas_clear,
                 title = obtainString(R.string.signature_canvas_clear_tv),
                 type = SIGN_CONTROLLER_CLEAR
+            ),
+            SignatureCanvasControllerData(
+                image = R.drawable.icon_signature_canvas_save,
+                title = obtainString(R.string.signature_canvas_save_tv),
+                type = SIGN_CONTROLLER_SAVE
             ),
         )
     }

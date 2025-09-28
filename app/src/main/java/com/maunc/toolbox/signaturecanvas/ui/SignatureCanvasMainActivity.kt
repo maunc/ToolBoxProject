@@ -8,6 +8,7 @@ import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.gridLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
+import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.databinding.ActivitySignatureCanvasMainBinding
 import com.maunc.toolbox.signaturecanvas.adapter.SignatureCanvasControllerAdapter
 import com.maunc.toolbox.signaturecanvas.constant.MODE_ERASER
@@ -38,7 +39,15 @@ class SignatureCanvasMainActivity :
                 }
 
                 override fun onClearListener() {
-                    mDatabind.signatureCanvasView.clear()
+                    CommonDialog()
+                        .setTitle(obtainString(R.string.signature_canvas_clear_tips))
+                        .setSureListener {
+                            mDatabind.signatureCanvasView.clear()
+                        }.show(supportFragmentManager, "")
+                }
+
+                override fun onSaveListener() {
+
                 }
             })
         }
@@ -55,7 +64,7 @@ class SignatureCanvasMainActivity :
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
             startTargetActivity(SignatureCanvasSettingActivity::class.java)
         }
-        mDatabind.signatureCanvasControllerRecycler.layoutManager = gridLayoutManager(spanCount = 5)
+        mDatabind.signatureCanvasControllerRecycler.layoutManager = gridLayoutManager(spanCount = 6)
         mDatabind.signatureCanvasControllerRecycler.adapter = signatureCanvasControllerAdapter
         signatureCanvasControllerAdapter.setList(mViewModel.controllerDataList)
     }
@@ -64,7 +73,6 @@ class SignatureCanvasMainActivity :
         mViewModel.drawModel.observe(this) { model ->
             when (model) {
                 MODE_PEN -> mDatabind.signatureCanvasView.setPenMode()
-
                 MODE_ERASER -> mDatabind.signatureCanvasView.setEraserMode()
             }
         }

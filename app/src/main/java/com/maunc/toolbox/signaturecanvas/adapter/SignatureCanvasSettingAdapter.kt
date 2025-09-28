@@ -1,26 +1,34 @@
 package com.maunc.toolbox.signaturecanvas.adapter
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import android.widget.SeekBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
+import com.maunc.toolbox.commonbase.ext.addSeekBarListener
+import com.maunc.toolbox.commonbase.ext.gone
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.mutableListInsert
 import com.maunc.toolbox.commonbase.ext.obtainColorToARAG
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.visible
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.canvasPenColorA
 import com.maunc.toolbox.commonbase.utils.canvasPenColorB
 import com.maunc.toolbox.commonbase.utils.canvasPenColorG
 import com.maunc.toolbox.commonbase.utils.canvasPenColorR
+import com.maunc.toolbox.commonbase.utils.canvasPenWidth
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.signaturecanvas.constant.PEN_WIDTH_MAX_VALUE
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingColorData
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingData
 
+@SuppressLint("SetTextI18n")
 class SignatureCanvasSettingAdapter :
     BaseMultiItemQuickAdapter<CanvasSettingData, BaseViewHolder>() {
     init {
@@ -42,6 +50,9 @@ class SignatureCanvasSettingAdapter :
     private var gValue = 0
     private var bValue = 0
 
+    //临时记录的画笔宽度值
+    private var temporaryPenWidthValue = 0
+
     override fun convert(holder: BaseViewHolder, item: CanvasSettingData) {
         val itemPosition = getItemPosition(item)
         val haveView = holder.itemView
@@ -61,7 +72,45 @@ class SignatureCanvasSettingAdapter :
         }
         when (item.itemType) {
             CanvasSettingData.CANVAS_PEN_WIDTH_TYPE -> {
-
+                val storagePenWidth = obtainMMKV.getInt(canvasPenWidth)
+                temporaryPenWidthValue = storagePenWidth
+                val penWidthTv =
+                    haveView.findViewById<TextView>(R.id.item_canvas_setting_pen_width_tv)
+                penWidthTv.text = "${
+                    obtainString(R.string.signature_canvas_setting_current_pen_width_text)
+                }:$storagePenWidth"
+                val settingPenWidthTips =
+                    haveView.findViewById<TextView>(R.id.item_canvas_setting_pen_width_tips_tv)
+                val penWidthSeek =
+                    haveView.findViewById<SeekBar>(R.id.item_canvas_setting_pen_width_seek)
+                penWidthSeek.apply {
+                    max = PEN_WIDTH_MAX_VALUE
+                    progress = storagePenWidth
+                    addSeekBarListener(onProgressChanged = { seekBar, progress, fromUser ->
+                        penWidthTv.text = "${
+                            obtainString(R.string.signature_canvas_setting_current_pen_width_text)
+                        }:$progress"
+                    }, onStartTrackingTouch = { seekBar ->
+                        seekBar?.let {
+                            temporaryPenWidthValue = seekBar.progress
+                        }
+                    }, onStopTrackingTouch = { seekBar ->
+                        seekBar?.let {
+                            if (seekBar.progress <= 0) {
+                                seekBar.progress = temporaryPenWidthValue
+                                settingPenWidthTips.apply {
+                                    visible()
+                                    text = obtainString(
+                                        R.string.signature_canvas_setting_pen_width_error
+                                    )
+                                }
+                            } else {
+                                settingPenWidthTips.gone()
+                                obtainMMKV.putInt(canvasPenWidth, progress)
+                            }
+                        }
+                    })
+                }
             }
 
             CanvasSettingData.CANVAS_PEN_COLOR_TYPE -> {

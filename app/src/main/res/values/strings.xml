@@ -3,6 +3,7 @@
     <string name="functions_are_under_development">功能开发中~</string>
     <string name="permission_manual_request_text">请前往系统设置手动开启权限</string>
     <string name="android_version_not_support_text">Android版本不支持</string>
+    <string name="common_not_content"> </string>
     <string name="color_r_text">R</string>
     <string name="color_g_text">G</string>
     <string name="color_b_text">B</string>
@@ -111,6 +112,8 @@
     <string name="signature_canvas_pen_tv">画笔</string>
     <string name="signature_canvas_eraser_tv">橡皮</string>
     <string name="signature_canvas_clear_tv">清空</string>
+    <string name="signature_canvas_save_tv">保存</string>
+    <string name="signature_canvas_clear_tips">是否确定清空内容</string>
     <string name="signature_canvas_setting_text">画板设置</string>
     <string name="signature_canvas_setting_pen_color_text">画笔颜色</string>
     <string name="canvas_setting_color_a_text">A</string>
@@ -118,4 +121,6 @@
     <string name="canvas_setting_color_g_text">G</string>
     <string name="canvas_setting_color_b_text">B</string>
     <string name="signature_canvas_setting_pen_width_text">画笔宽度</string>
+    <string name="signature_canvas_setting_current_pen_width_text">当前设置宽度为</string>
+    <string name="signature_canvas_setting_pen_width_error">画笔不能设置小于等于零</string>
 </resources>
