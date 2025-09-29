@@ -33,6 +33,7 @@ const val canvasPenColorR = "canvasPenColorR"
 const val canvasPenColorG = "canvasPenColorG"
 const val canvasPenColorB = "canvasPenColorB"
 const val canvasPenWidth = "canvasPenWidth"
+const val canvasPenColor = "canvasPenColor"
 
 class MMKVUtils {
 

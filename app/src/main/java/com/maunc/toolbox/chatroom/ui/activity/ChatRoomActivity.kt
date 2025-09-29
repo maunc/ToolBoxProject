@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.view.MotionEvent
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -112,16 +111,6 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         }.show(supportFragmentManager, AUDIO_PERMISSION_START_DIALOG)
     }
 
-    private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            if (mViewModel.controllerButtonSelect.value!!) {
-                restoreOriginalStateView()
-                return
-            }
-            finishCurrentActivity()
-        }
-    }
-
     private var userDownY = 0
     private var userDownX = 0
 
@@ -167,13 +156,20 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         chatRoomHandler.removeMessages(MESSAGE_AUDIO_CURRENT_TIME_WHAT)
     }
 
+    override fun onBackPressCallBack() {
+        if (mViewModel.controllerButtonSelect.value!!) {
+            restoreOriginalStateView()
+            return
+        }
+        finishCurrentActivity()
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.chatRoomViewModel = mViewModel
         mDatabind.chatDataAdapter = chatDataAdapter
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             getString(R.string.tool_box_item_chat_room_text)
         mViewModel.createVoiceRecordConfig()
-        onBackPressedDispatcher.addCallback(this, backPressCallback)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }

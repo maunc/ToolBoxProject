@@ -1,7 +1,6 @@
 package com.maunc.toolbox.randomname.ui.activity
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maunc.toolbox.R
@@ -51,12 +50,6 @@ class ManageNameActivity :
         }
     }
 
-    private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            baseFinishCurrentActivity()
-        }
-    }
-
     private val manageGroupWithNameAdapter: ManageGroupWithNameAdapter by lazy {
         ManageGroupWithNameAdapter().apply {
             setOnItemClickListener { adapter, view, pos ->
@@ -81,6 +74,10 @@ class ManageNameActivity :
         }
     }
 
+    override fun onBackPressCallBack() {
+        baseFinishCurrentActivity()
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
         mGroupName = intent?.extras?.getString(GROUP_NAME_EXTRA)
         mDatabind.manageGroupWithNameViewModel = mViewModel
@@ -101,7 +98,6 @@ class ManageNameActivity :
         mDatabind.manageGroupWithNameRecycler.layoutManager =
             linearLayoutManager(LinearLayoutManager.VERTICAL)
         mDatabind.manageGroupWithNameRecycler.adapter = manageGroupWithNameAdapter
-        onBackPressedDispatcher.addCallback(backPressCallback)
         mDatabind.manageGroupWithNameRefreshLayout.setOnRefreshListener {
             mGroupName?.let {
                 mViewModel.queryGroupWithNameData(it)

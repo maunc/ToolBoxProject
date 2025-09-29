@@ -6,6 +6,9 @@ import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.ext.mutableListInsert
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.utils.canvasPenColor
+import com.maunc.toolbox.commonbase.utils.canvasPenWidth
+import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.signaturecanvas.constant.MODE_PEN
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_BACK
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_CLEAR
@@ -16,9 +19,14 @@ import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_SAVE
 import com.maunc.toolbox.signaturecanvas.data.SignatureCanvasControllerData
 
 class SignatureCanvasMainViewModel : BaseViewModel<BaseModel>() {
-
     //当前画笔模式
     var drawModel = MutableLiveData(MODE_PEN)
+
+    //画笔宽度
+    var mCanvasPenWidth = MutableLiveData(obtainMMKV.getInt(canvasPenWidth))
+
+    //画笔颜色
+    var mCanvasPenColor = MutableLiveData(obtainMMKV.getString(canvasPenColor))
 
     var controllerDataList = mutableListOf<SignatureCanvasControllerData>().apply {
         mutableListInsert(

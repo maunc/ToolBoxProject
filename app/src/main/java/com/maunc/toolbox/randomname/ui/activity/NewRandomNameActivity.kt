@@ -1,7 +1,6 @@
 package com.maunc.toolbox.randomname.ui.activity
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.addEditTextListener
@@ -25,12 +24,6 @@ class NewRandomNameActivity :
     BaseActivity<NewRandomNameViewModel, ActivityNewRandomNameBinding>() {
 
     private var mGroupName: String? = null
-
-    private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            baseFinishCurrentActivity()
-        }
-    }
 
     override fun initView(savedInstanceState: Bundle?) {
         enterActivityAnim(R.anim.enter_new_data_page_anim)
@@ -68,7 +61,6 @@ class NewRandomNameActivity :
             mViewModel.handleTipsTextColor(editStr.length < mViewModel.newNameEditMaxNum)
             mViewModel.newRandomName.value = editStr
         })
-        onBackPressedDispatcher.addCallback(this, backPressCallback)
     }
 
     override fun createObserver() {
@@ -77,6 +69,10 @@ class NewRandomNameActivity :
                 mViewModel.clearEditText(mDatabind.newNameWithGroupEdit)
             }
         }
+    }
+
+    override fun onBackPressCallBack() {
+        baseFinishCurrentActivity()
     }
 
     private fun baseFinishCurrentActivity() {

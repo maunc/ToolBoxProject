@@ -1,7 +1,6 @@
 package com.maunc.toolbox.chatroom.ui.activity
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.maunc.toolbox.R
@@ -18,12 +17,6 @@ import com.maunc.toolbox.databinding.ActivityChatRoomShowTextBinding
 class ChatRoomShowTextActivity :
     BaseActivity<ChatRoomShowTextViewModel, ActivityChatRoomShowTextBinding>() {
 
-    private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            baseFinishCurrentActivity()
-        }
-    }
-
     override fun initView(savedInstanceState: Bundle?) {
         enterActivityAnim(R.anim.enter_new_data_page_anim)
         mDatabind.chatRoomShowTextViewModel = mViewModel
@@ -39,7 +32,10 @@ class ChatRoomShowTextActivity :
         mDatabind.main.setOnClickListener {
             baseFinishCurrentActivity()
         }
-        onBackPressedDispatcher.addCallback(this, backPressCallback)
+    }
+
+    override fun onBackPressCallBack() {
+        baseFinishCurrentActivity()
     }
 
     private fun baseFinishCurrentActivity() {

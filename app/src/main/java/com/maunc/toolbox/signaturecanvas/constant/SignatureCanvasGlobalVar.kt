@@ -27,3 +27,10 @@ const val RGB_SEEK_MAX_VALUE = 255
  */
 const val PEN_WIDTH_MIN_VALUE = 15
 const val PEN_WIDTH_MAX_VALUE = 100
+
+/**setResult来源**/
+const val RESULT_SOURCE_FROM_SIGNATURE_CANVAS_SETTING = 101
+
+/**intent跳转key值**/
+const val INTENT_CANVAS_PEN_WIDTH = "intentCanvasPenWidth"
+const val INTENT_CANVAS_PEN_COLOR = "intentCanvasPenColor"

@@ -3,7 +3,6 @@ package com.maunc.toolbox.randomname.ui.activity
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maunc.toolbox.R
@@ -32,16 +31,6 @@ import com.maunc.toolbox.randomname.viewmodel.RandomNameMainViewModel
 @SuppressLint("NewApi")
 class RandomNameMainActivity :
     BaseActivity<RandomNameMainViewModel, ActivityRandomNameMainBinding>() {
-
-    private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            if (mDatabind.randomNameDrawerLayout.isDrawerOpen(mDatabind.randomNameMainSwipeContentLayout)) {
-                mDatabind.randomNameDrawerLayout.closeDrawers()
-            } else {
-                finishCurrentActivity()
-            }
-        }
-    }
 
     private val randomNameMainSwipeAdapter: RandomMainSwipeNameAdapter by lazy {
         RandomMainSwipeNameAdapter()
@@ -102,7 +91,6 @@ class RandomNameMainActivity :
             mViewModel.endRandom()
             mViewModel.initData()
         }
-        onBackPressedDispatcher.addCallback(backPressCallback)
     }
 
     private fun obtainRandomNameSerializable(): RandomNameWithGroup? {
@@ -118,6 +106,14 @@ class RandomNameMainActivity :
                 ) as RandomNameWithGroup
             }
         return randomData
+    }
+
+    override fun onBackPressCallBack() {
+        if (mDatabind.randomNameDrawerLayout.isDrawerOpen(mDatabind.randomNameMainSwipeContentLayout)) {
+            mDatabind.randomNameDrawerLayout.closeDrawers()
+        } else {
+            finishCurrentActivity()
+        }
     }
 
     override fun createObserver() {

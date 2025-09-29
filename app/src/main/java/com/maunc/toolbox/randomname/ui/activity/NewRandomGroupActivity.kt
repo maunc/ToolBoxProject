@@ -2,7 +2,6 @@ package com.maunc.toolbox.randomname.ui.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
@@ -24,12 +23,6 @@ import com.maunc.toolbox.randomname.viewmodel.NewRandomGroupViewModel
  */
 class NewRandomGroupActivity :
     BaseActivity<NewRandomGroupViewModel, ActivityNewRandomGroupBinding>() {
-
-    private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            baseFinishCurrentActivity()
-        }
-    }
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
@@ -64,7 +57,6 @@ class NewRandomGroupActivity :
             mViewModel.showInputErrorTips.value = editStr.length >= mViewModel.newGroupEditMaxNum
             mViewModel.newGroupName.value = editStr
         })
-        onBackPressedDispatcher.addCallback(this, backPressCallback)
     }
 
     override fun createObserver() {
@@ -73,6 +65,10 @@ class NewRandomGroupActivity :
                 baseFinishCurrentActivity()
             }
         }
+    }
+
+    override fun onBackPressCallBack() {
+        baseFinishCurrentActivity()
     }
 
     private fun baseFinishCurrentActivity(action: () -> Unit = {}) {

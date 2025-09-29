@@ -2,7 +2,6 @@ package com.maunc.toolbox.chatroom.ui.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 import com.google.gson.Gson
@@ -26,12 +25,6 @@ import java.lang.reflect.Type
 class ChatRoomShowPicActivity :
     BaseActivity<ChatRoomShowPicViewModel, ActivityChatRoomShowPicBinding>() {
 
-    private val backPressCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            baseFinishCurrentActivity()
-        }
-    }
-
     private var showImageFragments: MutableList<Fragment> = mutableListOf()
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -49,13 +42,16 @@ class ChatRoomShowPicActivity :
             mDatabind.chatRoomShowImageViewPager.adapter = ChatRoomShowPicPagerAdapter(
                 supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, showImageFragments
             )
-            mDatabind.chatRoomShowImageViewPager.setCurrentItem(currentPos!!)
+            mDatabind.chatRoomShowImageViewPager.currentItem = currentPos!!
         }
         mDatabind.chatRoomShowImageBackButton.setOnClickListener {
             baseFinishCurrentActivity()
         }
         mDatabind.chatRoomShowImageToolButton.setOnClickListener {}
-        onBackPressedDispatcher.addCallback(this, backPressCallback)
+    }
+
+    override fun onBackPressCallBack() {
+        baseFinishCurrentActivity()
     }
 
     private fun baseFinishCurrentActivity() {
