@@ -6,6 +6,7 @@ import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.ext.mutableListInsert
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingData
+import com.maunc.toolbox.signaturecanvas.data.CanvasSettingData.Companion.CANVAS_ERASER_WIDTH_TYPE
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingData.Companion.CANVAS_PEN_COLOR_TYPE
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingData.Companion.CANVAS_PEN_WIDTH_TYPE
 
@@ -16,6 +17,10 @@ class SignatureCanvasSettingViewModel : BaseViewModel<BaseModel>() {
             CanvasSettingData(
                 title = obtainString(R.string.signature_canvas_setting_pen_width_text),
                 itemType = CANVAS_PEN_WIDTH_TYPE
+            ),
+            CanvasSettingData(
+                title = obtainString(R.string.signature_canvas_setting_eraser_width_text),
+                itemType = CANVAS_ERASER_WIDTH_TYPE
             ),
             CanvasSettingData(
                 title = obtainString(R.string.signature_canvas_setting_pen_color_text),

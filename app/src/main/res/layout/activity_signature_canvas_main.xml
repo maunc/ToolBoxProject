@@ -31,7 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_0"
                 android:layout_weight="20"
-                app:handleSignatureCanvasPenWidth="@{signatureCanvasMainViewModel.mCanvasPenWidth}" />
+                app:handleSignatureCanvasPenWidth="@{signatureCanvasMainViewModel.mCanvasPenWidth}"
+                app:handleSignatureCanvasEraserWidth="@{signatureCanvasMainViewModel.mCanvasEraserWidth}"
+                app:handleSignatureCanvasPenColor="@{signatureCanvasMainViewModel.mCanvasPenColor}"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"

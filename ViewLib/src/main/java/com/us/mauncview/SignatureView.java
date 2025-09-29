@@ -15,6 +15,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import java.io.ByteArrayOutputStream;
 
 public class SignatureView extends View {
@@ -33,6 +35,7 @@ public class SignatureView extends View {
     private static final float VELOCITY_FILTER_WEIGHT = 0.2f;
     private float lastVelocity, lastWidth;
     private final Paint paint;
+    private final Paint eraserPaint;
     private final Paint paintBm;
     private Bitmap bmp;
     private int layoutLeft, layoutTop, layoutRight, layoutBottom;
@@ -41,6 +44,9 @@ public class SignatureView extends View {
     private int backgroundColor;
     private boolean enableSignature;
     private float penSize;
+    private float eraserSize = 30;
+    //是否为画笔模式
+    private boolean isPenMode = true;
 
     public SignatureView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -67,6 +73,15 @@ public class SignatureView extends View {
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeWidth(penSize);
 
+
+        eraserPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        eraserPaint.setColor(Color.WHITE);
+        eraserPaint.setAntiAlias(true);
+        eraserPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        eraserPaint.setStrokeJoin(Paint.Join.ROUND);
+        eraserPaint.setStrokeCap(Paint.Cap.ROUND);
+        eraserPaint.setStrokeWidth(eraserSize);
+
         paintBm = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintBm.setAntiAlias(true);
         paintBm.setStyle(Paint.Style.STROKE);
@@ -75,64 +90,56 @@ public class SignatureView extends View {
         paintBm.setColor(Color.BLACK);
     }
 
-    /**
-     * Get stoke size for signature creation
-     */
     public float getPenSize() {
         return penSize;
     }
 
-    /**
-     * Set stoke size for signature creation
-     */
     public void setPenSize(float penSize) {
         this.penSize = penSize;
         paint.setStrokeWidth(penSize);
     }
 
-    /**
-     * Check if drawing on canvas is enabled or disabled
-     */
+    public float getEraserSize() {
+        return eraserSize;
+    }
+
+    public void setEraserSize(float eraserSize) {
+        this.eraserSize = eraserSize;
+        eraserPaint.setStrokeWidth(eraserSize);
+    }
+
     public boolean isEnableSignature() {
         return enableSignature;
     }
 
-    /**
-     * Enable or disable drawing on canvas
-     */
     public void setEnableSignature(boolean enableSignature) {
         this.enableSignature = enableSignature;
     }
 
-    /**
-     * Get stoke color for signature creation
-     */
     public int getPenColor() {
         return penColor;
     }
 
-    /**
-     * Set stoke color for signature creation
-     */
     public void setPenColor(int penColor) {
         this.penColor = penColor;
         paint.setColor(penColor);
     }
 
-    /**
-     * Get background color
-     */
     public int getBackgroundColor() {
         return backgroundColor;
     }
 
-    /**
-     * Set background color
-     */
-    @Override
     public void setBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
         paintBm.setColor(backgroundColor);
+    }
+
+    public void setPenMode() {
+        this.isPenMode = true;
+    }
+
+    public void setEraserMode() {
+        this.isPenMode = false;
     }
 
     /**
@@ -172,7 +179,7 @@ public class SignatureView extends View {
         }
     }
 
-    private void resizeBitmapCanvas(Bitmap bmp, int left, int top, int right, int bottom) {
+    private void resizeBitmapCanvas(@NonNull Bitmap bmp, int left, int top, int right, int bottom) {
         int newBottom = Math.max(bottom, bmp.getHeight());
         int newRight = Math.max(right, bmp.getWidth());
         newBitmapCanvas(left, top, newRight, newBottom);
@@ -307,7 +314,7 @@ public class SignatureView extends View {
                 y = getPt(ya, yb, i);
                 float strokeVal = lastWidth + (currentWidth - lastWidth) * (i);
                 paint.setStrokeWidth(Math.max(strokeVal, MIN_PEN_SIZE));
-                canvasBmp.drawPoint(x, y, paint);
+                canvasBmp.drawPoint(x, y, isPenMode ? paint : eraserPaint);
             }
         }
     }

@@ -33,7 +33,7 @@ const val canvasPenColorR = "canvasPenColorR"
 const val canvasPenColorG = "canvasPenColorG"
 const val canvasPenColorB = "canvasPenColorB"
 const val canvasPenWidth = "canvasPenWidth"
-const val canvasPenColor = "canvasPenColor"
+const val canvasEraserWidth = "canvasEraserWidth"
 
 class MMKVUtils {
 
@@ -56,6 +56,7 @@ class MMKVUtils {
         obtainMMKV.putInt(canvasPenColorG, RGB_SEEK_MIN_VALUE)
         obtainMMKV.putInt(canvasPenColorB, RGB_SEEK_MIN_VALUE)
         obtainMMKV.putInt(canvasPenWidth, 40)
+        obtainMMKV.putInt(canvasEraserWidth, 40)
     }
 
     fun getString(

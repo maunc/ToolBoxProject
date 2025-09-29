@@ -122,5 +122,8 @@
     <string name="canvas_setting_color_b_text">B</string>
     <string name="signature_canvas_setting_pen_width_text">画笔宽度</string>
     <string name="signature_canvas_setting_current_pen_width_text">当前设置宽度为</string>
+    <string name="signature_canvas_setting_eraser_width_text">橡皮大小</string>
+    <string name="signature_canvas_setting_current_eraser_width_text">当前设置大小为</string>
     <string name="signature_canvas_setting_pen_width_error">画笔不能设置小于等于零</string>
+    <string name="signature_canvas_setting_eraser_width_error">橡皮不能设置小于等于零</string>
 </resources>

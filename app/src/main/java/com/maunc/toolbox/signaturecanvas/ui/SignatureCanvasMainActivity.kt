@@ -7,9 +7,16 @@ import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.gridLayoutManager
+import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntent
+import com.maunc.toolbox.commonbase.ext.obtainColorToARAG
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
+import com.maunc.toolbox.commonbase.utils.canvasEraserWidth
+import com.maunc.toolbox.commonbase.utils.canvasPenColorA
+import com.maunc.toolbox.commonbase.utils.canvasPenColorB
+import com.maunc.toolbox.commonbase.utils.canvasPenColorG
+import com.maunc.toolbox.commonbase.utils.canvasPenColorR
 import com.maunc.toolbox.commonbase.utils.canvasPenWidth
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.databinding.ActivitySignatureCanvasMainBinding
@@ -31,6 +38,17 @@ class SignatureCanvasMainActivity :
             if (penWidth != mViewModel.mCanvasPenWidth.value) {
                 mViewModel.mCanvasPenWidth.value = penWidth
             }
+            val eraserWidth = obtainMMKV.getInt(canvasEraserWidth)
+            if (eraserWidth != mViewModel.mCanvasEraserWidth.value) {
+                mViewModel.mCanvasEraserWidth.value = eraserWidth
+            }
+            val storageColor = getStorageColor()
+            if (storageColor != mViewModel.mCanvasPenColor.value) {
+                mViewModel.mCanvasPenColor.value = storageColor
+            }
+            "${mViewModel.mCanvasPenWidth.value},penWidth:${penWidth}".loge()
+            "${mViewModel.mCanvasEraserWidth.value},eraserWidth:${eraserWidth}".loge()
+            "${mViewModel.mCanvasPenColor.value},storageColor:${storageColor}".loge()
         }
     }
 
@@ -82,13 +100,21 @@ class SignatureCanvasMainActivity :
         mDatabind.signatureCanvasControllerRecycler.layoutManager = gridLayoutManager(spanCount = 6)
         mDatabind.signatureCanvasControllerRecycler.adapter = signatureCanvasControllerAdapter
         signatureCanvasControllerAdapter.setList(mViewModel.controllerDataList)
+        mViewModel.mCanvasPenColor.value = getStorageColor()
     }
+
+    private fun getStorageColor() = obtainColorToARAG(
+        obtainMMKV.getInt(canvasPenColorA),
+        obtainMMKV.getInt(canvasPenColorR),
+        obtainMMKV.getInt(canvasPenColorG),
+        obtainMMKV.getInt(canvasPenColorB),
+    )
 
     override fun createObserver() {
         mViewModel.drawModel.observe(this) { model ->
             when (model) {
-//                MODE_PEN -> mDatabind.signatureCanvasView.setPenMode()
-//                MODE_ERASER -> mDatabind.signatureCanvasView.setEraserMode()
+                MODE_PEN -> mDatabind.signatureCanvasView.setPenMode()
+                MODE_ERASER -> mDatabind.signatureCanvasView.setEraserMode()
             }
         }
     }
