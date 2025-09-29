@@ -355,8 +355,6 @@ public class SignatureView extends View {
 
     /**
      * Check is signature bitmap empty
-     *
-     * @return boolean
      */
     public boolean isBitmapEmpty() {
         if (bmp != null) {
@@ -367,64 +365,6 @@ public class SignatureView extends View {
             return bmp.sameAs(emptyBitmap);
         }
         return false;
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        return new SavedState(superState, bmp);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (!(state instanceof SavedState)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-        SavedState savedState = (SavedState) state;
-        super.onRestoreInstanceState(savedState.getSuperState());
-        setBitmap(savedState.bitmap);
-    }
-
-    static class SavedState extends BaseSavedState {
-
-        Bitmap bitmap;
-
-        SavedState(Parcelable superState, Bitmap bitmap) {
-            super(superState);
-            this.bitmap = bitmap;
-        }
-
-        private SavedState(Parcel in) {
-            super(in);
-            bitmap = deCompress(in.createByteArray());
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeByteArray(compress(bitmap));
-        }
-
-        private static byte[] compress(Bitmap bitmap) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            return stream.toByteArray();
-        }
-
-        private static Bitmap deCompress(byte[] byteArray) {
-            return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        }
-
-        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
     }
 
     public static class Point {
