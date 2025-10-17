@@ -10,7 +10,6 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.maunc.toolbox.commonbase.ext.loge
 import kotlin.math.abs
 
 object KeyBroadUtils {
@@ -107,11 +106,9 @@ object KeyBroadUtils {
                     override fun onViewDetachedFromWindow(v: View) {
 
                     }
-
                 })
             }
         }
-
     }
 
     @SuppressLint("InternalInsetResource")

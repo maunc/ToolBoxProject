@@ -12,5 +12,6 @@ data class CanvasSettingData(
         const val CANVAS_PEN_WIDTH_TYPE = 0//画笔宽度配置
         const val CANVAS_ERASER_WIDTH_TYPE = 1//橡皮大小配置
         const val CANVAS_PEN_COLOR_TYPE = 2//画笔颜色配置
+        const val CANVAS_FILE_MANAGE = 3//文件管理页
     }
 }

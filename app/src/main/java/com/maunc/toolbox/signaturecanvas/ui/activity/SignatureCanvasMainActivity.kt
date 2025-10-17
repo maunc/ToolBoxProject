@@ -1,4 +1,4 @@
-package com.maunc.toolbox.signaturecanvas.ui
+package com.maunc.toolbox.signaturecanvas.ui.activity
 
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,6 +24,7 @@ import com.maunc.toolbox.signaturecanvas.adapter.SignatureCanvasControllerAdapte
 import com.maunc.toolbox.signaturecanvas.constant.MODE_ERASER
 import com.maunc.toolbox.signaturecanvas.constant.MODE_PEN
 import com.maunc.toolbox.signaturecanvas.constant.RESULT_SOURCE_FROM_SIGNATURE_CANVAS_SETTING
+import com.maunc.toolbox.signaturecanvas.ui.dialog.SignatureCanvasSaveDialog
 import com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasMainViewModel
 
 class SignatureCanvasMainActivity :
@@ -52,6 +53,15 @@ class SignatureCanvasMainActivity :
         }
     }
 
+    private val signatureCanvasSaveDialog by lazy {
+        SignatureCanvasSaveDialog()
+            .setSureListener {
+
+            }.setCancelListener {
+
+            }
+    }
+
     private val signatureCanvasControllerAdapter by lazy {
         SignatureCanvasControllerAdapter().apply {
             setControllerListener(object :
@@ -76,11 +86,12 @@ class SignatureCanvasMainActivity :
                     CommonDialog()
                         .setTitle(obtainString(R.string.signature_canvas_clear_tips))
                         .setSureListener {
+                            mDatabind.signatureCanvasView.clearCanvas()
                         }.show(supportFragmentManager, "")
                 }
 
                 override fun onSaveListener() {
-
+                    signatureCanvasSaveDialog.show(supportFragmentManager, "")
                 }
             })
         }

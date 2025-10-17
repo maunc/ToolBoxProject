@@ -126,4 +126,8 @@
     <string name="signature_canvas_setting_current_eraser_width_text">当前设置大小为</string>
     <string name="signature_canvas_setting_pen_width_error">画笔不能设置小于等于零</string>
     <string name="signature_canvas_setting_eraser_width_error">橡皮不能设置小于等于零</string>
+
+    <string name="signature_canvas_setting_manager_file_text">保存文件管理</string>
+    <string name="signature_canvas_setting_save_title">请填写文件名称</string>
+    <string name="signature_canvas_setting_save_edit_hint">文件名称</string>
 </resources>

@@ -16,6 +16,7 @@ import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.mutableListInsert
 import com.maunc.toolbox.commonbase.ext.obtainColorToARAG
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.ext.visible
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.canvasEraserWidth
@@ -29,6 +30,7 @@ import com.maunc.toolbox.signaturecanvas.constant.ERASER_WIDTH_MAX_VALUE
 import com.maunc.toolbox.signaturecanvas.constant.PEN_WIDTH_MAX_VALUE
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingColorData
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingData
+import com.maunc.toolbox.signaturecanvas.ui.activity.SignatureManagerFileActivity
 
 @SuppressLint("SetTextI18n")
 class SignatureCanvasSettingAdapter :
@@ -45,6 +47,10 @@ class SignatureCanvasSettingAdapter :
         addItemType(
             CanvasSettingData.CANVAS_PEN_COLOR_TYPE,
             R.layout.item_canvas_setting_pen_color
+        )
+        addItemType(
+            CanvasSettingData.CANVAS_FILE_MANAGE,
+            R.layout.item_canvas_setting_manager_file
         )
     }
 
@@ -216,6 +222,12 @@ class SignatureCanvasSettingAdapter :
                             colorTextTips.text = colorARGBtoString(colorARGB)
                         }
                     })
+                }
+            }
+
+            CanvasSettingData.CANVAS_FILE_MANAGE -> {
+                haveView.findViewById<RelativeLayout>(R.id.item_canvas_setting_tab).setOnClickListener {
+                    context.startTargetActivity(SignatureManagerFileActivity::class.java)
                 }
             }
         }

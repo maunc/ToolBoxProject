@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/dialog_canvas_save_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_150"
+            android:background="@drawable/bg_white_radius_18"
+            tools:ignore="UselessParent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/dialog_canvas_save_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:text="@string/signature_canvas_setting_save_title"
+                android:textColor="@color/black"
+                android:textSize="26sp" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/dialog_canvas_save_edit_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_60"
+                android:layout_below="@id/dialog_canvas_save_title"
+                android:layout_marginHorizontal="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_25"
+                android:background="@drawable/bg_canvas_save_edit"
+                android:hint="@string/signature_canvas_setting_save_edit_hint"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/dialog_canvas_save_cancel_button"
+                android:layout_width="@dimen/common_dialog_control_width"
+                android:layout_height="@dimen/common_dialog_control_height"
+                android:layout_below="@id/dialog_canvas_save_edit_view"
+                android:layout_marginTop="@dimen/dp_25"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginBottom="@dimen/dp_20"
+                android:layout_toStartOf="@id/dialog_canvas_save_dividing_line"
+                android:background="@drawable/bg_random_control_button"
+                android:gravity="center"
+                android:text="@string/common_dialog_cancel_text"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/dialog_canvas_save_dividing_line"
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="@dimen/dp_1"
+                android:layout_centerHorizontal="true" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/dialog_canvas_save_sure_button"
+                android:layout_width="@dimen/common_dialog_control_width"
+                android:layout_height="@dimen/common_dialog_control_height"
+                android:layout_below="@id/dialog_canvas_save_edit_view"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_25"
+                android:layout_marginBottom="@dimen/dp_20"
+                android:layout_toEndOf="@id/dialog_canvas_save_dividing_line"
+                android:background="@drawable/bg_random_control_button"
+                android:gravity="center"
+                android:text="@string/common_dialog_sure_text"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

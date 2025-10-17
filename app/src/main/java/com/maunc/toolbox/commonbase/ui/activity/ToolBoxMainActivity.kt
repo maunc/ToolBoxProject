@@ -14,7 +14,7 @@ import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.viewmodel.ToolBoxMainViewModel
 import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
 import com.maunc.toolbox.randomname.ui.activity.RandomNameWelcomeActivity
-import com.maunc.toolbox.signaturecanvas.ui.SignatureCanvasMainActivity
+import com.maunc.toolbox.signaturecanvas.ui.activity.SignatureCanvasMainActivity
 
 class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMainBinding>() {
 

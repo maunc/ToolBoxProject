@@ -1,4 +1,4 @@
-package com.maunc.toolbox.signaturecanvas.ui
+package com.maunc.toolbox.signaturecanvas.ui.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,14 +8,9 @@ import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainColorToARAG
-import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.databinding.ActivitySignatureCanvasSettingBinding
 import com.maunc.toolbox.signaturecanvas.adapter.SignatureCanvasSettingAdapter
-import com.maunc.toolbox.signaturecanvas.constant.INTENT_CANVAS_ERASER_WIDTH
-import com.maunc.toolbox.signaturecanvas.constant.INTENT_CANVAS_PEN_COLOR
-import com.maunc.toolbox.signaturecanvas.constant.INTENT_CANVAS_PEN_WIDTH
 import com.maunc.toolbox.signaturecanvas.constant.RESULT_SOURCE_FROM_SIGNATURE_CANVAS_SETTING
 import com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasSettingViewModel
 
