@@ -22,7 +22,7 @@ class SignatureCanvasSaveDialog :
     override fun initView(savedInstanceState: Bundle?) {
         showSoftInputKeyBoard(mDatabind.dialogCanvasSaveEditView)
         mDatabind.dialogCanvasSaveSureButton.setOnClickListener {
-            onSureListener?.onSure()
+            onSureListener?.onSure(mDatabind.dialogCanvasSaveEditView.text?.toString() ?: "")
             dismissAllowingStateLoss()
         }
         mDatabind.dialogCanvasSaveCancelButton.setOnClickListener {
@@ -68,7 +68,7 @@ class SignatureCanvasSaveDialog :
     }
 
     fun interface CanvasSaveDialogOnSureListener {
-        fun onSure()
+        fun onSure(content: String)
     }
 
     fun interface CanvasSaveDialogOnCancelListener {

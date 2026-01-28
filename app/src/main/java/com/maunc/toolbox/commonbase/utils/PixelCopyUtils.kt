@@ -83,11 +83,17 @@ object PixelCopyUtils {
     fun saveBitmapGallery(
         context: Context,
         bitmap: Bitmap,
+        saveFileName: String?,
     ): Boolean {
+        val fileName = if (saveFileName?.isEmpty() == true)
+            System.currentTimeMillis().toString() else saveFileName
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val insert = context.contentResolver.insert(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                ContentValues()
+                ContentValues().apply {
+                    put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
+                    put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                }
             ) ?: return false
             context.contentResolver.openOutputStream(insert).use {
                 it ?: return false

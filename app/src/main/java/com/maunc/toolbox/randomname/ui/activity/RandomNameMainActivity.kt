@@ -75,6 +75,12 @@ class RandomNameMainActivity :
                 }
             }
         }
+        mDatabind.randomControlResetSelectTv.clickScale {
+            mViewModel.buttonClickLaunchVibrator()
+            mViewModel.showDoneRandomTips.value = false
+            mViewModel.endRandom()
+            mViewModel.initData()
+        }
         val viewOffsetHelper = ViewOffsetHelper(mDatabind.randomNameMainContentLayout)
         mDatabind.randomNameDrawerLayout.addDrawLayoutListener(onDrawerSlide = { view, slideOffset ->
             val offset = (view.measuredWidth * slideOffset).toInt()
@@ -85,12 +91,6 @@ class RandomNameMainActivity :
         mDatabind.randomNameMainSwipeRecycler.adapter = randomNameMainSwipeAdapter
         mDatabind.randomMainNotSelectRecycler.setAdapter(randomMainNotSelectAdapter)
         mDatabind.randomMainSelectRecycler.setAdapter(randomMainSelectAdapter)
-        mDatabind.randomControlResetSelectTv.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
-            mViewModel.showDoneRandomTips.value = false
-            mViewModel.endRandom()
-            mViewModel.initData()
-        }
     }
 
     private fun obtainRandomNameSerializable(): RandomNameWithGroup? {

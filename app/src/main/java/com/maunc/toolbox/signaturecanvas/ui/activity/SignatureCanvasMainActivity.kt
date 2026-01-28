@@ -11,7 +11,9 @@ import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntent
 import com.maunc.toolbox.commonbase.ext.obtainColorToARAG
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
+import com.maunc.toolbox.commonbase.utils.PixelCopyUtils
 import com.maunc.toolbox.commonbase.utils.canvasEraserWidth
 import com.maunc.toolbox.commonbase.utils.canvasPenColorA
 import com.maunc.toolbox.commonbase.utils.canvasPenColorB
@@ -55,10 +57,34 @@ class SignatureCanvasMainActivity :
 
     private val signatureCanvasSaveDialog by lazy {
         SignatureCanvasSaveDialog()
+            .setSureListener { fileName ->
+                PixelCopyUtils.createBitmapFromView(
+                    window, mDatabind.signatureCanvasView
+                ) { bitmap, result ->
+                    "saveResult:${result}  bitmap:${bitmap}".loge()
+                    if (!result || bitmap == null) {
+                        toast("保存失败")
+                        return@createBitmapFromView
+                    }
+                    val saveBitmapGalleryResult = PixelCopyUtils.saveBitmapGallery(
+                        context = this@SignatureCanvasMainActivity,
+                        bitmap = bitmap,
+                        saveFileName = fileName
+                    )
+                    if (saveBitmapGalleryResult) {
+                        toast("保存成功")
+                    } else {
+                        toast("保存失败")
+                    }
+                }
+            }
+    }
+
+    private val signatureCanvasClearDialog by lazy {
+        CommonDialog()
+            .setTitle(obtainString(R.string.signature_canvas_clear_tips))
             .setSureListener {
-
-            }.setCancelListener {
-
+                mDatabind.signatureCanvasView.clearCanvas()
             }
     }
 
@@ -83,11 +109,7 @@ class SignatureCanvasMainActivity :
                 }
 
                 override fun onClearListener() {
-                    CommonDialog()
-                        .setTitle(obtainString(R.string.signature_canvas_clear_tips))
-                        .setSureListener {
-                            mDatabind.signatureCanvasView.clearCanvas()
-                        }.show(supportFragmentManager, "")
+                    signatureCanvasClearDialog.show(supportFragmentManager, "")
                 }
 
                 override fun onSaveListener() {

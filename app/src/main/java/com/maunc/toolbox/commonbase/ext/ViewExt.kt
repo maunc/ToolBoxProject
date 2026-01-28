@@ -352,29 +352,29 @@ fun View.clickScale(
     action: (view: View) -> Unit,
 ) {
     //缩小动画
-    val scaleOutXValueHolder: PropertyValuesHolder =
+    val scaleOutX: PropertyValuesHolder =
         PropertyValuesHolder.ofFloat(SCALE_X, scaleMax, scaleMin)
-    val scaleOutYValueHolder: PropertyValuesHolder =
+    val scaleOutY: PropertyValuesHolder =
         PropertyValuesHolder.ofFloat(SCALE_Y, scaleMax, scaleMin)
     val scaleOutAnim: Animator = ObjectAnimator.ofPropertyValuesHolder(
-        this, scaleOutXValueHolder, scaleOutYValueHolder
+        this, scaleOutX, scaleOutY
     ).apply {
         duration = scaleDuration
         interpolator = scaleInterpolator
     }
     //扩大动画
-    val scaleInXValueHolder: PropertyValuesHolder =
+    val scaleInX: PropertyValuesHolder =
         PropertyValuesHolder.ofFloat(SCALE_X, scaleMin, scaleMax, scaleTransit, scaleMax)
-    val scaleInYValueHolder: PropertyValuesHolder =
+    val scaleInY: PropertyValuesHolder =
         PropertyValuesHolder.ofFloat(SCALE_Y, scaleMin, scaleMax, scaleTransit, scaleMax)
     val scaleInAnim: Animator = ObjectAnimator.ofPropertyValuesHolder(
-        this, scaleInXValueHolder, scaleInYValueHolder,
+        this, scaleInX, scaleInY,
     ).apply {
         duration = scaleDuration
         interpolator = scaleInterpolator
     }
     setOnTouchListener { view, event ->
-        when (event?.action) {
+        when (event?.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
                 post {
                     //配合drawable文件使用
@@ -383,10 +383,9 @@ fun View.clickScale(
                 }
             }
 
-            MotionEvent.ACTION_UP -> {
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 post {
                     isPressed = false
-                    scaleOutAnim.end()
                     scaleInAnim.start()
                 }
                 if (isTouchPointInView(event.rawX.toInt(), event.rawY.toInt())) {
