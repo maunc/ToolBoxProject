@@ -4,20 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-
-import java.io.ByteArrayOutputStream;
 
 public class SignatureView extends View {
 
@@ -367,16 +362,7 @@ public class SignatureView extends View {
         return false;
     }
 
-    public static class Point {
-        public final float x;
-        public final float y;
-        public final long time;
-
-        public Point(float x, float y, long time) {
-            this.x = x;
-            this.y = y;
-            this.time = time;
-        }
+    public record Point(float x, float y, long time) {
 
         private float distanceTo(Point start) {
             return (float) (Math.sqrt(Math.pow((x - start.x), 2) + Math.pow((y - start.y), 2)));

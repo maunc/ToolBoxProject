@@ -61,7 +61,6 @@ class SignatureCanvasMainActivity :
                 PixelCopyUtils.createBitmapFromView(
                     window, mDatabind.signatureCanvasView
                 ) { bitmap, result ->
-                    "saveResult:${result}  bitmap:${bitmap}".loge()
                     if (!result || bitmap == null) {
                         toast("保存失败")
                         return@createBitmapFromView
