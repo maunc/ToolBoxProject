@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".turntable.ui.TurnTableMainActivity">
+
+        <include
+            android:id="@+id/common_tool_bar"
+            layout="@layout/layout_tool_bar_common" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/common_tool_bar">
+
+            <com.us.mauncview.TurnTableView
+                android:id="@+id/turn_table_view"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

@@ -5,8 +5,8 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.data.ToolBoxItemData
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.mutableListInsert
+import com.maunc.toolbox.commonbase.ext.obtainString
 
 class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
 
@@ -29,6 +29,10 @@ class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
             ToolBoxItemData(
                 itemIcon = R.drawable.icon_tool_box_signature_canvas,
                 itemTitle = obtainString(R.string.tool_box_item_signature_canvas_text)
+            ),
+            ToolBoxItemData(
+                itemIcon = R.drawable.icon_tool_box_turn_table,
+                itemTitle = obtainString(R.string.tool_box_item_turn_table_text)
             ),
         )
         return localItemData.value!!

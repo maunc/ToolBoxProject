@@ -62,7 +62,7 @@ class SignatureCanvasMainActivity :
                     window, mDatabind.signatureCanvasView
                 ) { bitmap, result ->
                     if (!result || bitmap == null) {
-                        toast("保存失败")
+                        toast(getString(R.string.signature_canvas_setting_save_file_error))
                         return@createBitmapFromView
                     }
                     val saveBitmapGalleryResult = PixelCopyUtils.saveBitmapGallery(
@@ -71,9 +71,9 @@ class SignatureCanvasMainActivity :
                         saveFileName = fileName
                     )
                     if (saveBitmapGalleryResult) {
-                        toast("保存成功")
+                        toast(getString(R.string.signature_canvas_setting_save_file_success))
                     } else {
-                        toast("保存失败")
+                        toast(getString(R.string.signature_canvas_setting_save_file_error))
                     }
                 }
             }

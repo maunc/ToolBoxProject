@@ -5,6 +5,9 @@
     <color name="orange">#FF3D00</color>
     <color name="red">#FF0000</color>
     <color name="blue">#008EFF</color>
+    <color name="green">#00FF0A</color>
+    <color name="purple">#5C00FF</color>
+    <color name="yellow">#FFE500</color>
     <color name="transparent">#00000000</color>
 
 </resources>

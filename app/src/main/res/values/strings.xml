@@ -14,6 +14,7 @@
     <string name="tool_box_item_random_name_text">随机点名</string>
     <string name="tool_box_item_chat_room_text">聊天室</string>
     <string name="tool_box_item_signature_canvas_text">画板</string>
+    <string name="tool_box_item_turn_table_text">转盘</string>
 
     <!--randomWelcomePage-->
     <string name="welcome_title_text">欢迎来到点名程序</string>
@@ -130,4 +131,9 @@
     <string name="signature_canvas_setting_manager_file_text">保存文件管理</string>
     <string name="signature_canvas_setting_save_title">请填写文件名称</string>
     <string name="signature_canvas_setting_save_edit_hint">文件名称</string>
+    <string name="signature_canvas_setting_save_file_success">文件保存成功</string>
+    <string name="signature_canvas_setting_save_file_error">文件保存失败</string>
+
+    <!--转盘-->
+    <string name="turn_table_title">转盘</string>
 </resources>

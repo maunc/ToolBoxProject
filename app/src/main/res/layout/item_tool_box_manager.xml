@@ -17,6 +17,7 @@
             android:layout_width="@dimen/tool_box_main_item_icon_size"
             android:layout_height="@dimen/tool_box_main_item_icon_size"
             android:layout_marginTop="@dimen/dp_40"
+            android:tint="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

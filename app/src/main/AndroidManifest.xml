@@ -37,6 +37,9 @@
         android:theme="@style/Theme.RandomCallName"
         tools:targetApi="31">
         <activity
+            android:name=".turntable.ui.TurnTableMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".signaturecanvas.ui.activity.SignatureManagerFileActivity"
             android:exported="false" />
         <activity

@@ -15,6 +15,7 @@ import com.maunc.toolbox.commonbase.viewmodel.ToolBoxMainViewModel
 import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
 import com.maunc.toolbox.randomname.ui.activity.RandomNameWelcomeActivity
 import com.maunc.toolbox.signaturecanvas.ui.activity.SignatureCanvasMainActivity
+import com.maunc.toolbox.turntable.ui.TurnTableMainActivity
 
 class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMainBinding>() {
 
@@ -41,6 +42,10 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
 
                     obtainString(R.string.tool_box_item_signature_canvas_text) -> {
                         startTargetActivity(SignatureCanvasMainActivity::class.java)
+                    }
+
+                    obtainString(R.string.tool_box_item_turn_table_text) -> {
+                        startTargetActivity(TurnTableMainActivity::class.java)
                     }
                 }
             }

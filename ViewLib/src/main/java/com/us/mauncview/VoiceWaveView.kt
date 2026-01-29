@@ -125,7 +125,7 @@ class VoiceWaveView @JvmOverloads constructor(
 
         paintPathLine = Paint()
         paintPathLine?.isAntiAlias = true
-        paintPathLine?.style = Paint.Style.STROKE;
+        paintPathLine?.style = Paint.Style.STROKE
     }
 
     fun addsBody(vararg num: Int) {
