@@ -25,7 +25,14 @@
                 android:id="@+id/turn_table_view"
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/startTurnTable"
+                android:layout_width="@dimen/dp_150"
+                android:layout_height="@dimen/dp_150"
+                android:layout_centerInParent="true"
+                android:src="@drawable/icon_turn_table_center_button" />
         </RelativeLayout>
     </RelativeLayout>
 </layout>

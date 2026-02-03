@@ -86,6 +86,7 @@ dependencies {
     implementation(project(":ViewLib"))
     implementation(project(":LiveEventBus"))
     implementation(project(":FileDownload"))
+    implementation(project(":WebBridgeLib"))
 
     implementation(libs.bundles.android)
     implementation(libs.ext.gson)

@@ -1,5 +1,6 @@
 package com.us.mauncview
 
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -8,8 +9,10 @@ import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import androidx.annotation.ColorRes
 import androidx.annotation.RequiresApi
+import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
 import kotlin.math.cos
 import kotlin.math.min
@@ -44,7 +47,7 @@ class TurnTableView @JvmOverloads constructor(
     // 每个扇形的绘制的起始角度
     private var sectorStartAngle = 0f
 
-    // 每个扇形的绘制的结束角度
+    // 计算出每个扇形的间隔
     private var sectorSweepAngle = 0f
 
     // 画圆形背景的笔
@@ -68,13 +71,13 @@ class TurnTableView @JvmOverloads constructor(
         R.color.red,
         R.color.blue,
         R.color.orange,
-        R.color.purple,
         R.color.yellow,
+        R.color.purple,
         R.color.green
     )
 
     private var turnTableContentList = mutableListOf(
-        "蒙奇D路飞", "柯南", "漩涡鸣人", "黑崎一护", "娜美", "青雉"
+        "昆仑镜", "女娲石", "神农鼎", "崆峒印", "伏羲琴", "万灵血珠"
     )
 
     // 画扇形的笔
@@ -89,6 +92,7 @@ class TurnTableView @JvmOverloads constructor(
                 color = obtainColorRes(colorRes)
             })
         }
+        sectorSweepAngle = 360f / turnTableSectorPaints.size
     }
 
     // 画字的笔
@@ -151,8 +155,7 @@ class TurnTableView @JvmOverloads constructor(
         canvas.drawCircle(centerCircleX, centerCircleY, circleRadius, turnTableBackGroundPaint)
         // 画边框
         canvas.drawCircle(centerCircleX, centerCircleY, circleRadius, turnTableStrokePaint)
-        // 计算出每个扇形的间隔
-        val sectorSweepAngle = 360f / turnTableSectorPaints.size
+
         turnTableSectorPaints.forEachIndexed { index, paint ->
             canvas.drawArc(
                 centerCircleX - circleRadius,
@@ -169,10 +172,8 @@ class TurnTableView @JvmOverloads constructor(
                 turnTableContentList[index],
                 testPaint,
             )
-            sectorStartAngle = sectorSweepAngle * (index + 1)
+            sectorStartAngle += sectorSweepAngle
         }
-
-        // 画中心圆
     }
 
     //绘制文字
@@ -202,6 +203,35 @@ class TurnTableView @JvmOverloads constructor(
         canvas.drawText(string, 0f, baseLineY, textPaint)
         // 5. 恢复画布状态（必须！否则后续绘制会继承旋转状态）
         canvas.restore()
+    }
+
+    fun setScrollToPos(pos: Int) {
+        Log.e(TAG, "pos:$pos,")
+        var endAngle = 270 - sectorSweepAngle * pos
+        Log.e(TAG, "sectorStartAngle:$sectorStartAngle,")
+        if (endAngle < sectorStartAngle) {
+            endAngle += 4 * 360
+        } else {
+            endAngle += 3 * 360
+        }
+        Log.e(TAG,"end:${endAngle},")
+        val animator = ValueAnimator.ofFloat(sectorStartAngle, endAngle).apply {
+            setDuration(2000)
+            interpolator = DecelerateInterpolator()
+            addUpdateListener {
+                val value: Float = it.animatedValue as Float
+                //控制sectorStartAngle在0到360之间
+                sectorStartAngle = (value % 360 + 360) % 360
+                Log.e(TAG, "animatedValue:${sectorStartAngle}")
+                invalidate()
+            }
+            addListener(onStart = {
+
+            }, onEnd = {
+
+            })
+        }
+        animator.start()
     }
 
     private fun obtainColorRes(@ColorRes colorRes: Int) = ContextCompat.getColor(context, colorRes)
