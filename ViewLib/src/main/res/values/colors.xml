@@ -10,4 +10,8 @@
     <color name="yellow">#FFE500</color>
     <color name="transparent">#00000000</color>
 
+    <color name="turn_table_color_one">#00E616</color>
+    <color name="turn_table_color_two">#E70000</color>
+    <color name="turn_table_color_three">#0083EB</color>
+
 </resources>

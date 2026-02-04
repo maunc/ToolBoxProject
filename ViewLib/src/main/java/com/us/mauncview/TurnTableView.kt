@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
+import kotlin.random.Random
 
 class TurnTableView @JvmOverloads constructor(
     context: Context,
@@ -29,10 +30,10 @@ class TurnTableView @JvmOverloads constructor(
         const val TAG = "TurnTableView"
 
         // 转盘动画减速因子
-        const val DECELERATE_FACTOR = 2.0f
+        const val DECELERATE_FACTOR = 3.0f
 
         // 转盘动画持续时间
-        const val ANIM_DURATION = 5000L
+        const val ANIM_DURATION = 3500L
     }
 
     // view的总宽度
@@ -55,6 +56,27 @@ class TurnTableView @JvmOverloads constructor(
 
     // 计算出每个扇形的间隔
     private var sweepAngle = 0f
+
+    // 第一绘制的扇形的颜色
+    private var firstSectorColor = -1
+
+    // 转盘内容的总长度
+    private fun contentListSize() = turnTableContentList.size
+
+    // 转盘转几圈
+    private var turnMoveNumber = 5 * 360f
+
+    // 转动结束的后的真实角度
+    private var endRealAngle = 0f
+
+    // 是否正在是用转盘
+    private var isRotateTurnTable = false
+
+    // 转盘时间监听
+    private var onTurnTableEventListener: OnTurnTableEventListener? = null
+
+    // 转盘的结果
+    private var resultPos = 0
 
     // 画圆形背景的笔
     private val turnTableBackGroundPaint: Paint by lazy {
@@ -94,35 +116,33 @@ class TurnTableView @JvmOverloads constructor(
     }
 
     private var colorResList = mutableListOf(
-        Color.parseColor("#FF0000"),
-        Color.parseColor("#008EFF"),
-        Color.parseColor("#FF3D00"),
-        Color.parseColor("#FFE500"),
-        Color.parseColor("#5C00FF"),
-        Color.parseColor("#00FF0A")
+        obtainColorRes(R.color.turn_table_color_one),
+        obtainColorRes(R.color.turn_table_color_two),
+        obtainColorRes(R.color.turn_table_color_three)
     )
 
     private var turnTableContentList = mutableListOf(
         "昆仑镜", "女娲石", "神农鼎", "崆峒印", "伏羲琴", "万灵血珠"
     )
 
-    // 动画
+    // 转动动画
     private val valueAnimator: ValueAnimator by lazy {
         ValueAnimator().apply {
             setDuration(ANIM_DURATION)
             interpolator = DecelerateInterpolator(DECELERATE_FACTOR)
             addUpdateListener {
-                val value: Float = it.animatedValue as Float
-                // 控制sectorStartAngle在0到360之间
+                val value = animatedValue as Float
+                // 控制旋转角度在0f到360f之间
                 startAngle = (value % 360 + 360) % 360
-//                Log.e(TAG, "animatedValue:${startAngle}")
                 invalidate()
             }
             doOnStart {
-                Log.e(TAG, "doOnStart")
+                isRotateTurnTable = true
+                onTurnTableEventListener?.onRotateStart()
             }
             doOnEnd {
-                Log.e(TAG, "doOnEnd")
+                isRotateTurnTable = false
+                onTurnTableEventListener?.onRotateEnd(turnTableContentList[resultPos])
             }
         }
     }
@@ -130,6 +150,7 @@ class TurnTableView @JvmOverloads constructor(
     init {
         circleRadius = 450f
         sweepAngle = 360f / turnTableContentList.size
+        firstSectorColor = colorResList[0]
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -168,7 +189,7 @@ class TurnTableView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        Log.e(TAG, "onSizeChanged  width:$w,height:${h}")
+        Log.e(TAG, "onSizeChanged  width:$w,height:$h")
         viewWidth = w.toFloat()
         viewHeight = h.toFloat()
         circleX = (w / 2).toFloat()
@@ -184,7 +205,7 @@ class TurnTableView @JvmOverloads constructor(
         canvas.drawCircle(circleX, circleY, circleRadius, turnTableStrokePaint)
         // 画扇形 和 扇形上的文本
         turnTableContentList.forEachIndexed { index, text ->
-            turnAnglePaint.color = colorResList[index]
+            turnAnglePaint.color = obtainDrawColor(index)
             canvas.drawArc(
                 circleX - circleRadius,
                 circleY - circleRadius,
@@ -219,12 +240,55 @@ class TurnTableView @JvmOverloads constructor(
         restore()
     }
 
-    fun setScrollToPos(pos: Int) {
-        Log.e(TAG, "pos:$pos")
-        val endAngle = sweepAngle * pos + 5 * 360
-        Log.e(TAG, "startAngle:$startAngle,endAngle:$endAngle")
-        valueAnimator.setFloatValues(startAngle, endAngle)
+    fun setContentList(list: MutableList<String>) {
+        turnTableContentList.clear()
+        turnTableContentList.addAll(list)
+        sweepAngle = 360f / turnTableContentList.size
+        invalidate()
+    }
+
+    /**
+     * 启动转盘
+     */
+    fun startMoveTurnTable() {
+        if (isRotateTurnTable) {
+            Log.e(TAG, "turn table is rotate ing")
+            return
+        }
+        resultPos = Random.nextInt(contentListSize())
+        //计算转动到position位置停止后的角度值
+        val ran = getRandomPositionPro()
+        val entAngle = 270 - sweepAngle * (resultPos.toFloat() + ran) + turnMoveNumber
+        valueAnimator.setFloatValues(startAngle, entAngle)
         valueAnimator.start()
+    }
+
+    /**
+     * 转盘滚动终点随机停止的位置
+     */
+    private fun getRandomPositionPro(): Float {
+        val num = Math.random().toFloat()
+        return if (num > 0 && num < 1) num else 0.5.toFloat()
+    }
+
+    /**
+     * 处理最后一个颜色块防止合并
+     */
+    private fun obtainDrawColor(index: Int): Int {
+        var drawColor = colorResList[index % colorResList.size]
+        if (index == contentListSize() - 1 && drawColor == firstSectorColor) {
+            drawColor = colorResList[(index + 1) % colorResList.size]
+        }
+        return drawColor
+    }
+
+    interface OnTurnTableEventListener {
+        fun onRotateStart()
+        fun onRotateEnd(content: String)
+    }
+
+    fun setOnTurnTableListener(onTurnTableEventListener: OnTurnTableEventListener) {
+        this.onTurnTableEventListener = onTurnTableEventListener
     }
 
     private fun obtainColorRes(@ColorRes colorRes: Int) = ContextCompat.getColor(context, colorRes)
