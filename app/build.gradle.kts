@@ -89,6 +89,9 @@ dependencies {
     implementation(project(":WebBridgeLib"))
 
     implementation(libs.bundles.android)
+    implementation(libs.bundles.smart.refrsh.layout)
+    implementation(libs.bundles.exo.player)
+    implementation(libs.bundles.ext.glide)
     implementation(libs.ext.gson)
 
     implementation(libs.ext.baseAdapter)
@@ -99,9 +102,6 @@ dependencies {
     implementation(libs.ext.mmkv) {
         exclude("org.jetbrains.kotlin", "kotlin-stdlib")
     }
-    implementation(libs.bundles.smart.refrsh.layout)
-    implementation(libs.bundles.exo.player)
-    implementation(libs.ext.glide)
     implementation(libs.ext.picture.selector)
     implementation(libs.ext.immersionbar)
 }
