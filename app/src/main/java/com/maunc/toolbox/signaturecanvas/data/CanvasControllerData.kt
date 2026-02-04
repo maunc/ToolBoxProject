@@ -2,7 +2,7 @@ package com.maunc.toolbox.signaturecanvas.data
 
 import androidx.annotation.DrawableRes
 
-data class SignatureCanvasControllerData(
+data class CanvasControllerData(
     @DrawableRes
     var image: Int,
     var title: String,

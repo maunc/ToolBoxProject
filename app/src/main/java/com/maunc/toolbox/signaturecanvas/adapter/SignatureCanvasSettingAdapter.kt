@@ -30,7 +30,7 @@ import com.maunc.toolbox.signaturecanvas.constant.ERASER_WIDTH_MAX_VALUE
 import com.maunc.toolbox.signaturecanvas.constant.PEN_WIDTH_MAX_VALUE
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingColorData
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingData
-import com.maunc.toolbox.signaturecanvas.ui.activity.SignatureManagerFileActivity
+import com.maunc.toolbox.signaturecanvas.ui.activity.SignatureCanvasManagerFileActivity
 
 @SuppressLint("SetTextI18n")
 class SignatureCanvasSettingAdapter :
@@ -227,7 +227,7 @@ class SignatureCanvasSettingAdapter :
 
             CanvasSettingData.CANVAS_FILE_MANAGE -> {
                 haveView.findViewById<RelativeLayout>(R.id.item_canvas_setting_tab).setOnClickListener {
-                    context.startTargetActivity(SignatureManagerFileActivity::class.java)
+                    context.startTargetActivity(SignatureCanvasManagerFileActivity::class.java)
                 }
             }
         }

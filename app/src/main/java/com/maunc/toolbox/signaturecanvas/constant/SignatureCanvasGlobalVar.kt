@@ -41,3 +41,6 @@ const val RESULT_SOURCE_FROM_SIGNATURE_CANVAS_SETTING = 101
 const val INTENT_CANVAS_PEN_WIDTH = "intentCanvasPenWidth"
 const val INTENT_CANVAS_PEN_COLOR = "intentCanvasPenColor"
 const val INTENT_CANVAS_ERASER_WIDTH = "intentCanvasEraserWidth"
+
+/**保存文件时的前缀*/
+const val saveFileNamePrefix = "HToolBox_canvas_"

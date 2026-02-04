@@ -5,13 +5,8 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.ext.mutableListInsert
-import com.maunc.toolbox.commonbase.ext.obtainColorToARAG
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.utils.canvasEraserWidth
-import com.maunc.toolbox.commonbase.utils.canvasPenColorA
-import com.maunc.toolbox.commonbase.utils.canvasPenColorB
-import com.maunc.toolbox.commonbase.utils.canvasPenColorG
-import com.maunc.toolbox.commonbase.utils.canvasPenColorR
 import com.maunc.toolbox.commonbase.utils.canvasPenWidth
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.signaturecanvas.constant.MODE_PEN
@@ -21,7 +16,7 @@ import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_ERASER
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_NEXT
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_PEN
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_SAVE
-import com.maunc.toolbox.signaturecanvas.data.SignatureCanvasControllerData
+import com.maunc.toolbox.signaturecanvas.data.CanvasControllerData
 
 class SignatureCanvasMainViewModel : BaseViewModel<BaseModel>() {
     //当前画笔模式
@@ -36,34 +31,34 @@ class SignatureCanvasMainViewModel : BaseViewModel<BaseModel>() {
     //画笔颜色
     var mCanvasPenColor = MutableLiveData<Int>()
 
-    var controllerDataList = mutableListOf<SignatureCanvasControllerData>().apply {
+    var controllerDataList = mutableListOf<CanvasControllerData>().apply {
         mutableListInsert(
-            SignatureCanvasControllerData(
+            CanvasControllerData(
                 image = R.drawable.icon_signature_canvas_back,
                 title = obtainString(R.string.signature_canvas_back_tv),
                 type = SIGN_CONTROLLER_BACK
             ),
-            SignatureCanvasControllerData(
+            CanvasControllerData(
                 image = R.drawable.icon_signature_canvas_next,
                 title = obtainString(R.string.signature_canvas_next_tv),
                 type = SIGN_CONTROLLER_NEXT
             ),
-            SignatureCanvasControllerData(
+            CanvasControllerData(
                 image = R.drawable.icon_signature_canvas_pen,
                 title = obtainString(R.string.signature_canvas_pen_tv),
                 type = SIGN_CONTROLLER_PEN
             ),
-            SignatureCanvasControllerData(
+            CanvasControllerData(
                 image = R.drawable.icon_signature_canvas_eraser,
                 title = obtainString(R.string.signature_canvas_eraser_tv),
                 type = SIGN_CONTROLLER_ERASER
             ),
-            SignatureCanvasControllerData(
+            CanvasControllerData(
                 image = R.drawable.icon_signature_canvas_clear,
                 title = obtainString(R.string.signature_canvas_clear_tv),
                 type = SIGN_CONTROLLER_CLEAR
             ),
-            SignatureCanvasControllerData(
+            CanvasControllerData(
                 image = R.drawable.icon_signature_canvas_save,
                 title = obtainString(R.string.signature_canvas_save_tv),
                 type = SIGN_CONTROLLER_SAVE

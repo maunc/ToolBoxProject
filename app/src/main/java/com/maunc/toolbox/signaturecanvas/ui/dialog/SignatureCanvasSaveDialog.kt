@@ -5,6 +5,7 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseDialog
 import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
 import com.maunc.toolbox.databinding.DialogSignatureCanvasSaveBinding
+import com.maunc.toolbox.signaturecanvas.constant.saveFileNamePrefix
 import com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasSaveViewModel
 
 class SignatureCanvasSaveDialog :
@@ -22,7 +23,12 @@ class SignatureCanvasSaveDialog :
     override fun initView(savedInstanceState: Bundle?) {
         showSoftInputKeyBoard(mDatabind.dialogCanvasSaveEditView)
         mDatabind.dialogCanvasSaveSureButton.setOnClickListener {
-            onSureListener?.onSure(mDatabind.dialogCanvasSaveEditView.text?.toString() ?: "")
+            val editContent = mDatabind.dialogCanvasSaveEditView.text?.toString()
+            if (editContent?.isEmpty() == true) {
+                onSureListener?.onSure("")
+            } else {
+                onSureListener?.onSure(saveFileNamePrefix + editContent)
+            }
             dismissAllowingStateLoss()
         }
         mDatabind.dialogCanvasSaveCancelButton.setOnClickListener {

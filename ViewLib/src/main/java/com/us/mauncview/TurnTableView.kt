@@ -66,16 +66,13 @@ class TurnTableView @JvmOverloads constructor(
     // 转盘转几圈
     private var turnMoveNumber = 5 * 360f
 
-    // 转动结束的后的真实角度
-    private var endRealAngle = 0f
-
     // 是否正在是用转盘
     private var isRotateTurnTable = false
 
-    // 转盘时间监听
+    // 转盘事件监听
     private var onTurnTableEventListener: OnTurnTableEventListener? = null
 
-    // 转盘的结果
+    // 转盘结束的结果
     private var resultPos = 0
 
     // 画圆形背景的笔
@@ -256,17 +253,16 @@ class TurnTableView @JvmOverloads constructor(
             return
         }
         resultPos = Random.nextInt(contentListSize())
-        //计算转动到position位置停止后的角度值
-        val ran = getRandomPositionPro()
-        val entAngle = 270 - sweepAngle * (resultPos.toFloat() + ran) + turnMoveNumber
+        // 计算转动到position位置停止后的角度值，指针是朝向正上方，正上放的角度是270
+        val entAngle = 270 - sweepAngle * (resultPos.toFloat() + angleOffset()) + turnMoveNumber
         valueAnimator.setFloatValues(startAngle, entAngle)
         valueAnimator.start()
     }
 
     /**
-     * 转盘滚动终点随机停止的位置
+     * 转盘滚动终点随机停止的偏移量
      */
-    private fun getRandomPositionPro(): Float {
+    private fun angleOffset(): Float {
         val num = Math.random().toFloat()
         return if (num > 0 && num < 1) num else 0.5.toFloat()
     }

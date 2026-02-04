@@ -58,6 +58,10 @@ class SignatureCanvasMainActivity :
     private val signatureCanvasSaveDialog by lazy {
         SignatureCanvasSaveDialog()
             .setSureListener { fileName ->
+                if (fileName.isEmpty()) {
+                    toast(getString(R.string.signature_canvas_setting_save_edit_tips))
+                    return@setSureListener
+                }
                 PixelCopyUtils.createBitmapFromView(
                     window, mDatabind.signatureCanvasView
                 ) { bitmap, result ->

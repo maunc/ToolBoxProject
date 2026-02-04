@@ -1,10 +1,10 @@
 package com.maunc.toolbox.randomname.ui.activity
 
 import android.os.Bundle
+import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.launchVibrator
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.databinding.ActivityRandomNameWelcomeBinding
 import com.maunc.toolbox.randomname.constant.SELECT_GROUP_TO_MAIN_DIALOG
@@ -23,13 +23,14 @@ class RandomNameWelcomeActivity :
             mViewModel.buttonClickLaunchVibrator()
             finishCurrentActivity()
         }
+        mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
+        mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
+            mViewModel.buttonClickLaunchVibrator()
+            startTargetActivity(RandomSettingActivity::class.java)
+        }
         mDatabind.welcomeStartRandomTv.clickScale {
             mViewModel.buttonClickLaunchVibrator()
             SelectGroupToMainDialog().show(supportFragmentManager, SELECT_GROUP_TO_MAIN_DIALOG)
-        }
-        mDatabind.welcomeStartSettingTv.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
-            startTargetActivity(RandomSettingActivity::class.java)
         }
         mDatabind.welcomeStartManageGroupTv.clickScale {
             mViewModel.buttonClickLaunchVibrator()

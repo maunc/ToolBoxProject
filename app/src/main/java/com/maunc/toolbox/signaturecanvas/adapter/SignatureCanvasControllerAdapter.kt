@@ -11,16 +11,16 @@ import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_ERASER
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_NEXT
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_PEN
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_SAVE
-import com.maunc.toolbox.signaturecanvas.data.SignatureCanvasControllerData
+import com.maunc.toolbox.signaturecanvas.data.CanvasControllerData
 
 @SuppressLint("NotifyDataSetChanged")
 class SignatureCanvasControllerAdapter :
-    BaseQuickAdapter<SignatureCanvasControllerData, BaseDataBindingHolder<ItemCanvasControllerBinding>>(
+    BaseQuickAdapter<CanvasControllerData, BaseDataBindingHolder<ItemCanvasControllerBinding>>(
         R.layout.item_canvas_controller
     ) {
     override fun convert(
         holder: BaseDataBindingHolder<ItemCanvasControllerBinding>,
-        item: SignatureCanvasControllerData,
+        item: CanvasControllerData,
     ) {
         holder.dataBinding?.let { dataBind ->
             dataBind.itemSignatureCanvasControllerImage.setImageResource(item.image)
