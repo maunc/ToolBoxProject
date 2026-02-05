@@ -2,7 +2,7 @@ package com.maunc.toolbox.turntable.database.table
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.Index
 
 /**
  * 名字子表
@@ -16,7 +16,8 @@ import androidx.room.PrimaryKey
             childColumns = ["toGroupName"],
             onDelete = ForeignKey.CASCADE //父表删除一个段，对应子表的所有字段都删除
         )
-    ]
+    ],
+    indices = [Index(value = ["toGroupName"])]// 关联字段加索引
 )
 data class TurnTableNameData(
     var toGroupName: Int,

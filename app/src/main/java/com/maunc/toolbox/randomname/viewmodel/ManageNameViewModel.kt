@@ -35,8 +35,7 @@ class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
                     randomNameDao.queryGroupNameByName(toGroupName, dbSortType.value!!)
 
                 else -> randomNameDao.queryGroupNameByInsertTime(
-                    toGroupName,
-                    RANDOM_DB_SORT_BY_INSERT_TIME_ASC
+                    toGroupName, RANDOM_DB_SORT_BY_INSERT_TIME_ASC
                 )
             }
         }, {

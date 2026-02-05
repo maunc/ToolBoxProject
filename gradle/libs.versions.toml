@@ -71,6 +71,7 @@ ext-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonV
 ext-baseAdapter = { group = "com.github.CymChad", name = "BaseRecyclerViewAdapterHelper", version.ref = "baseAdapterVersion" }
 ext-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 ext-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+ext-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
 ext-mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkvVersion" }
 ext-auto-size = { group = "com.github.JessYanCoding", name = "AndroidAutoSize", version.ref = "autoSizeVersion" }
 ext-refresh-layout-base = { group = "io.github.scwang90", name = "refresh-layout-kernel", version.ref = "refrshLayoutVersion" }
