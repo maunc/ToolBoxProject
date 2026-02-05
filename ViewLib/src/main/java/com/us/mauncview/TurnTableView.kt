@@ -29,9 +29,6 @@ class TurnTableView @JvmOverloads constructor(
     companion object {
         const val TAG = "TurnTableView"
 
-        // 转盘动画减速因子
-        const val DECELERATE_FACTOR = 3.0f
-
         // 转盘动画持续时间
         const val ANIM_DURATION = 3500L
     }
@@ -126,7 +123,18 @@ class TurnTableView @JvmOverloads constructor(
     private val valueAnimator: ValueAnimator by lazy {
         ValueAnimator().apply {
             setDuration(ANIM_DURATION)
-            interpolator = DecelerateInterpolator(DECELERATE_FACTOR)
+            interpolator =
+                DecelerateInterpolator(1.5f)
+            /*TimeInterpolator { input ->
+//                    1 - (1 - input) * (1 - input) * (1 - input) * (1 - input)
+//                    if (input < 0.5f) 8 * input.pow(4) else 1 - 8 * (1 - input).pow(4) 贝塞尔曲线
+//                    if (input < 0.5f) 16 * input.pow(5) else 1 - 16 * (1 - input).pow(5)
+            }*/
+            /*PathInterpolator(
+                0.85f, 0f,   // 加大X值：起步瞬间冲刺
+                0.25f, 1f    // 缩小X值：收尾快速结束
+            )*/
+
             addUpdateListener {
                 val value = animatedValue as Float
                 // 控制旋转角度在0f到360f之间
@@ -171,7 +179,7 @@ class TurnTableView @JvmOverloads constructor(
     private fun calculateSize(
         measureMode: Int,
         measureSize: Int,
-        defaultSize: Int = 200,
+        defaultSize: Int = 930,/*默认半径是450f 自适应长度=半径*2+黑色边框(30f)  半径可配置这里也可以配置*/
     ): Int {
         return when (measureMode) {
             // 精确模式：match_parent/固定数值，直接用父View给的size
@@ -236,6 +244,8 @@ class TurnTableView @JvmOverloads constructor(
         // 5. 恢复画布状态（必须！否则后续绘制会继承旋转状态）
         restore()
     }
+
+    fun getContentList() = turnTableContentList
 
     fun setContentList(list: MutableList<String>) {
         turnTableContentList.clear()

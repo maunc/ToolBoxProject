@@ -84,5 +84,4 @@ class SignatureCanvasSaveDialog :
     fun interface CanvasSaveDialogOnDismissListener {
         fun onDismiss()
     }
-
 }
