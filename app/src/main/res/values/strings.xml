@@ -3,7 +3,7 @@
     <string name="functions_are_under_development">功能开发中~</string>
     <string name="permission_manual_request_text">请前往系统设置手动开启权限</string>
     <string name="android_version_not_support_text">Android版本不支持</string>
-    <string name="common_not_content"> </string>
+    <string name="common_not_content">没有检索到数据</string>
     <string name="color_r_text">R</string>
     <string name="color_g_text">G</string>
     <string name="color_b_text">B</string>

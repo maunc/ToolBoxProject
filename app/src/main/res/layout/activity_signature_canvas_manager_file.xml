@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="signatureCanvasManagerFileViewModel"
+            type="com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasManagerFileViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,5 +21,33 @@
             android:id="@+id/common_tool_bar"
             layout="@layout/layout_tool_bar_common" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/signature_canvas_save_file_not"
+            layout="@layout/layout_not_data_common"
+            android:visibility="@{signatureCanvasManagerFileViewModel.isSaveFileData ? View.GONE:View.VISIBLE}" />
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/signature_canvas_save_file_smart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/common_tool_bar"
+            android:background="@color/gray_f6"
+            android:visibility="@{signatureCanvasManagerFileViewModel.isSaveFileData ? View.VISIBLE:View.GONE}">
+
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:id="@+id/signature_canvas_save_file_smart_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/signature_canvas_save_file_rec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.scwang.smart.refresh.header.FalsifyFooter
+                android:id="@+id/signature_canvas_save_file_smart_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    </RelativeLayout>
 </layout>

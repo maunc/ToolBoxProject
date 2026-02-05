@@ -1,9 +1,10 @@
 package com.maunc.toolbox.signaturecanvas.data
 
-import android.net.Uri
-
 data class CanvasSaveFileData(
-    val uri: Uri,
+    val id: Long,
+    val uri: String,
+    val width:Int,
+    val height:Int,
     val fileName: String,
     val fileSize: Long,
     val addDateTime: Long,
