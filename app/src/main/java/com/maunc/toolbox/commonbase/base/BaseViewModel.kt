@@ -1,12 +1,12 @@
 package com.maunc.toolbox.commonbase.base
 
 import android.util.Log
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseViewModel<M : BaseModel?> : ViewModel(), BaseLifecycle {
+
     var model: M? = null
 
     init {
@@ -22,25 +22,27 @@ abstract class BaseViewModel<M : BaseModel?> : ViewModel(), BaseLifecycle {
         }
     }
 
-    override fun onAny(owner: LifecycleOwner?, event: Lifecycle.Event?) {
+    override fun onCreate(owner: LifecycleOwner) {
+        model?.onCreate(owner)
     }
 
-    override fun onCreate() {
+    override fun onStart(owner: LifecycleOwner) {
+        model?.onStart(owner)
     }
 
-    override fun onDestroy() {
+    override fun onStop(owner: LifecycleOwner) {
+        model?.onStop(owner)
     }
 
-    override fun onStart() {
+    override fun onResume(owner: LifecycleOwner) {
+        model?.onResume(owner)
     }
 
-    override fun onStop() {
+    override fun onPause(owner: LifecycleOwner) {
+        model?.onPause(owner)
     }
 
-    override fun onResume() {
+    override fun onDestroy(owner: LifecycleOwner) {
+        model?.onDestroy(owner)
     }
-
-    override fun onPause() {
-    }
-
 }

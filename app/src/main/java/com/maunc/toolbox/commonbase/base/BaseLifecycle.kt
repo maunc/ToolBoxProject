@@ -1,29 +1,19 @@
 package com.maunc.toolbox.commonbase.base
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
 
-interface BaseLifecycle : LifecycleObserver {
-    @OnLifecycleEvent(Lifecycle.Event.ON_ANY)
-    fun onAny(owner: LifecycleOwner?, event: Lifecycle.Event?)
+interface BaseLifecycle : DefaultLifecycleObserver {
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate()
+    override fun onCreate(owner: LifecycleOwner) {}
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy()
+    override fun onStart(owner: LifecycleOwner) {}
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart()
+    override fun onPause(owner: LifecycleOwner) {}
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop()
+    override fun onResume(owner: LifecycleOwner) {}
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume()
+    override fun onStop(owner: LifecycleOwner) {}
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onPause()
+    override fun onDestroy(owner: LifecycleOwner) {}
 }

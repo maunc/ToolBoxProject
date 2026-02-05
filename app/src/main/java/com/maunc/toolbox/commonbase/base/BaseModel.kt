@@ -1,32 +1,24 @@
 package com.maunc.toolbox.commonbase.base
 
-import android.app.Application
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 
 open class BaseModel : BaseLifecycle {
 
-    var application: Application? = null
-
-    override fun onAny(owner: LifecycleOwner?, event: Lifecycle.Event?) {
-
+    override fun onCreate(owner: LifecycleOwner) {
     }
 
-    override fun onCreate() {
+    override fun onStart(owner: LifecycleOwner) {
     }
 
-    override fun onDestroy() {
+    override fun onStop(owner: LifecycleOwner) {
     }
 
-    override fun onStart() {
+    override fun onResume(owner: LifecycleOwner) {
     }
 
-    override fun onStop() {
+    override fun onPause(owner: LifecycleOwner) {
     }
 
-    override fun onResume() {
-    }
-
-    override fun onPause() {
+    override fun onDestroy(owner: LifecycleOwner) {
     }
 }

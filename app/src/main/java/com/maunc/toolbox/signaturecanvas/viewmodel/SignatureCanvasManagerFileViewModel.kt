@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 class SignatureCanvasManagerFileViewModel : BaseViewModel<BaseModel>() {
 
     fun initSaveFile() {
-        Log.e("ww", "initSaveFile")
         viewModelScope.launch {
             val cursor = ToolBoxApplication.app.contentResolver.query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
