@@ -137,4 +137,9 @@
 
     <!--转盘-->
     <string name="turn_table_title">转盘</string>
+    <string name="turn_table_title_manager_data_tv">转盘数据管理</string>
+    <string name="turn_table_title_setting_tv">转盘设置</string>
+    <string name="turn_table_title_setting_select_data">选择转盘数据</string>
+    <string name="turn_table_title_setting_delete_all">删除所有转盘数据</string>
+    <string name="turn_table_title_setting_anim_interpolator">转盘动画分类</string>
 </resources>

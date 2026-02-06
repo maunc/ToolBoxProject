@@ -81,7 +81,7 @@ class ManageNameActivity :
     override fun initView(savedInstanceState: Bundle?) {
         mGroupName = intent?.extras?.getString(GROUP_NAME_EXTRA)
         mDatabind.manageGroupWithNameViewModel = mViewModel
-        mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_new_group)
+        mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_add)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             mViewModel.buttonClickLaunchVibrator()
             baseFinishCurrentActivity()

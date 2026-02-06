@@ -1,5 +1,6 @@
 package com.maunc.toolbox.turntable.database.table
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -20,6 +21,8 @@ import androidx.room.Index
     indices = [Index(value = ["toGroupName"])]// 关联字段加索引
 )
 data class TurnTableNameData(
+    @ColumnInfo("toGroupName")
     var toGroupName: Int,
+    @ColumnInfo("name")
     var name: String,
 )

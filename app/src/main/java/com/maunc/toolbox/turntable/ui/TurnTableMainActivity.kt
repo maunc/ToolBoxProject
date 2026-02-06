@@ -7,6 +7,7 @@ import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.databinding.ActivityTurnTableMainBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableLoggerAdapter
 import com.maunc.toolbox.turntable.viewmodel.TurnTableMainViewModel
@@ -33,7 +34,7 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
             obtainString(R.string.turn_table_title)
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-
+            startTargetActivity(TurnTableSettingActivity::class.java)
         }
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()

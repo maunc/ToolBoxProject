@@ -83,7 +83,7 @@ class ManageGroupActivity : BaseActivity<ManageGroupViewModel, ActivityManageGro
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.manageGroupViewModel = mViewModel
-        mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_new_group)
+        mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_add)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             mViewModel.buttonClickLaunchVibrator()
             finishCurrentActivity()

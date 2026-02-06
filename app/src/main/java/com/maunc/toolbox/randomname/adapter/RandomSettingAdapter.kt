@@ -80,7 +80,8 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         expandIv.setImageResource(
             if (item.isExpand) R.drawable.icon_group_expand_yes else R.drawable.icon_group_expand_no
         )
-        haveView.findViewById<RelativeLayout>(R.id.item_random_setting_tab).setOnClickListener {
+        val baseSettingView = haveView.findViewById<RelativeLayout>(R.id.item_random_setting_tab)
+        baseSettingView.setOnClickListener {
             val settingData = data[itemPosition]
             settingData.isExpand = !settingData.isExpand
             notifyItemChanged(itemPosition)
@@ -240,9 +241,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             }
 
             RandomSettingData.RANDOM_DELETE_ALL_DATA_TYPE -> {
-                val deleteAllDataButton =
-                    haveView.findViewById<RelativeLayout>(R.id.item_random_setting_tab)
-                deleteAllDataButton.setOnClickListener {
+                baseSettingView.setOnClickListener {
                     settingAdapterDeleteAllListener?.deleteAllDataClick()
                 }
             }
