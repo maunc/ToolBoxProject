@@ -116,9 +116,9 @@ class TurnTableView @JvmOverloads constructor(
     )
 
     private var turnTableContentList = mutableListOf(
-        "昆仑镜", "女娲石", "神农鼎",
-        "崆峒印", "伏羲琴", "万灵血珠",
-        "女娲石", "神农鼎", "崆峒印", "伏羲琴"
+        "测试数据1", "测试数据2", "测试数据3",
+        "测试数据4", "测试数据5", "测试数据6",
+        "测试数据7", "测试数据8", "测试数据9", "测试数据1"
     )
 
     // 转动动画

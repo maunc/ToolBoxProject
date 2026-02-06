@@ -21,6 +21,10 @@ class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
     fun initRecyclerData(): MutableList<RandomSettingData> {
         settingItemData.value?.mutableListInsert(
             RandomSettingData(
+                itemType = RandomSettingData.RANDOM_MANAGER_DATA_TYPE,
+                settingType = obtainString(R.string.random_setting_manager_data_text)
+            ),
+            RandomSettingData(
                 itemType = RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
                 settingType = obtainString(R.string.random_setting_vibrator_text)
             ),

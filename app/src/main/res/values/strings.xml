@@ -16,13 +16,11 @@
     <string name="tool_box_item_signature_canvas_text">画板</string>
     <string name="tool_box_item_turn_table_text">转盘</string>
 
-    <!--randomWelcomePage-->
-    <string name="welcome_title_text">欢迎来到点名程序</string>
+
     <string name="welcome_start_random_text">进入点名系统</string>
-    <string name="welcome_start_query_all_text">查看所有分组</string>
-    <string name="welcome_start_add_table_text">增加新的分组</string>
 
     <!--randomMainPage-->
+    <string name="random_title_text">点名程序</string>
     <string name="random_none_text">未开始点名</string>
     <string name="random_start_error_tips">当前已经点完了,可以重置已点名单,重复操作</string>
     <string name="random_stop_text">暂停点名</string>
@@ -69,6 +67,7 @@
     <!--randomSettingPage-->
     <string name="random_setting_text">设置</string>
     <string name="random_setting_sleep_text">速度设置</string>
+    <string name="random_setting_manager_data_text">编辑所有分组</string>
     <string name="random_setting_vibrator_text">按钮震动</string>
     <string name="random_setting_eggs_text">彩蛋功能</string>
     <string name="random_setting_not_select_text">未点到与点到名单展示</string>

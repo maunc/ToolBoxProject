@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
+import androidx.room.PrimaryKey
 
 /**
  * 名字子表
@@ -22,7 +23,8 @@ import androidx.room.Index
 )
 data class TurnTableNameData(
     @ColumnInfo("toGroupName")
-    var toGroupName: Int,
+    var toGroupName: String,
+    @PrimaryKey
     @ColumnInfo("name")
     var name: String,
 )

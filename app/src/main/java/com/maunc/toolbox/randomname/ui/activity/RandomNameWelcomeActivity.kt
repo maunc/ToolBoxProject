@@ -32,10 +32,6 @@ class RandomNameWelcomeActivity :
             mViewModel.buttonClickLaunchVibrator()
             SelectGroupToMainDialog().show(supportFragmentManager, SELECT_GROUP_TO_MAIN_DIALOG)
         }
-        mDatabind.welcomeStartManageGroupTv.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
-            startTargetActivity(ManageGroupActivity::class.java)
-        }
     }
 
     override fun createObserver() {

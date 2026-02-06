@@ -24,6 +24,8 @@ class TurnTableDataManagerActivity :
     }
 
     override fun createObserver() {
+        mViewModel.turnTableDataList.observe(this) {
 
+        }
     }
 }

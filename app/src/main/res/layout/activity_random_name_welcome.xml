@@ -44,18 +44,5 @@
             android:textColor="@color/black"
             android:textSize="@dimen/welcome_control_button_tv_size" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/welcome_start_manage_group_tv"
-            android:layout_width="@dimen/welcome_control_button_width"
-            android:layout_height="@dimen/welcome_control_button_height"
-            android:layout_below="@id/welcome_start_random_tv"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_35"
-            android:background="@drawable/bg_random_control_button"
-            android:gravity="center"
-            android:text="@string/welcome_start_query_all_text"
-            android:textColor="@color/black"
-            android:textSize="@dimen/welcome_control_button_tv_size" />
-
     </RelativeLayout>
 </layout>

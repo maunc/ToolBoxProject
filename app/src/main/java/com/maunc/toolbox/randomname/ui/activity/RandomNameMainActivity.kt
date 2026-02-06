@@ -11,6 +11,7 @@ import com.maunc.toolbox.commonbase.ext.addDrawLayoutListener
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
+import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.utils.ViewOffsetHelper
 import com.maunc.toolbox.databinding.ActivityRandomNameMainBinding
 import com.maunc.toolbox.randomname.adapter.RandomMainNotSelectAdapter
@@ -53,6 +54,8 @@ class RandomNameMainActivity :
         }
         mViewModel.initHandler()
         mViewModel.initData()
+        mDatabind.commonToolBar.commonToolBarTitleTv.text =
+            obtainString(R.string.random_title_text)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             mViewModel.buttonClickLaunchVibrator()
             finishCurrentActivity()

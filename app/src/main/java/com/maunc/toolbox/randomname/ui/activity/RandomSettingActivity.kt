@@ -8,6 +8,7 @@ import com.maunc.toolbox.commonbase.constant.ONE_DELAY_S
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
 import com.maunc.toolbox.databinding.ActivityRandomSettingBinding
@@ -29,20 +30,26 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
 
     private val randomSettingAdapter: RandomSettingAdapter by lazy {
         RandomSettingAdapter().apply {
-            setSettingAdapterDeleteAllListener {
-                commonDialog.setSureListener {
-                    commonDialog.dismissAllowingStateLoss()
-                    commonLoadingDialog.show(
-                        supportFragmentManager,
-                        COMMON_DIALOG
-                    )
-                    mViewModel.deleteAllData {
-                        mViewModel.handler?.postDelayed({
-                            commonLoadingDialog.dismissAllowingStateLoss()
-                        }, ONE_DELAY_S)
-                    }
-                }.show(supportFragmentManager, COMMON_DIALOG)
-            }
+            setOnRandomSettingEventListener(object :RandomSettingAdapter.OnRandomSettingEventListener{
+                override fun startManagerPage() {
+                    startTargetActivity(ManageGroupActivity::class.java)
+                }
+
+                override fun deleteAllDataClick() {
+                    commonDialog.setSureListener {
+                        commonDialog.dismissAllowingStateLoss()
+                        commonLoadingDialog.show(
+                            supportFragmentManager,
+                            COMMON_DIALOG
+                        )
+                        mViewModel.deleteAllData {
+                            mViewModel.handler?.postDelayed({
+                                commonLoadingDialog.dismissAllowingStateLoss()
+                            }, ONE_DELAY_S)
+                        }
+                    }.show(supportFragmentManager, COMMON_DIALOG)
+                }
+            })
         }
     }
 

@@ -10,41 +10,55 @@ import com.maunc.toolbox.randomname.database.dao.RandomNameGroupDao
 import com.maunc.toolbox.randomname.database.dao.RandomNameTransactionDao
 import com.maunc.toolbox.randomname.database.table.RandomNameData
 import com.maunc.toolbox.randomname.database.table.RandomNameGroup
+import com.maunc.toolbox.turntable.database.dao.TurnTableDataDao
+import com.maunc.toolbox.turntable.database.table.TurnTableGroupData
+import com.maunc.toolbox.turntable.database.table.TurnTableNameData
 
-val randomNameDataBase: RandomNameDataBase by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-    RandomNameDataBase.DATABASE_INSTANCE
+val toolBoxProjectDataBase: ToolBoxProjectDataBase by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+    ToolBoxProjectDataBase.DATABASE_INSTANCE
 }
 
 val randomNameDao: RandomNameDao by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-    randomNameDataBase.obtainRandomNameDao()
+    toolBoxProjectDataBase.obtainRandomNameDao()
 }
 
 val randomGroupDao: RandomNameGroupDao by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-    randomNameDataBase.obtainRandomNameGroupDao()
+    toolBoxProjectDataBase.obtainRandomNameGroupDao()
 }
 
 val randomNameTransactionDao: RandomNameTransactionDao by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
-    randomNameDataBase.obtainRandomNameTransactionDao()
+    toolBoxProjectDataBase.obtainRandomNameTransactionDao()
+}
+
+val turnTableDataDao: TurnTableDataDao by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+    toolBoxProjectDataBase.obtainTurnTableDataDao()
 }
 
 @Database(
-    entities = [RandomNameData::class, RandomNameGroup::class],
-    version = 1,
-    exportSchema = false
+    entities = [
+        RandomNameData::class,
+        RandomNameGroup::class,
+        TurnTableNameData::class,
+        TurnTableGroupData::class
+    ], version = 1, exportSchema = false
 )
-abstract class RandomNameDataBase : RoomDatabase() {
+abstract class ToolBoxProjectDataBase : RoomDatabase() {
 
     companion object {
-        val DATABASE_INSTANCE: RandomNameDataBase by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+        val DATABASE_INSTANCE: ToolBoxProjectDataBase by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             Room.databaseBuilder(
-                ToolBoxApplication.app, RandomNameDataBase::class.java, DATA_BASE_NAME
+                ToolBoxApplication.app, ToolBoxProjectDataBase::class.java, DATA_BASE_NAME
             ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
         }
     }
 
+    /** 随机姓名表 */
     abstract fun obtainRandomNameDao(): RandomNameDao
 
     abstract fun obtainRandomNameGroupDao(): RandomNameGroupDao
 
     abstract fun obtainRandomNameTransactionDao(): RandomNameTransactionDao
+
+    /** 转盘数据表 */
+    abstract fun obtainTurnTableDataDao(): TurnTableDataDao
 }

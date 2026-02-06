@@ -57,7 +57,11 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         )
         addItemType(
             RandomSettingData.RANDOM_DELETE_ALL_DATA_TYPE,
-            R.layout.item_random_setting_delete_all_data
+            R.layout.item_random_setting_data
+        )
+        addItemType(
+            RandomSettingData.RANDOM_MANAGER_DATA_TYPE,
+            R.layout.item_random_setting_data
         )
         addItemType(
             RandomSettingData.RANDOM_BUTTON_EGGS_TYPE,
@@ -242,7 +246,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
 
             RandomSettingData.RANDOM_DELETE_ALL_DATA_TYPE -> {
                 baseSettingView.setOnClickListener {
-                    settingAdapterDeleteAllListener?.deleteAllDataClick()
+                    onRandomSettingEventListener?.deleteAllDataClick()
                 }
             }
 
@@ -256,16 +260,23 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
                 }
             }
+
+            RandomSettingData.RANDOM_MANAGER_DATA_TYPE -> {
+                baseSettingView.setOnClickListener {
+                    onRandomSettingEventListener?.startManagerPage()
+                }
+            }
         }
     }
 
-    private var settingAdapterDeleteAllListener: SettingAdapterDeleteAllListener? = null
+    private var onRandomSettingEventListener: OnRandomSettingEventListener? = null
 
-    fun setSettingAdapterDeleteAllListener(deleteAllListener: SettingAdapterDeleteAllListener) {
-        this.settingAdapterDeleteAllListener = deleteAllListener
+    fun setOnRandomSettingEventListener(onRandomSettingEventListener: OnRandomSettingEventListener) {
+        this.onRandomSettingEventListener = onRandomSettingEventListener
     }
 
-    fun interface SettingAdapterDeleteAllListener {
+    interface OnRandomSettingEventListener {
+        fun startManagerPage()
         fun deleteAllDataClick()
     }
 }
