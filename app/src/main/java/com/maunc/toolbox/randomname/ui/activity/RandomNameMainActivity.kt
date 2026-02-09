@@ -22,10 +22,12 @@ import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
 import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_RANDOM_SETTING_PAGE
+import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MAX
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
 import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RESULT_TEXT_BOLD
+import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RESULT_TEXT_SIZE
 import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RUN_DELAY_TIME
 import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RUN_RANDOM_REPEAT
 import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RUN_RANDOM_TYPE
@@ -48,8 +50,9 @@ class RandomNameMainActivity :
                 type = intent.getIntExtra(RUN_RANDOM_TYPE, RANDOM_AUTO),
                 speed = intent.getLongExtra(RUN_DELAY_TIME, RANDOM_SPEED_MAX),
                 showSelectRec = intent.getBooleanExtra(SHOW_SELECT_RECYCLER, false),
-                resultTextBold = intent.getBooleanExtra(RESULT_TEXT_BOLD, false),
-                isRepeat = intent.getBooleanExtra(RUN_RANDOM_REPEAT, false)
+                textBold = intent.getBooleanExtra(RESULT_TEXT_BOLD, false),
+                isRepeat = intent.getBooleanExtra(RUN_RANDOM_REPEAT, false),
+                textSize = intent.getIntExtra(RESULT_TEXT_SIZE, RESULT_TEXT_SIZE_MAX)
             )
             mViewModel.initRandomList()
         }
@@ -89,6 +92,7 @@ class RandomNameMainActivity :
                         put(SHOW_SELECT_RECYCLER, mViewModel.showSelectRecycler.value!!)
                         put(RESULT_TEXT_BOLD, mViewModel.resultTextIsBold.value!!)
                         put(RUN_RANDOM_REPEAT, mViewModel.runRandomRepeat.value!!)
+                        put(RESULT_TEXT_SIZE, mViewModel.resultTextSize.value!!)
                     }
                 ))
             mViewModel.endRandom()

@@ -49,11 +49,12 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/dp_150"
                             android:textColor="@color/black"
-                            android:textSize="56sp"
                             app:handleRandomResultTextBold="@{randomNameMainViewModel.resultTextIsBold}"
+                            app:handleRandomResultTextSize="@{randomNameMainViewModel.resultTextSize}"
                             app:randomNameText="@{randomNameMainViewModel.targetRandomName}"
                             app:runStatus="@{randomNameMainViewModel.runRandomStatus}"
-                            tools:text="@string/random_none_text" />
+                            tools:text="@string/random_none_text"
+                            tools:textSize="56sp" />
                         <!--控制按钮-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/random_control_tv"
@@ -143,11 +144,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="center_horizontal"
+                    android:background="#F2F2F2"
                     android:gravity="center"
                     android:paddingVertical="@dimen/dp_5"
                     android:textColor="@color/red"
                     android:textSize="18sp"
-                    android:background="#F2F2F2"
                     android:textStyle="bold"
                     app:showRandomTipsText="@{randomNameMainViewModel.randomTips}"
                     tools:text="@string/random_start_error_tips" />

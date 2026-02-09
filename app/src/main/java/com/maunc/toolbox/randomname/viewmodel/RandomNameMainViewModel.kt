@@ -18,6 +18,7 @@ import com.maunc.toolbox.commonbase.utils.randomRepeat
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
 import com.maunc.toolbox.commonbase.utils.randomTextBold
+import com.maunc.toolbox.commonbase.utils.randomTextSize
 import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
@@ -26,6 +27,7 @@ import com.maunc.toolbox.randomname.constant.RANDOM_NOW
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MEDIUM
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MIN
+import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MAX
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
@@ -42,15 +44,16 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     private var mHandler: RandomNameHandler? = null
     private var mRunUIHandler: Handler? = null
 
-    var runRandomRepeat = MutableLiveData(false)
+    var targetRandomName = MutableLiveData(obtainString(R.string.random_none_text))//随机中选中了哪一个
+    var resultTextSize = MutableLiveData(RESULT_TEXT_SIZE_MAX) //结果文本大小
     var resultTextIsBold = MutableLiveData(false) //结果文本是否加粗
     var randomTips = MutableLiveData(GLOBAL_NONE_STRING) //tips
+    var runRandomRepeat = MutableLiveData(false) //是否允许重复点名
     var runRandomStatus = MutableLiveData(RUN_STATUS_NONE)//当前随机时状态
     var runRandomType = MutableLiveData(RANDOM_AUTO)//点名类型
     var autoTypeRunNum = MutableLiveData(0)//在自动模式下经过多少时间结束一次点名(中转值)
     var autoTypeRunNumThreshold = MutableLiveData(20)//在自动模式下经过多少时间结束一次点名(总值)
     var toGroupName = MutableLiveData(GLOBAL_NONE_STRING)//当前数据属于哪个分组
-    var targetRandomName = MutableLiveData(obtainString(R.string.random_none_text))//随机中选中了哪一个
     var transitRandomName = MutableLiveData(GLOBAL_NONE_STRING) //避免随机相同的数据造成UI上的卡顿错觉
     var runDelayTime = MutableLiveData(RANDOM_SPEED_MAX)//相差多少时间随机一次
     var showSelectRecycler = MutableLiveData(false)//是否启用查看已点名单
@@ -186,14 +189,16 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         type: Int = obtainMMKV.getInt(randomType),
         speed: Long = obtainMMKV.getLong(randomSpeed),
         showSelectRec: Boolean = obtainMMKV.getBoolean(randomSelectRecyclerVisible),
-        resultTextBold: Boolean = obtainMMKV.getBoolean(randomTextBold),
+        textBold: Boolean = obtainMMKV.getBoolean(randomTextBold),
         isRepeat: Boolean = obtainMMKV.getBoolean(randomRepeat),
+        textSize: Int = obtainMMKV.getInt(randomTextSize),
     ) {
         runRandomType.value = type
         runDelayTime.value = speed
         showSelectRecycler.value = showSelectRec
-        resultTextIsBold.value = resultTextBold
+        resultTextIsBold.value = textBold
         runRandomRepeat.value = isRepeat
+        resultTextSize.value = textSize
     }
 
     private fun initHandler() {

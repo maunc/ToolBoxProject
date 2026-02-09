@@ -17,6 +17,7 @@ import com.maunc.toolbox.randomname.adapter.RandomSettingAdapter
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
 import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_RANDOM_SETTING_PAGE
+import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MAX
 import com.maunc.toolbox.randomname.constant.SELECT_GROUP_TO_MAIN_DIALOG
 import com.maunc.toolbox.randomname.ui.dialog.RandomSelectGroupDialog
 import com.maunc.toolbox.randomname.viewmodel.RandomSettingViewModel
@@ -30,6 +31,7 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
         const val RUN_DELAY_TIME = "runDelayTime"
         const val SHOW_SELECT_RECYCLER = "showSelectRecycler"
         const val RESULT_TEXT_BOLD = "resultTextBold"
+        const val RESULT_TEXT_SIZE = "resultTextSize"
         const val RUN_RANDOM_REPEAT = "runRandomRepeat"
     }
 
@@ -94,7 +96,8 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
             intent.getLongExtra(RUN_DELAY_TIME, RANDOM_SPEED_MAX),
             intent.getBooleanExtra(SHOW_SELECT_RECYCLER, false),
             intent.getBooleanExtra(RESULT_TEXT_BOLD, false),
-            intent.getBooleanExtra(RUN_RANDOM_REPEAT, false)
+            intent.getBooleanExtra(RUN_RANDOM_REPEAT, false),
+            intent.getIntExtra(RESULT_TEXT_SIZE, RESULT_TEXT_SIZE_MAX)
         )
     }
 
@@ -112,6 +115,7 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
                 put(SHOW_SELECT_RECYCLER, randomSettingAdapter.obtainShowSelectRecycler())
                 put(RESULT_TEXT_BOLD, randomSettingAdapter.obtainResultTextIsBold())
                 put(RUN_RANDOM_REPEAT, randomSettingAdapter.obtainRandomRepeat())
+                put(RESULT_TEXT_SIZE, randomSettingAdapter.obtainResultTextSize())
             })
         )
     }

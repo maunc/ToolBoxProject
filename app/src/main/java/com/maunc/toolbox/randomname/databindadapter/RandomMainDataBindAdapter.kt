@@ -2,6 +2,7 @@ package com.maunc.toolbox.randomname.databindadapter
 
 import android.annotation.SuppressLint
 import android.graphics.Typeface
+import android.util.TypedValue
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.maunc.toolbox.R
@@ -14,6 +15,9 @@ import com.maunc.toolbox.randomname.constant.RANDOM_NOW
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MEDIUM
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MIN
+import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MAX
+import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MEDIUM
+import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MIN
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
@@ -21,10 +25,20 @@ import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
 @SuppressLint("SetTextI18n")
 object RandomMainDataBindAdapter {
 
+    @BindingAdapter(value = ["handleRandomResultTextSize"], requireAll = false)
+    @JvmStatic
+    fun handleRandomResultTextSize(textView: TextView, sizeType: Int) {
+        when (sizeType) {
+            RESULT_TEXT_SIZE_MIN -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 32f)
+            RESULT_TEXT_SIZE_MEDIUM -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 56f)
+            RESULT_TEXT_SIZE_MAX -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 72f)
+        }
+    }
+
     @BindingAdapter(value = ["handleRandomResultTextBold"], requireAll = false)
     @JvmStatic
     fun handleRandomResultTextBold(textView: TextView, isBold: Boolean) {
-        if (isBold) {
+        if (isBold && textView.typeface != Typeface.DEFAULT_BOLD) {
             textView.typeface = Typeface.DEFAULT_BOLD
         } else {
             textView.typeface = Typeface.DEFAULT

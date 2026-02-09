@@ -32,6 +32,13 @@ const val RANDOM_SPEED_MEDIUM = 120L
 const val RANDOM_SPEED_MAX = 20L
 
 /**
+ * 三个文本大小
+ */
+const val RESULT_TEXT_SIZE_MIN = 0
+const val RESULT_TEXT_SIZE_MEDIUM = 1
+const val RESULT_TEXT_SIZE_MAX = 2
+
+/**
  * 数据库排序方式
  */
 const val RANDOM_DB_SORT_BY_INSERT_TIME_ASC = 0

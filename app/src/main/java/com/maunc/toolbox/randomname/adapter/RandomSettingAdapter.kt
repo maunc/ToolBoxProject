@@ -20,6 +20,7 @@ import com.maunc.toolbox.commonbase.utils.randomRepeat
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
 import com.maunc.toolbox.commonbase.utils.randomTextBold
+import com.maunc.toolbox.commonbase.utils.randomTextSize
 import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
@@ -31,6 +32,9 @@ import com.maunc.toolbox.randomname.constant.RANDOM_NOW
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MEDIUM
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MIN
+import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MAX
+import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MEDIUM
+import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MIN
 import com.maunc.toolbox.randomname.data.RandomSettingData
 import com.us.mauncview.SwitchButtonView
 
@@ -44,6 +48,10 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         addItemType(
             RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
             R.layout.item_random_setting_switch_data
+        )
+        addItemType(
+            RandomSettingData.RANDOM_RESULT_TEXT_SIZE_TYPE,
+            R.layout.item_random_setting_text_size
         )
         addItemType(
             RandomSettingData.RANDOM_RESULT_TEXT_BOLD_TYPE,
@@ -78,14 +86,14 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             R.layout.item_random_setting_switch_data
         )
         addItemType(
-            RandomSettingData.RANDOM_ALLOW_REPEAT,
+            RandomSettingData.RANDOM_ALLOW_REPEAT_TYPE,
             R.layout.item_random_setting_switch_data
         )
     }
 
-    private var runRandomType = 0
+    private var runRandomType = RANDOM_AUTO
 
-    private var runDelayTime = 0L
+    private var runDelayTime = RANDOM_SPEED_MAX
 
     private var showSelectRecycler = false
 
@@ -93,10 +101,13 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
 
     private var runRandomRepeat = false
 
+    private var resultTextSize = RESULT_TEXT_SIZE_MEDIUM
+
     fun obtainRandomType() = runRandomType
     fun obtainDelayTime() = runDelayTime
     fun obtainShowSelectRecycler() = showSelectRecycler
     fun obtainResultTextIsBold() = resultTextIsBold
+    fun obtainResultTextSize() = resultTextSize
     fun obtainRandomRepeat() = runRandomRepeat
 
     override fun convert(
@@ -185,6 +196,41 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     textBoldSwitch.isChecked = isChecked
                     obtainMMKV.putBoolean(randomTextBold, isChecked)
                     resultTextIsBold = isChecked
+                }
+            }
+
+            RandomSettingData.RANDOM_RESULT_TEXT_SIZE_TYPE -> {
+                val radioGroup =
+                    haveView.findViewById<RadioGroup>(R.id.item_random_setting_result_text_size_radio_group)
+                val radioButtonMin =
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_result_text_size_min)
+                val radioButtonMedium =
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_result_text_size_medium)
+                val radioButtonMax =
+                    haveView.findViewById<RadioButton>(R.id.item_random_setting_result_text_size_max)
+                when (resultTextSize) {
+                    RESULT_TEXT_SIZE_MIN -> radioGroup.check(radioButtonMin.id)
+                    RESULT_TEXT_SIZE_MEDIUM -> radioGroup.check(radioButtonMedium.id)
+                    RESULT_TEXT_SIZE_MAX -> radioGroup.check(radioButtonMax.id)
+                }
+                radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                    group.check(checkedId)
+                    when (checkedId) {
+                        radioButtonMin.id -> {
+                            obtainMMKV.putInt(randomTextSize, RESULT_TEXT_SIZE_MIN)
+                            resultTextSize = RESULT_TEXT_SIZE_MIN
+                        }
+
+                        radioButtonMedium.id -> {
+                            obtainMMKV.putInt(randomTextSize, RESULT_TEXT_SIZE_MEDIUM)
+                            resultTextSize = RESULT_TEXT_SIZE_MEDIUM
+                        }
+
+                        radioButtonMax.id -> {
+                            obtainMMKV.putInt(randomTextSize, RESULT_TEXT_SIZE_MAX)
+                            resultTextSize = RESULT_TEXT_SIZE_MAX
+                        }
+                    }
                 }
             }
 
@@ -313,7 +359,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 }
             }
 
-            RandomSettingData.RANDOM_ALLOW_REPEAT -> {
+            RandomSettingData.RANDOM_ALLOW_REPEAT_TYPE -> {
                 val repeatRandomSwitch =
                     haveView.findViewById<SwitchButtonView>(R.id.item_random_setting_switch)
                 repeatRandomSwitch.isChecked = runRandomRepeat
@@ -346,12 +392,14 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         showSelectRecycler: Boolean,
         resultTextIsBold: Boolean,
         runRandomRepeat: Boolean,
+        resultTextSize: Int,
     ) {
         this.runRandomType = runRandomType
         this.runDelayTime = runDelayTime
         this.showSelectRecycler = showSelectRecycler
         this.resultTextIsBold = resultTextIsBold
         this.runRandomRepeat = runRandomRepeat
+        this.resultTextSize = resultTextSize
         notifyDataSetChanged()
     }
 

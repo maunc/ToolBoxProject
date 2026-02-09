@@ -73,7 +73,11 @@
     <string name="random_setting_eggs_text">彩蛋功能</string>
     <string name="random_setting_repeat_text">是否允许重复点名</string>
     <string name="random_setting_not_select_text">未点到与点到名单展示</string>
-    <string name="random_setting_result_text_bold_text">文本加粗</string>
+    <string name="random_setting_result_text_size_text">点名结果文本字号</string>
+    <string name="random_setting_result_text_size_one_text">最小字号</string>
+    <string name="random_setting_result_text_size_two_text">中等字号</string>
+    <string name="random_setting_result_text_size_three_text">最大字号</string>
+    <string name="random_setting_result_text_bold_text">点名结果文本加粗</string>
     <string name="random_setting_speed_one_text">最低速度</string>
     <string name="random_setting_speed_two_text">中等速度</string>
     <string name="random_setting_speed_three_text">最高速度</string>
