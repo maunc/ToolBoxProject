@@ -17,5 +17,6 @@ data class RandomSettingData(
         const val RANDOM_MANAGE_SORT_TYPE = 5 // asc升序,desc降序
         const val RANDOM_DELETE_ALL_DATA_TYPE = 6// 删除所有数据
         const val RANDOM_MANAGER_DATA_TYPE = 7 // 管理所有数据
+        const val RANDOM_SELECT_DATA_TYPE = 8 // 选择分组
     }
 }

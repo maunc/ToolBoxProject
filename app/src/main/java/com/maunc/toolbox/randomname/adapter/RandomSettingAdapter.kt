@@ -1,5 +1,6 @@
 package com.maunc.toolbox.randomname.adapter
 
+import android.annotation.SuppressLint
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -56,6 +57,10 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             R.layout.item_random_setting_db_sort
         )
         addItemType(
+            RandomSettingData.RANDOM_SELECT_DATA_TYPE,
+            R.layout.item_random_setting_speed
+        )
+        addItemType(
             RandomSettingData.RANDOM_DELETE_ALL_DATA_TYPE,
             R.layout.item_random_setting_data
         )
@@ -68,6 +73,16 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             R.layout.item_random_setting_eggs
         )
     }
+
+    private var runRandomType = 0
+
+    private var runDelayTime = 0L
+
+    private var showSelectRecycler = false
+
+    fun obtainRandomType() = runRandomType
+    fun obtainDelayTime() = runDelayTime
+    fun obtainShowSelectRecycler() = showSelectRecycler
 
     override fun convert(
         holder: BaseViewHolder,
@@ -111,7 +126,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     haveView.findViewById<RadioButton>(R.id.item_random_setting_speed_medium)
                 val radioButtonMax =
                     haveView.findViewById<RadioButton>(R.id.item_random_setting_speed_max)
-                when (obtainMMKV.getLong(randomSpeed)) {
+                when (runDelayTime) {
                     RANDOM_SPEED_MIN -> radioGroup.check(radioButtonMin.id)
                     RANDOM_SPEED_MEDIUM -> radioGroup.check(radioButtonMedium.id)
                     RANDOM_SPEED_MAX -> radioGroup.check(radioButtonMax.id)
@@ -119,9 +134,20 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 radioGroup.setOnCheckedChangeListener { group, checkedId ->
                     group.check(checkedId)
                     when (checkedId) {
-                        radioButtonMin.id -> obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MIN)
-                        radioButtonMedium.id -> obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MEDIUM)
-                        radioButtonMax.id -> obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MAX)
+                        radioButtonMin.id -> {
+                            obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MIN)
+                            runDelayTime = RANDOM_SPEED_MIN
+                        }
+
+                        radioButtonMedium.id -> {
+                            obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MEDIUM)
+                            runDelayTime = RANDOM_SPEED_MEDIUM
+                        }
+
+                        radioButtonMax.id -> {
+                            obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MAX)
+                            runDelayTime = RANDOM_SPEED_MAX
+                        }
                     }
                 }
             }
@@ -129,11 +155,11 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             RandomSettingData.RANDOM_SELECT_LIST_TYPE -> {
                 val selectRecyclerVisibleSwitch =
                     haveView.findViewById<SwitchButtonView>(R.id.item_random_select_recycler_visible_switch)
-                selectRecyclerVisibleSwitch.isChecked =
-                    obtainMMKV.getBoolean(randomSelectRecyclerVisible)
+                selectRecyclerVisibleSwitch.isChecked = showSelectRecycler
                 selectRecyclerVisibleSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                     selectRecyclerVisibleSwitch.isChecked = isChecked
                     obtainMMKV.putBoolean(randomSelectRecyclerVisible, isChecked)
+                    showSelectRecycler = isChecked
                     if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
                 }
             }
@@ -150,7 +176,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 val radioButtonManual =
                     haveView.findViewById<RadioButton>(R.id.item_random_setting_random_type_manual)
                 randomTypeTipsTv.marquee()
-                when (obtainMMKV.getInt(randomType)) {
+                when (runRandomType) {
                     RANDOM_NOW -> {
                         radioGroup.check(radioButtonNow.id)
                         randomTypeTipsTv.text = obtainString(
@@ -181,6 +207,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                             randomTypeTipsTv.text = obtainString(
                                 R.string.random_setting_select_random_type_now_tips_text
                             )
+                            runRandomType = RANDOM_NOW
                         }
 
                         radioButtonAuto.id -> {
@@ -188,6 +215,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                             randomTypeTipsTv.text = obtainString(
                                 R.string.random_setting_select_random_type_auto_tips_text
                             )
+                            runRandomType = RANDOM_AUTO
                         }
 
                         radioButtonManual.id -> {
@@ -195,6 +223,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                             randomTypeTipsTv.text = obtainString(
                                 R.string.random_setting_select_random_type_manual_tips_text
                             )
+                            runRandomType = RANDOM_MANUAL
                         }
                     }
                     randomTypeTipsTv.marquee()
@@ -266,7 +295,22 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     onRandomSettingEventListener?.startManagerPage()
                 }
             }
+
+            RandomSettingData.RANDOM_SELECT_DATA_TYPE -> {
+                baseSettingView.setOnClickListener {
+                    onRandomSettingEventListener?.showSelectDataDialog()
+                }
+            }
         }
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setConfig(runRandomType: Int, runDelayTime: Long, showSelectRecycler: Boolean) {
+        this.runRandomType = runRandomType
+        this.runDelayTime = runDelayTime
+        this.showSelectRecycler = showSelectRecycler
+        notifyDataSetChanged()
     }
 
     private var onRandomSettingEventListener: OnRandomSettingEventListener? = null
@@ -276,6 +320,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
     }
 
     interface OnRandomSettingEventListener {
+        fun showSelectDataDialog()
         fun startManagerPage()
         fun deleteAllDataClick()
     }

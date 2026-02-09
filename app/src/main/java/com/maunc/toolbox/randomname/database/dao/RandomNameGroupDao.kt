@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.maunc.toolbox.randomname.database.table.RandomNameGroup
 
 @Dao
@@ -43,4 +44,17 @@ interface RandomNameGroupDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRandomNameGroup(randomNameGroup: RandomNameGroup)
+
+    @Query("UPDATE random_name_group SET isSelect = :isSelect")
+    fun updateCancelAllSelectStatus(isSelect: Boolean = false)
+
+    @Query("UPDATE random_name_group SET isSelect = :isSelect WHERE groupName=:groupName")
+    fun updateSelectStatus(groupName: String, isSelect: Boolean = true): Int
+
+    @Transaction
+    fun selectGroup(groupName: String): Boolean {
+        updateCancelAllSelectStatus()
+        val updateSelectStatus = updateSelectStatus(groupName)
+        return updateSelectStatus == 1
+    }
 }

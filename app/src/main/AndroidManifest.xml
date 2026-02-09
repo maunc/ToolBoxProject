@@ -96,9 +96,6 @@
             android:value="800" />
 
         <activity
-            android:name=".randomname.ui.activity.RandomNameWelcomeActivity"
-            android:exported="false" />
-        <activity
             android:name=".randomname.ui.activity.RandomSettingActivity"
             android:exported="false" />
         <activity

@@ -5,20 +5,31 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.COMMON_DIALOG
 import com.maunc.toolbox.commonbase.constant.ONE_DELAY_S
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
+import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
+import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
 import com.maunc.toolbox.databinding.ActivityRandomSettingBinding
 import com.maunc.toolbox.randomname.adapter.RandomSettingAdapter
+import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
+import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
+import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_RANDOM_SETTING_PAGE
+import com.maunc.toolbox.randomname.constant.SELECT_GROUP_TO_MAIN_DIALOG
+import com.maunc.toolbox.randomname.ui.dialog.RandomSelectGroupDialog
 import com.maunc.toolbox.randomname.viewmodel.RandomSettingViewModel
 
 /**
  * 设置页面
  */
 class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRandomSettingBinding>() {
+    companion object {
+        const val RUN_RANDOM_TYPE = "runRandomType"
+        const val RUN_DELAY_TIME = "runDelayTime"
+        const val SHOW_SELECT_RECYCLER = "showSelectRecycler"
+    }
 
     private val commonLoadingDialog by lazy {
         CommonLoadingDialog()
@@ -28,9 +39,21 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
         CommonDialog().setTitle(obtainString(R.string.random_setting_random_delete_all_data_text))
     }
 
+    private val randomSelectGroupDialog by lazy {
+        RandomSelectGroupDialog()
+    }
+
     private val randomSettingAdapter: RandomSettingAdapter by lazy {
         RandomSettingAdapter().apply {
-            setOnRandomSettingEventListener(object :RandomSettingAdapter.OnRandomSettingEventListener{
+            setOnRandomSettingEventListener(object :
+                RandomSettingAdapter.OnRandomSettingEventListener {
+                override fun showSelectDataDialog() {
+                    randomSelectGroupDialog.show(
+                        supportFragmentManager,
+                        SELECT_GROUP_TO_MAIN_DIALOG
+                    )
+                }
+
                 override fun startManagerPage() {
                     startTargetActivity(ManageGroupActivity::class.java)
                 }
@@ -59,11 +82,32 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
             obtainString(R.string.random_setting_text)
         mDatabind.commonToolBar.commonToolBarBackButton.setOnClickListener {
             mViewModel.buttonClickLaunchVibrator()
-            finishCurrentActivity()
+            baseFinishCurrentActivity()
         }
         mDatabind.randomSettingRecycler.layoutManager = linearLayoutManager()
         mDatabind.randomSettingRecycler.adapter = randomSettingAdapter
         randomSettingAdapter.setList(mViewModel.initRecyclerData())
+        randomSettingAdapter.setConfig(
+            intent.getIntExtra(RUN_RANDOM_TYPE, RANDOM_AUTO),
+            intent.getLongExtra(RUN_DELAY_TIME, RANDOM_SPEED_MAX),
+            intent.getBooleanExtra(SHOW_SELECT_RECYCLER, false)
+        )
+    }
+
+    override fun onBackPressCallBack() {
+        baseFinishCurrentActivity()
+    }
+
+    private fun baseFinishCurrentActivity(action: () -> Unit = {}) {
+        action()
+        finishCurrentResultToActivity(
+            resultCode = RESULT_SOURCE_FROM_RANDOM_SETTING_PAGE,
+            intent = obtainIntentPutData(mutableMapOf<String, Any>().apply {
+                put(RUN_RANDOM_TYPE, randomSettingAdapter.obtainRandomType())
+                put(RUN_DELAY_TIME, randomSettingAdapter.obtainDelayTime())
+                put(SHOW_SELECT_RECYCLER, randomSettingAdapter.obtainShowSelectRecycler())
+            })
+        )
     }
 
     override fun createObserver() {

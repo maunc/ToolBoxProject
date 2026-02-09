@@ -39,6 +39,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dp_24"
             android:scaleType="centerCrop"
-            android:tint="@color/black" />
+            android:tint="@color/black"
+            tools:src="@drawable/icon_add" />
     </RelativeLayout>
 </layout>

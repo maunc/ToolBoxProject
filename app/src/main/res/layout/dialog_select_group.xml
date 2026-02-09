@@ -8,7 +8,7 @@
 
         <variable
             name="selectGroupToMainViewModel"
-            type="com.maunc.toolbox.randomname.viewmodel.SelectGroupToMainViewModel" />
+            type="com.maunc.toolbox.randomname.viewmodel.RandomSelectGroupViewModel" />
     </data>
 
     <RelativeLayout
@@ -66,15 +66,9 @@
                     android:layout_height="match_parent"
                     android:visibility="@{selectGroupToMainViewModel.groupDataIsNull?View.GONE:View.VISIBLE}" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <include
                     android:id="@+id/dialog_select_group_to_main_none_tips_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginHorizontal="@dimen/dp_20"
-                    android:text="@string/select_group_to_main_none_tips_text"
-                    android:textColor="@color/black"
-                    android:textSize="25sp"
+                    layout="@layout/layout_not_data_common"
                     android:visibility="@{selectGroupToMainViewModel.groupDataIsNull?View.VISIBLE:View.GONE}" />
             </RelativeLayout>
 

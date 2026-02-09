@@ -17,9 +17,6 @@ const val RANDOM_NAME_THREAD_NAME = "randomThread"
  */
 const val DELAY_UPDATE_LAYOUT = 100L
 
-//进入随机名称前过滤分组中名称小于等于该数值的分组
-const val GROUP_REMOVE_THRESHOLD = 1
-
 /**
  * 三种点名类型
  */
@@ -65,3 +62,6 @@ const val RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE = 102
 
 //来源于分组名称管理页面
 const val RESULT_SOURCE_FROM_MANAGE_GROUP_WITH_NAME_PAGE = 103
+
+//来源与设置页面
+const val RESULT_SOURCE_FROM_RANDOM_SETTING_PAGE = 104

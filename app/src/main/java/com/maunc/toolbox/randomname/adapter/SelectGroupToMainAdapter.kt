@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
-import com.maunc.toolbox.databinding.ItemSelectGroupToMainBinding
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
+import com.maunc.toolbox.databinding.ItemSelectGroupToMainBinding
+import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 
 class SelectGroupToMainAdapter :
     BaseQuickAdapter<RandomNameWithGroup, BaseDataBindingHolder<ItemSelectGroupToMainBinding>>(
@@ -22,6 +22,7 @@ class SelectGroupToMainAdapter :
             mDataBind.itemSelectToMainNameTv.text = item.randomNameGroup.groupName
             mDataBind.itemSelectToMainSizeTv.text = "数量:${item.randomNameDataList.size}"
             mDataBind.itemSelectToMainNameRecycler.layoutManager = context.linearLayoutManager()
+            mDataBind.itemSelectToMainSelectFlag.visibleOrGone(item.randomNameGroup.isSelect)
             val toMainWithNameAdapter = SelectGroupToMainWithNameAdapter()
             mDataBind.itemSelectToMainNameRecycler.adapter = toMainWithNameAdapter
             toMainWithNameAdapter.setList(item.randomNameDataList)

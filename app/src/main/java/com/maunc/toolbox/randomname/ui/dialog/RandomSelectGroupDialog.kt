@@ -1,20 +1,24 @@
 package com.maunc.toolbox.randomname.ui.dialog
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseDialog
+import com.maunc.toolbox.commonbase.database.randomGroupDao
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.marquee
-import com.maunc.toolbox.commonbase.ext.startActivityWithData
-import com.maunc.toolbox.databinding.DialogSelectGroupToMainBinding
+import com.maunc.toolbox.databinding.DialogSelectGroupBinding
 import com.maunc.toolbox.randomname.adapter.SelectGroupToMainAdapter
-import com.maunc.toolbox.randomname.constant.GROUP_WITH_NAME_EXTRA
-import com.maunc.toolbox.randomname.ui.activity.RandomNameMainActivity
-import com.maunc.toolbox.randomname.viewmodel.SelectGroupToMainViewModel
+import com.maunc.toolbox.randomname.viewmodel.RandomSelectGroupViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class SelectGroupToMainDialog :
-    BaseDialog<SelectGroupToMainViewModel, DialogSelectGroupToMainBinding>() {
+@SuppressLint("NotifyDataSetChanged")
+class RandomSelectGroupDialog :
+    BaseDialog<RandomSelectGroupViewModel, DialogSelectGroupBinding>() {
 
     private val selectGroupToMainAdapter: SelectGroupToMainAdapter by lazy {
         SelectGroupToMainAdapter().apply {
@@ -26,14 +30,14 @@ class SelectGroupToMainDialog :
             }
 
             setOnItemLongClickListener { adpater, view, pos ->
-                val randomNameWithGroup = data[pos]
                 mViewModel.buttonClickLaunchVibrator()
-                activity?.startActivityWithData(
-                    RandomNameMainActivity::class.java,
-                    mutableMapOf<String, Any>().apply {
-                        put(GROUP_WITH_NAME_EXTRA, randomNameWithGroup)
-                    })
-                dismissAllowingStateLoss()
+                val group = data[pos].randomNameGroup
+                lifecycleScope.launch(Dispatchers.IO) {
+                    randomGroupDao.selectGroup(group.groupName)
+                    withContext(Dispatchers.Main) {
+                        dismissAllowingStateLoss()
+                    }
+                }
                 return@setOnItemLongClickListener true
             }
         }
@@ -48,7 +52,6 @@ class SelectGroupToMainDialog :
         mDatabind.selectGroupToMainViewModel = mViewModel
         mDatabind.dialogSelectGroupToMainRecycler.layoutManager = activity?.linearLayoutManager()
         mDatabind.dialogSelectGroupToMainRecycler.adapter = selectGroupToMainAdapter
-        mDatabind.dialogSelectGroupToMainNoneTipsTv.marquee()
         mDatabind.dialogSelectGroupToMainTipsTv.marquee()
         mDatabind.dialogSelectGroupToMainBackIv.clickScale {
             dismissAllowingStateLoss()

@@ -61,13 +61,13 @@
 
     <!--selectGroupToMain-->
     <string name="select_group_to_main_title_text">请选择分组</string>
-    <string name="select_group_to_main_none_tips_text">没有筛选到有数据且大于一的分组哦~</string>
-    <string name="select_group_to_main_tips_text">已筛选出分组啦,长按进入点名,单击查看分组明细~</string>
+    <string name="select_group_to_main_tips_text">长按以选择该分组,单击查看分组明细~</string>
 
     <!--randomSettingPage-->
     <string name="random_setting_text">设置</string>
     <string name="random_setting_sleep_text">速度设置</string>
-    <string name="random_setting_manager_data_text">编辑所有分组</string>
+    <string name="random_setting_select_data_text">选择随机分组</string>
+    <string name="random_setting_manager_data_text">管理所有分组</string>
     <string name="random_setting_vibrator_text">按钮震动</string>
     <string name="random_setting_eggs_text">彩蛋功能</string>
     <string name="random_setting_not_select_text">未点到与点到名单展示</string>

@@ -9,14 +9,13 @@ import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomListSortType
-import com.maunc.toolbox.randomname.constant.GROUP_REMOVE_THRESHOLD
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_DESC
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_ASC
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_DESC
 import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 
-class SelectGroupToMainViewModel : BaseRandomNameViewModel<BaseModel>() {
+class RandomSelectGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     private var dbSortType = MutableLiveData(obtainMMKV.getInt(randomListSortType))
 
@@ -41,26 +40,12 @@ class SelectGroupToMainViewModel : BaseRandomNameViewModel<BaseModel>() {
                 )
             }
         }, {
-            handleGroupData(it)
+            groupData.value = it
+            groupDataIsNull.value = it.isEmpty()
+            handleTips(it.isEmpty())
         }, {
             "queryGroupData Error ${it.message}  ${it.stackTrace}".loge()
         })
-    }
-
-    private fun handleGroupData(groupList: MutableList<RandomNameWithGroup>) {
-        val iterator = groupList.listIterator()
-        while (iterator.hasNext()) {
-            val group = iterator.next()
-            if (group.randomNameDataList.isEmpty()) {
-                iterator.remove()
-            }
-            if (group.randomNameDataList.size == GROUP_REMOVE_THRESHOLD) {
-                iterator.remove()
-            }
-        }
-        groupData.value = groupList
-        groupDataIsNull.value = groupList.isEmpty()
-        handleTips(groupList.isEmpty())
     }
 
     private fun handleTips(groupIsEmpty: Boolean) {
