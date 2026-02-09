@@ -10,7 +10,7 @@ import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.marquee
 import com.maunc.toolbox.databinding.DialogSelectGroupBinding
-import com.maunc.toolbox.randomname.adapter.SelectGroupToMainAdapter
+import com.maunc.toolbox.randomname.adapter.RandomSelectGroupAdapter
 import com.maunc.toolbox.randomname.viewmodel.RandomSelectGroupViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,8 +20,8 @@ import kotlinx.coroutines.withContext
 class RandomSelectGroupDialog :
     BaseDialog<RandomSelectGroupViewModel, DialogSelectGroupBinding>() {
 
-    private val selectGroupToMainAdapter: SelectGroupToMainAdapter by lazy {
-        SelectGroupToMainAdapter().apply {
+    private val randomSelectGroupAdapter: RandomSelectGroupAdapter by lazy {
+        RandomSelectGroupAdapter().apply {
             setOnItemClickListener { adapter, view, pos ->
                 val randomNameWithGroup = data[pos]
                 randomNameWithGroup.randomNameGroup.isExpand =
@@ -32,10 +32,15 @@ class RandomSelectGroupDialog :
             setOnItemLongClickListener { adpater, view, pos ->
                 mViewModel.buttonClickLaunchVibrator()
                 val group = data[pos].randomNameGroup
+                if (group.isSelect) {
+                    return@setOnItemLongClickListener true
+                }
                 lifecycleScope.launch(Dispatchers.IO) {
-                    randomGroupDao.selectGroup(group.groupName)
+                    val groupChange = randomGroupDao.selectGroup(group.groupName)
                     withContext(Dispatchers.Main) {
-                        dismissAllowingStateLoss()
+                        if (groupChange) {
+                            dismissAllowingStateLoss()
+                        }
                     }
                 }
                 return@setOnItemLongClickListener true
@@ -51,7 +56,7 @@ class RandomSelectGroupDialog :
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.selectGroupToMainViewModel = mViewModel
         mDatabind.dialogSelectGroupToMainRecycler.layoutManager = activity?.linearLayoutManager()
-        mDatabind.dialogSelectGroupToMainRecycler.adapter = selectGroupToMainAdapter
+        mDatabind.dialogSelectGroupToMainRecycler.adapter = randomSelectGroupAdapter
         mDatabind.dialogSelectGroupToMainTipsTv.marquee()
         mDatabind.dialogSelectGroupToMainBackIv.clickScale {
             dismissAllowingStateLoss()
@@ -68,7 +73,7 @@ class RandomSelectGroupDialog :
             if (it.isNullOrEmpty()) {
                 return@observe
             }
-            selectGroupToMainAdapter.setList(it)
+            randomSelectGroupAdapter.setList(it)
         }
     }
 }

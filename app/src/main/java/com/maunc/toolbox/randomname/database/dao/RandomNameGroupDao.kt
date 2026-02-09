@@ -45,6 +45,9 @@ interface RandomNameGroupDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRandomNameGroup(randomNameGroup: RandomNameGroup)
 
+    @Query("SELECT * FROM random_name_group WHERE isSelect=:isSelect")
+    fun querySelectGroup(isSelect: Boolean = true): RandomNameGroup
+
     @Query("UPDATE random_name_group SET isSelect = :isSelect")
     fun updateCancelAllSelectStatus(isSelect: Boolean = false)
 
@@ -53,6 +56,10 @@ interface RandomNameGroupDao {
 
     @Transaction
     fun selectGroup(groupName: String): Boolean {
+        val randomNameGroup = queryRandomNameGroup(groupName)
+        if (randomNameGroup?.isSelect == true) {
+            return false
+        }
         updateCancelAllSelectStatus()
         val updateSelectStatus = updateSelectStatus(groupName)
         return updateSelectStatus == 1

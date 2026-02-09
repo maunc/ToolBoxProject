@@ -9,10 +9,14 @@ import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ONE
 import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ZERO
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
+import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
+import com.maunc.toolbox.commonbase.ext.launch
+import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
+import com.maunc.toolbox.commonbase.utils.randomTextBold
 import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
@@ -37,20 +41,20 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     private var mHandler: RandomNameHandler? = null
     private var mRunUIHandler: Handler? = null
 
+    var resultTextIsBold = MutableLiveData(false)
+    var randomTips = MutableLiveData(GLOBAL_NONE_STRING) //tips
     var runRandomStatus = MutableLiveData(RUN_STATUS_NONE)//当前随机时状态
-    var runRandomType = MutableLiveData(obtainMMKV.getInt(randomType))//点名类型
+    var runRandomType = MutableLiveData(RANDOM_AUTO)//点名类型
     var autoTypeRunNum = MutableLiveData(0)//在自动模式下经过多少时间结束一次点名(中转值)
     var autoTypeRunNumThreshold = MutableLiveData(20)//在自动模式下经过多少时间结束一次点名(总值)
     var toGroupName = MutableLiveData(GLOBAL_NONE_STRING)//当前数据属于哪个分组
     var targetRandomName = MutableLiveData(obtainString(R.string.random_none_text))//随机中选中了哪一个
     var transitRandomName = MutableLiveData(GLOBAL_NONE_STRING) //避免随机相同的数据造成UI上的卡顿错觉
-    var runDelayTime = MutableLiveData(obtainMMKV.getLong(randomSpeed))//相差多少时间随机一次
-    var showSelectRecycler =
-        MutableLiveData(obtainMMKV.getBoolean(randomSelectRecyclerVisible))//是否启用查看已点名单
+    var runDelayTime = MutableLiveData(RANDOM_SPEED_MAX)//相差多少时间随机一次
+    var showSelectRecycler = MutableLiveData(false)//是否启用查看已点名单
     var randomGroupValue = MutableLiveData<MutableList<RandomNameData>>(mutableListOf())//总数据 不会变
 
     /**启动已点名单后这些值才有用*/
-    var showDoneRandomTips = MutableLiveData(false) //已经点完所有人的tips
     var selectNameList = MutableLiveData<MutableList<RandomNameData>>(mutableListOf())//已点过的数据 用于观察
     var notSelectNameList =
         MutableLiveData<MutableList<RandomNameData>>(mutableListOf())//待点的数据 用于观察
@@ -104,7 +108,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
                         if (data[nextInt].randomName != transitRandomName.value) {
                             updateTargetName(data[nextInt].randomName, data[nextInt].randomName)
                             autoTypeRunNum.postValue(autoTypeRunNum.value!! + 1)
-                            if (autoTypeRunNum.value!! == autoTypeRunNumThreshold.value!!) {
+                            if (autoTypeRunNum.value!! >= autoTypeRunNumThreshold.value!!) {
                                 stopAutoRandom()
                             } else {
                                 mHandler?.postDelayed(this, delay)
@@ -137,9 +141,28 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     }
 
     /**
-     * 初始化数据
+     * 初始化
      */
-    fun initData() {
+    fun initViewModelConfig() {
+        initHandler()
+        initRandomList()
+        initSettingConfig()
+    }
+
+    fun initRandomList() {
+        launch({
+            randomNameTransactionDao.querySelectGroupData()
+        }, {
+            toGroupName.value = it.randomNameGroup.groupName
+            randomGroupValue.value = it.randomNameDataList
+            notSelectNameList.value = it.randomNameDataList
+            initRestartData()
+        }, {
+            "initRandomList Error:${it.message},${it.stackTrace}".loge()
+        })
+    }
+
+    private fun initRestartData() {
         if (notSelects.isNotEmpty()) {
             notSelects.clear()
         }
@@ -147,6 +170,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         selects.clear()
         selectNameList.value = selects
         notSelectNameList.value = notSelects
+        randomTips.value = GLOBAL_NONE_STRING
         if (runRandomType.value == RANDOM_AUTO) {
             when (runDelayTime.value) {
                 RANDOM_SPEED_MAX -> autoTypeRunNumThreshold.value = 40
@@ -156,7 +180,19 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         }
     }
 
-    fun initHandler() {
+    fun initSettingConfig(
+        type: Int = obtainMMKV.getInt(randomType),
+        speed: Long = obtainMMKV.getLong(randomSpeed),
+        showSelectRec: Boolean = obtainMMKV.getBoolean(randomSelectRecyclerVisible),
+        resultTextBold: Boolean = obtainMMKV.getBoolean(randomTextBold),
+    ) {
+        runRandomType.value = type
+        runDelayTime.value = speed
+        showSelectRecycler.value = showSelectRec
+        resultTextIsBold.value = resultTextBold
+    }
+
+    private fun initHandler() {
         if (mTimeThread == null || mTimeThread!!.state == Thread.State.TERMINATED) {
             mTimeThread = HandlerThread(RANDOM_NAME_THREAD_NAME).also { it.start() }
         }
@@ -172,10 +208,14 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      * 开始点名
      */
     fun startRandom() {
+        if (randomGroupValue.value?.isEmpty() == true) {
+            randomTips.value = obtainString(R.string.random_start_not_data_tips)
+            return
+        }
         if (showSelectRecycler.value!!) {
             notSelectNameList.value?.let {
                 if (it.isEmpty()) {
-                    showDoneRandomTips.value = true
+                    randomTips.value = obtainString(R.string.random_start_error_tips)
                     return
                 }
             }
@@ -234,10 +274,13 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
             return
         }
         notSelectNameList.value?.let { notSelectList ->
+            "${notSelects.size}".loge()
             for (index in notSelectList.indices) {
                 val randomNameData = notSelectList[index]
+                "aaa:${randomNameData.randomName}  ${targetRandomName.value}".loge()
                 if (randomNameData.randomName == targetRandomName.value!!) {
                     notSelects.remove(randomNameData)
+                    "删除了:${notSelects.size}".loge()
                     notSelectNameList.postValue(notSelects)
                     break
                 }
@@ -262,6 +305,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      * 结束状态
      */
     fun endRandom() {
+        initRestartData()
         runRandomStatus.value = RUN_STATUS_NONE
         mHandler?.removeCallbacksAndMessages(null)
     }

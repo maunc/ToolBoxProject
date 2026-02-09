@@ -19,6 +19,7 @@ import com.maunc.toolbox.commonbase.utils.randomEggs
 import com.maunc.toolbox.commonbase.utils.randomListSortType
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
+import com.maunc.toolbox.commonbase.utils.randomTextBold
 import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
@@ -42,11 +43,15 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         )
         addItemType(
             RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
-            R.layout.item_random_setting_vibrator
+            R.layout.item_random_setting_switch_data
+        )
+        addItemType(
+            RandomSettingData.RANDOM_RESULT_TEXT_BOLD_TYPE,
+            R.layout.item_random_setting_switch_data
         )
         addItemType(
             RandomSettingData.RANDOM_SELECT_LIST_TYPE,
-            R.layout.item_random_setting_select
+            R.layout.item_random_setting_switch_data
         )
         addItemType(
             RandomSettingData.RANDOM_NAME_TYPE_TYPE,
@@ -80,9 +85,12 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
 
     private var showSelectRecycler = false
 
+    private var resultTextIsBold = false
+
     fun obtainRandomType() = runRandomType
     fun obtainDelayTime() = runDelayTime
     fun obtainShowSelectRecycler() = showSelectRecycler
+    fun obtainResultTextIsBold() = resultTextIsBold
 
     override fun convert(
         holder: BaseViewHolder,
@@ -108,12 +116,11 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         when (item.itemType) {
             RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE -> {
                 val vibratorSwitch =
-                    haveView.findViewById<SwitchButtonView>(R.id.item_random_vibrator_switch)
+                    haveView.findViewById<SwitchButtonView>(R.id.item_random_setting_switch)
                 vibratorSwitch.isChecked = obtainMMKV.getBoolean(randomButtonClickVibrator)
                 vibratorSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                     vibratorSwitch.isChecked = isChecked
                     obtainMMKV.putBoolean(randomButtonClickVibrator, isChecked)
-                    if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
                 }
             }
 
@@ -154,13 +161,23 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
 
             RandomSettingData.RANDOM_SELECT_LIST_TYPE -> {
                 val selectRecyclerVisibleSwitch =
-                    haveView.findViewById<SwitchButtonView>(R.id.item_random_select_recycler_visible_switch)
+                    haveView.findViewById<SwitchButtonView>(R.id.item_random_setting_switch)
                 selectRecyclerVisibleSwitch.isChecked = showSelectRecycler
                 selectRecyclerVisibleSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                     selectRecyclerVisibleSwitch.isChecked = isChecked
                     obtainMMKV.putBoolean(randomSelectRecyclerVisible, isChecked)
                     showSelectRecycler = isChecked
-                    if (obtainMMKV.getBoolean(randomButtonClickVibrator)) launchVibrator()
+                }
+            }
+
+            RandomSettingData.RANDOM_RESULT_TEXT_BOLD_TYPE -> {
+                val textBoldSwitch =
+                    haveView.findViewById<SwitchButtonView>(R.id.item_random_setting_switch)
+                textBoldSwitch.isChecked = resultTextIsBold
+                textBoldSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                    textBoldSwitch.isChecked = isChecked
+                    obtainMMKV.putBoolean(randomTextBold, isChecked)
+                    resultTextIsBold = isChecked
                 }
             }
 
@@ -306,10 +323,16 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
 
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setConfig(runRandomType: Int, runDelayTime: Long, showSelectRecycler: Boolean) {
+    fun setConfig(
+        runRandomType: Int,
+        runDelayTime: Long,
+        showSelectRecycler: Boolean,
+        resultTextIsBold: Boolean,
+    ) {
         this.runRandomType = runRandomType
         this.runDelayTime = runDelayTime
         this.showSelectRecycler = showSelectRecycler
+        this.resultTextIsBold = resultTextIsBold
         notifyDataSetChanged()
     }
 

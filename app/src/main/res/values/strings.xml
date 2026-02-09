@@ -20,9 +20,10 @@
     <string name="welcome_start_random_text">进入点名系统</string>
 
     <!--randomMainPage-->
-    <string name="random_title_text">点名程序</string>
+    <string name="random_title_text">点名</string>
     <string name="random_none_text">未开始点名</string>
     <string name="random_start_error_tips">当前已经点完了,可以重置已点名单,重复操作</string>
+    <string name="random_start_not_data_tips">名单没有内容,换一个名单试试吧</string>
     <string name="random_stop_text">暂停点名</string>
     <string name="random_start_text">开始点名</string>
     <string name="random_name_main_swipe_tips">当前分组列表</string>
@@ -71,6 +72,7 @@
     <string name="random_setting_vibrator_text">按钮震动</string>
     <string name="random_setting_eggs_text">彩蛋功能</string>
     <string name="random_setting_not_select_text">未点到与点到名单展示</string>
+    <string name="random_setting_result_text_bold_text">文本加粗</string>
     <string name="random_setting_speed_one_text">最低速度</string>
     <string name="random_setting_speed_two_text">中等速度</string>
     <string name="random_setting_speed_three_text">最高速度</string>

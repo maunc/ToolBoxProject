@@ -22,6 +22,7 @@ const val commonNotFirstLaunchApp = "notFirstLaunchApp"
 //随机速度
 const val randomSpeed = "randomSpeed" // 随机速度 在手动点名下生效
 const val randomButtonClickVibrator = "randomButtonClickVibrator" //按钮点击震动
+const val randomTextBold = "randomTextBold" //按钮点击震动
 const val randomEggs = "randomEggs"
 const val randomSelectRecyclerVisible = "randomSelectRecyclerVisible" //是否启用已点列表功能
 const val randomType = "randomType"//点名类型
@@ -45,6 +46,7 @@ class MMKVUtils {
         //随机名相关
         obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MAX)
         obtainMMKV.putBoolean(randomButtonClickVibrator, false)
+        obtainMMKV.putBoolean(randomTextBold, false)
         obtainMMKV.putBoolean(randomEggs, false)
         obtainMMKV.putBoolean(randomSelectRecyclerVisible, false)
         obtainMMKV.putInt(randomType, RANDOM_MANUAL)

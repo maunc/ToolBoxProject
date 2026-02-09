@@ -32,7 +32,7 @@
             android:visibility="gone" />
 
         <com.us.mauncview.SwitchButtonView
-            android:id="@+id/item_random_vibrator_switch"
+            android:id="@+id/item_random_setting_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

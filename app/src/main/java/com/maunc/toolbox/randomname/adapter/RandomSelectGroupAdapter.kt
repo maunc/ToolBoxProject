@@ -9,7 +9,7 @@ import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.databinding.ItemSelectGroupToMainBinding
 import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 
-class SelectGroupToMainAdapter :
+class RandomSelectGroupAdapter :
     BaseQuickAdapter<RandomNameWithGroup, BaseDataBindingHolder<ItemSelectGroupToMainBinding>>(
         R.layout.item_select_group_to_main
     ) {
@@ -23,7 +23,7 @@ class SelectGroupToMainAdapter :
             mDataBind.itemSelectToMainSizeTv.text = "数量:${item.randomNameDataList.size}"
             mDataBind.itemSelectToMainNameRecycler.layoutManager = context.linearLayoutManager()
             mDataBind.itemSelectToMainSelectFlag.visibleOrGone(item.randomNameGroup.isSelect)
-            val toMainWithNameAdapter = SelectGroupToMainWithNameAdapter()
+            val toMainWithNameAdapter = RandomSelectGroupWithNameAdapter()
             mDataBind.itemSelectToMainNameRecycler.adapter = toMainWithNameAdapter
             toMainWithNameAdapter.setList(item.randomNameDataList)
             mDataBind.itemSelectToMainNameRecycler.visibleOrGone(item.randomNameGroup.isExpand)

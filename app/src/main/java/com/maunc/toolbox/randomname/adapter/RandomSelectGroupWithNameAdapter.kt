@@ -6,7 +6,7 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.randomname.database.table.RandomNameData
 import com.maunc.toolbox.databinding.ItemSelectGroupToMainNameBinding
 
-class SelectGroupToMainWithNameAdapter :
+class RandomSelectGroupWithNameAdapter :
     BaseQuickAdapter<RandomNameData, BaseDataBindingHolder<ItemSelectGroupToMainNameBinding>>(
         R.layout.item_select_group_to_main_name
     ) {

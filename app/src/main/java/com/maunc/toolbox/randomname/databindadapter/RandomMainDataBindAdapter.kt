@@ -1,11 +1,13 @@
 package com.maunc.toolbox.randomname.databindadapter
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_NOW
@@ -18,6 +20,16 @@ import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
 
 @SuppressLint("SetTextI18n")
 object RandomMainDataBindAdapter {
+
+    @BindingAdapter(value = ["handleRandomResultTextBold"], requireAll = false)
+    @JvmStatic
+    fun handleRandomResultTextBold(textView: TextView, isBold: Boolean) {
+        if (isBold) {
+            textView.typeface = Typeface.DEFAULT_BOLD
+        } else {
+            textView.typeface = Typeface.DEFAULT
+        }
+    }
 
     @BindingAdapter(value = ["handleControlButtonTv"], requireAll = false)
     @JvmStatic
@@ -37,6 +49,13 @@ object RandomMainDataBindAdapter {
             RUN_STATUS_START, RUN_STATUS_STOP -> randomName
             else -> obtainString(R.string.random_none_text)
         }
+    }
+
+    @BindingAdapter(value = ["showRandomTipsText"], requireAll = true)
+    @JvmStatic
+    fun showRandomTipsText(textView: TextView, randomTip: String) {
+        textView.visibleOrGone(randomTip != GLOBAL_NONE_STRING)
+        textView.text = randomTip
     }
 
     @BindingAdapter(value = ["showMainSwipeSpeedTv"], requireAll = false)

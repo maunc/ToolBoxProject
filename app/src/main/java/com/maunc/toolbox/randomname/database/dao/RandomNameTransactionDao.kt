@@ -1,7 +1,6 @@
 package com.maunc.toolbox.randomname.database.dao
 
 import androidx.room.Dao
-import androidx.room.Query
 import androidx.room.Transaction
 import com.maunc.toolbox.commonbase.database.randomGroupDao
 import com.maunc.toolbox.commonbase.database.randomNameDao
@@ -17,7 +16,15 @@ import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 interface RandomNameTransactionDao {
 
     @Transaction
-    @Query("SELECT * FROM random_name_group") /*from 父表*/
+    fun querySelectGroupData(): RandomNameWithGroup {
+        val selectGroup = randomGroupDao.querySelectGroup()
+        val randomNameDataList = randomNameDao.queryGroupNameByInsertTime(
+            selectGroup.groupName, RANDOM_DB_SORT_BY_INSERT_TIME_ASC
+        )
+        return RandomNameWithGroup(selectGroup, randomNameDataList)
+    }
+
+    @Transaction
     fun queryNameWithGroupByInsertTime(
         querySortType: Int,
     ): MutableList<RandomNameWithGroup> {
@@ -39,7 +46,6 @@ interface RandomNameTransactionDao {
     }
 
     @Transaction
-    @Query("SELECT * FROM random_name_group") /*from 父表*/
     fun queryNameWithGroupByName(
         querySortType: Int,
     ): MutableList<RandomNameWithGroup> {

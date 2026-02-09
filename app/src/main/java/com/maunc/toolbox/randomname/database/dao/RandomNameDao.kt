@@ -10,9 +10,7 @@ import com.maunc.toolbox.randomname.database.table.RandomNameData
 interface RandomNameDao {
 
     @Query("SELECT COUNT(*) FROM random_name WHERE toGroupName=:groupName")
-    fun queryGroupToRandomNameSize(
-        groupName: String,
-    ): Int
+    fun queryGroupToRandomNameSize(groupName: String): Int
 
     @Query("SELECT * FROM random_name WHERE toGroupName=:groupName AND randomName=:randomName")
     fun queryGroupNameAndRandomName(
