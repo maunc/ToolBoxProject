@@ -80,7 +80,7 @@
                             android:text="@string/random_main_reset_select_recycler_text"
                             android:textColor="@color/black"
                             android:textSize="@dimen/welcome_control_button_tv_size"
-                            android:visibility="@{randomNameMainViewModel.showSelectRecycler?View.VISIBLE:View.GONE}" />
+                            android:visibility="@{randomNameMainViewModel.runRandomRepeat?View.GONE:View.VISIBLE}" />
                         <!--已点名单-->
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/random_main_select_layout"

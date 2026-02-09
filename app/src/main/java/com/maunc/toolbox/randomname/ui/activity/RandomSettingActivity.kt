@@ -30,6 +30,7 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
         const val RUN_DELAY_TIME = "runDelayTime"
         const val SHOW_SELECT_RECYCLER = "showSelectRecycler"
         const val RESULT_TEXT_BOLD = "resultTextBold"
+        const val RUN_RANDOM_REPEAT = "runRandomRepeat"
     }
 
     private val commonLoadingDialog by lazy {
@@ -92,7 +93,8 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
             intent.getIntExtra(RUN_RANDOM_TYPE, RANDOM_AUTO),
             intent.getLongExtra(RUN_DELAY_TIME, RANDOM_SPEED_MAX),
             intent.getBooleanExtra(SHOW_SELECT_RECYCLER, false),
-            intent.getBooleanExtra(RESULT_TEXT_BOLD, false)
+            intent.getBooleanExtra(RESULT_TEXT_BOLD, false),
+            intent.getBooleanExtra(RUN_RANDOM_REPEAT, false)
         )
     }
 
@@ -109,6 +111,7 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
                 put(RUN_DELAY_TIME, randomSettingAdapter.obtainDelayTime())
                 put(SHOW_SELECT_RECYCLER, randomSettingAdapter.obtainShowSelectRecycler())
                 put(RESULT_TEXT_BOLD, randomSettingAdapter.obtainResultTextIsBold())
+                put(RUN_RANDOM_REPEAT, randomSettingAdapter.obtainRandomRepeat())
             })
         )
     }

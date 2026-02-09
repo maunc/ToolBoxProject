@@ -71,6 +71,7 @@
     <string name="random_setting_manager_data_text">管理所有分组</string>
     <string name="random_setting_vibrator_text">按钮震动</string>
     <string name="random_setting_eggs_text">彩蛋功能</string>
+    <string name="random_setting_repeat_text">是否允许重复点名</string>
     <string name="random_setting_not_select_text">未点到与点到名单展示</string>
     <string name="random_setting_result_text_bold_text">文本加粗</string>
     <string name="random_setting_speed_one_text">最低速度</string>

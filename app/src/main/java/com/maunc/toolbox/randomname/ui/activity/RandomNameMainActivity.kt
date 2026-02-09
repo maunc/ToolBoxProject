@@ -27,6 +27,7 @@ import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
 import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RESULT_TEXT_BOLD
 import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RUN_DELAY_TIME
+import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RUN_RANDOM_REPEAT
 import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RUN_RANDOM_TYPE
 import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.SHOW_SELECT_RECYCLER
 import com.maunc.toolbox.randomname.viewmodel.RandomNameMainViewModel
@@ -47,7 +48,8 @@ class RandomNameMainActivity :
                 type = intent.getIntExtra(RUN_RANDOM_TYPE, RANDOM_AUTO),
                 speed = intent.getLongExtra(RUN_DELAY_TIME, RANDOM_SPEED_MAX),
                 showSelectRec = intent.getBooleanExtra(SHOW_SELECT_RECYCLER, false),
-                resultTextBold = intent.getBooleanExtra(RESULT_TEXT_BOLD, false)
+                resultTextBold = intent.getBooleanExtra(RESULT_TEXT_BOLD, false),
+                isRepeat = intent.getBooleanExtra(RUN_RANDOM_REPEAT, false)
             )
             mViewModel.initRandomList()
         }
@@ -86,6 +88,7 @@ class RandomNameMainActivity :
                         put(RUN_DELAY_TIME, mViewModel.runDelayTime.value!!)
                         put(SHOW_SELECT_RECYCLER, mViewModel.showSelectRecycler.value!!)
                         put(RESULT_TEXT_BOLD, mViewModel.resultTextIsBold.value!!)
+                        put(RUN_RANDOM_REPEAT, mViewModel.runRandomRepeat.value!!)
                     }
                 ))
             mViewModel.endRandom()

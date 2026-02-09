@@ -41,6 +41,10 @@ class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
                 settingType = obtainString(R.string.random_setting_not_select_text)
             ),
             RandomSettingData(
+                itemType = RandomSettingData.RANDOM_ALLOW_REPEAT,
+                settingType = obtainString(R.string.random_setting_repeat_text)
+            ),
+            RandomSettingData(
                 itemType = RandomSettingData.RANDOM_RESULT_TEXT_BOLD_TYPE,
                 settingType = obtainString(R.string.random_setting_result_text_bold_text)
             ),

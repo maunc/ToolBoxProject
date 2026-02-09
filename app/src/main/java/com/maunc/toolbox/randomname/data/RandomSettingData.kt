@@ -19,5 +19,6 @@ data class RandomSettingData(
         const val RANDOM_MANAGER_DATA_TYPE = 7 // 管理所有数据
         const val RANDOM_SELECT_DATA_TYPE = 8 // 选择分组
         const val RANDOM_RESULT_TEXT_BOLD_TYPE = 9 // 文本是否加粗
+        const val RANDOM_ALLOW_REPEAT = 10 // 是否允许重复点名
     }
 }

@@ -14,6 +14,7 @@ import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.randomRepeat
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
 import com.maunc.toolbox.commonbase.utils.randomTextBold
@@ -41,7 +42,8 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     private var mHandler: RandomNameHandler? = null
     private var mRunUIHandler: Handler? = null
 
-    var resultTextIsBold = MutableLiveData(false)
+    var runRandomRepeat = MutableLiveData(false)
+    var resultTextIsBold = MutableLiveData(false) //结果文本是否加粗
     var randomTips = MutableLiveData(GLOBAL_NONE_STRING) //tips
     var runRandomStatus = MutableLiveData(RUN_STATUS_NONE)//当前随机时状态
     var runRandomType = MutableLiveData(RANDOM_AUTO)//点名类型
@@ -125,7 +127,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      * 获取随机列表
      */
     private fun obtainRandomList(): MutableList<RandomNameData> {
-        return if (showSelectRecycler.value!!) {
+        return if (!runRandomRepeat.value!!) {
             notSelectNameList.value!!
         } else {
             randomGroupValue.value!!
@@ -185,11 +187,13 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         speed: Long = obtainMMKV.getLong(randomSpeed),
         showSelectRec: Boolean = obtainMMKV.getBoolean(randomSelectRecyclerVisible),
         resultTextBold: Boolean = obtainMMKV.getBoolean(randomTextBold),
+        isRepeat: Boolean = obtainMMKV.getBoolean(randomRepeat),
     ) {
         runRandomType.value = type
         runDelayTime.value = speed
         showSelectRecycler.value = showSelectRec
         resultTextIsBold.value = resultTextBold
+        runRandomRepeat.value = isRepeat
     }
 
     private fun initHandler() {
@@ -212,7 +216,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
             randomTips.value = obtainString(R.string.random_start_not_data_tips)
             return
         }
-        if (showSelectRecycler.value!!) {
+        if (!runRandomRepeat.value!!) {
             notSelectNameList.value?.let {
                 if (it.isEmpty()) {
                     randomTips.value = obtainString(R.string.random_start_error_tips)
@@ -270,17 +274,14 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      * 处理已点名单
      */
     private fun handleSelectData() {
-        if (!showSelectRecycler.value!!) {
+        if (runRandomRepeat.value!!) {
             return
         }
         notSelectNameList.value?.let { notSelectList ->
-            "${notSelects.size}".loge()
             for (index in notSelectList.indices) {
                 val randomNameData = notSelectList[index]
-                "aaa:${randomNameData.randomName}  ${targetRandomName.value}".loge()
                 if (randomNameData.randomName == targetRandomName.value!!) {
                     notSelects.remove(randomNameData)
-                    "删除了:${notSelects.size}".loge()
                     notSelectNameList.postValue(notSelects)
                     break
                 }
