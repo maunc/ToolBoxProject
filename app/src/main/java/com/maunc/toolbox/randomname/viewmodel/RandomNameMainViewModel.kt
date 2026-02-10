@@ -164,6 +164,9 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
             initRestartData()
         }, {
             "initRandomList Error:${it.message},${it.stackTrace}".loge()
+            toGroupName.value = GLOBAL_NONE_STRING
+            randomGroupValue.value = mutableListOf()
+            notSelectNameList.value = mutableListOf()
         })
     }
 
