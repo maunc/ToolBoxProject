@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_120"
         android:src="@drawable/icon_common_not_data" />
 
     <androidx.appcompat.widget.AppCompatTextView

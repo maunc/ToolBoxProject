@@ -9,8 +9,38 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include
             android:id="@+id/common_tool_bar"
             layout="@layout/layout_tool_bar_common" />
+
+        <RelativeLayout
+            android:id="@+id/turn_table_data_manage_none_data_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/common_tool_bar">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/turn_table_data_manage_none_data_tips_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="200dp"
+                android:text="@string/turn_table_title_data_manager_not_data_tv"
+                android:textSize="35sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/turn_table_data_manage_new_group_tv"
+                android:layout_width="@dimen/welcome_control_button_width"
+                android:layout_height="@dimen/welcome_control_button_height"
+                android:layout_below="@id/turn_table_data_manage_none_data_tips_tv"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/bg_random_control_button"
+                android:gravity="center"
+                android:text="@string/turn_table_title_data_manager_add_tv"
+                android:textColor="@color/black"
+                android:textSize="@dimen/welcome_control_button_tv_size" />
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

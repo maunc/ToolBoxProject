@@ -27,6 +27,7 @@ import android.telephony.CarrierConfigManager
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityManager
 import android.view.inputmethod.InputMethodManager
@@ -116,4 +117,13 @@ fun hideSoftInputKeyBoard(
         val inputManger = ToolBoxApplication.app.inputMethodManager
         inputManger?.hideSoftInputFromWindow(editText.windowToken, 0)
     }, delayMillis)
+}
+
+/**
+ * 强制隐藏软键盘（适配特殊场景，比如键盘未绑定到某个 View）
+ */
+fun forceHideKeyboard(view: View) {
+    val imm = ToolBoxApplication.app.inputMethodManager ?: return
+    // 关闭所有激活的输入法窗口
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }

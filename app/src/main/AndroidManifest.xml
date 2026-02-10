@@ -10,9 +10,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
-
-    <!-- 全文件访问权限（Android 11+） -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" /> <!-- 全文件访问权限（Android 11+） -->
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
@@ -43,6 +41,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RandomCallName"
         tools:targetApi="31">
+        <activity
+            android:name=".turntable.ui.EditTurnTableDataActivity"
+            android:exported="false" />
         <activity
             android:name=".turntable.ui.TurnTableMainActivity"
             android:exported="false" />

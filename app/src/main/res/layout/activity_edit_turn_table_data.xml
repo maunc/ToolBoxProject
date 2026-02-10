@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".turntable.ui.EditTurnTableDataActivity">
+
+        <include
+            android:id="@+id/common_tool_bar"
+            layout="@layout/layout_tool_bar_common" />
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/turn_table_edit_smart_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/turn_table_edit_controller_layout"
+            android:layout_below="@id/common_tool_bar"
+            android:layout_marginVertical="@dimen/dp_2">
+
+            <com.scwang.smart.refresh.header.FalsifyHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/turn_table_edit_data_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.scwang.smart.refresh.header.FalsifyFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/turn_table_edit_controller_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:layout_alignParentBottom="true">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/turn_table_edit_add_data_tv"
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_65"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:layout_toStartOf="@id/turn_table_edit_controller_line"
+                android:background="@drawable/bg_blue_radius_24"
+                android:gravity="center"
+                android:text="@string/turn_table_new_add_data_tv"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+
+            <View
+                android:id="@+id/turn_table_edit_controller_line"
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/turn_table_edit_save_data_tv"
+                android:layout_width="@dimen/dp_200"
+                android:layout_height="@dimen/dp_65"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_5"
+                android:layout_toEndOf="@id/turn_table_edit_controller_line"
+                android:background="@drawable/bg_blue_radius_24"
+                android:gravity="center"
+                android:text="@string/turn_table_new_save_data_tv"
+                android:textColor="@color/white"
+                android:textSize="22sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

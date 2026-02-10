@@ -1,5 +1,6 @@
 package com.maunc.toolbox.turntable.adapter
 
+import android.annotation.SuppressLint
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -7,7 +8,10 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
+import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.turnTableEnableTouch
 import com.maunc.toolbox.turntable.data.TurnTableSettingData
+import com.us.mauncview.SwitchButtonView
 
 class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, BaseViewHolder>() {
 
@@ -21,6 +25,10 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
             R.layout.item_turn_table_setting_data
         )
         addItemType(
+            TurnTableSettingData.TURN_TABLE_ENABLE_TOUCH_TYPE,
+            R.layout.item_turn_table_setting_switch_data
+        )
+        addItemType(
             TurnTableSettingData.TURN_TABLE_DELETE_ALL_DATA_TYPE,
             R.layout.item_turn_table_setting_data
         )
@@ -29,6 +37,10 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
             R.layout.item_turn_table_setting_anim_interpolator
         )
     }
+
+    private var enableTouch = false
+
+    fun obtainEnableTouch() = enableTouch
 
     override fun convert(holder: BaseViewHolder, item: TurnTableSettingData) {
         val itemPosition = getItemPosition(item)
@@ -69,10 +81,29 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
                 }
             }
 
+            TurnTableSettingData.TURN_TABLE_ENABLE_TOUCH_TYPE -> {
+                val enableTouchSwitch =
+                    haveView.findViewById<SwitchButtonView>(R.id.item_turn_table_setting_switch)
+                enableTouchSwitch.isChecked = enableTouch
+                enableTouchSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                    enableTouchSwitch.isChecked = isChecked
+                    obtainMMKV.putBoolean(turnTableEnableTouch, isChecked)
+                    enableTouch = isChecked
+                }
+            }
+
             TurnTableSettingData.TURN_TABLE_ANIM_INTERPOLATOR_TYPE -> {
 
             }
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setConfig(
+        enableTouch: Boolean,
+    ) {
+        this.enableTouch = enableTouch
+        notifyDataSetChanged()
     }
 
     private var onTurnTableSettingEventListener: OnTurnTableSettingEventListener? = null

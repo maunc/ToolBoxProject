@@ -20,24 +20,26 @@ private const val DEFAULT_INT = -1
 const val commonNotFirstLaunchApp = "notFirstLaunchApp"
 
 /** 随机名称用到的 */
-//随机速度
 const val randomSpeed = "randomSpeed" // 随机速度 在手动点名下生效
 const val randomButtonClickVibrator = "randomButtonClickVibrator" //按钮点击震动
 const val randomTextBold = "randomTextBold" //结果文本加粗
 const val randomTextSize = "randomTextSize" //是否允许重复点名
 const val randomRepeat = "randomRepeat" //是否允许重复点名
-const val randomEggs = "randomEggs"
 const val randomSelectRecyclerVisible = "randomSelectRecyclerVisible" //是否启用已点列表功能
 const val randomType = "randomType"//点名类型
 const val randomListSortType = "randomListSortType"//点名类型
+const val randomEggs = "randomEggs"
 
 /**颜色画板用到的**/
 const val canvasPenColorA = "canvasPenColorA"
 const val canvasPenColorR = "canvasPenColorR"
 const val canvasPenColorG = "canvasPenColorG"
 const val canvasPenColorB = "canvasPenColorB"
-const val canvasPenWidth = "canvasPenWidth"
-const val canvasEraserWidth = "canvasEraserWidth"
+const val canvasPenWidth = "canvasPenWidth" //画笔宽度
+const val canvasEraserWidth = "canvasEraserWidth" //橡皮宽度
+
+/**转盘用到的*/
+const val turnTableEnableTouch = "turnTableEnableTouch"
 
 class MMKVUtils {
 
@@ -64,6 +66,9 @@ class MMKVUtils {
         obtainMMKV.putInt(canvasPenColorB, RGB_SEEK_MIN_VALUE)
         obtainMMKV.putInt(canvasPenWidth, 40)
         obtainMMKV.putInt(canvasEraserWidth, 40)
+
+        //转盘相关
+        obtainMMKV.putBoolean(turnTableEnableTouch, false)
     }
 
     fun getString(

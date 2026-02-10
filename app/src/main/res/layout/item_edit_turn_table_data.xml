@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/dp_8">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/item_turn_table_edit_data_name_edit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_70"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:background="@drawable/bg_new_group_edit"
+            android:hint="@string/turn_table_new_data_name_hint_tv"
+            android:maxLength="6"
+            android:paddingStart="@dimen/dp_55"
+            android:singleLine="true"
+            android:textSize="20sp"
+            tools:ignore="RtlSymmetry" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/item_turn_table_edit_data_delete_edit"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dp_30"
+            android:src="@drawable/icon_remove" />
+    </RelativeLayout>
+</layout>

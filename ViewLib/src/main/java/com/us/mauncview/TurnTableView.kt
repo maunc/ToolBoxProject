@@ -89,8 +89,11 @@ class TurnTableView @JvmOverloads constructor(
     // 是否正在触摸滑动
     private var isTouching = AtomicBoolean(false)
 
-    // 转盘是否正在执行动画
+    // 是否正在执行动画
     private var isRotateTurnTable = AtomicBoolean(false)
+
+    // 是否启用转盘触摸
+    private var isEnableTouch = AtomicBoolean(false)
 
     // 轨迹记录
     private var touchTrack = mutableListOf<Pair<Float, Long>>()
@@ -120,6 +123,7 @@ class TurnTableView @JvmOverloads constructor(
     private val turnAnglePaint: Paint by lazy {
         Paint().apply {
             isAntiAlias = true
+            isDither = true
             style = Paint.Style.FILL
         }
     }
@@ -128,6 +132,7 @@ class TurnTableView @JvmOverloads constructor(
     private var textPaint: Paint = Paint().apply {
         color = Color.BLACK
         isAntiAlias = true
+        isDither = true
         textSize = 40f
         textAlign = Paint.Align.CENTER
     }
@@ -146,35 +151,7 @@ class TurnTableView @JvmOverloads constructor(
 
     // 转动动画
     private val rotateAnimator: ValueAnimator by lazy {
-        ValueAnimator().apply {
-            initAnimConfig(this)
-            /*TimeInterpolator { input ->
-//                    1 - (1 - input) * (1 - input) * (1 - input) * (1 - input)
-//                    if (input < 0.5f) 8 * input.pow(4) else 1 - 8 * (1 - input).pow(4) 贝塞尔曲线
-//                    if (input < 0.5f) 16 * input.pow(5) else 1 - 16 * (1 - input).pow(5)
-            }*/
-            /*PathInterpolator(
-                0.85f, 0f,   // 加大X值：起步瞬间冲刺
-                0.25f, 1f    // 缩小X值：收尾快速结束
-            )*/
-            addUpdateListener {
-                val value = animatedValue as Float
-                // 控制旋转角度在0f到360f之间
-                startAngle = (value % 360 + 360) % 360
-                invalidate()
-            }
-        }
-    }
-
-    // 惯性动画
-    private val inertialAnimator by lazy {
-        ValueAnimator().apply {
-            initAnimConfig(this)
-            addUpdateListener { animation ->
-                startAngle = animation.animatedValue as Float % 360
-                invalidate()
-            }
-        }
+        ValueAnimator().apply { initAnimConfig(this) }
     }
 
     init {
@@ -189,20 +166,21 @@ class TurnTableView @JvmOverloads constructor(
     private fun initAnimConfig(valueAnimator: ValueAnimator) {
         valueAnimator.setDuration(ANIM_DURATION)
         valueAnimator.interpolator = DecelerateInterpolator(1.5f)
-        valueAnimator.doOnStart { animDoOnStart() }
-        valueAnimator.doOnEnd { animDoOnEnd() }
-    }
-
-    private fun animDoOnStart() {
-        isRotateTurnTable.set(true)
-        onTurnTableEventListener?.onRotateStart()
-    }
-
-    private fun animDoOnEnd() {
-        isRotateTurnTable.set(false)
-        // cancel会回调，如果是因为触摸暂停的，不会触发转动结束
-        if (!isTouching.get()) {
-            onTurnTableEventListener?.onRotateEnd(turnTableContentList[resultPos])
+        valueAnimator.addUpdateListener { animation ->
+            // 控制旋转角度在0f到360f之间
+            startAngle = animation.animatedValue as Float % 360
+            invalidate()
+        }
+        valueAnimator.doOnStart {
+            isRotateTurnTable.set(true)
+            onTurnTableEventListener?.onRotateStart()
+        }
+        valueAnimator.doOnEnd {
+            isRotateTurnTable.set(false)
+            // cancel会回调，如果是因为触摸暂停的，不会触发转动结束
+            if (!isTouching.get()) {
+                onTurnTableEventListener?.onRotateEnd(turnTableContentList[resultPos])
+            }
         }
     }
 
@@ -251,12 +229,15 @@ class TurnTableView @JvmOverloads constructor(
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (!isEnableTouch.get()) {
+            return false
+        }
         event ?: return false
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 isTouching.set(true)
                 touchTrack.clear()
-                pauseTurnTableAnim()
+                endTurnTable()
                 downAngle = calculateTouchAngle(event.x, event.y)
                 Log.e(TAG, "onTouchEventDown:${downAngle}")
                 downStartAngle = startAngle
@@ -299,59 +280,6 @@ class TurnTableView @JvmOverloads constructor(
             }
         }
         return true
-    }
-
-    /**
-     * 计算滑动角速度，并判断是否触发惯性动画
-     */
-    private fun calculateInertiaAndStartAnimation() {
-        if (touchTrack.size < 2) return // 轨迹点不足，不触发惯性
-
-        // 获取最后两段轨迹的角度和时间
-        val first = touchTrack.first()
-        val last = touchTrack.last()
-        val angleDelta = last.first - first.first
-        val timeDelta = (last.second - first.second).toFloat()
-
-        if (timeDelta == 0f) return // 时间差为0，避免除0
-
-        var angularSpeed = angleDelta / timeDelta
-        if (abs(angularSpeed) > 180 / timeDelta) {
-            angularSpeed -= 360 / timeDelta
-        } else if (angularSpeed < -180 / timeDelta) {
-            angularSpeed += 360 / timeDelta
-        }
-
-        // 低于阈值不触发惯性
-        if (abs(angularSpeed) < MIN_INERTIA_SPEED) return
-        Log.e(TAG, "滑动角速度：${angularSpeed} °/ms")
-
-        obtainResultPos()
-        val targetSectorMiddleAngle = 270 - (resultPos * sweepAngle + sweepAngle / 2)
-        val entAngle = if (angularSpeed < 0) {
-            // 顺时针：当前角度 + 旋转圈数 + 到目标角度的偏移
-            startAngle + turnMoveNumber + (targetSectorMiddleAngle - startAngle + 360) % 360
-        } else {
-            // 逆时针：当前角度 - 旋转圈数 - 到目标角度的偏移
-            startAngle - turnMoveNumber - (startAngle - targetSectorMiddleAngle + 360) % 360
-        }
-        inertialAnimator.cancel()
-        inertialAnimator.setFloatValues(startAngle, entAngle)
-        inertialAnimator.start()
-    }
-
-    /**
-     * 根据手指坐标判断当前角度
-     */
-    private fun calculateTouchAngle(x: Float, y: Float): Float {
-        val dx = x - circleX
-        val dy = y - circleY
-        val radian = atan2(-dy.toDouble(), dx.toDouble())
-        var angle = Math.toDegrees(radian).toFloat()
-        if (angle < 0) {
-            angle += 360f
-        }
-        return angle
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -398,9 +326,9 @@ class TurnTableView @JvmOverloads constructor(
         restore()
     }
 
-    fun getContentList() = turnTableContentList
+    fun getTurnTableContents() = turnTableContentList
 
-    fun setContentList(list: MutableList<String>) {
+    fun setTurnTableContents(list: MutableList<String>) {
         turnTableContentList.clear()
         turnTableContentList.addAll(list)
         sweepAngle = 360f / turnTableContentList.size
@@ -408,9 +336,24 @@ class TurnTableView @JvmOverloads constructor(
     }
 
     /**
+     * 转盘是否可触摸
+     */
+    fun setEnableTouch(isEnable: Boolean) {
+        isEnableTouch.set(isEnable)
+    }
+
+    /**
+     * 暂停动画
+     */
+    fun endTurnTable() {
+        rotateAnimator.cancel()
+        isRotateTurnTable.set(false)
+    }
+
+    /**
      * 点击中心按钮启动转盘
      */
-    fun startMoveTurnTable() {
+    fun startTurnTable() {
         if (isRotateTurnTable.get()) {
             Log.e(TAG, "turn table is rotate ing")
             return
@@ -418,17 +361,67 @@ class TurnTableView @JvmOverloads constructor(
         obtainResultPos()
         // 计算转动到position位置停止后的角度值，指针是朝向正上方，正上放的角度是270
         val entAngle = 270 - sweepAngle * (resultPos + angleOffset()) + turnMoveNumber
-        rotateAnimator.setFloatValues(startAngle, entAngle)
+        startRotateAnim(startAngle, entAngle)
+    }
+
+    /**
+     * 计算滑动角速度，并判断是否触发惯性动画
+     */
+    private fun calculateInertiaAndStartAnimation() {
+        if (touchTrack.size < 2) return // 轨迹点不足，不触发惯性
+
+        // 获取最后两段轨迹的角度和时间
+        val first = touchTrack.first()
+        val last = touchTrack.last()
+        val angleDelta = last.first - first.first
+        val timeDelta = (last.second - first.second).toFloat()
+
+        if (timeDelta == 0f) return // 时间差为0，避免除0
+
+        var angularSpeed = angleDelta / timeDelta
+        if (abs(angularSpeed) > 180 / timeDelta) {
+            angularSpeed -= 360 / timeDelta
+        } else if (angularSpeed < -180 / timeDelta) {
+            angularSpeed += 360 / timeDelta
+        }
+
+        // 低于阈值不触发惯性
+        if (abs(angularSpeed) < MIN_INERTIA_SPEED) return
+        Log.e(TAG, "滑动角速度：${angularSpeed} °/ms")
+
+        obtainResultPos()
+        val targetSectorMiddleAngle = 270 - (resultPos * sweepAngle + sweepAngle / 2)
+        val entAngle = if (angularSpeed < 0) {
+            // 顺时针：当前角度 + 旋转圈数 + 到目标角度的偏移
+            startAngle + turnMoveNumber + (targetSectorMiddleAngle - startAngle + 360) % 360
+        } else {
+            // 逆时针：当前角度 - 旋转圈数 - 到目标角度的偏移
+            startAngle - turnMoveNumber - (startAngle - targetSectorMiddleAngle + 360) % 360
+        }
+        startRotateAnim(startAngle, entAngle)
+    }
+
+    /**
+     * 启动转盘动画
+     */
+    private fun startRotateAnim(startValue: Float, endValue: Float) {
+        rotateAnimator.cancel()
+        rotateAnimator.setFloatValues(startValue, endValue)
         rotateAnimator.start()
     }
 
     /**
-     * 暂停动画
+     * 根据手指坐标判断当前角度
      */
-    fun pauseTurnTableAnim() {
-        rotateAnimator.cancel()
-        inertialAnimator.cancel()
-        isRotateTurnTable.set(false)
+    private fun calculateTouchAngle(x: Float, y: Float): Float {
+        val dx = x - circleX
+        val dy = y - circleY
+        val radian = atan2(-dy.toDouble(), dx.toDouble())
+        var angle = Math.toDegrees(radian).toFloat()
+        if (angle < 0) {
+            angle += 360f
+        }
+        return angle
     }
 
     /**

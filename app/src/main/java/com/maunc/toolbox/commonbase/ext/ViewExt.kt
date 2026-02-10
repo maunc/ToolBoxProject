@@ -198,7 +198,8 @@ fun EditText.chineseProhibitedInput(tipsAction: () -> Unit = {}) {
  * 输入框禁止输入空格
  */
 fun EditText.spaceProhibitedInput(tipsAction: () -> Unit = {}) {
-    this.filters = arrayOf(object : InputFilter {
+    // 一定要加等于这个过滤器,否则其他过滤器会失效
+    this.filters += arrayOf(object : InputFilter {
         override fun filter(
             source: CharSequence?, start: Int, end: Int, dest: Spanned?, dstart: Int, dend: Int,
         ): CharSequence? {

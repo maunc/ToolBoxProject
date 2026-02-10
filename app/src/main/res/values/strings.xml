@@ -146,6 +146,16 @@
     <string name="turn_table_title_manager_data_tv">转盘数据管理</string>
     <string name="turn_table_title_setting_tv">转盘设置</string>
     <string name="turn_table_title_setting_select_data">选择转盘数据</string>
+    <string name="turn_table_title_setting_enable_touch">是否启用转盘触摸</string>
     <string name="turn_table_title_setting_delete_all">删除所有转盘数据</string>
     <string name="turn_table_title_setting_anim_interpolator">转盘动画分类</string>
+    <string name="turn_table_title_data_manager_not_data_tv">您还没有转盘数据</string>
+    <string name="turn_table_title_data_manager_add_tv">添加转盘数据</string>
+    <string name="turn_table_title_new_data_tv">编辑转盘数据</string>
+    <string name="turn_table_new_data_title_tv">转盘标题</string>
+    <string name="turn_table_new_data_title_hint_tv">请输入转盘标题</string>
+    <string name="turn_table_new_data_name_tv">转盘选项</string>
+    <string name="turn_table_new_data_name_hint_tv">请输入转盘选项</string>
+    <string name="turn_table_new_add_data_tv">添加转盘选项</string>
+    <string name="turn_table_new_save_data_tv">保存转盘数据</string>
 </resources>
