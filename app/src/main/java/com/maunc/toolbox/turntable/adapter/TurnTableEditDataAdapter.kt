@@ -42,10 +42,13 @@ class TurnTableEditDataAdapter :
         val haveView = holder.itemView
         val nameEditView =
             haveView.findViewById<AppCompatEditText>(R.id.item_turn_table_edit_data_name_edit)
+        // 解决赋值错乱的问题
         isSetEditViewText = true
         nameEditView.setText(item.content)
         isSetEditViewText = false
-        nameEditView.spaceProhibitedInput()
+        nameEditView.spaceProhibitedInput {
+            onTurnTableEditListener?.onEditSpaceAfterTextChanged(itemPosition)
+        }
         // 拦截触摸事件,避免RecyclerView滑动的时候弹出软键盘导致体验差
         nameEditView.setOnTouchListener { view, event ->
             return@setOnTouchListener false
@@ -65,11 +68,15 @@ class TurnTableEditDataAdapter :
             if (isSetEditViewText || itemPosition == RecyclerView.NO_POSITION || holder.layoutPosition >= data.size) {
                 return@addEditTextListener
             }
+            //保证当前只有一个输入框输入内容
             if (hasFocusEditViewPosition == -1 || itemPosition != hasFocusEditViewPosition) {
                 return@addEditTextListener
             }
             data[itemPosition].let { currentItem ->
                 if (currentItem.content != editContent) {
+                    onTurnTableEditListener?.onEditAfterTextChanged(
+                        hasFocusEditViewPosition, editContent
+                    )
                     currentItem.content = editContent
                 }
             }
@@ -88,18 +95,15 @@ class TurnTableEditDataAdapter :
     }
 
     /**
-     * 将最后一个输入框获取焦点并移动
+     * 获取某一个位置焦点
      */
-    fun focusEndEditViewAndScrollToEnd() {
+    fun focusEditViewToPosition(position: Int) {
         clearRecyclerViewEditFocus()
-        //childCount 返回的是所有可见View组成的下标(最大值代表可见View的范围)
-        //findFirstVisibleItemPosition,findLastVisibleItemPosition这种获取的是可见的View在adapter的位置
         if (data.isEmpty()) return
-        val lastPosition = data.size - 1
         recyclerView.postDelayed({
-            recyclerView.scrollToPosition(lastPosition)
+            recyclerView.scrollToPosition(position)
             val targetHolder =
-                recyclerView.findViewHolderForAdapterPosition(lastPosition) ?: return@postDelayed
+                recyclerView.findViewHolderForAdapterPosition(position) ?: return@postDelayed
             val editView = obtainRecyclerItemEditView(targetHolder.itemView)
             editView.requestFocus()
         }, ONE_DELAY_MILLIS)
@@ -108,7 +112,7 @@ class TurnTableEditDataAdapter :
     /**
      * 取消所有可见输入框的焦点
      */
-    fun clearRecyclerViewEditFocus() {
+    private fun clearRecyclerViewEditFocus() {
         if (recyclerView.childCount <= 0) return
         for (i in 0 until recyclerView.childCount) {
             val itemView = recyclerView.getChildAt(i)
@@ -145,6 +149,12 @@ class TurnTableEditDataAdapter :
 
     interface OnTurnTableEditDataAdapterListener {
         fun onRemoveEditName(position: Int)
+
+        //实际内容变化
+        fun onEditAfterTextChanged(position: Int, text: String)
+
+        //收到了空格需要过滤
+        fun onEditSpaceAfterTextChanged(position: Int)
     }
 
     fun setOnTurnTableEditListener(onTurnTableEditListener: OnTurnTableEditDataAdapterListener) {

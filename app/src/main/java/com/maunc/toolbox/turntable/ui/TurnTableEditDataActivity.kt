@@ -2,7 +2,6 @@ package com.maunc.toolbox.turntable.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
@@ -27,21 +26,34 @@ class TurnTableEditDataActivity :
         TurnTableEditDataAdapter().apply {
             setOnTurnTableEditListener(object :
                 TurnTableEditDataAdapter.OnTurnTableEditDataAdapterListener {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onRemoveEditName(position: Int) {
-                    if (data.size - 1 <= MIN_EDIT_DATA_NUMBER) {
-                        // TODO 可做提示
-                        Log.e("ww", "不能删除")
+                    if (data.size <= MIN_EDIT_DATA_NUMBER) {
+                        mViewModel.showErrorTips(obtainString(R.string.turn_table_edit_data_error_tips_one_tv))
                         return
                     }
                     data.removeAt(position)
-                    notifyItemRemoved(position)
-                    notifyItemRangeChanged(position, data.size)
+                    notifyDataSetChanged()
+                    if (position == data.size) {
+                        //删除的是最后一个
+                        focusEditViewToPosition(position - 1)
+                    } else {
+                        focusEditViewToPosition(position)
+                    }
+                    mViewModel.handleCurrentSaveSize(data.size - 1)
+                }
+
+                override fun onEditAfterTextChanged(position: Int, text: String) {
+                    mViewModel.hideErrorTips()
+                }
+
+                override fun onEditSpaceAfterTextChanged(position: Int) {
+                    mViewModel.showErrorTips(obtainString(R.string.turn_table_edit_data_error_tips_four_tv))
                 }
             })
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.turnTableEditDataViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
@@ -52,22 +64,29 @@ class TurnTableEditDataActivity :
         KeyBroadUtils.registerKeyBoardHeightListener(this) {
             mViewModel.softKeyBroadHeight.postValue(it)
         }
+        mDatabind.turnTableEditDataRecycler.itemAnimator = null
         mDatabind.turnTableEditDataRecycler.layoutManager = linearLayoutManager()
         mDatabind.turnTableEditDataRecycler.adapter = turnTableEditDataAdapter
         mDatabind.turnTableEditSaveDataTv.clickScale {
-            turnTableEditDataAdapter.data.forEach {
-                Log.e("ww", "内容$it")
+            turnTableEditDataAdapter.data.forEach { editData ->
+                if (editData.content.isEmpty()) {
+                    mViewModel.showErrorTips(obtainString(R.string.turn_table_edit_data_error_tips_three_tv))
+                    return@clickScale
+                }
             }
+            mViewModel.insertTurnTableEditData(turnTableEditDataAdapter.data)
         }
         mDatabind.turnTableEditAddDataTv.clickScale {
-            if (turnTableEditDataAdapter.data.size - 1 >= MAX_EDIT_DATA_NUMBER) {
-                Log.e("ww", "超量了")
+            if (turnTableEditDataAdapter.data.size >= MAX_EDIT_DATA_NUMBER) {
+                mViewModel.showErrorTips(obtainString(R.string.turn_table_edit_data_error_tips_two_tv))
                 return@clickScale
             }
             turnTableEditDataAdapter.addEditNameItem(GLOBAL_NONE_STRING)
-            turnTableEditDataAdapter.focusEndEditViewAndScrollToEnd()
+            // 将最后一个输入框获取焦点并移动
+            turnTableEditDataAdapter.focusEditViewToPosition(turnTableEditDataAdapter.data.size - 1)
+            mViewModel.handleCurrentSaveSize(turnTableEditDataAdapter.data.size - 1)
         }
-        mViewModel.initEditAdapterData(turnTableEditDataAdapter)
+        mViewModel.initEditAdapterNotData(turnTableEditDataAdapter)
 
     }
 

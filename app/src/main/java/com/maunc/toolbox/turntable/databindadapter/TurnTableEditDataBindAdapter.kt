@@ -1,11 +1,14 @@
 package com.maunc.toolbox.turntable.databindadapter
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.RelativeLayout
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
+import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.constant.ONE_DELAY_MILLIS
+import com.maunc.toolbox.commonbase.ext.obtainString
 
 object TurnTableEditDataBindAdapter {
 
@@ -20,5 +23,15 @@ object TurnTableEditDataBindAdapter {
                 bottomMargin = handleHeight
             }
         }, ONE_DELAY_MILLIS)
+    }
+
+    @SuppressLint("SetTextI18n")
+    @BindingAdapter(value = ["handleTurnTableEditSaveTextView"], requireAll = true)
+    @JvmStatic
+    fun handleTurnTableEditSaveTextView(
+        textView: AppCompatTextView,
+        currentSize: Int,
+    ) {
+        textView.text = "${obtainString(R.string.turn_table_new_save_data_tv)}(${currentSize}项)"
     }
 }

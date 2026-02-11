@@ -157,5 +157,9 @@
     <string name="turn_table_new_data_name_tv">转盘选项</string>
     <string name="turn_table_new_data_name_hint_tv">请输入转盘选项</string>
     <string name="turn_table_new_add_data_tv">添加转盘选项</string>
-    <string name="turn_table_new_save_data_tv">保存转盘数据</string>
+    <string name="turn_table_new_save_data_tv">保存选项</string>
+    <string name="turn_table_edit_data_error_tips_one_tv">--- 最少保留两条转盘选项 ---</string>
+    <string name="turn_table_edit_data_error_tips_two_tv">--- 目前最多支持十条转盘选项 ---</string>
+    <string name="turn_table_edit_data_error_tips_three_tv">--- 还有未输入的转盘内容 ---</string>
+    <string name="turn_table_edit_data_error_tips_four_tv">--- 不能输入空格 ---</string>
 </resources>

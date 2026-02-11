@@ -1,6 +1,7 @@
 package com.maunc.toolbox.turntable.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
@@ -36,11 +37,14 @@ class TurnTableDataManagerActivity :
         mDatabind.turnTableDataManageNewGroupTv.clickScale {
             turnTableDataMangerActivityResult.launch(obtainActivityIntent(TurnTableEditDataActivity::class.java))
         }
+        mViewModel.queryTurnTableData()
     }
 
     override fun createObserver() {
         mViewModel.turnTableDataList.observe(this) {
-
+            it.forEach { content ->
+                Log.e("ww", "$content")
+            }
         }
     }
 }

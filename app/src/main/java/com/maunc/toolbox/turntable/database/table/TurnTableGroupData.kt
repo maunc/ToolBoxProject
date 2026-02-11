@@ -13,7 +13,7 @@ data class TurnTableGroupData(
     @PrimaryKey
     var groupName: String,
     @ColumnInfo(name = "isSelect")
-    var isSelect: Boolean,
+    var isSelect: Boolean = false,
     @ColumnInfo(name = "isExpand")
     var isExpand: Boolean = false,
 )
