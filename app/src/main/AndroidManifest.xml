@@ -42,8 +42,11 @@
         android:theme="@style/Theme.RandomCallName"
         tools:targetApi="31">
         <activity
-            android:name=".turntable.ui.EditTurnTableDataActivity"
-            android:exported="false" />
+            android:name=".turntable.ui.TurnTableEditDataActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity"/>
         <activity
             android:name=".turntable.ui.TurnTableMainActivity"
             android:exported="false" />

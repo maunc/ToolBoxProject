@@ -31,10 +31,10 @@ class TurnTableDataManagerActivity :
             finishCurrentActivity()
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            turnTableDataMangerActivityResult.launch(obtainActivityIntent(EditTurnTableDataActivity::class.java))
+            turnTableDataMangerActivityResult.launch(obtainActivityIntent(TurnTableEditDataActivity::class.java))
         }
         mDatabind.turnTableDataManageNewGroupTv.clickScale {
-            turnTableDataMangerActivityResult.launch(obtainActivityIntent(EditTurnTableDataActivity::class.java))
+            turnTableDataMangerActivityResult.launch(obtainActivityIntent(TurnTableEditDataActivity::class.java))
         }
     }
 

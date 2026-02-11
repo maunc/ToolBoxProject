@@ -31,6 +31,9 @@ const val SIXTY_SECOND = 60000
 //1毫秒
 const val ONE_DELAY_MILLIS = 100L
 
+//2毫秒
+const val TWO_DELAY_MILLIS = 200L
+
 //3毫秒
 const val THREE_DELAY_MILLIS = 300L
 

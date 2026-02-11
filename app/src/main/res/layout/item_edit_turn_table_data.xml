@@ -17,6 +17,8 @@
             android:layout_height="@dimen/dp_70"
             android:layout_marginHorizontal="@dimen/dp_20"
             android:background="@drawable/bg_new_group_edit"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="@string/turn_table_new_data_name_hint_tv"
             android:maxLength="6"
             android:paddingStart="@dimen/dp_55"

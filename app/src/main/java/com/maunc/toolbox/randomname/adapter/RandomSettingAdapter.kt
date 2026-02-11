@@ -114,7 +114,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         holder: BaseViewHolder,
         item: RandomSettingData,
     ) {
-        val itemPosition = getItemPosition(item)
+        val itemPosition = holder.layoutPosition
         val haveView = holder.itemView
         haveView.findViewById<TextView>(R.id.item_random_setting_type_tv).apply {
             text = item.settingType

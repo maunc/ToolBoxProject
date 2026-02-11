@@ -36,7 +36,7 @@ class ChatDataAdapter : BaseMultiItemQuickAdapter<ChatData, BaseViewHolder>() {
     }
 
     override fun convert(holder: BaseViewHolder, item: ChatData) {
-        val itemPosition = getItemPosition(item)
+        val itemPosition = holder.layoutPosition
         val haveView = holder.itemView
         haveView.findViewById<TextView>(R.id.item_chat_room_time_tv).apply {
             visibleOrGone(showTimeTextView())

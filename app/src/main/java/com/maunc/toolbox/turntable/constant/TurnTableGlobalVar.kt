@@ -1,7 +1,10 @@
 package com.maunc.toolbox.turntable.constant
 
-//编辑数量最少条数(包含标题)
-const val MIN_EDIT_DATA_NUMBER = 3
+//编辑数量最少条数(不包含标题)
+const val MIN_EDIT_DATA_NUMBER = 2
+
+//编辑数量最多条数(不包含标题)
+const val MAX_EDIT_DATA_NUMBER = 10
 
 /**页面来源*/
 //来源于转盘设置页面

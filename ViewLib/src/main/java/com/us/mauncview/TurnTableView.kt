@@ -37,10 +37,13 @@ class TurnTableView @JvmOverloads constructor(
         // 转盘动画持续时间
         const val ANIM_DURATION = 3500L
 
-        // 新增：滑动轨迹记录的最大数量（越多计算越精准，建议3-5个）
-        private const val MAX_TRACK_POINTS = 5
+        // 滑动轨迹记录的最大数量（越多计算越精准）
+        private const val MAX_TRACK_POINTS = 10
 
-        // 新增：最小触发惯性动画的角速度（°/ms），低于这个值不触发惯性
+        // 滑动轨迹记录的最小数量
+        private const val MIN_TRACK_POINTS = 5
+
+        // 最小触发惯性动画的角速度（°/ms），低于这个值不触发惯性
         private const val MIN_INERTIA_SPEED = 0.1f
     }
 
@@ -64,6 +67,9 @@ class TurnTableView @JvmOverloads constructor(
 
     // 计算出每个扇形的间隔
     private var sweepAngle = 0f
+
+    // 扇形中间白线的大小
+    private var sweepWhiteLineWidth = 0.5f
 
     // 第一绘制的扇形的颜色
     private var firstSectorColor = -1
@@ -98,24 +104,19 @@ class TurnTableView @JvmOverloads constructor(
     // 轨迹记录
     private var touchTrack = mutableListOf<Pair<Float, Long>>()
 
-    // 画圆形背景的笔
-    private val turnTableBackGroundPaint: Paint by lazy {
-        Paint().apply {
-            color = Color.GRAY
-            isAntiAlias = true
-            style = Paint.Style.FILL
-            strokeWidth = 8f
-        }
-    }
+    // 背景的半径(比圆的半径大点)
+    private var backGroundCircleRadius = 0f
 
     // 画圆形边框的笔
     private val turnTableStrokePaint: Paint by lazy {
         Paint().apply {
             color = obtainColorRes(R.color.black)
             isAntiAlias = true
+            isDither = true
             style = Paint.Style.STROKE
             strokeCap = Paint.Cap.ROUND
-            strokeWidth = 30f
+            strokeJoin = Paint.Join.ROUND
+            strokeWidth = 21f
         }
     }
 
@@ -156,6 +157,7 @@ class TurnTableView @JvmOverloads constructor(
 
     init {
         circleRadius = 450f
+        backGroundCircleRadius = circleRadius + 10f
         sweepAngle = 360f / turnTableContentList.size
         firstSectorColor = colorResList[0]
     }
@@ -205,7 +207,7 @@ class TurnTableView @JvmOverloads constructor(
     private fun calculateSize(
         measureMode: Int,
         measureSize: Int,
-        defaultSize: Int = 930,/*默认半径是450f 自适应长度=半径*2+黑色边框(30f)  半径可配置这里也可以配置*/
+        defaultSize: Int = 950,/*默认半径是450f 自适应长度=半径*2+黑色边框(30f)  半径可配置这里也可以配置*/
     ): Int {
         return when (measureMode) {
             // 精确模式：match_parent/固定数值，直接用父View给的size
@@ -239,10 +241,10 @@ class TurnTableView @JvmOverloads constructor(
                 touchTrack.clear()
                 endTurnTable()
                 downAngle = calculateTouchAngle(event.x, event.y)
-                Log.e(TAG, "onTouchEventDown:${downAngle}")
                 downStartAngle = startAngle
                 // 记录第一个轨迹点
                 touchTrack.add(Pair(downAngle, System.currentTimeMillis()))
+                Log.e(TAG, "eventDown:downAngle${downAngle},downStartAngle:${downStartAngle}")
             }
 
             MotionEvent.ACTION_MOVE -> {
@@ -285,10 +287,10 @@ class TurnTableView @JvmOverloads constructor(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        // 画背景
-        canvas.drawCircle(circleX, circleY, circleRadius, turnTableBackGroundPaint)
         // 画边框
-        canvas.drawCircle(circleX, circleY, circleRadius, turnTableStrokePaint)
+        canvas.drawCircle(
+            circleX, circleY, backGroundCircleRadius, turnTableStrokePaint
+        )
         // 画扇形 和 扇形上的文本
         turnTableContentList.forEachIndexed { index, text ->
             turnAnglePaint.color = obtainDrawColor(index)
@@ -297,7 +299,9 @@ class TurnTableView @JvmOverloads constructor(
                 circleY - circleRadius,
                 circleX + circleRadius,
                 circleY + circleRadius,
-                startAngle, sweepAngle, true, turnAnglePaint
+                startAngle - sweepWhiteLineWidth,
+                sweepAngle - sweepWhiteLineWidth,
+                true, turnAnglePaint
             )
             canvas.drawText(text)
             startAngle += sweepAngle
@@ -368,7 +372,7 @@ class TurnTableView @JvmOverloads constructor(
      * 计算滑动角速度，并判断是否触发惯性动画
      */
     private fun calculateInertiaAndStartAnimation() {
-        if (touchTrack.size < 2) return // 轨迹点不足，不触发惯性
+        if (touchTrack.size < MIN_TRACK_POINTS) return // 轨迹点不足，不触发惯性
 
         // 获取最后两段轨迹的角度和时间
         val first = touchTrack.first()
