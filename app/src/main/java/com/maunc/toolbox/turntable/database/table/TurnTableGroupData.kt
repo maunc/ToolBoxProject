@@ -9,11 +9,16 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "turn_table_group")
 data class TurnTableGroupData(
-    @ColumnInfo("groupName")
     @PrimaryKey
+    @ColumnInfo("groupName")
     var groupName: String,
+
     @ColumnInfo(name = "isSelect")
     var isSelect: Boolean = false,
+
     @ColumnInfo(name = "isExpand")
     var isExpand: Boolean = false,
+
+    @ColumnInfo(name = "createTime")
+    var createTime: Long = System.currentTimeMillis(),
 )

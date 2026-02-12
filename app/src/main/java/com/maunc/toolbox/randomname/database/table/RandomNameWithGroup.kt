@@ -8,6 +8,7 @@ data class RandomNameWithGroup(
     /*表示是父表*/
     @Embedded
     val randomNameGroup: RandomNameGroup,
+
     @Relation(
         /*parentColumn 是父表对应子表的字段*/
         parentColumn = "groupName",

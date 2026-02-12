@@ -8,8 +8,10 @@ import java.io.Serializable
 data class RandomNameData(
     @ColumnInfo(name = "toGroupName")
     var toGroupName: String,
+
     @ColumnInfo(name = "randomName")
     var randomName: String,
+
     @ColumnInfo(name = "insertNameTime")
     var insertNameTime: Long = System.currentTimeMillis()
 ) : Serializable

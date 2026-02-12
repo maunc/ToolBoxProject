@@ -6,14 +6,19 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
+import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
+import com.maunc.toolbox.commonbase.ext.fromJson
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityTurnTableEditDataBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableEditDataAdapter
 import com.maunc.toolbox.turntable.constant.MAX_EDIT_DATA_NUMBER
 import com.maunc.toolbox.turntable.constant.MIN_EDIT_DATA_NUMBER
+import com.maunc.toolbox.turntable.constant.RESULT_SOURCE_FROM_TURN_NEW_TURN_TABLE_PAGE
+import com.maunc.toolbox.turntable.constant.TURN_TABLE_GROUP_WITH_NAME_EXTRA
+import com.maunc.toolbox.turntable.database.table.TurnTableNameWithGroup
 import com.maunc.toolbox.turntable.viewmodel.TurnTableEditDataViewModel
 
 /**
@@ -21,6 +26,22 @@ import com.maunc.toolbox.turntable.viewmodel.TurnTableEditDataViewModel
  */
 class TurnTableEditDataActivity :
     BaseActivity<TurnTableEditDataViewModel, ActivityTurnTableEditDataBinding>() {
+
+    companion object {
+        // 修改状态
+        const val TURN_TABLE_UPDATE_STATUS = 0
+        const val TURN_TABLE_ADD_STATUS = 1
+    }
+
+    private val tipSaveDialog by lazy {
+        CommonDialog().setTitle(
+            obtainString(R.string.turn_table_edit_data_error_tips_five_tv)
+        ).setSureListener {
+            baseFinishActivity()
+        }.setCancelListener {
+
+        }
+    }
 
     private val turnTableEditDataAdapter by lazy {
         TurnTableEditDataAdapter().apply {
@@ -32,6 +53,7 @@ class TurnTableEditDataActivity :
                         mViewModel.showErrorTips(obtainString(R.string.turn_table_edit_data_error_tips_one_tv))
                         return
                     }
+                    mViewModel.hasEdited.value = true
                     data.removeAt(position)
                     notifyDataSetChanged()
                     if (position == data.size) {
@@ -44,6 +66,7 @@ class TurnTableEditDataActivity :
                 }
 
                 override fun onEditAfterTextChanged(position: Int, text: String) {
+                    mViewModel.hasEdited.value = true
                     mViewModel.hideErrorTips()
                 }
 
@@ -59,7 +82,7 @@ class TurnTableEditDataActivity :
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             obtainString(R.string.turn_table_title_new_data_tv)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
-            finishCurrentActivity()
+            baseFinishActivity()
         }
         KeyBroadUtils.registerKeyBoardHeightListener(this) {
             mViewModel.softKeyBroadHeight.postValue(it)
@@ -74,7 +97,15 @@ class TurnTableEditDataActivity :
                     return@clickScale
                 }
             }
-            mViewModel.insertTurnTableEditData(turnTableEditDataAdapter.data)
+            when (mViewModel.currentStatus) {
+                TURN_TABLE_UPDATE_STATUS -> {
+                    mViewModel.updateTurnTableEditData(turnTableEditDataAdapter.data)
+                }
+
+                TURN_TABLE_ADD_STATUS -> {
+                    mViewModel.insertTurnTableEditData(turnTableEditDataAdapter.data)
+                }
+            }
         }
         mDatabind.turnTableEditAddDataTv.clickScale {
             if (turnTableEditDataAdapter.data.size >= MAX_EDIT_DATA_NUMBER) {
@@ -86,8 +117,30 @@ class TurnTableEditDataActivity :
             turnTableEditDataAdapter.focusEditViewToPosition(turnTableEditDataAdapter.data.size - 1)
             mViewModel.handleCurrentSaveSize(turnTableEditDataAdapter.data.size - 1)
         }
-        mViewModel.initEditAdapterNotData(turnTableEditDataAdapter)
+        obtainTurnTableDataByIntent()?.let {
+            mViewModel.initEditAdapterData(turnTableEditDataAdapter, it)
+        } ?: let {
+            mViewModel.initEditAdapterNotData(turnTableEditDataAdapter)
+        }
+    }
 
+    private fun obtainTurnTableDataByIntent(): TurnTableNameWithGroup? {
+        val jsonString = intent?.getStringExtra(TURN_TABLE_GROUP_WITH_NAME_EXTRA) ?: return null
+        return jsonString.fromJson<TurnTableNameWithGroup>()
+    }
+
+    override fun onBackPressCallBack() {
+        if (mViewModel.hasEdited.value!!) {
+            tipSaveDialog.show(supportFragmentManager, "")
+        } else {
+            baseFinishActivity()
+        }
+    }
+
+    private fun baseFinishActivity() {
+        finishCurrentResultToActivity(
+            resultCode = RESULT_SOURCE_FROM_TURN_NEW_TURN_TABLE_PAGE
+        )
     }
 
     override fun createObserver() {

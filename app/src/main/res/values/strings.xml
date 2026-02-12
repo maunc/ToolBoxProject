@@ -145,7 +145,7 @@
     <string name="turn_table_title">转盘</string>
     <string name="turn_table_title_manager_data_tv">转盘数据管理</string>
     <string name="turn_table_title_setting_tv">转盘设置</string>
-    <string name="turn_table_title_setting_select_data">选择转盘数据</string>
+    <string name="turn_table_title_setting_select_data">查看预制转盘数据</string>
     <string name="turn_table_title_setting_enable_touch">是否启用转盘触摸</string>
     <string name="turn_table_title_setting_delete_all">删除所有转盘数据</string>
     <string name="turn_table_title_setting_anim_interpolator">转盘动画分类</string>
@@ -162,4 +162,8 @@
     <string name="turn_table_edit_data_error_tips_two_tv">--- 目前最多支持十条转盘选项 ---</string>
     <string name="turn_table_edit_data_error_tips_three_tv">--- 还有未输入的转盘内容 ---</string>
     <string name="turn_table_edit_data_error_tips_four_tv">--- 不能输入空格 ---</string>
+    <string name="turn_table_edit_data_error_tips_five_tv">是否保存本次修改?</string>
+    <string name="turn_table_recycler_item_menu_delete_tv">删除</string>
+    <string name="turn_table_recycler_item_menu_edit_tv">编辑数据</string>
+    <string name="turn_table_recycler_item_menu_tips">侧滑可编辑列表</string>
 </resources>

@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/select_group_to_main_item_name_height">
+        android:layout_height="@dimen/select_group_item_name_height">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_manage_group_with_name_name_tv"

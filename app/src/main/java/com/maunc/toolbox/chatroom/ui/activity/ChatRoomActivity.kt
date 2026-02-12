@@ -56,6 +56,7 @@ import com.maunc.toolbox.commonbase.ext.setTint
 import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.ext.startActivityWithData
 import com.maunc.toolbox.commonbase.ext.startAppSystemSettingPage
+import com.maunc.toolbox.commonbase.ext.toJson
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
@@ -394,7 +395,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
     ) = startActivityWithData(
         ChatRoomShowPicActivity::class.java,
         mutableMapOf<String, Any>().apply {
-            put(FULL_SCREEN_IMAGE_DATA_EXTRA, Gson().toJson(chatImageList))
+            put(FULL_SCREEN_IMAGE_DATA_EXTRA, chatImageList.toJson())
             put(FULL_SCREEN_IMAGE_POS_EXTRA, clickImagePosition)
         }
     )

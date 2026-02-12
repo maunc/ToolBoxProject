@@ -7,16 +7,16 @@
     </data>
 
     <RelativeLayout
-        android:id="@+id/item_select_to_main_root_layout"
+        android:id="@+id/item_select_root_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true">
 
         <RelativeLayout
-            android:id="@+id/item_select_to_main_click_layout"
+            android:id="@+id/item_select_click_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/select_group_to_main_item_height"
+            android:layout_height="@dimen/select_group_item_height"
             android:background="@drawable/bg_random_select_recycler_item">
 
             <LinearLayout
@@ -28,7 +28,7 @@
                 tools:ignore="RelativeOverlap">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/item_select_to_main_name_tv"
+                    android:id="@+id/item_select_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
@@ -36,7 +36,7 @@
                     tools:text="分组一" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/item_select_to_main_size_tv"
+                    android:id="@+id/item_select_size_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_5"
@@ -46,18 +46,18 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/item_select_to_main_select_flag"
+                android:id="@+id/item_select_select_flag"
                 android:layout_width="@dimen/manage_group_item_expand_icon_size"
                 android:layout_height="@dimen/manage_group_item_expand_icon_size"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/dp_10"
-                android:layout_toStartOf="@id/item_select_to_main_expand_iv"
+                android:layout_toStartOf="@id/item_select_expand_iv"
                 android:src="@drawable/icon_select_flag"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/item_select_to_main_expand_iv"
+                android:id="@+id/item_select_expand_iv"
                 android:layout_width="@dimen/manage_group_item_expand_icon_size"
                 android:layout_height="@dimen/manage_group_item_expand_icon_size"
                 android:layout_alignParentEnd="true"
@@ -67,18 +67,18 @@
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/item_select_to_main_name_recycler"
+            android:id="@+id/item_select_name_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_select_to_main_click_layout"
+            android:layout_below="@id/item_select_click_layout"
             android:layout_marginHorizontal="@dimen/dp_40" />
 
         <View
-            android:id="@+id/item_select_to_main_line"
+            android:id="@+id/item_select_line"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:layout_below="@id/item_select_to_main_name_recycler"
-            android:layout_marginHorizontal="@dimen/select_group_to_main_item_line_margin_horizontal"
+            android:layout_below="@id/item_select_name_recycler"
+            android:layout_marginHorizontal="@dimen/select_group_item_line_margin_horizontal"
             android:layout_marginTop="@dimen/dp_5"
             android:background="@color/gray" />
     </RelativeLayout>

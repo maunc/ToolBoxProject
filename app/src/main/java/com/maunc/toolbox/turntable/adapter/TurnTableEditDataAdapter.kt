@@ -1,6 +1,8 @@
 package com.maunc.toolbox.turntable.adapter
 
 import android.annotation.SuppressLint
+import android.text.InputType
+import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView

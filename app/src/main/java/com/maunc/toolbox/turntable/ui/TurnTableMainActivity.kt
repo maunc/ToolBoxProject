@@ -51,7 +51,8 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
             obtainString(R.string.turn_table_title)
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            turnTableActivityResult.launch(obtainActivityIntentPutData(TurnTableSettingActivity::class.java,
+            turnTableActivityResult.launch(obtainActivityIntentPutData(
+                TurnTableSettingActivity::class.java,
                 mutableMapOf<String, Any>().apply {
                     put(TURN_TABLE_ENABLE_TOUCH, mViewModel.turnTableIsEnableTouch.value!!)
                 }

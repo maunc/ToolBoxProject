@@ -95,6 +95,7 @@ dependencies {
     implementation(libs.ext.gson)
 
     implementation(libs.ext.baseAdapter)
+    implementation(libs.ext.swipeRecyclerView)
     implementation(libs.ext.room.ktx)
     implementation(libs.ext.room.runtime)
     kapt(libs.ext.room.compiler)

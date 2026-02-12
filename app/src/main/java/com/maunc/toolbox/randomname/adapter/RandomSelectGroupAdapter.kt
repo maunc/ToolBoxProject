@@ -6,28 +6,28 @@ import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
-import com.maunc.toolbox.databinding.ItemSelectGroupToMainBinding
+import com.maunc.toolbox.databinding.ItemRandomSelectGroupBinding
 import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 
 class RandomSelectGroupAdapter :
-    BaseQuickAdapter<RandomNameWithGroup, BaseDataBindingHolder<ItemSelectGroupToMainBinding>>(
-        R.layout.item_select_group_to_main
+    BaseQuickAdapter<RandomNameWithGroup, BaseDataBindingHolder<ItemRandomSelectGroupBinding>>(
+        R.layout.item_random_select_group
     ) {
     @SuppressLint("SetTextI18n")
     override fun convert(
-        holder: BaseDataBindingHolder<ItemSelectGroupToMainBinding>,
+        holder: BaseDataBindingHolder<ItemRandomSelectGroupBinding>,
         item: RandomNameWithGroup,
     ) {
         holder.dataBinding?.let { mDataBind ->
-            mDataBind.itemSelectToMainNameTv.text = item.randomNameGroup.groupName
-            mDataBind.itemSelectToMainSizeTv.text = "数量:${item.randomNameDataList.size}"
-            mDataBind.itemSelectToMainNameRecycler.layoutManager = context.linearLayoutManager()
-            mDataBind.itemSelectToMainSelectFlag.visibleOrGone(item.randomNameGroup.isSelect)
+            mDataBind.itemSelectNameTv.text = item.randomNameGroup.groupName
+            mDataBind.itemSelectSizeTv.text = "数量:${item.randomNameDataList.size}"
+            mDataBind.itemSelectNameRecycler.layoutManager = context.linearLayoutManager()
+            mDataBind.itemSelectSelectFlag.visibleOrGone(item.randomNameGroup.isSelect)
             val toMainWithNameAdapter = RandomSelectGroupWithNameAdapter()
-            mDataBind.itemSelectToMainNameRecycler.adapter = toMainWithNameAdapter
+            mDataBind.itemSelectNameRecycler.adapter = toMainWithNameAdapter
             toMainWithNameAdapter.setList(item.randomNameDataList)
-            mDataBind.itemSelectToMainNameRecycler.visibleOrGone(item.randomNameGroup.isExpand)
-            mDataBind.itemSelectToMainExpandIv.setImageResource(
+            mDataBind.itemSelectNameRecycler.visibleOrGone(item.randomNameGroup.isExpand)
+            mDataBind.itemSelectExpandIv.setImageResource(
                 if (item.randomNameGroup.isExpand) {
                     R.drawable.icon_group_expand_yes
                 } else {
