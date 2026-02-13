@@ -113,4 +113,14 @@ class TurnTableBuiltinDataViewModel : BaseViewModel<BaseModel>() {
             "insertTurnTableEditData Error:${it.message},${it.stackTrace}".loge()
         })
     }
+
+    fun selectGroup(groupName:String) {
+        launch({
+            turnTableDataDao.selectTurnTableGroup(groupName)
+        },{
+            "selectGroup Success".loge()
+        },{
+            "selectGroup Error:${it.message},${it.stackTrace}".loge()
+        })
+    }
 }

@@ -25,7 +25,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:text="@string/select_group_to_main_title_text"
                 android:textColor="@color/black"
                 android:textSize="26sp" />
 
@@ -39,7 +38,6 @@
                 android:layout_toStartOf="@id/dialog_common_dividing_line"
                 android:background="@drawable/bg_random_control_button"
                 android:gravity="center"
-                android:text="@string/common_dialog_cancel_text"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -59,7 +57,6 @@
                 android:layout_toEndOf="@id/dialog_common_dividing_line"
                 android:background="@drawable/bg_random_control_button"
                 android:gravity="center"
-                android:text="@string/common_dialog_sure_text"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
         </RelativeLayout>

@@ -174,4 +174,5 @@
     <string name="turn_table_builtin_tips">长按可添加到个人列表</string>
     <string name="turn_table_recycler_item_menu_tips">侧滑可编辑列表</string>
     <string name="turn_table_builtin_title_tv">预制数据列表</string>
+    <string name="turn_table_builtin_select_tips_tv">是否直接使用该列表?</string>
 </resources>

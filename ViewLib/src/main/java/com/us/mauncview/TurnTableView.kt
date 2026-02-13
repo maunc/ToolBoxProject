@@ -365,6 +365,7 @@ class TurnTableView @JvmOverloads constructor(
     fun setTurnTableColor(list: MutableList<Int>) {
         colorResList.clear()
         colorResList.addAll(list)
+        firstSectorColor = colorResList[0]
         invalidate()
     }
 
