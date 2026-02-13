@@ -10,7 +10,9 @@ import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.fromJson
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.toastShort
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
+import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityTurnTableEditDataBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableEditDataAdapter
@@ -37,9 +39,9 @@ class TurnTableEditDataActivity :
         CommonDialog().setTitle(
             obtainString(R.string.turn_table_edit_data_error_tips_five_tv)
         ).setSureListener {
-            baseFinishActivity()
+            saveDataEvent()
         }.setCancelListener {
-
+            baseFinishActivity()
         }
     }
 
@@ -91,21 +93,7 @@ class TurnTableEditDataActivity :
         mDatabind.turnTableEditDataRecycler.layoutManager = linearLayoutManager()
         mDatabind.turnTableEditDataRecycler.adapter = turnTableEditDataAdapter
         mDatabind.turnTableEditSaveDataTv.clickScale {
-            turnTableEditDataAdapter.data.forEach { editData ->
-                if (editData.content.isEmpty()) {
-                    mViewModel.showErrorTips(obtainString(R.string.turn_table_edit_data_error_tips_three_tv))
-                    return@clickScale
-                }
-            }
-            when (mViewModel.currentStatus) {
-                TURN_TABLE_UPDATE_STATUS -> {
-                    mViewModel.updateTurnTableEditData(turnTableEditDataAdapter.data)
-                }
-
-                TURN_TABLE_ADD_STATUS -> {
-                    mViewModel.insertTurnTableEditData(turnTableEditDataAdapter.data)
-                }
-            }
+            saveDataEvent()
         }
         mDatabind.turnTableEditAddDataTv.clickScale {
             if (turnTableEditDataAdapter.data.size >= MAX_EDIT_DATA_NUMBER) {
@@ -124,6 +112,24 @@ class TurnTableEditDataActivity :
         }
     }
 
+    private fun saveDataEvent() {
+        turnTableEditDataAdapter.data.forEach { editData ->
+            if (editData.content.isEmpty()) {
+                mViewModel.showErrorTips(obtainString(R.string.turn_table_edit_data_error_tips_three_tv))
+                return
+            }
+        }
+        when (mViewModel.currentStatus) {
+            TURN_TABLE_UPDATE_STATUS -> {
+                mViewModel.updateTurnTableEditData(turnTableEditDataAdapter.data)
+            }
+
+            TURN_TABLE_ADD_STATUS -> {
+                mViewModel.insertTurnTableEditData(turnTableEditDataAdapter.data)
+            }
+        }
+    }
+
     private fun obtainTurnTableDataByIntent(): TurnTableNameWithGroup? {
         val jsonString = intent?.getStringExtra(TURN_TABLE_GROUP_WITH_NAME_EXTRA) ?: return null
         return jsonString.fromJson<TurnTableNameWithGroup>()
@@ -131,7 +137,7 @@ class TurnTableEditDataActivity :
 
     override fun onBackPressCallBack() {
         if (mViewModel.hasEdited.value!!) {
-            tipSaveDialog.show(supportFragmentManager, "")
+            tipSaveDialog.show(supportFragmentManager, "tipsSave")
         } else {
             baseFinishActivity()
         }
@@ -144,6 +150,11 @@ class TurnTableEditDataActivity :
     }
 
     override fun createObserver() {
-
+        mViewModel.saveResult.observe(this) {
+            if (it) {
+                toastShort(obtainString(R.string.turn_table_edit_data_save_success_tv))
+                baseFinishActivity()
+            }
+        }
     }
 }

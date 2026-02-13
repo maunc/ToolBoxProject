@@ -21,6 +21,7 @@ class TurnTableEditDataViewModel : BaseViewModel<BaseModel>() {
     var editErrorTips = MutableLiveData(GLOBAL_NONE_STRING)
     var softKeyBroadHeight = MutableLiveData<Int>() //软键盘高度
     var currentSaveDataSize = MutableLiveData(0)//当前保存的数据数量
+    var saveResult = MutableLiveData<Boolean>()//保存结果
 
     //初始列表标题数据，只有是修改的时候才需要记录
     private var initialTitleData = mutableListOf<TurnTableEditData>()
@@ -56,8 +57,10 @@ class TurnTableEditDataViewModel : BaseViewModel<BaseModel>() {
         launch({
             turnTableDataDao.insertTurnTableEditData(list)
         }, {
+            saveResult.value = true
             "insertTurnTableEditData Success".loge()
         }, {
+            saveResult.value = false
             "insertTurnTableEditData Error:${it.message},${it.stackTrace}".loge()
         })
     }
@@ -72,8 +75,10 @@ class TurnTableEditDataViewModel : BaseViewModel<BaseModel>() {
                 newList = list.editDataToStringList()
             )
         }, {
+            saveResult.value = true
             "updateTurnTableEditData Success".loge()
         }, {
+            saveResult.value = false
             "updateTurnTableEditData Error:${it.message},${it.stackTrace}".loge()
         })
     }
@@ -96,7 +101,7 @@ class TurnTableEditDataViewModel : BaseViewModel<BaseModel>() {
     /**
      * 过滤标题，生成内容列表
      */
-    fun MutableList<TurnTableEditData>.editDataToStringList(): MutableList<String> {
+    private fun MutableList<TurnTableEditData>.editDataToStringList(): MutableList<String> {
         return subList(1, size).map { it.content }.toMutableList()
     }
 }

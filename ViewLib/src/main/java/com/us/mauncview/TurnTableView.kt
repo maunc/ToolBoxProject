@@ -35,7 +35,7 @@ class TurnTableView @JvmOverloads constructor(
         const val TAG = "TurnTableView"
 
         // 转盘动画持续时间
-        const val ANIM_DURATION = 3500L
+        const val ANIM_DURATION = 4000L
 
         // 滑动轨迹记录的最大数量（越多计算越精准）
         private const val MAX_TRACK_POINTS = 10
@@ -394,7 +394,7 @@ class TurnTableView @JvmOverloads constructor(
         Log.e(TAG, "滑动角速度：${angularSpeed} °/ms")
 
         obtainResultPos()
-        val targetSectorMiddleAngle = 270 - (resultPos * sweepAngle + sweepAngle / 2)
+        val targetSectorMiddleAngle = 270 - (resultPos + angleOffset()) * sweepAngle
         val entAngle = if (angularSpeed < 0) {
             // 顺时针：当前角度 + 旋转圈数 + 到目标角度的偏移
             startAngle + turnMoveNumber + (targetSectorMiddleAngle - startAngle + 360) % 360

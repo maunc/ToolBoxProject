@@ -3,6 +3,7 @@ package com.maunc.toolbox.turntable.ui
 import android.os.Bundle
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.commonbase.constant.COMMON_DIALOG
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
@@ -10,6 +11,8 @@ import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
+import com.maunc.toolbox.commonbase.ext.toastShort
+import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.databinding.ActivityTurnTableSettingBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableSettingAdapter
 import com.maunc.toolbox.turntable.constant.RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE
@@ -22,12 +25,22 @@ class TurnTableSettingActivity :
         const val TURN_TABLE_ENABLE_TOUCH = "enableTouch"
     }
 
+    private val deleteTipsDialog by lazy {
+        CommonDialog().setTitle(
+            obtainString(R.string.turn_table_setting_delete_all_tv)
+        ).setSureListener {
+            mViewModel.deleteAllData {
+                toastShort(obtainString(R.string.common_tips_delete_success))
+            }
+        }
+    }
+
     private val turnTableSettingAdapter by lazy {
         TurnTableSettingAdapter().apply {
             setOnTurnTableSettingListener(object :
                 TurnTableSettingAdapter.OnTurnTableSettingEventListener {
                 override fun showTurnTableDataPage() {
-
+                    toastShort(obtainString(R.string.functions_are_under_development))
                 }
 
                 override fun startDataMangerPage() {
@@ -35,9 +48,8 @@ class TurnTableSettingActivity :
                 }
 
                 override fun deleteAllTurnTableData() {
-
+                    deleteTipsDialog.show(supportFragmentManager, COMMON_DIALOG)
                 }
-
             })
         }
     }

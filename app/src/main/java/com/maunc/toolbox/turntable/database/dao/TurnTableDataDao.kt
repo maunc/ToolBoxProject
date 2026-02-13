@@ -16,7 +16,10 @@ import com.maunc.toolbox.turntable.database.table.TurnTableNameWithGroup
 interface TurnTableDataDao {
 
     @Query("SELECT * FROM turn_table_group WHERE groupName=:groupName")
-    fun queryTurnTableGroup(groupName: String): TurnTableGroupData?
+    fun queryTurnTableGroupByGroupName(groupName: String): TurnTableGroupData?
+
+    @Query("SELECT * FROM turn_table_group WHERE isSelect=:isSelect")
+    fun queryTurnTableGroupBySelect(isSelect: Boolean = true): TurnTableGroupData?
 
     /**
      * 插入分组标题
@@ -83,11 +86,29 @@ interface TurnTableDataDao {
     fun deleteNameByGroupName(toGroupName: String, name: String)
 
     /**
+     * 只删主表,关联子表自动全删
+     */
+    @Query("DELETE FROM turn_table_group")
+    fun deleteAllTurnTableData()
+
+    /**
+     * 查询选中的分组
+     */
+    @Transaction
+    fun queryCurrentSelectGroup(): TurnTableNameWithGroup? {
+        var turnTableNameWithGroup: TurnTableNameWithGroup? = null
+        queryTurnTableGroupBySelect()?.let {
+            turnTableNameWithGroup = queryTurnTableNameWithGroupByGroupName(it.groupName)
+        }
+        return turnTableNameWithGroup
+    }
+
+    /**
      * 选中该分组
      */
     @Transaction
     fun selectTurnTableGroup(groupName: String): Boolean {
-        val randomNameGroup = queryTurnTableGroup(groupName)
+        val randomNameGroup = queryTurnTableGroupByGroupName(groupName)
         if (randomNameGroup?.isSelect == true) {
             return false
         }

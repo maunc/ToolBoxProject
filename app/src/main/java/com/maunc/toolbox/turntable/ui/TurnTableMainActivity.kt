@@ -70,6 +70,11 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         showTipsLayout()
     }
 
+    override fun onResume() {
+        super.onResume()
+        mViewModel.initSelectTurnTableData()
+    }
+
     private fun showTipsLayout() {
         val buildString = buildString {
             mDatabind.turnTableView.getTurnTableContents().forEach {
@@ -80,6 +85,8 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
     }
 
     override fun createObserver() {
-
+        mViewModel.currentSelectData.observe(this) {
+            mDatabind.turnTableView.setTurnTableContents(it)
+        }
     }
 }
