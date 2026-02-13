@@ -28,7 +28,7 @@
             android:layout_marginTop="@dimen/dp_8"
             android:background="@drawable/bg_new_group_edit"
             android:hint="@string/turn_table_new_data_title_hint_tv"
-            android:maxLength="15"
+            android:maxLength="10"
             android:paddingStart="@dimen/dp_12"
             android:singleLine="true"
             android:textSize="20sp"

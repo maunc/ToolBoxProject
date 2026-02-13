@@ -9,11 +9,13 @@ import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.utils.SoundPlayerHelper
 import com.maunc.toolbox.commonbase.utils.TURN_TABLE_ANIM_SOUND_ID
 import com.maunc.toolbox.databinding.ActivityTurnTableMainBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableLoggerAdapter
 import com.maunc.toolbox.turntable.constant.RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE
+import com.maunc.toolbox.turntable.ui.TurnTableSettingActivity.Companion.TURN_TABLE_ENABLE_SOUND_EFFECT
 import com.maunc.toolbox.turntable.ui.TurnTableSettingActivity.Companion.TURN_TABLE_ENABLE_TOUCH
 import com.maunc.toolbox.turntable.viewmodel.TurnTableMainViewModel
 import com.us.mauncview.TurnTableView
@@ -26,7 +28,8 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         if (it.resultCode == RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE) {
             val intent = it.data!!
             mViewModel.initSettingConfig(
-                enableTouch = intent.getBooleanExtra(TURN_TABLE_ENABLE_TOUCH, false)
+                enableTouch = intent.getBooleanExtra(TURN_TABLE_ENABLE_TOUCH, false),
+                enableSoundEffect = intent.getBooleanExtra(TURN_TABLE_ENABLE_SOUND_EFFECT, false)
             )
         }
     }
@@ -48,9 +51,12 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
             turnTableLoggerAdapter.addResultLogger(content)
         }
 
-        override fun onRotateIng(content: String) {
-            if (content.isNotEmpty() && content != mViewModel.turnTableAnimSelectContent.value) {
-                soundPlayer.playSound(TURN_TABLE_ANIM_SOUND_ID)
+        override fun onRotateIng(content: String, posIndex: Int) {
+            if (content.isNotEmpty() && posIndex != mViewModel.turnTableAnimLastSelectIndex) {
+                if (mViewModel.turnTableIsEnableSoundEffect.value!!) {
+                    soundPlayer.playSound(TURN_TABLE_ANIM_SOUND_ID)
+                }
+                mViewModel.turnTableAnimLastSelectIndex = posIndex
                 mViewModel.turnTableAnimSelectContent.value = content
             }
         }
@@ -68,7 +74,14 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
             turnTableActivityResult.launch(obtainActivityIntentPutData(
                 TurnTableSettingActivity::class.java,
                 mutableMapOf<String, Any>().apply {
-                    put(TURN_TABLE_ENABLE_TOUCH, mViewModel.turnTableIsEnableTouch.value!!)
+                    put(
+                        TURN_TABLE_ENABLE_TOUCH,
+                        mViewModel.turnTableIsEnableTouch.value!!
+                    )
+                    put(
+                        TURN_TABLE_ENABLE_SOUND_EFFECT,
+                        mViewModel.turnTableIsEnableSoundEffect.value!!
+                    )
                 }
             ))
         }
@@ -78,9 +91,24 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         mDatabind.startTurnTable.clickScale {
             mDatabind.turnTableView.startTurnTable()
         }
+        mDatabind.turnTableListIcon.clickScale {
+            startTargetActivity(TurnTableDataManagerActivity::class.java)
+        }
         mDatabind.turnTableView.setOnTurnTableListener(mTurnTableListener)
         mDatabind.turnTableLoggerRec.layoutManager = linearLayoutManager()
         mDatabind.turnTableLoggerRec.adapter = turnTableLoggerAdapter
+        turnTableLoggerAdapter.addTipsLogger("欢迎体验转盘")
+    }
+
+    override fun createObserver() {
+        mViewModel.currentSelectData.observe(this) {
+            mDatabind.turnTableView.setTurnTableContents(it)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mDatabind.turnTableView.pauseTurnTable()
     }
 
     override fun onResume() {
@@ -88,20 +116,8 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         mViewModel.initSelectTurnTableData()
     }
 
-    private fun initTipsLogRecycler() {
-        turnTableLoggerAdapter.data.clear()
-        val buildString = buildString {
-            mDatabind.turnTableView.getTurnTableContents().forEach {
-                append("$it  ")
-            }
-        }
-        turnTableLoggerAdapter.addTipsLogger("转盘数据如下: $buildString")
-    }
-
-    override fun createObserver() {
-        mViewModel.currentSelectData.observe(this) {
-            mDatabind.turnTableView.setTurnTableContents(it)
-            initTipsLogRecycler()
-        }
+    override fun onDestroy() {
+        super.onDestroy()
+        soundPlayer.release()
     }
 }

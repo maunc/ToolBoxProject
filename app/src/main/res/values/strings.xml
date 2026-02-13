@@ -147,6 +147,7 @@
     <string name="turn_table_title_manager_data_tv">我的转盘数据管理</string>
     <string name="turn_table_title_setting_tv">转盘设置</string>
     <string name="turn_table_title_setting_select_data">预制转盘数据</string>
+    <string name="turn_table_title_setting_enable_sound">是否启用转盘音效</string>
     <string name="turn_table_title_setting_enable_touch">是否启用转盘触摸</string>
     <string name="turn_table_title_setting_delete_all">删除所有转盘数据</string>
     <string name="turn_table_title_setting_anim_interpolator">转盘动画分类</string>
@@ -157,6 +158,7 @@
     <string name="turn_table_new_data_title_hint_tv">请输入转盘标题</string>
     <string name="turn_table_new_data_name_tv">转盘选项</string>
     <string name="turn_table_new_data_name_hint_tv">请输入转盘选项</string>
+    <string name="turn_table_builtin_expand_all_tv">折叠所有列表</string>
     <string name="turn_table_new_add_data_tv">添加转盘选项</string>
     <string name="turn_table_new_save_data_tv">保存选项</string>
     <string name="turn_table_edit_data_error_tips_one_tv">--- 最少保留两条转盘选项 ---</string>
@@ -168,5 +170,7 @@
     <string name="turn_table_setting_delete_all_tv">是否删除所有转盘数据?</string>
     <string name="turn_table_recycler_item_menu_delete_tv">删除</string>
     <string name="turn_table_recycler_item_menu_edit_tv">编辑数据</string>
+    <string name="turn_table_builtin_tips">长按可添加到个人列表</string>
     <string name="turn_table_recycler_item_menu_tips">侧滑可编辑列表</string>
+    <string name="turn_table_builtin_title_tv">预制数据列表</string>
 </resources>

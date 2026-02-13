@@ -7,7 +7,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.maunc.toolbox.turntable.constant.INSERT_TURN_TABLE_EDIT_DATA_CHUNKED_NUM
 import com.maunc.toolbox.turntable.constant.MIN_EDIT_DATA_NUMBER
-import com.maunc.toolbox.turntable.data.TurnTableEditData
 import com.maunc.toolbox.turntable.database.table.TurnTableGroupData
 import com.maunc.toolbox.turntable.database.table.TurnTableNameData
 import com.maunc.toolbox.turntable.database.table.TurnTableNameWithGroup
@@ -147,17 +146,17 @@ interface TurnTableDataDao {
      * 插入数据一份完整转盘数据
      */
     @Transaction
-    fun insertTurnTableEditData(editDataList: MutableList<TurnTableEditData>) {
+    fun insertTurnTableEditData(editDataList: MutableList<String>) {
         if (editDataList.isEmpty()) return
         if (editDataList.size < MIN_EDIT_DATA_NUMBER) return
-        val turnTableTitle = editDataList[0].content
+        val turnTableTitle = editDataList[0]
         // 第一个是标题
         insertTurnTableGroup(TurnTableGroupData(turnTableTitle))
         editDataList.drop(1).chunked(INSERT_TURN_TABLE_EDIT_DATA_CHUNKED_NUM).forEach {
             it.forEach { name ->
                 insertTurnTableName(
                     TurnTableNameData(
-                        toGroupName = turnTableTitle, name = name.content
+                        toGroupName = turnTableTitle, name = name
                     )
                 )
             }

@@ -150,7 +150,6 @@ class TurnTableView @JvmOverloads constructor(
     private var turnTableContentList = mutableListOf(
         "测试数据1", "测试数据2", "测试数据3",
         "测试数据4", "测试数据5", "测试数据6",
-        "测试数据7", "测试数据8", "测试数据9", "测试数据1"
     )
 
     // 转动动画
@@ -174,7 +173,8 @@ class TurnTableView @JvmOverloads constructor(
         valueAnimator.addUpdateListener { animation ->
             // 控制旋转角度在0f到360f之间
             startAngle = animation.animatedValue as Float % 360
-            onTurnTableEventListener?.onRotateIng(turnTableContentList[obtainCurrentAngleFromIndex()])
+            val fromIndex = obtainCurrentAngleFromIndex()
+            onTurnTableEventListener?.onRotateIng(turnTableContentList[fromIndex], fromIndex)
             invalidate()
         }
         valueAnimator.doOnStart {
@@ -243,7 +243,7 @@ class TurnTableView @JvmOverloads constructor(
             MotionEvent.ACTION_DOWN -> {
                 isTouching.set(true)
                 touchTrack.clear()
-                endTurnTable()
+                pauseTurnTable()
                 downAngle = calculateTouchAngle(event.x, event.y)
                 downStartAngle = startAngle
                 // 记录第一个轨迹点
@@ -265,7 +265,8 @@ class TurnTableView @JvmOverloads constructor(
                     angleDiff += 360
                 }
                 startAngle = (downStartAngle - angleDiff + 360) % 360
-                onTurnTableEventListener?.onRotateIng(turnTableContentList[obtainCurrentAngleFromIndex()])
+                val fromIndex = obtainCurrentAngleFromIndex()
+                onTurnTableEventListener?.onRotateIng(turnTableContentList[fromIndex], fromIndex)
                 Log.e(TAG, "eventMove:startAngle:${startAngle},currentAngle:${currentAngle}")
                 invalidate()
             }
@@ -317,7 +318,12 @@ class TurnTableView @JvmOverloads constructor(
         // 计算文本位置（和之前一致）
         val textAngle = startAngle + sweepAngle / 2
         // 距离圆心的距离
-        val textRadius = circleRadius * 0.8f
+        val textRadius = circleRadius * when (text.length) {
+            1, 2, 3 -> 0.8f
+            4, 5 -> 0.75f
+            6 -> 0.7f
+            else -> 0.7f
+        }
         val radian = Math.toRadians(textAngle.toDouble())
         val textX = circleX + (textRadius * cos(radian)).toFloat()
         val textY = circleY + (textRadius * sin(radian)).toFloat()
@@ -354,7 +360,7 @@ class TurnTableView @JvmOverloads constructor(
     /**
      * 暂停动画
      */
-    private fun endTurnTable() {
+    fun pauseTurnTable() {
         rotateAnimator.cancel()
         isRotateTurnTable.set(false)
     }
@@ -514,7 +520,7 @@ class TurnTableView @JvmOverloads constructor(
     interface OnTurnTableEventListener {
         fun onRotateStart()
         fun onRotateEnd(content: String)
-        fun onRotateIng(content: String)
+        fun onRotateIng(content: String, posIndex: Int)
     }
 
     fun setOnTurnTableListener(onTurnTableEventListener: OnTurnTableEventListener) {

@@ -23,6 +23,7 @@ class TurnTableSettingActivity :
 
     companion object {
         const val TURN_TABLE_ENABLE_TOUCH = "enableTouch"
+        const val TURN_TABLE_ENABLE_SOUND_EFFECT = "enableSoundEffect"
     }
 
     private val deleteTipsDialog by lazy {
@@ -40,7 +41,7 @@ class TurnTableSettingActivity :
             setOnTurnTableSettingListener(object :
                 TurnTableSettingAdapter.OnTurnTableSettingEventListener {
                 override fun showTurnTableDataPage() {
-                    toastShort(obtainString(R.string.functions_are_under_development))
+                    startTargetActivity(TurnTableBuiltinDataActivity::class.java)
                 }
 
                 override fun startDataMangerPage() {
@@ -64,7 +65,8 @@ class TurnTableSettingActivity :
         mDatabind.turnTableSettingRec.adapter = turnTableSettingAdapter
         turnTableSettingAdapter.setList(mViewModel.initRecyclerData())
         turnTableSettingAdapter.setConfig(
-            intent.getBooleanExtra(TURN_TABLE_ENABLE_TOUCH, false)
+            intent.getBooleanExtra(TURN_TABLE_ENABLE_TOUCH, false),
+            intent.getBooleanExtra(TURN_TABLE_ENABLE_SOUND_EFFECT, false)
         )
     }
 
@@ -78,6 +80,7 @@ class TurnTableSettingActivity :
             resultCode = RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE,
             intent = obtainIntentPutData(mutableMapOf<String, Any>().apply {
                 put(TURN_TABLE_ENABLE_TOUCH, turnTableSettingAdapter.obtainEnableTouch())
+                put(TURN_TABLE_ENABLE_SOUND_EFFECT, turnTableSettingAdapter.obtainSoundEffect())
             })
         )
     }

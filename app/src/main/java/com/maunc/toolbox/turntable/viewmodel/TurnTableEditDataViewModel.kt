@@ -8,6 +8,7 @@ import com.maunc.toolbox.commonbase.database.turnTableDataDao
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.turntable.adapter.TurnTableEditDataAdapter
+import com.maunc.toolbox.turntable.constant.editDataToStringList
 import com.maunc.toolbox.turntable.data.TurnTableEditData
 import com.maunc.toolbox.turntable.database.table.TurnTableNameWithGroup
 import com.maunc.toolbox.turntable.ui.TurnTableEditDataActivity.Companion.TURN_TABLE_ADD_STATUS
@@ -55,7 +56,7 @@ class TurnTableEditDataViewModel : BaseViewModel<BaseModel>() {
     fun insertTurnTableEditData(list: MutableList<TurnTableEditData>) {
         hideErrorTips()
         launch({
-            turnTableDataDao.insertTurnTableEditData(list)
+            turnTableDataDao.insertTurnTableEditData(list.editDataToStringList())
         }, {
             saveResult.value = true
             "insertTurnTableEditData Success".loge()
@@ -71,8 +72,8 @@ class TurnTableEditDataViewModel : BaseViewModel<BaseModel>() {
             turnTableDataDao.updateTurnTableEditData(
                 oldTitle = initialTitleData[0].content,
                 newTitle = list[0].content,
-                oldList = initialTitleData.editDataToStringList(),
-                newList = list.editDataToStringList()
+                oldList = initialTitleData.editDataToStringList(1),
+                newList = list.editDataToStringList(1)
             )
         }, {
             saveResult.value = true
@@ -96,12 +97,5 @@ class TurnTableEditDataViewModel : BaseViewModel<BaseModel>() {
     fun hideErrorTips() {
         if (!showEditErrorTips.value!!) return
         showEditErrorTips.value = false
-    }
-
-    /**
-     * 过滤标题，生成内容列表
-     */
-    private fun MutableList<TurnTableEditData>.editDataToStringList(): MutableList<String> {
-        return subList(1, size).map { it.content }.toMutableList()
     }
 }

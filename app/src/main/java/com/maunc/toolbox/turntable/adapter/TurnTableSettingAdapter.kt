@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.turnTableAnimSoundEffect
 import com.maunc.toolbox.commonbase.utils.turnTableEnableTouch
 import com.maunc.toolbox.turntable.data.TurnTableSettingData
 import com.us.mauncview.SwitchButtonView
@@ -29,6 +30,10 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
             R.layout.item_turn_table_setting_switch_data
         )
         addItemType(
+            TurnTableSettingData.TURN_TABLE_ENABLE_SOUND_EFFECT_TYPE,
+            R.layout.item_turn_table_setting_switch_data
+        )
+        addItemType(
             TurnTableSettingData.TURN_TABLE_DELETE_ALL_DATA_TYPE,
             R.layout.item_turn_table_setting_data
         )
@@ -39,8 +44,11 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
     }
 
     private var enableTouch = false
+    private var enableSoundEffect = false
 
     fun obtainEnableTouch() = enableTouch
+
+    fun obtainSoundEffect() = enableSoundEffect
 
     override fun convert(holder: BaseViewHolder, item: TurnTableSettingData) {
         val itemPosition = getItemPosition(item)
@@ -92,6 +100,17 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
                 }
             }
 
+            TurnTableSettingData.TURN_TABLE_ENABLE_SOUND_EFFECT_TYPE -> {
+                val enableSoundEffectSwitch =
+                    haveView.findViewById<SwitchButtonView>(R.id.item_turn_table_setting_switch)
+                enableSoundEffectSwitch.isChecked = enableSoundEffect
+                enableSoundEffectSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                    enableSoundEffectSwitch.isChecked = isChecked
+                    obtainMMKV.putBoolean(turnTableAnimSoundEffect, isChecked)
+                    enableSoundEffect = isChecked
+                }
+            }
+
             TurnTableSettingData.TURN_TABLE_ANIM_INTERPOLATOR_TYPE -> {
 
             }
@@ -101,8 +120,10 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
     @SuppressLint("NotifyDataSetChanged")
     fun setConfig(
         enableTouch: Boolean,
+        enableSoundEffect: Boolean,
     ) {
         this.enableTouch = enableTouch
+        this.enableSoundEffect = enableSoundEffect
         notifyDataSetChanged()
     }
 
