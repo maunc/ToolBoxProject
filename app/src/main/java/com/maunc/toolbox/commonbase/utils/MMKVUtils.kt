@@ -41,6 +41,7 @@ const val canvasEraserWidth = "canvasEraserWidth" //橡皮宽度
 /**转盘用到的*/
 const val turnTableEnableTouch = "turnTableEnableTouch"
 const val turnTableAnimSoundEffect = "turnTableAnimSoundEffect"
+const val turnTableConfigColor = "turnTableConfigColor"
 
 class MMKVUtils {
 
@@ -71,6 +72,7 @@ class MMKVUtils {
         //转盘相关
         obtainMMKV.putBoolean(turnTableEnableTouch, false)
         obtainMMKV.putBoolean(turnTableAnimSoundEffect, false)
+        obtainMMKV.putInt(turnTableConfigColor, 0)
     }
 
     fun getString(

@@ -149,6 +149,7 @@
     <string name="turn_table_title_setting_select_data">预制转盘数据</string>
     <string name="turn_table_title_setting_enable_sound">是否启用转盘音效</string>
     <string name="turn_table_title_setting_enable_touch">是否启用转盘触摸</string>
+    <string name="turn_table_title_setting_color">转盘配色</string>
     <string name="turn_table_title_setting_delete_all">删除所有转盘数据</string>
     <string name="turn_table_title_setting_anim_interpolator">转盘动画分类</string>
     <string name="turn_table_title_data_manager_not_data_tv">您还没有转盘数据</string>

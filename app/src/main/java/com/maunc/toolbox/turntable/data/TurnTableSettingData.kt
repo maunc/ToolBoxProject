@@ -15,5 +15,6 @@ data class TurnTableSettingData(
         const val TURN_TABLE_ANIM_INTERPOLATOR_TYPE = 3// 动画插值器分类
         const val TURN_TABLE_ENABLE_TOUCH_TYPE = 4// 是否启用转盘触摸
         const val TURN_TABLE_ENABLE_SOUND_EFFECT_TYPE = 5// 是否启用转盘音效
+        const val TURN_TABLE_COLOR_TYPE = 6// 转盘颜色配置
     }
 }

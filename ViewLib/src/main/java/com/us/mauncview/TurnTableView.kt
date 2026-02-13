@@ -77,6 +77,9 @@ class TurnTableView @JvmOverloads constructor(
     // 第一绘制的扇形的颜色
     private var firstSectorColor = -1
 
+    // 是否隐藏边框
+    private var isHideBroad = false
+
     // 转盘内容的总长度
     private fun contentListSize() = turnTableContentList.size
 
@@ -103,6 +106,9 @@ class TurnTableView @JvmOverloads constructor(
 
     // 是否启用转盘触摸
     private var isEnableTouch = AtomicBoolean(false)
+
+    // 是否因为页面生命周期暂停
+    private var isLifecyclePause = AtomicBoolean(false)
 
     // 轨迹记录
     private var touchTrack = mutableListOf<Pair<Float, Long>>()
@@ -142,14 +148,13 @@ class TurnTableView @JvmOverloads constructor(
     }
 
     private var colorResList = mutableListOf(
-        obtainColorRes(R.color.turn_table_color_one),
-        obtainColorRes(R.color.turn_table_color_two),
-        obtainColorRes(R.color.turn_table_color_three)
+        Color.parseColor("#00E616"),
+        Color.parseColor("#E70000"),
+        Color.parseColor("#0083EB"),
     )
 
     private var turnTableContentList = mutableListOf(
-        "测试数据1", "测试数据2", "测试数据3",
-        "测试数据4", "测试数据5", "测试数据6",
+        "", "", "", "", "", "", "", ""
     )
 
     // 转动动画
@@ -184,6 +189,9 @@ class TurnTableView @JvmOverloads constructor(
         valueAnimator.doOnEnd {
             isRotateTurnTable.set(false)
             // cancel会回调，如果是因为触摸暂停的，不会触发转动结束
+            if (isLifecyclePause.get()) {
+                return@doOnEnd
+            }
             if (!isTouching.get()) {
                 onTurnTableEventListener?.onRotateEnd(turnTableContentList[resultPos])
             }
@@ -294,9 +302,11 @@ class TurnTableView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         // 画边框
-        canvas.drawCircle(
-            circleX, circleY, backGroundCircleRadius, turnTableStrokePaint
-        )
+        if (!isHideBroad) {
+            canvas.drawCircle(
+                circleX, circleY, backGroundCircleRadius, turnTableStrokePaint
+            )
+        }
         // 画扇形 和 扇形上的文本
         turnTableContentList.forEachIndexed { index, text ->
             turnAnglePaint.color = obtainDrawColor(index)
@@ -350,6 +360,14 @@ class TurnTableView @JvmOverloads constructor(
         invalidate()
     }
 
+    fun getTurnTableColor() = colorResList
+
+    fun setTurnTableColor(list: MutableList<Int>) {
+        colorResList.clear()
+        colorResList.addAll(list)
+        invalidate()
+    }
+
     /**
      * 转盘是否可触摸
      */
@@ -361,8 +379,20 @@ class TurnTableView @JvmOverloads constructor(
      * 暂停动画
      */
     fun pauseTurnTable() {
-        rotateAnimator.cancel()
         isRotateTurnTable.set(false)
+        rotateAnimator.cancel()
+    }
+
+    /**
+     * 设置半径
+     */
+    fun setCircleRadius(circleRadius: Float) {
+        this.circleRadius = circleRadius
+        backGroundCircleRadius = this.circleRadius + 10f
+    }
+
+    fun setHideBoard(isHide: Boolean) {
+        this.isHideBroad = isHide
     }
 
     /**
@@ -510,11 +540,21 @@ class TurnTableView @JvmOverloads constructor(
      * 处理最后一个颜色块防止合并
      */
     private fun obtainDrawColor(index: Int): Int {
+        if (colorResList.isEmpty()) return obtainColorRes(R.color.turn_table_color_two)
         var drawColor = colorResList[index % colorResList.size]
         if (index == contentListSize() - 1 && drawColor == firstSectorColor) {
             drawColor = colorResList[(index + 1) % colorResList.size]
         }
         return drawColor
+    }
+
+    fun onPause() {
+        isLifecyclePause.set(true)
+        pauseTurnTable()
+    }
+
+    fun onResume() {
+        isLifecyclePause.set(false)
     }
 
     interface OnTurnTableEventListener {

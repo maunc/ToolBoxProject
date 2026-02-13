@@ -48,6 +48,10 @@ class TurnTableSettingActivity :
                     startTargetActivity(TurnTableDataManagerActivity::class.java)
                 }
 
+                override fun startConfigColorPage() {
+                    startTargetActivity(TurnTableSettingColorActivity::class.java)
+                }
+
                 override fun deleteAllTurnTableData() {
                     deleteTipsDialog.show(supportFragmentManager, COMMON_DIALOG)
                 }

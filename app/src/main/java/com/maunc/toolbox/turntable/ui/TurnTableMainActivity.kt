@@ -12,9 +12,12 @@ import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.utils.SoundPlayerHelper
 import com.maunc.toolbox.commonbase.utils.TURN_TABLE_ANIM_SOUND_ID
+import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.turnTableConfigColor
 import com.maunc.toolbox.databinding.ActivityTurnTableMainBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableLoggerAdapter
 import com.maunc.toolbox.turntable.constant.RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE
+import com.maunc.toolbox.turntable.constant.configColorList
 import com.maunc.toolbox.turntable.ui.TurnTableSettingActivity.Companion.TURN_TABLE_ENABLE_SOUND_EFFECT
 import com.maunc.toolbox.turntable.ui.TurnTableSettingActivity.Companion.TURN_TABLE_ENABLE_TOUCH
 import com.maunc.toolbox.turntable.viewmodel.TurnTableMainViewModel
@@ -108,11 +111,17 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
 
     override fun onPause() {
         super.onPause()
-        mDatabind.turnTableView.pauseTurnTable()
+        mDatabind.turnTableView.onPause()
     }
 
     override fun onResume() {
         super.onResume()
+        mDatabind.turnTableView.onResume()
+        mDatabind.turnTableView.setTurnTableColor(
+            configColorList[obtainMMKV.getInt(
+                turnTableConfigColor
+            )].colorList
+        )
         mViewModel.initSelectTurnTableData()
     }
 

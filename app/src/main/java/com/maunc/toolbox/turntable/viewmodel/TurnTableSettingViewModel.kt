@@ -35,6 +35,10 @@ class TurnTableSettingViewModel : BaseViewModel<BaseModel>() {
                 settingType = obtainString(R.string.turn_table_title_setting_enable_sound)
             ),
             TurnTableSettingData(
+                itemType = TurnTableSettingData.TURN_TABLE_COLOR_TYPE,
+                settingType = obtainString(R.string.turn_table_title_setting_color)
+            ),
+            TurnTableSettingData(
                 itemType = TurnTableSettingData.TURN_TABLE_ANIM_INTERPOLATOR_TYPE,
                 settingType = obtainString(R.string.turn_table_title_setting_anim_interpolator)
             ),

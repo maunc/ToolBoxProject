@@ -42,12 +42,12 @@ class TurnTableBuiltinDataActivity :
             finishCurrentActivity()
         }
         mDatabind.turnTableBuiltinExpandTv.clickScale {
-            turnTableBuiltinAdapter.data.forEach {
-                if (it.turnTableGroupData.isExpand) {
-                    it.turnTableGroupData.isExpand = false
+            turnTableBuiltinAdapter.data.forEachIndexed { index, itData ->
+                if (itData.turnTableGroupData.isExpand) {
+                    itData.turnTableGroupData.isExpand = false
+                    turnTableBuiltinAdapter.notifyItemChanged(index)
                 }
             }
-            turnTableBuiltinAdapter.notifyDataSetChanged()
         }
         mDatabind.turnTableBuiltinRecycler.layoutManager = linearLayoutManager()
         mDatabind.turnTableBuiltinRecycler.adapter = turnTableBuiltinAdapter

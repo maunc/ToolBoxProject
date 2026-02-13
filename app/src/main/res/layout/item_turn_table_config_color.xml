@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10">
+
+        <RelativeLayout
+            android:id="@+id/item_turn_table_config_color_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_f2f2f2_radius_24"
+            android:paddingVertical="@dimen/dp_10"
+            tools:ignore="UselessParent">
+
+            <com.us.mauncview.TurnTableView
+                android:id="@+id/item_turn_table_config_color_test_turn_table"
+                android:layout_width="@dimen/dp_150"
+                android:layout_height="@dimen/dp_150"
+                android:layout_marginStart="@dimen/dp_20" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/item_turn_table_config_color_flag"
+                android:layout_width="@dimen/dp_35"
+                android:layout_height="@dimen/dp_35"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:src="@drawable/icon_select_flag" />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

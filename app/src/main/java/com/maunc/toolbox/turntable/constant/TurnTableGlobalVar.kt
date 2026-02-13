@@ -1,5 +1,8 @@
 package com.maunc.toolbox.turntable.constant
 
+import android.graphics.Color
+import com.maunc.toolbox.commonbase.ext.mutableListInsert
+import com.maunc.toolbox.turntable.data.TurnTableConfigColorData
 import com.maunc.toolbox.turntable.data.TurnTableEditData
 import com.maunc.toolbox.turntable.database.table.TurnTableNameWithGroup
 
@@ -42,3 +45,61 @@ const val RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE = 201
 
 //来源于创建转盘页面
 const val RESULT_SOURCE_FROM_TURN_NEW_TURN_TABLE_PAGE = 202
+
+/**============================================== 预制数据 ==============================================*/
+val configColorList = mutableListOf<TurnTableConfigColorData>().apply {
+    mutableListInsert(
+        TurnTableConfigColorData(mutableListOf<Int>().apply {
+            mutableListInsert(
+                Color.parseColor("#00E616"),
+                Color.parseColor("#E70000"),
+                Color.parseColor("#0083EB"),
+            )
+        }),
+        TurnTableConfigColorData(mutableListOf<Int>().apply {
+            mutableListInsert(
+                Color.parseColor("#008AC8"),
+                Color.parseColor("#CC008AC8"),//80
+                Color.parseColor("#99008AC8"),//60
+                Color.parseColor("#66008AC8"),//40
+                Color.parseColor("#33008AC8"),//20
+            )
+        }),
+        TurnTableConfigColorData(mutableListOf<Int>().apply {
+            mutableListInsert(
+                Color.parseColor("#3F65E8"),
+                Color.parseColor("#803F65E8")
+            )
+        }),
+        TurnTableConfigColorData(mutableListOf<Int>().apply {
+            mutableListInsert(
+                Color.parseColor("#76C741"),
+                Color.parseColor("#8076C741")
+            )
+        }),
+        TurnTableConfigColorData(mutableListOf<Int>().apply {
+            mutableListInsert(
+                Color.parseColor("#FC3131"),
+                Color.parseColor("#80FC3131")
+            )
+        }),
+        TurnTableConfigColorData(mutableListOf<Int>().apply {
+            mutableListInsert(
+                Color.parseColor("#FA7F21"),
+                Color.parseColor("#80FA7F21")
+            )
+        }),
+        TurnTableConfigColorData(mutableListOf<Int>().apply {
+            mutableListInsert(
+                Color.parseColor("#A23B00"),
+                Color.parseColor("#80A23B00")
+            )
+        }),
+        TurnTableConfigColorData(mutableListOf<Int>().apply {
+            mutableListInsert(
+                Color.parseColor("#805D99"),
+                Color.parseColor("#80805D99")
+            )
+        }),
+    )
+}

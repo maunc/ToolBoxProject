@@ -34,6 +34,10 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
             R.layout.item_turn_table_setting_switch_data
         )
         addItemType(
+            TurnTableSettingData.TURN_TABLE_COLOR_TYPE,
+            R.layout.item_turn_table_setting_data
+        )
+        addItemType(
             TurnTableSettingData.TURN_TABLE_DELETE_ALL_DATA_TYPE,
             R.layout.item_turn_table_setting_data
         )
@@ -111,6 +115,12 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
                 }
             }
 
+            TurnTableSettingData.TURN_TABLE_COLOR_TYPE -> {
+                baseSettingView.setOnClickListener {
+                    onTurnTableSettingEventListener?.startConfigColorPage()
+                }
+            }
+
             TurnTableSettingData.TURN_TABLE_ANIM_INTERPOLATOR_TYPE -> {
 
             }
@@ -132,6 +142,7 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
     interface OnTurnTableSettingEventListener {
         fun showTurnTableDataPage()
         fun startDataMangerPage()
+        fun startConfigColorPage()
         fun deleteAllTurnTableData()
     }
 
