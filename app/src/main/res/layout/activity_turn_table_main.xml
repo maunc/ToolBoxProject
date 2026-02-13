@@ -29,10 +29,10 @@
                 android:id="@+id/turn_table_main_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_20"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp_10"
                 android:textColor="@color/black"
-                android:textSize="26sp"
+                android:textSize="36sp"
                 android:textStyle="bold"
                 app:setTurnTableTitle="@{turnTableMainViewModel.currentSelectTitle}"
                 tools:text="@string/turn_table_title" />
@@ -45,7 +45,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp_25"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="24sp"
+                app:setTurnTableAnimSelectContent="@{turnTableMainViewModel.turnTableAnimSelectContent}"
                 tools:text="@string/turn_table_title" />
 
             <RelativeLayout

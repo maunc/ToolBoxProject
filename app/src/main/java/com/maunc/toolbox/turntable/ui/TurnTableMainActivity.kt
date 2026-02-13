@@ -9,6 +9,8 @@ import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.utils.SoundPlayerHelper
+import com.maunc.toolbox.commonbase.utils.TURN_TABLE_ANIM_SOUND_ID
 import com.maunc.toolbox.databinding.ActivityTurnTableMainBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableLoggerAdapter
 import com.maunc.toolbox.turntable.constant.RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE
@@ -33,6 +35,10 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         TurnTableLoggerAdapter()
     }
 
+    private val soundPlayer by lazy {
+        SoundPlayerHelper()
+    }
+
     private val mTurnTableListener = object : TurnTableView.OnTurnTableEventListener {
         override fun onRotateStart() {
 
@@ -41,12 +47,20 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         override fun onRotateEnd(content: String) {
             turnTableLoggerAdapter.addResultLogger(content)
         }
+
+        override fun onRotateIng(content: String) {
+            if (content.isNotEmpty() && content != mViewModel.turnTableAnimSelectContent.value) {
+                soundPlayer.playSound(TURN_TABLE_ANIM_SOUND_ID)
+                mViewModel.turnTableAnimSelectContent.value = content
+            }
+        }
     }
 
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.turnTableMainViewModel = mViewModel
         // 初始化
         mViewModel.initViewModelConfig()
+        soundPlayer.loadSound(R.raw.turn_table_anim_sound, TURN_TABLE_ANIM_SOUND_ID)
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             obtainString(R.string.turn_table_title)
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
@@ -67,7 +81,6 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         mDatabind.turnTableView.setOnTurnTableListener(mTurnTableListener)
         mDatabind.turnTableLoggerRec.layoutManager = linearLayoutManager()
         mDatabind.turnTableLoggerRec.adapter = turnTableLoggerAdapter
-        showTipsLayout()
     }
 
     override fun onResume() {
@@ -75,7 +88,8 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         mViewModel.initSelectTurnTableData()
     }
 
-    private fun showTipsLayout() {
+    private fun initTipsLogRecycler() {
+        turnTableLoggerAdapter.data.clear()
         val buildString = buildString {
             mDatabind.turnTableView.getTurnTableContents().forEach {
                 append("$it  ")
@@ -87,6 +101,7 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
     override fun createObserver() {
         mViewModel.currentSelectData.observe(this) {
             mDatabind.turnTableView.setTurnTableContents(it)
+            initTipsLogRecycler()
         }
     }
 }

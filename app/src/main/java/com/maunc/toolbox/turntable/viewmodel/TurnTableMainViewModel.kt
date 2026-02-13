@@ -19,6 +19,8 @@ class TurnTableMainViewModel : BaseViewModel<BaseModel>() {
     var currentSelectTitle = MutableLiveData(GLOBAL_NONE_STRING)
     var currentSelectData = MutableLiveData<MutableList<String>>()
 
+    var turnTableAnimSelectContent = MutableLiveData(GLOBAL_NONE_STRING)
+
     fun initViewModelConfig() {
         initSettingConfig()
     }

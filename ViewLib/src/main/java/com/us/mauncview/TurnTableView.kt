@@ -62,6 +62,9 @@ class TurnTableView @JvmOverloads constructor(
     // 圆的半径
     private var circleRadius = 0f
 
+    // 转盘指针方向
+    private var pointerAngle = 270f
+
     // 每个扇形的绘制的起始角度
     private var startAngle = 0f
 
@@ -131,7 +134,7 @@ class TurnTableView @JvmOverloads constructor(
 
     // 画字的笔
     private var textPaint: Paint = Paint().apply {
-        color = Color.BLACK
+        color = Color.WHITE
         isAntiAlias = true
         isDither = true
         textSize = 40f
@@ -171,6 +174,7 @@ class TurnTableView @JvmOverloads constructor(
         valueAnimator.addUpdateListener { animation ->
             // 控制旋转角度在0f到360f之间
             startAngle = animation.animatedValue as Float % 360
+            onTurnTableEventListener?.onRotateIng(turnTableContentList[obtainCurrentAngleFromIndex()])
             invalidate()
         }
         valueAnimator.doOnStart {
@@ -261,6 +265,7 @@ class TurnTableView @JvmOverloads constructor(
                     angleDiff += 360
                 }
                 startAngle = (downStartAngle - angleDiff + 360) % 360
+                onTurnTableEventListener?.onRotateIng(turnTableContentList[obtainCurrentAngleFromIndex()])
                 Log.e(TAG, "eventMove:startAngle:${startAngle},currentAngle:${currentAngle}")
                 invalidate()
             }
@@ -312,7 +317,7 @@ class TurnTableView @JvmOverloads constructor(
         // 计算文本位置（和之前一致）
         val textAngle = startAngle + sweepAngle / 2
         // 距离圆心的距离
-        val textRadius = circleRadius * 0.7f
+        val textRadius = circleRadius * 0.8f
         val radian = Math.toRadians(textAngle.toDouble())
         val textX = circleX + (textRadius * cos(radian)).toFloat()
         val textY = circleY + (textRadius * sin(radian)).toFloat()
@@ -349,7 +354,7 @@ class TurnTableView @JvmOverloads constructor(
     /**
      * 暂停动画
      */
-    fun endTurnTable() {
+    private fun endTurnTable() {
         rotateAnimator.cancel()
         isRotateTurnTable.set(false)
     }
@@ -364,7 +369,7 @@ class TurnTableView @JvmOverloads constructor(
         }
         obtainResultPos()
         // 计算转动到position位置停止后的角度值，指针是朝向正上方，正上放的角度是270
-        val entAngle = 270 - sweepAngle * (resultPos + angleOffset()) + turnMoveNumber
+        val entAngle = pointerAngle - sweepAngle * (resultPos + angleOffset()) + turnMoveNumber
         startRotateAnim(startAngle, entAngle)
     }
 
@@ -394,7 +399,7 @@ class TurnTableView @JvmOverloads constructor(
         Log.e(TAG, "滑动角速度：${angularSpeed} °/ms")
 
         obtainResultPos()
-        val targetSectorMiddleAngle = 270 - (resultPos + angleOffset()) * sweepAngle
+        val targetSectorMiddleAngle = pointerAngle - (resultPos + angleOffset()) * sweepAngle
         val entAngle = if (angularSpeed < 0) {
             // 顺时针：当前角度 + 旋转圈数 + 到目标角度的偏移
             startAngle + turnMoveNumber + (targetSectorMiddleAngle - startAngle + 360) % 360
@@ -412,6 +417,50 @@ class TurnTableView @JvmOverloads constructor(
         rotateAnimator.cancel()
         rotateAnimator.setFloatValues(startValue, endValue)
         rotateAnimator.start()
+    }
+
+    /**
+     * 判断当前指针角度对应的内容
+     */
+    private fun obtainCurrentAngleFromIndex(): Int {
+        if (turnTableContentList.isEmpty()) return 0
+        val currentStartAngle = normalizeAngle(startAngle)
+        val effectiveSweepAngle = sweepAngle - sweepWhiteLineWidth
+        // 角度精度容错（解决浮点数/绘制误差导致的边界误判）
+        val angleTolerance = 0.5f // 可根据实际需求调整（建议0.1~1°）
+        // 存储「扇形索引-角度差」，用于兜底找最近扇形
+        val sectorAngleDiffMap = mutableMapOf<Int, Float>()
+        for (index in turnTableContentList.indices) {
+            // 计算当前扇形的有效起始/结束角度（含容错）
+            val sectorStart = normalizeAngle(currentStartAngle + index * sweepAngle)
+            val sectorEnd = normalizeAngle(sectorStart + effectiveSweepAngle + angleTolerance)
+            // 核心：用「角度差」判断是否在扇形区间（跨360°更鲁棒）
+            val isInSector = if (sectorStart < sectorEnd) {
+                // 普通区间（如30°~60°）：包含容错后的边界
+                pointerAngle in (sectorStart - angleTolerance)..sectorEnd
+            } else {
+                // 跨360°区间（如350°~10°）：拆分判断+容错
+                (pointerAngle >= sectorStart - angleTolerance) || (pointerAngle <= sectorEnd)
+            }
+            if (isInSector) {
+                return index
+            }
+            // 未匹配时，计算指针到当前扇形中心的角度差（用于兜底）
+            val sectorCenter = normalizeAngle(sectorStart + effectiveSweepAngle / 2)
+            val angleDiff = calculateShortestAngleDiff(pointerAngle, sectorCenter)
+            sectorAngleDiffMap[index] = angleDiff
+        }
+        //落在白线时，返回「角度最近的扇形索引」
+        return sectorAngleDiffMap.minByOrNull { it.value }?.key ?: 0
+    }
+
+    /**
+     * 计算两个角度之间的「最短差值」（解决360°环形角度差问题）
+     * 例如：350° 和 10° 的最短差值是 20°，而非 340°
+     */
+    private fun calculateShortestAngleDiff(angle1: Float, angle2: Float): Float {
+        val diff = abs(angle1 - angle2)
+        return if (diff > 180f) 360f - diff else diff
     }
 
     /**
@@ -437,6 +486,14 @@ class TurnTableView @JvmOverloads constructor(
     }
 
     /**
+     * 标准化角度到 0° ~ 360° 范围（消除负数角度）
+     */
+    private fun normalizeAngle(angle: Float): Float {
+        val normalized = angle % 360f
+        return if (normalized < 0) normalized + 360f else normalized
+    }
+
+    /**
      * 获取结果
      */
     private fun obtainResultPos() {
@@ -457,6 +514,7 @@ class TurnTableView @JvmOverloads constructor(
     interface OnTurnTableEventListener {
         fun onRotateStart()
         fun onRotateEnd(content: String)
+        fun onRotateIng(content: String)
     }
 
     fun setOnTurnTableListener(onTurnTableEventListener: OnTurnTableEventListener) {
