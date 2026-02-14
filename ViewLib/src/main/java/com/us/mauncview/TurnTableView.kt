@@ -415,35 +415,28 @@ class TurnTableView @JvmOverloads constructor(
      */
     private fun calculateInertiaAndStartAnimation() {
         if (touchTrack.size < MIN_TRACK_POINTS) return // 轨迹点不足，不触发惯性
-
-        // 获取最后两段轨迹的角度和时间
-        val first = touchTrack.first()
-        val last = touchTrack.last()
-        val angleDelta = last.first - first.first
-        val timeDelta = (last.second - first.second).toFloat()
-
+        val timeDelta = (touchTrack.last().second - touchTrack.first().second).toFloat()
         if (timeDelta == 0f) return // 时间差为0，避免除0
-
-        var angularSpeed = angleDelta / timeDelta
-        if (abs(angularSpeed) > 180 / timeDelta) {
-            angularSpeed -= 360 / timeDelta
-        } else if (angularSpeed < -180 / timeDelta) {
-            angularSpeed += 360 / timeDelta
+        // 遍历轨迹点，累加每一段的角度差（考虑360°循环），得到总滑动角度
+        var totalAngleDelta = 0f
+        for (i in 1 until touchTrack.size) {
+            val prev = touchTrack[i - 1]
+            val curr = touchTrack[i]
+            totalAngleDelta += calculateDirectionalAngleDiff(prev.first, curr.first)
         }
-
+        // 计算平均角速度（°/ms）：正数=逆时针，负数=顺时针
+        val angularSpeed = totalAngleDelta / timeDelta
         // 低于阈值不触发惯性
         if (abs(angularSpeed) < MIN_INERTIA_SPEED) return
-        Log.e(TAG, "滑动角速度：${angularSpeed} °/ms")
-
+        Log.e(TAG, "滑动角速度：${angularSpeed} °/ms ")
         obtainResultPos()
         val targetSectorMiddleAngle = pointerAngle - (resultPos + angleOffset()) * sweepAngle
-        val entAngle = if (angularSpeed < 0) {
-            // 顺时针：当前角度 + 旋转圈数 + 到目标角度的偏移
-            startAngle + turnMoveNumber + (targetSectorMiddleAngle - startAngle + 360) % 360
-        } else {
-            // 逆时针：当前角度 - 旋转圈数 - 到目标角度的偏移
-            startAngle - turnMoveNumber - (startAngle - targetSectorMiddleAngle + 360) % 360
-        }
+        // 计算当前角度到目标角度的带方向差值
+        val diffToTarget = calculateDirectionalAngleDiff(startAngle, targetSectorMiddleAngle)
+        // 计算惯性动画的目标角度：叠加旋转圈数（保持滑动方向）
+        val inertiaTotalAngle = if (angularSpeed < 0) turnMoveNumber else -turnMoveNumber
+        val entAngle = startAngle + inertiaTotalAngle + diffToTarget
+
         startRotateAnim(startAngle, entAngle)
     }
 
@@ -464,14 +457,14 @@ class TurnTableView @JvmOverloads constructor(
         val currentStartAngle = normalizeAngle(startAngle)
         val effectiveSweepAngle = sweepAngle - sweepWhiteLineWidth
         // 角度精度容错（解决浮点数/绘制误差导致的边界误判）
-        val angleTolerance = 0.5f // 可根据实际需求调整（建议0.1~1°）
+        val angleTolerance = 0.5f //（0.1~1°）
         // 存储「扇形索引-角度差」，用于兜底找最近扇形
         val sectorAngleDiffMap = mutableMapOf<Int, Float>()
         for (index in turnTableContentList.indices) {
             // 计算当前扇形的有效起始/结束角度（含容错）
             val sectorStart = normalizeAngle(currentStartAngle + index * sweepAngle)
             val sectorEnd = normalizeAngle(sectorStart + effectiveSweepAngle + angleTolerance)
-            // 核心：用「角度差」判断是否在扇形区间（跨360°更鲁棒）
+            // 用「角度差」判断是否在扇形区间
             val isInSector = if (sectorStart < sectorEnd) {
                 // 普通区间（如30°~60°）：包含容错后的边界
                 pointerAngle in (sectorStart - angleTolerance)..sectorEnd
@@ -487,17 +480,29 @@ class TurnTableView @JvmOverloads constructor(
             val angleDiff = calculateShortestAngleDiff(pointerAngle, sectorCenter)
             sectorAngleDiffMap[index] = angleDiff
         }
-        //落在白线时，返回「角度最近的扇形索引」
+        // 落在白线时，返回「角度最近的扇形索引」
         return sectorAngleDiffMap.minByOrNull { it.value }?.key ?: 0
     }
 
     /**
      * 计算两个角度之间的「最短差值」（解决360°环形角度差问题）
      * 例如：350° 和 10° 的最短差值是 20°，而非 340°
+     * 获取结果指针位置调用修正
      */
     private fun calculateShortestAngleDiff(angle1: Float, angle2: Float): Float {
         val diff = abs(angle1 - angle2)
         return if (diff > 180f) 360f - diff else diff
+    }
+
+    /**
+     * 计算两个角度之间的带方向的最短差值（考虑360°循环）
+     * 触摸旋转时调用修正
+     */
+    private fun calculateDirectionalAngleDiff(fromAngle: Float, toAngle: Float): Float {
+        var diff = toAngle - fromAngle
+        // 修正差值到 [-180, 180] 区间，保证是最短旋转路径
+        if (diff > 180) diff -= 360 else if (diff < -180) diff += 360
+        return diff
     }
 
     /**

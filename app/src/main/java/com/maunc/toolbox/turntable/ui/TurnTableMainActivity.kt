@@ -10,8 +10,6 @@ import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
-import com.maunc.toolbox.commonbase.utils.SoundPlayerHelper
-import com.maunc.toolbox.commonbase.utils.TURN_TABLE_ANIM_SOUND_ID
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.turnTableConfigColor
 import com.maunc.toolbox.databinding.ActivityTurnTableMainBinding
@@ -41,10 +39,6 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         TurnTableLoggerAdapter()
     }
 
-    private val soundPlayer by lazy {
-        SoundPlayerHelper()
-    }
-
     private val mTurnTableListener = object : TurnTableView.OnTurnTableEventListener {
         override fun onRotateStart() {
 
@@ -55,11 +49,8 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         }
 
         override fun onRotateIng(content: String, posIndex: Int) {
-            if (content.isNotEmpty() && posIndex != mViewModel.turnTableAnimLastSelectIndex) {
-                if (mViewModel.turnTableIsEnableSoundEffect.value!!) {
-                    soundPlayer.playSound(TURN_TABLE_ANIM_SOUND_ID)
-                }
-                mViewModel.turnTableAnimLastSelectIndex = posIndex
+            if (content.isNotEmpty()) {
+                mViewModel.playTurnTableSoundSafely(posIndex)
                 mViewModel.turnTableAnimSelectContent.value = content
             }
         }
@@ -69,7 +60,6 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         mDatabind.turnTableMainViewModel = mViewModel
         // 初始化
         mViewModel.initViewModelConfig()
-        soundPlayer.loadSound(R.raw.turn_table_anim_sound, TURN_TABLE_ANIM_SOUND_ID)
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             obtainString(R.string.turn_table_title)
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
@@ -123,10 +113,5 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
             )].colorList
         )
         mViewModel.initSelectTurnTableData()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        soundPlayer.release()
     }
 }
