@@ -72,7 +72,7 @@ class TurnTableView @JvmOverloads constructor(
     private var sweepAngle = 0f
 
     // 扇形中间白线的大小
-    private var sweepWhiteLineWidth = 0.5f
+    private var sweepWhiteLineWidth = 1f
 
     // 第一绘制的扇形的颜色
     private var firstSectorColor = -1
@@ -119,7 +119,7 @@ class TurnTableView @JvmOverloads constructor(
     // 画圆形边框的笔
     private val turnTableStrokePaint: Paint by lazy {
         Paint().apply {
-            color = obtainColorRes(R.color.black)
+            color = Color.argb(200, 0, 0, 0)
             isAntiAlias = true
             isDither = true
             style = Paint.Style.STROKE
@@ -135,6 +135,17 @@ class TurnTableView @JvmOverloads constructor(
             isAntiAlias = true
             isDither = true
             style = Paint.Style.FILL
+        }
+    }
+
+    // 画白线的笔
+    private val sectorDividePaint: Paint by lazy {
+        Paint().apply {
+            color = Color.WHITE
+            isAntiAlias = true
+            isDither = true
+            style = Paint.Style.STROKE
+            strokeWidth = 2f
         }
     }
 
@@ -315,17 +326,24 @@ class TurnTableView @JvmOverloads constructor(
                 circleY - circleRadius,
                 circleX + circleRadius,
                 circleY + circleRadius,
-                startAngle - sweepWhiteLineWidth,
-                sweepAngle - sweepWhiteLineWidth,
-                true, turnAnglePaint
+                startAngle, sweepAngle, true, turnAnglePaint
             )
+            canvas.drawSectorDivideLine()
             canvas.drawText(text)
             startAngle += sweepAngle
         }
     }
 
+    private fun Canvas.drawSectorDivideLine() {
+        val radian = Math.toRadians(startAngle.toDouble())
+        // 分割线起点（外圆边缘）
+        val startX = circleX + (circleRadius - sweepWhiteLineWidth) * cos(radian).toFloat()
+        val startY = circleY + (circleRadius - sweepWhiteLineWidth) * sin(radian).toFloat()
+        drawLine(startX, startY, circleX, circleY, sectorDividePaint)
+    }
+
     private fun Canvas.drawText(text: String) {
-        // 计算文本位置（和之前一致）
+        // 计算文本位置
         val textAngle = startAngle + sweepAngle / 2
         // 距离圆心的距离
         val textRadius = circleRadius * when (text.length) {
@@ -337,17 +355,15 @@ class TurnTableView @JvmOverloads constructor(
         val radian = Math.toRadians(textAngle.toDouble())
         val textX = circleX + (textRadius * cos(radian)).toFloat()
         val textY = circleY + (textRadius * sin(radian)).toFloat()
-        // 1. 保存当前画布状态
         save()
-        // 2. 将画布原点平移到文本绘制的位置
+        // 将画布原点平移到文本绘制的位置
         translate(textX, textY)
-        // 3. 旋转画布,让文本垂直+90f于扇形径向 ,如果你想让文本和扇形径向一致，直接用 textAngle 即可
+        // 旋转画布,让文本垂直+90f于扇形径向 ,如果你想让文本和扇形径向一致，直接用 textAngle 即可
         rotate(textAngle)
-        // 4. 绘制文本（此时原点已经平移到textX/textY，所以坐标填0,0）
+        // 绘制文本（此时原点已经平移到textX/textY，所以坐标填0,0）
         val fontMetrics = textPaint.fontMetrics
         val baseLineY = 0f - (fontMetrics.ascent + fontMetrics.descent) / 2
         drawText(text, 0f, baseLineY, textPaint)
-        // 5. 恢复画布状态（必须！否则后续绘制会继承旋转状态）
         restore()
     }
 
