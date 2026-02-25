@@ -9,12 +9,10 @@ const val MODE_ERASER = 2
 /**
  * 控制台点击
  */
-const val SIGN_CONTROLLER_BACK = 1
-const val SIGN_CONTROLLER_NEXT = 2
-const val SIGN_CONTROLLER_PEN = 3
-const val SIGN_CONTROLLER_ERASER = 4
-const val SIGN_CONTROLLER_CLEAR = 5
-const val SIGN_CONTROLLER_SAVE = 6
+const val SIGN_CONTROLLER_PEN = 1
+const val SIGN_CONTROLLER_ERASER = 2
+const val SIGN_CONTROLLER_CLEAR = 3
+const val SIGN_CONTROLLER_SAVE = 4
 
 /**
  * 设置颜色的最大进度和最小进度

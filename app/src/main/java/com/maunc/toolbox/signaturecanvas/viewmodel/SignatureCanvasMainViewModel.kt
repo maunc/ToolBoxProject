@@ -10,10 +10,8 @@ import com.maunc.toolbox.commonbase.utils.canvasEraserWidth
 import com.maunc.toolbox.commonbase.utils.canvasPenWidth
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.signaturecanvas.constant.MODE_PEN
-import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_BACK
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_CLEAR
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_ERASER
-import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_NEXT
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_PEN
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_SAVE
 import com.maunc.toolbox.signaturecanvas.data.CanvasControllerData
@@ -33,16 +31,6 @@ class SignatureCanvasMainViewModel : BaseViewModel<BaseModel>() {
 
     var controllerDataList = mutableListOf<CanvasControllerData>().apply {
         mutableListInsert(
-            CanvasControllerData(
-                image = R.drawable.icon_signature_canvas_back,
-                title = obtainString(R.string.signature_canvas_back_tv),
-                type = SIGN_CONTROLLER_BACK
-            ),
-            CanvasControllerData(
-                image = R.drawable.icon_signature_canvas_next,
-                title = obtainString(R.string.signature_canvas_next_tv),
-                type = SIGN_CONTROLLER_NEXT
-            ),
             CanvasControllerData(
                 image = R.drawable.icon_signature_canvas_pen,
                 title = obtainString(R.string.signature_canvas_pen_tv),

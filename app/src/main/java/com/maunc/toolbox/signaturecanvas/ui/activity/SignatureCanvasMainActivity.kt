@@ -95,13 +95,6 @@ class SignatureCanvasMainActivity :
         SignatureCanvasControllerAdapter().apply {
             setControllerListener(object :
                 SignatureCanvasControllerAdapter.SignatureCanvasControllerListener {
-                override fun onBackListener() {
-
-                }
-
-                override fun onNextListener() {
-
-                }
 
                 override fun onPenListener() {
                     mViewModel.drawModel.value = MODE_PEN
@@ -133,7 +126,7 @@ class SignatureCanvasMainActivity :
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
             signatureCanvasActivityResult.launch(obtainActivityIntent(SignatureCanvasSettingActivity::class.java))
         }
-        mDatabind.signatureCanvasControllerRecycler.layoutManager = gridLayoutManager(spanCount = 6)
+        mDatabind.signatureCanvasControllerRecycler.layoutManager = gridLayoutManager(spanCount = 4)
         mDatabind.signatureCanvasControllerRecycler.adapter = signatureCanvasControllerAdapter
         signatureCanvasControllerAdapter.setList(mViewModel.controllerDataList)
         mViewModel.mCanvasPenColor.value = getStorageColor()

@@ -70,7 +70,7 @@ androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensi
 #扩展的三方库
 ext-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
 ext-baseAdapter = { group = "com.github.CymChad", name = "BaseRecyclerViewAdapterHelper", version.ref = "baseAdapterVersion" }
-ext-swipeRecyclerView = {group="com.yanzhenjie.recyclerview",name="x",version.ref="swipeRecyclerViewVersion"}
+ext-swipeRecyclerView = { group = "com.yanzhenjie.recyclerview", name = "x", version.ref = "swipeRecyclerViewVersion" }
 ext-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 ext-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 ext-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }

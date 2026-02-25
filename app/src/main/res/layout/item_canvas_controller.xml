@@ -20,7 +20,6 @@
             android:layout_width="@dimen/dp_35"
             android:layout_height="@dimen/dp_35"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/icon_signature_canvas_back"
             android:tint="@color/black" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -28,7 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/signature_canvas_back_tv"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </androidx.appcompat.widget.LinearLayoutCompat>

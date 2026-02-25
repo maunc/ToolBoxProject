@@ -5,10 +5,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
 import com.maunc.toolbox.databinding.ItemCanvasControllerBinding
-import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_BACK
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_CLEAR
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_ERASER
-import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_NEXT
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_PEN
 import com.maunc.toolbox.signaturecanvas.constant.SIGN_CONTROLLER_SAVE
 import com.maunc.toolbox.signaturecanvas.data.CanvasControllerData
@@ -27,8 +25,6 @@ class SignatureCanvasControllerAdapter :
             dataBind.itemSignatureCanvasControllerTitle.text = item.title
             dataBind.itemSignatureCanvasControllerRoot.setOnClickListener {
                 when (item.type) {
-                    SIGN_CONTROLLER_BACK -> mSignatureCanvasListener?.onBackListener()
-                    SIGN_CONTROLLER_NEXT -> mSignatureCanvasListener?.onNextListener()
                     SIGN_CONTROLLER_PEN -> mSignatureCanvasListener?.onPenListener()
                     SIGN_CONTROLLER_ERASER -> mSignatureCanvasListener?.onEraserListener()
                     SIGN_CONTROLLER_CLEAR -> mSignatureCanvasListener?.onClearListener()
@@ -45,8 +41,6 @@ class SignatureCanvasControllerAdapter :
     }
 
     interface SignatureCanvasControllerListener {
-        fun onBackListener()
-        fun onNextListener()
         fun onPenListener()
         fun onEraserListener()
         fun onClearListener()
