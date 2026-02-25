@@ -1,0 +1,35 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace 'com.github.jsbridge'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 19
+        targetSdk 26
+        versionCode 1
+        versionName "1.0.0"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions { // 消除lint警告
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+dependencies {
+    implementation libs.androidx.appcompat
+    implementation libs.ext.gson
+}
+
