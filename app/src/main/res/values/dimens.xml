@@ -66,10 +66,6 @@
     <!--sp-->
     <dimen name="sp_18">18sp</dimen>
 
-    <!--toolboxPage-->
-    <dimen name="tool_box_main_item_size">210dp</dimen>
-    <dimen name="tool_box_main_item_icon_size">80dp</dimen>
-
     <!--commonToolBar-->
     <dimen name="common_tool_bar_height">60dp</dimen>
     <dimen name="common_tool_bar_icon_size">30dp</dimen>

@@ -15,23 +15,18 @@ class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
     fun initRecyclerData(): MutableList<ToolBoxItemData> {
         localItemData.value?.mutableListInsert(
             ToolBoxItemData(
-                itemIcon = R.drawable.icon_tool_box_chronograph,
                 itemTitle = obtainString(R.string.tool_box_item_chronograph_text)
             ),
             ToolBoxItemData(
-                itemIcon = R.drawable.icon_tool_box_random_name,
                 itemTitle = obtainString(R.string.tool_box_item_random_name_text)
             ),
             ToolBoxItemData(
-                itemIcon = R.drawable.icon_tool_box_chat_room,
                 itemTitle = obtainString(R.string.tool_box_item_chat_room_text)
             ),
             ToolBoxItemData(
-                itemIcon = R.drawable.icon_tool_box_signature_canvas,
                 itemTitle = obtainString(R.string.tool_box_item_signature_canvas_text)
             ),
             ToolBoxItemData(
-                itemIcon = R.drawable.icon_tool_box_turn_table,
                 itemTitle = obtainString(R.string.tool_box_item_turn_table_text)
             ),
         )

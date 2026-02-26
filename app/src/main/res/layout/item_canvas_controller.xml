@@ -19,8 +19,7 @@
             android:id="@+id/item_signature_canvas_controller_image"
             android:layout_width="@dimen/dp_35"
             android:layout_height="@dimen/dp_35"
-            android:layout_gravity="center_horizontal"
-            android:tint="@color/black" />
+            android:layout_gravity="center_horizontal" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_signature_canvas_controller_title"

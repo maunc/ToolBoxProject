@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,43 +9,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_tool_box_root_view"
-        android:layout_width="@dimen/tool_box_main_item_size"
-        android:layout_height="@dimen/tool_box_main_item_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_item_tool_box_selector">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/item_tool_box_background_icon"
-            android:layout_width="@dimen/tool_box_main_item_icon_size"
-            android:layout_height="@dimen/tool_box_main_item_icon_size"
-            android:layout_marginTop="@dimen/dp_40"
-            android:tint="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_tool_box_title_tv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_tool_box_background_icon"
+            android:layout_height="@dimen/dp_65"
             android:layout_marginTop="@dimen/dp_5"
-            android:gravity="center"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/dp_20"
             android:textColor="@color/black"
-            android:textSize="22sp"
+            android:textSize="26sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_tool_box_background_icon" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-        </RelativeLayout>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

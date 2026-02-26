@@ -49,8 +49,7 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/icon_record_up_cancel"
-                    android:tint="@color/black" />
+                    android:src="@drawable/icon_record_up_cancel" />
             </RelativeLayout>
 
             <RelativeLayout

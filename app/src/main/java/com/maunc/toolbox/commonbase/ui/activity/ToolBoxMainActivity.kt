@@ -2,15 +2,15 @@ package com.maunc.toolbox.commonbase.ui.activity
 
 import android.os.Bundle
 import com.maunc.toolbox.R
+import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.chatroom.ui.activity.ChatRoomActivity
 import com.maunc.toolbox.chronograph.ui.ChronographMainActivity
 import com.maunc.toolbox.commonbase.adapter.ToolBoxManagerAdapter
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.addCustomizeItemDecoration
-import com.maunc.toolbox.commonbase.ext.gridLayoutManager
+import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
-import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.viewmodel.ToolBoxMainViewModel
 import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
 import com.maunc.toolbox.randomname.ui.activity.RandomNameMainActivity
@@ -18,10 +18,6 @@ import com.maunc.toolbox.signaturecanvas.ui.activity.SignatureCanvasMainActivity
 import com.maunc.toolbox.turntable.ui.TurnTableMainActivity
 
 class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMainBinding>() {
-
-    private companion object {
-        const val ADAPTER_SPAN_COUNT = 2
-    }
 
     private val toolBoxManagerAdapter by lazy {
         ToolBoxManagerAdapter().apply {
@@ -53,9 +49,8 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-        // 初始化mmkv所有默认配置
-        obtainMMKV.init()
-        mDatabind.toolBoxMainRecycler.layoutManager = gridLayoutManager(ADAPTER_SPAN_COUNT)
+        appViewModel.initMMKV()
+        mDatabind.toolBoxMainRecycler.layoutManager = linearLayoutManager()
         mDatabind.toolBoxMainRecycler.addCustomizeItemDecoration()
         mDatabind.toolBoxMainRecycler.adapter = toolBoxManagerAdapter
         toolBoxManagerAdapter.setList(mViewModel.initRecyclerData())
