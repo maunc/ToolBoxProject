@@ -15,6 +15,7 @@
     <string name="tool_box_item_chat_room_text">聊天室</string>
     <string name="tool_box_item_signature_canvas_text">画板</string>
     <string name="tool_box_item_turn_table_text">转盘</string>
+    <string name="tool_box_item_ffmpeg_text">音视频编辑</string>
 
 
     <string name="welcome_start_random_text">进入点名系统</string>

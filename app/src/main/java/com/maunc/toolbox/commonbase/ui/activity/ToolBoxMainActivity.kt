@@ -13,6 +13,7 @@ import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.viewmodel.ToolBoxMainViewModel
 import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
+import com.maunc.toolbox.ffmpeg.ui.FFmpegMainActivity
 import com.maunc.toolbox.randomname.ui.activity.RandomNameMainActivity
 import com.maunc.toolbox.signaturecanvas.ui.activity.SignatureCanvasMainActivity
 import com.maunc.toolbox.turntable.ui.TurnTableMainActivity
@@ -43,6 +44,10 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
                     obtainString(R.string.tool_box_item_turn_table_text) -> {
                         startTargetActivity(TurnTableMainActivity::class.java)
                     }
+
+                    obtainString(R.string.tool_box_item_ffmpeg_text) -> {
+                        startTargetActivity(FFmpegMainActivity::class.java)
+                    }
                 }
             }
         }
@@ -50,6 +55,10 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
 
     override fun initView(savedInstanceState: Bundle?) {
         appViewModel.initMMKV()
+        mDatabind.commonToolBar.commonToolBarBackButton.setImageResource(R.drawable.icon_list)
+        mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
+        mDatabind.commonToolBar.commonToolBarTitleTv.text =
+            obtainString(R.string.app_name)
         mDatabind.toolBoxMainRecycler.layoutManager = linearLayoutManager()
         mDatabind.toolBoxMainRecycler.addCustomizeItemDecoration()
         mDatabind.toolBoxMainRecycler.adapter = toolBoxManagerAdapter

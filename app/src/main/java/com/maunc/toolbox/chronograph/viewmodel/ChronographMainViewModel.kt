@@ -42,7 +42,7 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
     var mChronographTimeValue = MutableLiveData(0f)
     var mRunChronographStatus = MutableLiveData(CHRONOGRAPH_STATUS_NONE)
     private var mRankIndex = MutableLiveData(0)
-    var mRankChronographData = MutableLiveData<ChronographData>()
+    var mRankChronographData = MutableLiveData<ChronographData?>()
 
     //计时文本是否执行缩放 true放大  false缩小
     private var mTimeTvIsScaleAnim = MutableLiveData(false)

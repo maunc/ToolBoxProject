@@ -106,4 +106,5 @@ dependencies {
     }
     implementation(libs.ext.picture.selector)
     implementation(libs.ext.immersionbar)
+    implementation(libs.ext.ffmpeg.kit)
 }

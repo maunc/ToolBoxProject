@@ -13,6 +13,7 @@ class ToolBoxManagerAdapter :
         item: ToolBoxItemData,
     ) {
         holder.dataBinding?.let { mDataBind ->
+            mDataBind.itemToolBoxBackgroundIcon.setImageResource(item.itemIcon)
             mDataBind.itemToolBoxTitleTv.text = item.itemTitle
         }
     }
