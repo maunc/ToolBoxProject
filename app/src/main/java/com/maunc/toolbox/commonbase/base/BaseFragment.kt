@@ -3,6 +3,7 @@ package com.maunc.toolbox.commonbase.base
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ abstract class BaseFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> : Fragm
 
     lateinit var mActivity: AppCompatActivity
 
-    private val handler = Handler()
+    private val handler = Handler(Looper.getMainLooper())
     private var isFirst: Boolean = true //是否第一次加载
 
     /**
@@ -57,6 +58,7 @@ abstract class BaseFragment<VM : BaseViewModel<*>, DB : ViewDataBinding> : Fragm
         savedInstanceState: Bundle?,
     ): View? {
         _binding = inflateBindingWithGeneric(inflater, container, false)
+        mDatabind.lifecycleOwner = this
         return mDatabind.root
     }
 

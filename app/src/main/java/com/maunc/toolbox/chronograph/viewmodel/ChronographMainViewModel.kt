@@ -3,20 +3,17 @@ package com.maunc.toolbox.chronograph.viewmodel
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.os.Handler
-import android.os.HandlerThread
-import android.os.Looper
+import android.os.SystemClock
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_NONE
+import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_PAUSE
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_START
-import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_STOP
-import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_THREAD_NAME
 import com.maunc.toolbox.chronograph.constant.DELAY_MILLS
-import com.maunc.toolbox.chronograph.constant.SPEED_NUM
 import com.maunc.toolbox.chronograph.data.ChronographData
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
@@ -25,98 +22,118 @@ import com.maunc.toolbox.commonbase.constant.SCALE_Y
 import com.maunc.toolbox.commonbase.constant.TRANSLATION_Y
 import com.maunc.toolbox.commonbase.ext.animateToAlpha
 import com.maunc.toolbox.commonbase.ext.obtainDimensFloat
-import java.util.Locale
-import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 @SuppressLint("ObjectAnimatorBinding", "Recycle")
 class ChronographMainViewModel : BaseViewModel<BaseModel>() {
+    private var mChronographJob: Job? = null
+    private val _mChronographTimeValue = MutableStateFlow(0L)
+    val mChronographTimeValue: StateFlow<Long> = _mChronographTimeValue.asStateFlow()//当前时间
+    var mRunChronographStatus = MutableLiveData(CHRONOGRAPH_STATUS_NONE)// 当前计时状态
+    private var mPauseStatus = MutableLiveData(true) //是否为暂停,区别停止和暂停用的
+    private var mStartChronographTime = MutableLiveData(SystemClock.elapsedRealtime())//开始时的时间
+    var mTimeTvIsScaleAnim = MutableLiveData(false)//计时文本是否执行缩放 true放大  false缩小
+    private var mRankEnable = MutableLiveData(false)//当前计时是否开始排名
+    private var mRankIndex = MutableLiveData(0)//当前排名的名次
+    var mRankChronographData = MutableLiveData<ChronographData?>()//当前排名的信息
 
-    companion object {
-        private class ChronographHandler(looper: Looper) : Handler(looper)
-    }
+    // 是否开始计时
+    fun isChronograph(): Boolean = mRunChronographStatus.value!! == CHRONOGRAPH_STATUS_START
 
-    private var mTimeThread: HandlerThread? = null
-    private var mHandler: ChronographHandler? = null
-
-    //当前时间
-    var mChronographTimeValue = MutableLiveData(0f)
-    var mRunChronographStatus = MutableLiveData(CHRONOGRAPH_STATUS_NONE)
-    private var mRankIndex = MutableLiveData(0)
-    var mRankChronographData = MutableLiveData<ChronographData?>()
-
-    //计时文本是否执行缩放 true放大  false缩小
-    private var mTimeTvIsScaleAnim = MutableLiveData(false)
-
-    private var mRankEnable = MutableLiveData(false)
-
-    private val timeRuntime = object : Runnable {
-        override fun run() {
-            mHandler?.postDelayed(this, DELAY_MILLS)
-            calculateTime()
-        }
-    }
-
-    private fun calculateTime() {
-        mChronographTimeValue.value?.let { plusValue ->
-            plusValue.plus(SPEED_NUM).let {
-                mChronographTimeValue.postValue(it)
+    private fun enableChronographJob() {
+        mChronographJob?.cancel()
+        mChronographJob = viewModelScope.launch {
+            while (isActive) {
+                val totalElapsedMs = SystemClock.elapsedRealtime() - mStartChronographTime.value!!
+                _mChronographTimeValue.value = totalElapsedMs
+                delay(DELAY_MILLS)
             }
         }
     }
 
-    fun leftControllerChronograph() {
-        if (isChronograph()) {
-            handleRankTime()
-        } else {
-            endChronograph()
-        }
-    }
-
-    fun rightControllerChronograph() {
-        if (isChronograph()) {
-            stopChronograph()
-        } else {
-            startChronograph()
-        }
-    }
-
-    fun startChronograph() {
-        mHandler?.post(timeRuntime)
+    private fun startChronometer() {
         mRunChronographStatus.value = CHRONOGRAPH_STATUS_START
+        mStartChronographTime.value = SystemClock.elapsedRealtime()
+        enableChronographJob()
     }
 
-    fun stopChronograph() {
-        mHandler?.removeCallbacksAndMessages(null)
-        mRunChronographStatus.value = CHRONOGRAPH_STATUS_STOP
+    private fun pauseChronometer() {
+        mRunChronographStatus.value = CHRONOGRAPH_STATUS_PAUSE
+        mPauseStatus.value = true
+        mChronographJob?.cancel()
     }
 
-    fun endChronograph() {
-        mHandler?.removeCallbacksAndMessages(null)
+    private fun resumeChronometer() {
+        mRunChronographStatus.value = CHRONOGRAPH_STATUS_START
+        val elapsedTime = SystemClock.elapsedRealtime() - mStartChronographTime.value!!
+        mStartChronographTime.value = SystemClock.elapsedRealtime() - elapsedTime
+        enableChronographJob()
+    }
+
+    private fun stopChronometer() {
         mRunChronographStatus.value = CHRONOGRAPH_STATUS_NONE
-        mChronographTimeValue.value = 0f
+        _mChronographTimeValue.value = 0L
+        mChronographJob?.cancel()
+        mPauseStatus.value = false
         mRankIndex.value = 0
         mTimeTvIsScaleAnim.value = false
         mRankEnable.value = false
         mRankChronographData.value = null
     }
 
-    fun isScaleAnim(): Boolean = mTimeTvIsScaleAnim.value!!
+    /**
+     * 左按钮事件
+     */
+    fun leftControllerChronograph() {
+        if (isChronograph()) {
+            handleRankTime()
+        } else {
+            stopChronometer()
+        }
+    }
 
-    fun isChronograph(): Boolean = mRunChronographStatus.value!! == CHRONOGRAPH_STATUS_START
+    /**
+     * 左按钮事件
+     */
+    fun rightControllerChronograph() {
+        if (isChronograph()) {
+            pauseChronometer()
+        } else {
+            if (mPauseStatus.value!!) {
+                resumeChronometer()
+            } else {
+                startChronometer()
+            }
+        }
+    }
 
+    /**
+     * 中间按钮事件
+     */
+    fun middleControllerChronograph() = startChronometer()
+
+    /**
+     * 插入排名
+     */
     private fun handleRankTime() {
         mTimeTvIsScaleAnim.value = true
         mRankIndex.value = mRankIndex.value!!.plus(1)
         mRankChronographData.value = ChronographData(
             mRankIndex.value!!,
-            mChronographTimeValue.value!!,
+            mChronographTimeValue.value,
             if (mRankEnable.value!!) {
-                mChronographTimeValue.value!! - mRankChronographData.value?.time!!
+                mChronographTimeValue.value - mRankChronographData.value?.time!!
             } else {
-                mChronographTimeValue.value!!
+                mChronographTimeValue.value
             }
         )
-        // 第一次点击代表开始计时
+        // 第一次点击代表开始排名
         mRankEnable.value = true
     }
 
@@ -156,7 +173,9 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
         )
     }
 
-    // 计时文本动画
+    /**
+     * 计时文本动画
+     */
     private fun animateToScale(
         view: View,
         startScale: Float = 1f,
@@ -185,36 +204,5 @@ class ChronographMainViewModel : BaseViewModel<BaseModel>() {
         val animatorSet = AnimatorSet()
         animatorSet.playTogether(scaleXAnimator, scaleYAnimator, translateYAnimator)
         animatorSet.start()
-    }
-
-    fun initHandler() {
-        if (mTimeThread == null || mTimeThread!!.state == Thread.State.TERMINATED) {
-            mTimeThread = HandlerThread(CHRONOGRAPH_THREAD_NAME).also {
-                it.start()
-            }
-        }
-        mHandler?.removeCallbacksAndMessages(null) ?: kotlin.run {
-            mTimeThread?.let {
-                mHandler = ChronographHandler(it.looper)
-            }
-        }
-    }
-
-    fun timeUnitMillion(lapSpeedMillions: Long): String { // int * 1000
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(lapSpeedMillions)
-        val seconds =
-            (TimeUnit.MILLISECONDS.toSeconds(lapSpeedMillions) - TimeUnit.MINUTES.toSeconds(minutes))
-        val seconds2 = lapSpeedMillions / 1000.0f - (lapSpeedMillions / 1000).toInt()
-        val minutesStr = String.format(Locale.getDefault(), "%02d", minutes)
-        val secondStr = String.format(Locale.getDefault(), "%05.2f", (seconds + seconds2))
-        return "$minutesStr:$secondStr"
-    }
-
-    override fun onCleared() {
-        mHandler?.removeCallbacksAndMessages(null)
-        mHandler = null
-        mTimeThread?.quitSafely()
-        mTimeThread = null
-        super.onCleared()
     }
 }

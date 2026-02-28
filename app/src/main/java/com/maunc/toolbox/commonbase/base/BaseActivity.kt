@@ -46,6 +46,7 @@ abstract class BaseActivity<VM : BaseViewModel<*>, DB : ViewDataBinding> : AppCo
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         mDatabind = inflateBindingWithGeneric(layoutInflater)
+        mDatabind.lifecycleOwner = this
         setContentView(mDatabind.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

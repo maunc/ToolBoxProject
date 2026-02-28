@@ -33,8 +33,6 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
         (getApplication<Application>() as ToolBoxApplication).applicationContext
     }
 
-    /**===============================================   点名相关   ===============================================*/
-
     /**===============================================   转盘相关   ===============================================*/
     // 转盘当前颜色
     var turnTableColorIndex = UnPeekLiveData<Int>()
@@ -56,13 +54,6 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
     fun initMMKV() {
         Log.d(TAG, "initMMKV")
         obtainMMKV.init()
-    }
-
-    /**
-     * 初始化点名配置
-     */
-    fun initRandomNameConfig() {
-
     }
 
     /**

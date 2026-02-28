@@ -32,6 +32,10 @@ class ToolBoxApplication : Application(), ViewModelStoreOwner {
         )[ToolBoxApplicationViewModel::class]
     }
 
+    override fun onTerminate() {
+        super.onTerminate()
+    }
+
     private fun getViewModelFactory(): ViewModelProvider.Factory {
         if (mViewModelFactory == null) {
             mViewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(this)

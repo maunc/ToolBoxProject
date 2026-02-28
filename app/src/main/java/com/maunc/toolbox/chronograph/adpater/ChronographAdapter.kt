@@ -4,10 +4,11 @@ import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
+import com.maunc.toolbox.chronograph.constant.timeUnitMillion
 import com.maunc.toolbox.chronograph.data.ChronographData
 import com.maunc.toolbox.databinding.ItemChronographBinding
 
-@SuppressLint("SetTextI18n", "NotifyDataSetChanged", "DefaultLocale")
+@SuppressLint("SetTextI18n", "NotifyDataSetChanged")
 class ChronographAdapter :
     BaseQuickAdapter<ChronographData, BaseDataBindingHolder<ItemChronographBinding>>(R.layout.item_chronograph) {
 
@@ -17,8 +18,8 @@ class ChronographAdapter :
     ) {
         holder.dataBinding?.let { mDataBind ->
             mDataBind.itemTimeIndexTv.text = "${item.index}"
-            mDataBind.itemGapTimeTv.text = "+ ${formatTime(item.gapTime)}"
-            mDataBind.itemTimeTv.text = formatTime(item.time)
+            mDataBind.itemGapTimeTv.text = "+ ${item.gapTime.timeUnitMillion()}"
+            mDataBind.itemTimeTv.text = item.time.timeUnitMillion()
         }
     }
 
@@ -31,11 +32,5 @@ class ChronographAdapter :
     fun clearChronograph() {
         data.clear()
         notifyDataSetChanged()
-    }
-
-    private fun formatTime(timeValue: Float): String {
-        val minutes = (timeValue / 60).toInt() // 转换为分钟
-        val remainingSeconds = timeValue % 60 // 计算剩余的秒数
-        return String.format("%02d", minutes) + ":" + String.format("%05.2f", remainingSeconds)
     }
 }

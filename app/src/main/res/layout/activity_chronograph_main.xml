@@ -36,7 +36,6 @@
                 android:fontFeatureSettings="tnum"
                 android:textColor="#000000"
                 android:textSize="75sp"
-                app:handleChronographText="@{chronographViewModel.mChronographTimeValue}"
                 tools:text="@string/functions_are_under_development" />
 
             <com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -145,7 +144,7 @@
                 android:layout_width="@dimen/chronograph_start_button_width"
                 android:layout_height="@dimen/chronograph_start_button_height"
                 android:layout_centerHorizontal="true"
-                app:cardCornerRadius="@dimen/dp_20"
+                app:cardCornerRadius="@dimen/dp_50"
                 app:handleStartButtonAlpha="@{chronographViewModel.mRunChronographStatus}"
                 tools:visibility="gone">
 
