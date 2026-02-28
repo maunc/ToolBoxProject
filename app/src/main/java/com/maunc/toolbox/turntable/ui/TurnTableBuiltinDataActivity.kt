@@ -3,6 +3,7 @@ package com.maunc.toolbox.turntable.ui
 import android.annotation.SuppressLint
 import android.os.Bundle
 import com.maunc.toolbox.R
+import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.COMMON_DIALOG
 import com.maunc.toolbox.commonbase.ext.clickScale
@@ -64,11 +65,10 @@ class TurnTableBuiltinDataActivity :
         }
         mDatabind.turnTableBuiltinRecycler.layoutManager = linearLayoutManager()
         mDatabind.turnTableBuiltinRecycler.adapter = turnTableBuiltinAdapter
-        mViewModel.initBuiltinData()
     }
 
     override fun createObserver() {
-        mViewModel.builtinDataLiveData.observe(this) {
+        appViewModel.turnTableBuiltinContentData.observeSticky(this) {
             turnTableBuiltinAdapter.setList(it)
         }
     }

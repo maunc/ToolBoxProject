@@ -5,5 +5,4 @@ import com.maunc.toolbox.commonbase.base.BaseViewModel
 
 class FFmpegMainViewModel : BaseViewModel<BaseModel>() {
 
-
 }

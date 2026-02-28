@@ -3,6 +3,7 @@ package com.maunc.toolbox.turntable.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.maunc.toolbox.R
+import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
@@ -11,9 +12,6 @@ import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.utils.SoundPlayerHelper
 import com.maunc.toolbox.commonbase.utils.TURN_TABLE_ANIM_SOUND_ID
-import com.maunc.toolbox.commonbase.utils.obtainMMKV
-import com.maunc.toolbox.commonbase.utils.turnTableAnimSoundEffect
-import com.maunc.toolbox.commonbase.utils.turnTableEnableTouch
 import com.maunc.toolbox.turntable.database.table.TurnTableNameData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,9 +30,6 @@ class TurnTableMainViewModel : BaseViewModel<BaseModel>() {
         SoundPlayerHelper()
     }
 
-    var turnTableIsEnableTouch = MutableLiveData(false) // 转盘是否可以触摸
-    var turnTableIsEnableSoundEffect = MutableLiveData(false) // 是否启用转盘音效
-
     //当前选中的数据
     var currentSelectTitle = MutableLiveData(GLOBAL_NONE_STRING)
     var currentSelectData = MutableLiveData<MutableList<String>>()
@@ -43,16 +38,7 @@ class TurnTableMainViewModel : BaseViewModel<BaseModel>() {
     var turnTableAnimSelectContent = MutableLiveData(GLOBAL_NONE_STRING)
 
     fun initViewModelConfig() {
-        initSettingConfig()
         soundPlayer.loadSound(R.raw.turn_table_anim_sound, TURN_TABLE_ANIM_SOUND_ID)
-    }
-
-    fun initSettingConfig(
-        enableTouch: Boolean = obtainMMKV.getBoolean(turnTableEnableTouch),
-        enableSoundEffect: Boolean = obtainMMKV.getBoolean(turnTableAnimSoundEffect),
-    ) {
-        turnTableIsEnableTouch.value = enableTouch
-        turnTableIsEnableSoundEffect.value = enableSoundEffect
     }
 
     fun initSelectTurnTableData() {
@@ -78,7 +64,7 @@ class TurnTableMainViewModel : BaseViewModel<BaseModel>() {
     }
 
     fun playTurnTableSoundSafely(currentIndex: Int) {
-        if (!turnTableIsEnableSoundEffect.value!!) return
+        if (!appViewModel.turnTableSoundEffect.value!!) return
         if (currentIndex == turnTableAnimLastSelectIndex) return
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastPlayTime < PLAY_THROTTLE_TIME) return

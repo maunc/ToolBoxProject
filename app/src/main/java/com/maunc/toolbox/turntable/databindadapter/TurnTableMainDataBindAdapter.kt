@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.databinding.BindingAdapter
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
-import com.us.mauncview.TurnTableView
 
 @SuppressLint("SetTextI18n")
 object TurnTableMainDataBindAdapter {
@@ -19,11 +18,5 @@ object TurnTableMainDataBindAdapter {
     @JvmStatic
     fun setTurnTableAnimSelectContent(textView: AppCompatTextView, content: String) {
         textView.text = if (content == GLOBAL_NONE_STRING) "测试选项" else content
-    }
-
-    @BindingAdapter(value = ["setTurnTableEnableTouch"], requireAll = true)
-    @JvmStatic
-    fun setTurnTableEnableTouch(turnTableView: TurnTableView, enableTouch: Boolean) {
-        turnTableView.setEnableTouch(enableTouch)
     }
 }

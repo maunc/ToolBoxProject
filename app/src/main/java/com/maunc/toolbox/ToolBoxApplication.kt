@@ -11,9 +11,9 @@ val appViewModel: ToolBoxApplicationViewModel by lazy {
     ToolBoxApplication.applicationViewModel
 }
 
-class ToolBoxApplication(
-    override val viewModelStore: ViewModelStore = ViewModelStore(),
-) : Application(), ViewModelStoreOwner {
+class ToolBoxApplication : Application(), ViewModelStoreOwner {
+
+    override val viewModelStore: ViewModelStore = ViewModelStore()
 
     private var mViewModelFactory: ViewModelProvider.Factory? = null
 

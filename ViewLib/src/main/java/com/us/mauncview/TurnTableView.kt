@@ -75,7 +75,7 @@ class TurnTableView @JvmOverloads constructor(
     private var sweepWhiteLineWidth = 1f
 
     // 第一绘制的扇形的颜色
-    private var firstSectorColor = -1
+    private var firstSectorColor = "#000000"
 
     // 是否隐藏边框
     private var isHideBroad = false
@@ -159,9 +159,7 @@ class TurnTableView @JvmOverloads constructor(
     }
 
     private var colorResList = mutableListOf(
-        Color.parseColor("#00E616"),
-        Color.parseColor("#E70000"),
-        Color.parseColor("#0083EB"),
+        "#00E616", "#E70000", "#0083EB"
     )
 
     private var turnTableContentList = mutableListOf(
@@ -378,7 +376,7 @@ class TurnTableView @JvmOverloads constructor(
 
     fun getTurnTableColor() = colorResList
 
-    fun setTurnTableColor(list: MutableList<Int>) {
+    fun setTurnTableColor(list: MutableList<String>) {
         colorResList.clear()
         colorResList.addAll(list)
         firstSectorColor = colorResList[0]
@@ -567,7 +565,7 @@ class TurnTableView @JvmOverloads constructor(
         if (index == contentListSize() - 1 && drawColor == firstSectorColor) {
             drawColor = colorResList[(index + 1) % colorResList.size]
         }
-        return drawColor
+        return Color.parseColor(drawColor)
     }
 
     fun onPause() {

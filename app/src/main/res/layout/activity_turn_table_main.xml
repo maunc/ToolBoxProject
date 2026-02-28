@@ -79,8 +79,7 @@
                     android:id="@+id/turn_table_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    app:setTurnTableEnableTouch="@{turnTableMainViewModel.turnTableIsEnableTouch}" />
+                    android:layout_centerVertical="true" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/startTurnTable"

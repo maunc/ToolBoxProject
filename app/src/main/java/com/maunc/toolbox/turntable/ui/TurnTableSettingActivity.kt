@@ -2,29 +2,25 @@ package com.maunc.toolbox.turntable.ui
 
 import android.os.Bundle
 import com.maunc.toolbox.R
+import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.COMMON_DIALOG
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.ext.toastShort
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
+import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.turnTableAnimSoundEffect
+import com.maunc.toolbox.commonbase.utils.turnTableEnableTouch
 import com.maunc.toolbox.databinding.ActivityTurnTableSettingBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableSettingAdapter
-import com.maunc.toolbox.turntable.constant.RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE
 import com.maunc.toolbox.turntable.viewmodel.TurnTableSettingViewModel
 
 class TurnTableSettingActivity :
     BaseActivity<TurnTableSettingViewModel, ActivityTurnTableSettingBinding>() {
-
-    companion object {
-        const val TURN_TABLE_ENABLE_TOUCH = "enableTouch"
-        const val TURN_TABLE_ENABLE_SOUND_EFFECT = "enableSoundEffect"
-    }
 
     private val deleteTipsDialog by lazy {
         CommonDialog().setTitle(
@@ -40,6 +36,16 @@ class TurnTableSettingActivity :
         TurnTableSettingAdapter().apply {
             setOnTurnTableSettingListener(object :
                 TurnTableSettingAdapter.OnTurnTableSettingEventListener {
+                override fun configTurnTableTouch(isTouch: Boolean) {
+                    obtainMMKV.putBoolean(turnTableEnableTouch, isTouch)
+                    appViewModel.turnTableTouch.value = isTouch
+                }
+
+                override fun configTurnTableSoundEffect(isSound: Boolean) {
+                    obtainMMKV.putBoolean(turnTableAnimSoundEffect, isSound)
+                    appViewModel.turnTableSoundEffect.value = isSound
+                }
+
                 override fun showTurnTableDataPage() {
                     startTargetActivity(TurnTableBuiltinDataActivity::class.java)
                 }
@@ -69,23 +75,8 @@ class TurnTableSettingActivity :
         mDatabind.turnTableSettingRec.adapter = turnTableSettingAdapter
         turnTableSettingAdapter.setList(mViewModel.initRecyclerData())
         turnTableSettingAdapter.setConfig(
-            intent.getBooleanExtra(TURN_TABLE_ENABLE_TOUCH, false),
-            intent.getBooleanExtra(TURN_TABLE_ENABLE_SOUND_EFFECT, false)
-        )
-    }
-
-    override fun onBackPressCallBack() {
-        baseFinishCurrentActivity()
-    }
-
-    private fun baseFinishCurrentActivity(action: () -> Unit = {}) {
-        action()
-        finishCurrentResultToActivity(
-            resultCode = RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE,
-            intent = obtainIntentPutData(mutableMapOf<String, Any>().apply {
-                put(TURN_TABLE_ENABLE_TOUCH, turnTableSettingAdapter.obtainEnableTouch())
-                put(TURN_TABLE_ENABLE_SOUND_EFFECT, turnTableSettingAdapter.obtainSoundEffect())
-            })
+            appViewModel.turnTableTouch.value ?: false,
+            appViewModel.turnTableSoundEffect.value ?: false
         )
     }
 

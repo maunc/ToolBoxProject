@@ -87,6 +87,7 @@ dependencies {
     implementation(project(":LiveEventBus"))
     implementation(project(":FileDownload"))
     implementation(project(":WebBridgeLib"))
+    implementation(project(":UnPeekLiveData"))
 
     implementation(libs.bundles.android)
     implementation(libs.bundles.smart.refrsh.layout)
@@ -106,5 +107,6 @@ dependencies {
     }
     implementation(libs.ext.picture.selector)
     implementation(libs.ext.immersionbar)
+//    implementation(libs.ext.unpeeklivedata)
     implementation(libs.ext.ffmpeg.kit)
 }

@@ -55,7 +55,7 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
 
     override fun initView(savedInstanceState: Bundle?) {
         appViewModel.initMMKV()
-        mDatabind.commonToolBar.commonToolBarBackButton.setImageResource(R.drawable.icon_list)
+        mDatabind.commonToolBar.commonToolBarBackButton.setImageResource(R.drawable.icon_meun)
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             obtainString(R.string.app_name)

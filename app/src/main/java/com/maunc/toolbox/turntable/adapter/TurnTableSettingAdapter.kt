@@ -8,9 +8,6 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
-import com.maunc.toolbox.commonbase.utils.obtainMMKV
-import com.maunc.toolbox.commonbase.utils.turnTableAnimSoundEffect
-import com.maunc.toolbox.commonbase.utils.turnTableEnableTouch
 import com.maunc.toolbox.turntable.data.TurnTableSettingData
 import com.us.mauncview.SwitchButtonView
 
@@ -49,10 +46,6 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
 
     private var enableTouch = false
     private var enableSoundEffect = false
-
-    fun obtainEnableTouch() = enableTouch
-
-    fun obtainSoundEffect() = enableSoundEffect
 
     override fun convert(holder: BaseViewHolder, item: TurnTableSettingData) {
         val itemPosition = getItemPosition(item)
@@ -99,8 +92,7 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
                 enableTouchSwitch.isChecked = enableTouch
                 enableTouchSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                     enableTouchSwitch.isChecked = isChecked
-                    obtainMMKV.putBoolean(turnTableEnableTouch, isChecked)
-                    enableTouch = isChecked
+                    onTurnTableSettingEventListener?.configTurnTableTouch(isChecked)
                 }
             }
 
@@ -110,8 +102,7 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
                 enableSoundEffectSwitch.isChecked = enableSoundEffect
                 enableSoundEffectSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                     enableSoundEffectSwitch.isChecked = isChecked
-                    obtainMMKV.putBoolean(turnTableAnimSoundEffect, isChecked)
-                    enableSoundEffect = isChecked
+                    onTurnTableSettingEventListener?.configTurnTableSoundEffect(isChecked)
                 }
             }
 
@@ -140,6 +131,8 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
     private var onTurnTableSettingEventListener: OnTurnTableSettingEventListener? = null
 
     interface OnTurnTableSettingEventListener {
+        fun configTurnTableTouch(isTouch: Boolean)
+        fun configTurnTableSoundEffect(isSound: Boolean)
         fun showTurnTableDataPage()
         fun startDataMangerPage()
         fun startConfigColorPage()

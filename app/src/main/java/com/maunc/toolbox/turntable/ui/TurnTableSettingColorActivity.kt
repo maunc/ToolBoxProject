@@ -2,7 +2,9 @@ package com.maunc.toolbox.turntable.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import com.maunc.toolbox.R
+import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
@@ -12,7 +14,6 @@ import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.turnTableConfigColor
 import com.maunc.toolbox.databinding.ActivityTurnTableSettingColorBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableConfigColorAdapter
-import com.maunc.toolbox.turntable.constant.configColorList
 import com.maunc.toolbox.turntable.viewmodel.TurnTableSettingColorViewModel
 
 @SuppressLint("NotifyDataSetChanged")
@@ -23,6 +24,7 @@ class TurnTableSettingColorActivity :
             setCurrentSelectIndex(obtainMMKV.getInt(turnTableConfigColor))
             setOnItemClickListener { adapter, view, index ->
                 obtainMMKV.putInt(turnTableConfigColor, index)
+                appViewModel.turnTableColorIndex.value = index
                 setCurrentSelectIndex(index)
                 notifyDataSetChanged()
             }
@@ -37,10 +39,11 @@ class TurnTableSettingColorActivity :
         }
         mDatabind.turnTableSettingColorRecycler.layoutManager = linearLayoutManager()
         mDatabind.turnTableSettingColorRecycler.adapter = turnTableConfigColorAdapter
-        turnTableConfigColorAdapter.setList(configColorList)
     }
 
     override fun createObserver() {
-
+        appViewModel.turnTableBuiltinColorData.observeSticky(this) {
+            turnTableConfigColorAdapter.setList(it)
+        }
     }
 }

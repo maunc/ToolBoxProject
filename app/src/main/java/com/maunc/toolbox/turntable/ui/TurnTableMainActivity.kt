@@ -1,39 +1,20 @@
 package com.maunc.toolbox.turntable.ui
 
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import com.maunc.toolbox.R
+import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainActivityIntentPutData
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
-import com.maunc.toolbox.commonbase.utils.obtainMMKV
-import com.maunc.toolbox.commonbase.utils.turnTableConfigColor
 import com.maunc.toolbox.databinding.ActivityTurnTableMainBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableLoggerAdapter
-import com.maunc.toolbox.turntable.constant.RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE
-import com.maunc.toolbox.turntable.constant.configColorList
-import com.maunc.toolbox.turntable.ui.TurnTableSettingActivity.Companion.TURN_TABLE_ENABLE_SOUND_EFFECT
-import com.maunc.toolbox.turntable.ui.TurnTableSettingActivity.Companion.TURN_TABLE_ENABLE_TOUCH
 import com.maunc.toolbox.turntable.viewmodel.TurnTableMainViewModel
 import com.us.mauncview.TurnTableView
 
 class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnTableMainBinding>() {
-
-    private val turnTableActivityResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        if (it.resultCode == RESULT_SOURCE_FROM_TURN_TABLE_SETTING_PAGE) {
-            val intent = it.data!!
-            mViewModel.initSettingConfig(
-                enableTouch = intent.getBooleanExtra(TURN_TABLE_ENABLE_TOUCH, false),
-                enableSoundEffect = intent.getBooleanExtra(TURN_TABLE_ENABLE_SOUND_EFFECT, false)
-            )
-        }
-    }
 
     private val turnTableLoggerAdapter by lazy {
         TurnTableLoggerAdapter()
@@ -64,19 +45,7 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
             obtainString(R.string.turn_table_title)
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            turnTableActivityResult.launch(obtainActivityIntentPutData(
-                TurnTableSettingActivity::class.java,
-                mutableMapOf<String, Any>().apply {
-                    put(
-                        TURN_TABLE_ENABLE_TOUCH,
-                        mViewModel.turnTableIsEnableTouch.value!!
-                    )
-                    put(
-                        TURN_TABLE_ENABLE_SOUND_EFFECT,
-                        mViewModel.turnTableIsEnableSoundEffect.value!!
-                    )
-                }
-            ))
+            startTargetActivity(TurnTableSettingActivity::class.java)
         }
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
@@ -94,9 +63,18 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
     }
 
     override fun createObserver() {
+        appViewModel.turnTableColorIndex.observe(this) {
+            mDatabind.turnTableView.setTurnTableColor(
+                appViewModel.turnTableBuiltinColorData.value!![it].colorList
+            )
+        }
+        appViewModel.turnTableTouch.observe(this) {
+            mDatabind.turnTableView.setEnableTouch(it)
+        }
         mViewModel.currentSelectData.observe(this) {
             mDatabind.turnTableView.setTurnTableContents(it)
         }
+        appViewModel.initTurnTableConfig()
     }
 
     override fun onPause() {
@@ -107,11 +85,10 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
     override fun onResume() {
         super.onResume()
         mDatabind.turnTableView.onResume()
-        mDatabind.turnTableView.setTurnTableColor(
-            configColorList[obtainMMKV.getInt(
-                turnTableConfigColor
-            )].colorList
-        )
         mViewModel.initSelectTurnTableData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
