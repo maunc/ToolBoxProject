@@ -214,19 +214,19 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      * 暂停立即点名模式
      */
     private fun stopNowRandom() {
+        runRandomStatus.postValue(RUN_STATUS_STOP)
         obtainRandomList().let { data ->
             if (data.isEmpty()) return
             val nextInt = Random().nextInt(data.size)
             targetRandomName.postValue(data[nextInt].randomName)
         }
-        runRandomStatus.value = RUN_STATUS_STOP
     }
 
     /**
      * 暂停手动点名模式
      */
     fun stopManualRandom() {
-        runRandomStatus.value = RUN_STATUS_STOP
+        runRandomStatus.postValue(RUN_STATUS_STOP)
         targetRandomName.postValue(targetRunRandomName.value)
         mHandler?.removeCallbacks(runManualRuntime)
     }
@@ -237,9 +237,9 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     fun stopAutoRandom() {
         mHandler?.removeCallbacks(runAutoRuntime)
         mRunUIHandler?.post {
-            autoTypeRunNum.value = 0
+            runRandomStatus.postValue(RUN_STATUS_STOP)
+            autoTypeRunNum.postValue(0)
             targetRandomName.postValue(targetRunRandomName.value)
-            runRandomStatus.value = RUN_STATUS_STOP
         }
     }
 
