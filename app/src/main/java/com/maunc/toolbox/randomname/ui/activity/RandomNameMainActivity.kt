@@ -1,8 +1,8 @@
 package com.maunc.toolbox.randomname.ui.activity
 
-import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.GravityCompat
@@ -28,12 +28,12 @@ import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_RANDOM_SETTING_P
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
+import com.maunc.toolbox.randomname.database.table.RandomNameData
 import com.maunc.toolbox.randomname.viewmodel.RandomNameMainViewModel
 
 /**
  * 随机名称页面
  */
-@SuppressLint("NewApi")
 class RandomNameMainActivity :
     BaseActivity<RandomNameMainViewModel, ActivityRandomNameMainBinding>() {
 
@@ -117,14 +117,30 @@ class RandomNameMainActivity :
     }
 
     override fun createObserver() {
-        mViewModel.randomGroupValue.observe(this) {
-            randomNameMainSwipeAdapter.setList(it)
+        mViewModel.targetRandomName.observe(this) {
+            // 每点一次结束时,且不允许重复点名,那么待点名单需要删除
+            if (!appViewModel.randomNameRunRepeat.value!!) {
+                for (index in mViewModel.notSelects.indices) {
+                    val randomNameData = mViewModel.notSelects[index]
+                    if (randomNameData.randomName == it) {
+                        mViewModel.notSelects.remove(randomNameData)
+                        randomMainNotSelectAdapter.remove(index)
+                        break
+                    }
+                }
+                // 若想一直增加,移出来即可
+                mViewModel.selects.add(RandomNameData(mViewModel.toGroupName.value!!, it))
+                randomMainSelectAdapter.add(
+                    RandomNameData(mViewModel.toGroupName.value!!, it)
+                )
+            }
         }
-        mViewModel.selectNameList.observe(this) {
-            randomMainSelectAdapter.clearAddAll(it)
-        }
-        mViewModel.notSelectNameList.observe(this) {
-            randomMainNotSelectAdapter.clearAddAll(it)
+        mViewModel.reStartSelectDataEvent.observe(this) {
+            if (it) {
+                randomMainSelectAdapter.clear()
+                randomMainNotSelectAdapter.clearAddAll(mViewModel.notSelects)
+                randomNameMainSwipeAdapter.setList(mViewModel.randomGroupValue.value)
+            }
         }
         appViewModel.randomNameResultTextSize.observe(this) {
             mDatabind.randomNameTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, it.toFloat())

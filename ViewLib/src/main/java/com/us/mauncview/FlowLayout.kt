@@ -35,6 +35,7 @@ class FlowLayout @JvmOverloads constructor(
         this.flowLayoutAdapter?.setOnDataSetChangedListener {
             setAdapter(this@FlowLayout.flowLayoutAdapter)
         }
+        this.
         removeAllViews()
         // 循环添加TextView到容器
         val size: Int = flowLayoutAdapter!!.count
@@ -253,6 +254,11 @@ abstract class FlowLayoutAdapter<T>(
 
     abstract fun bindItemLayoutId(position: Int, bean: T): Int
 
+    fun remove(bean: T) {
+        dataList.remove(bean)
+        notifyDataSetChanged()
+    }
+
     fun remove(position: Int) {
         dataList.removeAt(position)
         notifyDataSetChanged()
@@ -285,6 +291,11 @@ abstract class FlowLayoutAdapter<T>(
 
     fun setOnDataSetChangedListener(onDataSetChangedListener: OnDataSetChangedListener?) {
         this.onDataSetChangedListener = onDataSetChangedListener
+    }
+
+    // 新增：单个Item添加监听接口
+    fun interface OnItemAddListener {
+        fun onItemAdd(newView: View)
     }
 
     fun interface OnDataSetChangedListener {

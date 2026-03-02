@@ -5,7 +5,7 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.COMMON_DIALOG
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
+import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
@@ -23,6 +23,7 @@ import com.maunc.toolbox.randomname.adapter.RandomSettingAdapter
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
+import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_RANDOM_SETTING_PAGE
 import com.maunc.toolbox.randomname.constant.SELECT_GROUP_TO_MAIN_DIALOG
 import com.maunc.toolbox.randomname.ui.dialog.RandomSelectGroupDialog
 import com.maunc.toolbox.randomname.viewmodel.RandomSettingViewModel
@@ -104,7 +105,7 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
             obtainString(R.string.random_setting_text)
         mDatabind.commonToolBar.commonToolBarBackButton.setOnClickListener {
             mViewModel.buttonClickLaunchVibrator()
-            finishCurrentActivity()
+            baseFinishCurrentActivity()
         }
         mDatabind.randomSettingRecycler.layoutManager = linearLayoutManager()
         mDatabind.randomSettingRecycler.adapter = randomSettingAdapter
@@ -117,6 +118,15 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
             appViewModel.randomNameRunRepeat.value ?: false,
             appViewModel.randomNameResultTextSize.value ?: RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE
         )
+    }
+
+    override fun onBackPressCallBack() {
+        baseFinishCurrentActivity()
+    }
+
+    private fun baseFinishCurrentActivity(action: () -> Unit = {}) {
+        action()
+        finishCurrentResultToActivity(resultCode = RESULT_SOURCE_FROM_RANDOM_SETTING_PAGE)
     }
 
     override fun createObserver() {

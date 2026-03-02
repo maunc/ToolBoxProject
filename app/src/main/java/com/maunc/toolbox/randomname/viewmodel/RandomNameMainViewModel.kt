@@ -37,7 +37,9 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     private var mHandler: RandomNameHandler? = null
     private var mRunUIHandler: Handler? = null
 
-    var targetRandomName = MutableLiveData(obtainString(R.string.random_none_text))//随机中选中了哪一个
+    var reStartSelectDataEvent = MutableLiveData<Boolean>() //是否重置数据
+    var targetRunRandomName = MutableLiveData(obtainString(R.string.random_none_text))//随机中选中了哪一个
+    var targetRandomName = MutableLiveData<String>()//随机结果选中了哪一个
     var randomTips = MutableLiveData(GLOBAL_NONE_STRING) //tips
     var runRandomStatus = MutableLiveData(RUN_STATUS_NONE)//当前随机时状态
     var autoTypeRunNum = MutableLiveData(0)//在自动模式下经过多少时间结束一次点名(中转值)
@@ -47,11 +49,8 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     var randomGroupValue = MutableLiveData<MutableList<RandomNameData>>(mutableListOf())//总数据 不会变
 
     /**启动已点名单后这些值才有用*/
-    var selectNameList = MutableLiveData<MutableList<RandomNameData>>(mutableListOf())//已点过的数据 用于观察
-    var notSelectNameList =
-        MutableLiveData<MutableList<RandomNameData>>(mutableListOf())//待点的数据 用于观察
-    private var notSelects: MutableList<RandomNameData> = mutableListOf()//待点的数据 用于中转给观察者
-    private var selects: MutableList<RandomNameData> = mutableListOf()//已点过的数据 用于中转给观察者
+    var notSelects: MutableList<RandomNameData> = mutableListOf()//待点的数据
+    var selects: MutableList<RandomNameData> = mutableListOf()//已点过的数据
 
     /**
      * 手动点名任务
@@ -118,7 +117,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      */
     private fun obtainRandomList(): MutableList<RandomNameData> {
         return if (!appViewModel.randomNameRunRepeat.value!!) {
-            notSelectNameList.value!!
+            notSelects
         } else {
             randomGroupValue.value!!
         }
@@ -128,7 +127,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      * 更新当前点名
      */
     private fun updateTargetName(targetName: String, transitName: String) {
-        targetRandomName.postValue(targetName)
+        targetRunRandomName.postValue(targetName)
         transitRandomName.postValue(transitName)
     }
 
@@ -146,13 +145,11 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         }, {
             toGroupName.value = it.randomNameGroup.groupName
             randomGroupValue.value = it.randomNameDataList
-            notSelectNameList.value = it.randomNameDataList
             initRestartData()
         }, {
             "initRandomList Error:${it.message},${it.stackTrace}".loge()
             toGroupName.value = GLOBAL_NONE_STRING
             randomGroupValue.value = mutableListOf()
-            notSelectNameList.value = mutableListOf()
         })
     }
 
@@ -162,8 +159,6 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         }
         notSelects.addAll(randomGroupValue.value!!)
         selects.clear()
-        selectNameList.value = selects
-        notSelectNameList.value = notSelects
         randomTips.value = GLOBAL_NONE_STRING
         if (appViewModel.randomNameRunType.value == RANDOM_AUTO) {
             when (appViewModel.randomNameRunSpeed.value) {
@@ -172,6 +167,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
                 RANDOM_SPEED_MIN -> autoTypeRunNumThreshold.value = 10
             }
         }
+        reStartSelectDataEvent.value = true
     }
 
     private fun initHandler() {
@@ -195,7 +191,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
             return
         }
         if (!appViewModel.randomNameRunRepeat.value!!) {
-            notSelectNameList.value?.let {
+            notSelects.let {
                 if (it.isEmpty()) {
                     randomTips.value = obtainString(R.string.random_start_error_tips)
                     return
@@ -221,10 +217,9 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         obtainRandomList().let { data ->
             if (data.isEmpty()) return
             val nextInt = Random().nextInt(data.size)
-            targetRandomName.value = data[nextInt].randomName
+            targetRandomName.postValue(data[nextInt].randomName)
         }
         runRandomStatus.value = RUN_STATUS_STOP
-        handleSelectData()
     }
 
     /**
@@ -232,8 +227,8 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      */
     fun stopManualRandom() {
         runRandomStatus.value = RUN_STATUS_STOP
+        targetRandomName.postValue(targetRunRandomName.value)
         mHandler?.removeCallbacks(runManualRuntime)
-        handleSelectData()
     }
 
     /**
@@ -243,30 +238,9 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         mHandler?.removeCallbacks(runAutoRuntime)
         mRunUIHandler?.post {
             autoTypeRunNum.value = 0
+            targetRandomName.postValue(targetRunRandomName.value)
             runRandomStatus.value = RUN_STATUS_STOP
-            handleSelectData()
         }
-    }
-
-    /**
-     * 处理已点名单
-     */
-    private fun handleSelectData() {
-        // 每点一次结束时,且不允许重复点名,那么待点名单需要删除
-        if (!appViewModel.randomNameRunRepeat.value!!) {
-            notSelectNameList.value?.let { notSelectList ->
-                for (index in notSelectList.indices) {
-                    val randomNameData = notSelectList[index]
-                    if (randomNameData.randomName == targetRandomName.value!!) {
-                        notSelects.remove(randomNameData)
-                        notSelectNameList.postValue(notSelects)
-                        break
-                    }
-                }
-            }
-        }
-        selects.add(RandomNameData(toGroupName.value!!, targetRandomName.value!!))
-        selectNameList.postValue(selects)
     }
 
     /**

@@ -22,7 +22,6 @@ import com.maunc.unpeeklivedata.ui.callback.UnPeekLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * 一、unpeekLive 解决数据倒灌(粘性时间的根本)的，首次初始化的数据将不会生效，如何生效
@@ -69,10 +68,8 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
     var turnTableColorIndex = UnPeekLiveData<Int>()// 转盘当前颜色
     var turnTableTouch = UnPeekLiveData<Boolean>()//转盘当前是否可以触摸
     var turnTableSoundEffect = UnPeekLiveData<Boolean>() //转盘是否开启音效
-    var turnTableBuiltinColorData =
-        UnPeekLiveData<MutableList<TurnTableConfigColorData>>() // 转盘预制颜色
-    var turnTableBuiltinContentData =
-        UnPeekLiveData<MutableList<TurnTableNameWithGroup>>()  // 转盘预制数据
+    var turnTableBuiltinColorData = UnPeekLiveData<MutableList<TurnTableConfigColorData>>()//转盘预制颜色
+    var turnTableBuiltinContentData = UnPeekLiveData<MutableList<TurnTableNameWithGroup>>()//转盘预制数据
 
     /**
      * 初始化转盘配置和预制数据
@@ -91,13 +88,11 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
             }
             val colorList = colorListAsync.await()
             val contentList = contentListAsync.await()
-            withContext(Dispatchers.Main) {
-                turnTableBuiltinColorData.value = colorList
-                turnTableBuiltinContentData.value = contentList
-                turnTableColorIndex.value = obtainMMKV.getInt(turnTableConfigColor)
-                turnTableTouch.value = obtainMMKV.getBoolean(turnTableEnableTouch)
-                turnTableSoundEffect.value = obtainMMKV.getBoolean(turnTableAnimSoundEffect)
-            }
+            turnTableBuiltinColorData.postValue(colorList)
+            turnTableBuiltinContentData.postValue(contentList)
+            turnTableColorIndex.postValue(obtainMMKV.getInt(turnTableConfigColor))
+            turnTableTouch.postValue(obtainMMKV.getBoolean(turnTableEnableTouch))
+            turnTableSoundEffect.postValue(obtainMMKV.getBoolean(turnTableAnimSoundEffect))
         }
     }
 

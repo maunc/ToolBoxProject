@@ -49,7 +49,7 @@
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/dp_150"
                             android:textColor="@color/black"
-                            app:randomNameText="@{randomNameMainViewModel.targetRandomName}"
+                            app:randomNameText="@{randomNameMainViewModel.targetRunRandomName}"
                             app:runStatus="@{randomNameMainViewModel.runRandomStatus}"
                             tools:text="@string/random_none_text"
                             tools:textSize="56sp" />
