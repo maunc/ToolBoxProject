@@ -7,6 +7,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.maunc.toolbox.commonbase.ext.assetFileParseJson
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.randomRepeat
+import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
+import com.maunc.toolbox.commonbase.utils.randomSpeed
+import com.maunc.toolbox.commonbase.utils.randomTextBold
+import com.maunc.toolbox.commonbase.utils.randomTextSize
+import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.commonbase.utils.turnTableAnimSoundEffect
 import com.maunc.toolbox.commonbase.utils.turnTableConfigColor
 import com.maunc.toolbox.commonbase.utils.turnTableEnableTouch
@@ -33,28 +39,40 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
         (getApplication<Application>() as ToolBoxApplication).applicationContext
     }
 
-    /**===============================================   转盘相关   ===============================================*/
-    // 转盘当前颜色
-    var turnTableColorIndex = UnPeekLiveData<Int>()
-
-    //转盘当前是否可以触摸
-    var turnTableTouch = UnPeekLiveData<Boolean>()
-
-    //转盘是否开启音效
-    var turnTableSoundEffect = UnPeekLiveData<Boolean>()
-
-    // 转盘预制颜色
-    var turnTableBuiltinColorData =
-        UnPeekLiveData<MutableList<TurnTableConfigColorData>>()
-
-    // 转盘预制数据
-    var turnTableBuiltinContentData =
-        UnPeekLiveData<MutableList<TurnTableNameWithGroup>>()
-
     fun initMMKV() {
         Log.d(TAG, "initMMKV")
         obtainMMKV.init()
     }
+
+    /**===============================================   点名配置相关   ===============================================*/
+    var randomNameResultTextSize = UnPeekLiveData<Int>()//结果文本大小
+    var randomNameResultIsBold = UnPeekLiveData<Boolean>()//结果文本是否加粗
+    var randomNameRunRepeat = UnPeekLiveData<Boolean>()//是否允许重复点名
+    var randomNameShowSelectRecycler = UnPeekLiveData<Boolean>()//是否启用查看已点名单
+    var randomNameRunSpeed = UnPeekLiveData<Long>()//相差多少时间随机一次
+    var randomNameRunType = UnPeekLiveData<Int>()//点名模式
+
+    /**
+     * 初始化点名配置和预制数据
+     */
+    fun initRandomNameConfig() {
+        randomNameResultTextSize.postValue(obtainMMKV.getInt(randomTextSize))
+        randomNameResultIsBold.postValue(obtainMMKV.getBoolean(randomTextBold))
+        randomNameRunRepeat.postValue(obtainMMKV.getBoolean(randomRepeat))
+        randomNameShowSelectRecycler.postValue(obtainMMKV.getBoolean(randomSelectRecyclerVisible))
+        randomNameRunSpeed.postValue(obtainMMKV.getLong(randomSpeed))
+        randomNameRunType.postValue(obtainMMKV.getInt(randomType))
+    }
+
+    /**===============================================   转盘配置相关   ===============================================*/
+
+    var turnTableColorIndex = UnPeekLiveData<Int>()// 转盘当前颜色
+    var turnTableTouch = UnPeekLiveData<Boolean>()//转盘当前是否可以触摸
+    var turnTableSoundEffect = UnPeekLiveData<Boolean>() //转盘是否开启音效
+    var turnTableBuiltinColorData =
+        UnPeekLiveData<MutableList<TurnTableConfigColorData>>() // 转盘预制颜色
+    var turnTableBuiltinContentData =
+        UnPeekLiveData<MutableList<TurnTableNameWithGroup>>()  // 转盘预制数据
 
     /**
      * 初始化转盘配置和预制数据

@@ -5,6 +5,7 @@ import android.os.HandlerThread
 import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
+import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ONE
 import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ZERO
@@ -13,13 +14,6 @@ import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.utils.obtainMMKV
-import com.maunc.toolbox.commonbase.utils.randomRepeat
-import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
-import com.maunc.toolbox.commonbase.utils.randomSpeed
-import com.maunc.toolbox.commonbase.utils.randomTextBold
-import com.maunc.toolbox.commonbase.utils.randomTextSize
-import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_NAME_THREAD_NAME
@@ -27,7 +21,6 @@ import com.maunc.toolbox.randomname.constant.RANDOM_NOW
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MEDIUM
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MIN
-import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MAX
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
@@ -45,18 +38,12 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     private var mRunUIHandler: Handler? = null
 
     var targetRandomName = MutableLiveData(obtainString(R.string.random_none_text))//随机中选中了哪一个
-    var resultTextSize = MutableLiveData(RESULT_TEXT_SIZE_MAX) //结果文本大小
-    var resultTextIsBold = MutableLiveData(false) //结果文本是否加粗
     var randomTips = MutableLiveData(GLOBAL_NONE_STRING) //tips
-    var runRandomRepeat = MutableLiveData(false) //是否允许重复点名
     var runRandomStatus = MutableLiveData(RUN_STATUS_NONE)//当前随机时状态
-    var runRandomType = MutableLiveData(RANDOM_AUTO)//点名类型
     var autoTypeRunNum = MutableLiveData(0)//在自动模式下经过多少时间结束一次点名(中转值)
     var autoTypeRunNumThreshold = MutableLiveData(20)//在自动模式下经过多少时间结束一次点名(总值)
     var toGroupName = MutableLiveData(GLOBAL_NONE_STRING)//当前数据属于哪个分组
     var transitRandomName = MutableLiveData(GLOBAL_NONE_STRING) //避免随机相同的数据造成UI上的卡顿错觉
-    var runDelayTime = MutableLiveData(RANDOM_SPEED_MAX)//相差多少时间随机一次
-    var showSelectRecycler = MutableLiveData(false)//是否启用查看已点名单
     var randomGroupValue = MutableLiveData<MutableList<RandomNameData>>(mutableListOf())//总数据 不会变
 
     /**启动已点名单后这些值才有用*/
@@ -71,7 +58,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      */
     private val runManualRuntime = object : Runnable {
         override fun run() {
-            runDelayTime.value?.let { delay ->
+            appViewModel.randomNameRunSpeed.value?.let { delay ->
                 obtainRandomList().let { data ->
                     while (true) {
                         if (data.size == ARRAY_INDEX_ONE) {
@@ -98,7 +85,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      */
     private val runAutoRuntime = object : Runnable {
         override fun run() {
-            runDelayTime.value?.let { delay ->
+            appViewModel.randomNameRunSpeed.value?.let { delay ->
                 obtainRandomList().let { data ->
                     while (true) {
                         if (data.size == ARRAY_INDEX_ONE) {
@@ -130,7 +117,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      * 获取随机列表
      */
     private fun obtainRandomList(): MutableList<RandomNameData> {
-        return if (!runRandomRepeat.value!!) {
+        return if (!appViewModel.randomNameRunRepeat.value!!) {
             notSelectNameList.value!!
         } else {
             randomGroupValue.value!!
@@ -151,7 +138,6 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     fun initViewModelConfig() {
         initHandler()
         initRandomList()
-        initSettingConfig()
     }
 
     fun initRandomList() {
@@ -179,29 +165,13 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         selectNameList.value = selects
         notSelectNameList.value = notSelects
         randomTips.value = GLOBAL_NONE_STRING
-        if (runRandomType.value == RANDOM_AUTO) {
-            when (runDelayTime.value) {
+        if (appViewModel.randomNameRunType.value == RANDOM_AUTO) {
+            when (appViewModel.randomNameRunSpeed.value) {
                 RANDOM_SPEED_MAX -> autoTypeRunNumThreshold.value = 40
                 RANDOM_SPEED_MEDIUM -> autoTypeRunNumThreshold.value = 20
                 RANDOM_SPEED_MIN -> autoTypeRunNumThreshold.value = 10
             }
         }
-    }
-
-    fun initSettingConfig(
-        type: Int = obtainMMKV.getInt(randomType),
-        speed: Long = obtainMMKV.getLong(randomSpeed),
-        showSelectRec: Boolean = obtainMMKV.getBoolean(randomSelectRecyclerVisible),
-        textBold: Boolean = obtainMMKV.getBoolean(randomTextBold),
-        isRepeat: Boolean = obtainMMKV.getBoolean(randomRepeat),
-        textSize: Int = obtainMMKV.getInt(randomTextSize),
-    ) {
-        runRandomType.value = type
-        runDelayTime.value = speed
-        showSelectRecycler.value = showSelectRec
-        resultTextIsBold.value = textBold
-        runRandomRepeat.value = isRepeat
-        resultTextSize.value = textSize
     }
 
     private fun initHandler() {
@@ -224,7 +194,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
             randomTips.value = obtainString(R.string.random_start_not_data_tips)
             return
         }
-        if (!runRandomRepeat.value!!) {
+        if (!appViewModel.randomNameRunRepeat.value!!) {
             notSelectNameList.value?.let {
                 if (it.isEmpty()) {
                     randomTips.value = obtainString(R.string.random_start_error_tips)
@@ -233,13 +203,13 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
             }
         }
         runRandomStatus.value = RUN_STATUS_START
-        if (runRandomType.value!! == RANDOM_MANUAL) {
+        if (appViewModel.randomNameRunType.value!! == RANDOM_MANUAL) {
             mHandler?.post(runManualRuntime)
         }
-        if (runRandomType.value!! == RANDOM_NOW) {
+        if (appViewModel.randomNameRunType.value!! == RANDOM_NOW) {
             stopNowRandom()
         }
-        if (runRandomType.value!! == RANDOM_AUTO) {
+        if (appViewModel.randomNameRunType.value!! == RANDOM_AUTO) {
             mHandler?.post(runAutoRuntime)
         }
     }
@@ -282,32 +252,21 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
      * 处理已点名单
      */
     private fun handleSelectData() {
-        if (runRandomRepeat.value!!) {
-            return
-        }
-        notSelectNameList.value?.let { notSelectList ->
-            for (index in notSelectList.indices) {
-                val randomNameData = notSelectList[index]
-                if (randomNameData.randomName == targetRandomName.value!!) {
-                    notSelects.remove(randomNameData)
-                    notSelectNameList.postValue(notSelects)
-                    break
+        // 每点一次结束时,且不允许重复点名,那么待点名单需要删除
+        if (!appViewModel.randomNameRunRepeat.value!!) {
+            notSelectNameList.value?.let { notSelectList ->
+                for (index in notSelectList.indices) {
+                    val randomNameData = notSelectList[index]
+                    if (randomNameData.randomName == targetRandomName.value!!) {
+                        notSelects.remove(randomNameData)
+                        notSelectNameList.postValue(notSelects)
+                        break
+                    }
                 }
             }
         }
-        var bool = true
-        selectNameList.value?.let { selectList ->
-            for (index in selectList.indices) {
-                if (selectList[index].randomName == targetRandomName.value!!) {
-                    bool = false
-                    break
-                }
-            }
-            if (bool) {
-                selects.add(RandomNameData(toGroupName.value!!, targetRandomName.value!!))
-                selectNameList.postValue(selects)
-            }
-        }
+        selects.add(RandomNameData(toGroupName.value!!, targetRandomName.value!!))
+        selectNameList.postValue(selects)
     }
 
     /**

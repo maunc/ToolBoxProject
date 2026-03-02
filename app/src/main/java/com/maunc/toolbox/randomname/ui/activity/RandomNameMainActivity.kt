@@ -1,18 +1,22 @@
 package com.maunc.toolbox.randomname.ui.activity
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.TypedValue
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maunc.toolbox.R
+import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.addDrawLayoutListener
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainActivityIntentPutData
+import com.maunc.toolbox.commonbase.ext.obtainActivityIntent
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.ViewOffsetHelper
 import com.maunc.toolbox.databinding.ActivityRandomNameMainBinding
 import com.maunc.toolbox.randomname.adapter.RandomMainNotSelectAdapter
@@ -20,18 +24,10 @@ import com.maunc.toolbox.randomname.adapter.RandomMainSelectAdapter
 import com.maunc.toolbox.randomname.adapter.RandomMainSwipeNameAdapter
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
-import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
 import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_RANDOM_SETTING_PAGE
-import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MAX
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
-import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RESULT_TEXT_BOLD
-import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RESULT_TEXT_SIZE
-import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RUN_DELAY_TIME
-import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RUN_RANDOM_REPEAT
-import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.RUN_RANDOM_TYPE
-import com.maunc.toolbox.randomname.ui.activity.RandomSettingActivity.Companion.SHOW_SELECT_RECYCLER
 import com.maunc.toolbox.randomname.viewmodel.RandomNameMainViewModel
 
 /**
@@ -45,15 +41,6 @@ class RandomNameMainActivity :
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == RESULT_SOURCE_FROM_RANDOM_SETTING_PAGE) {
-            val intent = it?.data!!
-            mViewModel.initSettingConfig(
-                type = intent.getIntExtra(RUN_RANDOM_TYPE, RANDOM_AUTO),
-                speed = intent.getLongExtra(RUN_DELAY_TIME, RANDOM_SPEED_MAX),
-                showSelectRec = intent.getBooleanExtra(SHOW_SELECT_RECYCLER, false),
-                textBold = intent.getBooleanExtra(RESULT_TEXT_BOLD, false),
-                isRepeat = intent.getBooleanExtra(RUN_RANDOM_REPEAT, false),
-                textSize = intent.getIntExtra(RESULT_TEXT_SIZE, RESULT_TEXT_SIZE_MAX)
-            )
             mViewModel.initRandomList()
         }
     }
@@ -84,17 +71,8 @@ class RandomNameMainActivity :
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
             mViewModel.buttonClickLaunchVibrator()
             randomMainActivityResult.launch(
-                obtainActivityIntentPutData(
-                    RandomSettingActivity::class.java,
-                    mutableMapOf<String, Any>().apply {
-                        put(RUN_RANDOM_TYPE, mViewModel.runRandomType.value!!)
-                        put(RUN_DELAY_TIME, mViewModel.runDelayTime.value!!)
-                        put(SHOW_SELECT_RECYCLER, mViewModel.showSelectRecycler.value!!)
-                        put(RESULT_TEXT_BOLD, mViewModel.resultTextIsBold.value!!)
-                        put(RUN_RANDOM_REPEAT, mViewModel.runRandomRepeat.value!!)
-                        put(RESULT_TEXT_SIZE, mViewModel.resultTextSize.value!!)
-                    }
-                ))
+                obtainActivityIntent(RandomSettingActivity::class.java)
+            )
             mViewModel.endRandom()
         }
         mDatabind.commonToolBar.commonToolBarTitleTv.setOnLongClickListener {
@@ -107,7 +85,7 @@ class RandomNameMainActivity :
             when (mViewModel.runRandomStatus.value) {
                 RUN_STATUS_NONE, RUN_STATUS_STOP -> mViewModel.startRandom()
                 RUN_STATUS_START -> {
-                    when (mViewModel.runRandomType.value!!) {
+                    when (appViewModel.randomNameRunType.value!!) {
                         RANDOM_MANUAL -> mViewModel.stopManualRandom()
                         RANDOM_AUTO -> mViewModel.stopAutoRandom()
                     }
@@ -148,5 +126,23 @@ class RandomNameMainActivity :
         mViewModel.notSelectNameList.observe(this) {
             randomMainNotSelectAdapter.clearAddAll(it)
         }
+        appViewModel.randomNameResultTextSize.observe(this) {
+            mDatabind.randomNameTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, it.toFloat())
+        }
+        appViewModel.randomNameResultIsBold.observe(this) {
+            if (it && mDatabind.randomNameTv.typeface != Typeface.DEFAULT_BOLD) {
+                mDatabind.randomNameTv.typeface = Typeface.DEFAULT_BOLD
+            } else {
+                mDatabind.randomNameTv.typeface = Typeface.DEFAULT
+            }
+        }
+        appViewModel.randomNameRunRepeat.observe(this) {
+            mDatabind.randomControlResetSelectTv.visibleOrGone(!it)
+        }
+        appViewModel.randomNameShowSelectRecycler.observe(this) {
+            mDatabind.randomMainSelectLayout.visibleOrGone(it)
+            mDatabind.randomMainNotSelectLayout.visibleOrGone(it)
+        }
+        appViewModel.initRandomNameConfig()
     }
 }

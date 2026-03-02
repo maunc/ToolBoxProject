@@ -20,9 +20,9 @@ const val DELAY_UPDATE_LAYOUT = 100L
 /**
  * 三种点名类型
  */
-const val RANDOM_NOW = 0
-const val RANDOM_AUTO = 1
-const val RANDOM_MANUAL = 2
+const val RANDOM_NOW = 0 //立即
+const val RANDOM_AUTO = 1 //开始后自动
+const val RANDOM_MANUAL = 2 //手动
 
 /**
  * 三个档位速度
@@ -32,11 +32,11 @@ const val RANDOM_SPEED_MEDIUM = 120L
 const val RANDOM_SPEED_MAX = 20L
 
 /**
- * 三个文本大小
+ * 结果文本大小
  */
-const val RESULT_TEXT_SIZE_MIN = 0
-const val RESULT_TEXT_SIZE_MEDIUM = 1
-const val RESULT_TEXT_SIZE_MAX = 2
+const val RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE = 50
+const val RANDOM_RESULT_TEXT_SIZE_MIN_VALUE = 30
+const val RANDOM_RESULT_TEXT_SIZE_MAX_VALUE = 90
 
 /**
  * 数据库排序方式

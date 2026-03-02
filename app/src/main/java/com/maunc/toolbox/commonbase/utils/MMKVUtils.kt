@@ -2,8 +2,8 @@ package com.maunc.toolbox.commonbase.utils
 
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
+import com.maunc.toolbox.randomname.constant.RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
-import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MEDIUM
 import com.maunc.toolbox.signaturecanvas.constant.RGB_SEEK_MAX_VALUE
 import com.maunc.toolbox.signaturecanvas.constant.RGB_SEEK_MIN_VALUE
 import com.tencent.mmkv.MMKV
@@ -23,7 +23,7 @@ const val commonNotFirstLaunchApp = "notFirstLaunchApp"
 const val randomSpeed = "randomSpeed" // 随机速度 在手动点名下生效
 const val randomButtonClickVibrator = "randomButtonClickVibrator" //按钮点击震动
 const val randomTextBold = "randomTextBold" //结果文本加粗
-const val randomTextSize = "randomTextSize" //是否允许重复点名
+const val randomTextSize = "randomTextSize" //结果文本大小
 const val randomRepeat = "randomRepeat" //是否允许重复点名
 const val randomSelectRecyclerVisible = "randomSelectRecyclerVisible" //是否启用已点列表功能
 const val randomType = "randomType"//点名类型
@@ -57,7 +57,7 @@ class MMKVUtils {
         obtainMMKV.putBoolean(randomEggs, false)
         obtainMMKV.putBoolean(randomRepeat, false)
         obtainMMKV.putBoolean(randomSelectRecyclerVisible, false)
-        obtainMMKV.putInt(randomTextSize, RESULT_TEXT_SIZE_MEDIUM)
+        obtainMMKV.putInt(randomTextSize, RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE)
         obtainMMKV.putInt(randomType, RANDOM_MANUAL)
         obtainMMKV.putInt(randomListSortType, RANDOM_DB_SORT_BY_INSERT_TIME_ASC)
 

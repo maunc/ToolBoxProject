@@ -87,8 +87,4 @@ class TurnTableMainActivity : BaseActivity<TurnTableMainViewModel, ActivityTurnT
         mDatabind.turnTableView.onResume()
         mViewModel.initSelectTurnTableData()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

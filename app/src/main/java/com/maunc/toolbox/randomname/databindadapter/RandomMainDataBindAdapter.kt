@@ -1,49 +1,16 @@
 package com.maunc.toolbox.randomname.databindadapter
 
-import android.annotation.SuppressLint
-import android.graphics.Typeface
-import android.util.TypedValue
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
-import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
-import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
-import com.maunc.toolbox.randomname.constant.RANDOM_NOW
-import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
-import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MEDIUM
-import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MIN
-import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MAX
-import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MEDIUM
-import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MIN
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP
 
-@SuppressLint("SetTextI18n")
 object RandomMainDataBindAdapter {
-
-    @BindingAdapter(value = ["handleRandomResultTextSize"], requireAll = false)
-    @JvmStatic
-    fun handleRandomResultTextSize(textView: TextView, sizeType: Int) {
-        when (sizeType) {
-            RESULT_TEXT_SIZE_MIN -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 32f)
-            RESULT_TEXT_SIZE_MEDIUM -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 56f)
-            RESULT_TEXT_SIZE_MAX -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 72f)
-        }
-    }
-
-    @BindingAdapter(value = ["handleRandomResultTextBold"], requireAll = false)
-    @JvmStatic
-    fun handleRandomResultTextBold(textView: TextView, isBold: Boolean) {
-        if (isBold && textView.typeface != Typeface.DEFAULT_BOLD) {
-            textView.typeface = Typeface.DEFAULT_BOLD
-        } else {
-            textView.typeface = Typeface.DEFAULT
-        }
-    }
 
     @BindingAdapter(value = ["handleControlButtonTv"], requireAll = false)
     @JvmStatic
@@ -70,29 +37,5 @@ object RandomMainDataBindAdapter {
     fun showRandomTipsText(textView: TextView, randomTip: String) {
         textView.visibleOrGone(randomTip != GLOBAL_NONE_STRING)
         textView.text = randomTip
-    }
-
-    @BindingAdapter(value = ["showMainSwipeSpeedTv"], requireAll = false)
-    @JvmStatic
-    fun showMainSwipeSpeedTv(textView: TextView, speed: Long) {
-        val speedString = when (speed) {
-            RANDOM_SPEED_MIN -> obtainString(R.string.random_setting_speed_one_text)
-            RANDOM_SPEED_MEDIUM -> obtainString(R.string.random_setting_speed_two_text)
-            RANDOM_SPEED_MAX -> obtainString(R.string.random_setting_speed_three_text)
-            else -> GLOBAL_NONE_STRING
-        }
-        textView.text = "当前速度:$speedString"
-    }
-
-    @BindingAdapter(value = ["showMainSwipeRandomTypeTv"], requireAll = false)
-    @JvmStatic
-    fun showMainSwipeRandomTypeTv(textView: TextView, randomType: Int) {
-        val randomTypeString = when (randomType) {
-            RANDOM_NOW -> obtainString(R.string.random_setting_random_type_now_text)
-            RANDOM_AUTO -> obtainString(R.string.random_setting_random_type_auto_text)
-            RANDOM_MANUAL -> obtainString(R.string.random_setting_random_type_manual_text)
-            else -> GLOBAL_NONE_STRING
-        }
-        textView.text = "当前模式:$randomTypeString"
     }
 }

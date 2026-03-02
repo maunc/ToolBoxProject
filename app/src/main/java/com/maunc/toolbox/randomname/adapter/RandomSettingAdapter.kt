@@ -1,14 +1,18 @@
 package com.maunc.toolbox.randomname.adapter
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.RelativeLayout
+import android.widget.SeekBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
+import com.maunc.toolbox.commonbase.ext.addSeekBarListener
 import com.maunc.toolbox.commonbase.ext.marquee
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
@@ -16,12 +20,6 @@ import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomButtonClickVibrator
 import com.maunc.toolbox.commonbase.utils.randomEggs
 import com.maunc.toolbox.commonbase.utils.randomListSortType
-import com.maunc.toolbox.commonbase.utils.randomRepeat
-import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
-import com.maunc.toolbox.commonbase.utils.randomSpeed
-import com.maunc.toolbox.commonbase.utils.randomTextBold
-import com.maunc.toolbox.commonbase.utils.randomTextSize
-import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_DESC
@@ -29,12 +27,12 @@ import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_ASC
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_DESC
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_NOW
+import com.maunc.toolbox.randomname.constant.RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE
+import com.maunc.toolbox.randomname.constant.RANDOM_RESULT_TEXT_SIZE_MAX_VALUE
+import com.maunc.toolbox.randomname.constant.RANDOM_RESULT_TEXT_SIZE_MIN_VALUE
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MAX
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MEDIUM
 import com.maunc.toolbox.randomname.constant.RANDOM_SPEED_MIN
-import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MAX
-import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MEDIUM
-import com.maunc.toolbox.randomname.constant.RESULT_TEXT_SIZE_MIN
 import com.maunc.toolbox.randomname.data.RandomSettingData
 import com.us.mauncview.SwitchButtonView
 
@@ -51,7 +49,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         )
         addItemType(
             RandomSettingData.RANDOM_RESULT_TEXT_SIZE_TYPE,
-            R.layout.item_random_setting_text_size
+            R.layout.item_random_setting_seek_data
         )
         addItemType(
             RandomSettingData.RANDOM_RESULT_TEXT_BOLD_TYPE,
@@ -101,15 +99,10 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
 
     private var runRandomRepeat = false
 
-    private var resultTextSize = RESULT_TEXT_SIZE_MEDIUM
+    private var resultTextSize = RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE
 
-    fun obtainRandomType() = runRandomType
-    fun obtainDelayTime() = runDelayTime
-    fun obtainShowSelectRecycler() = showSelectRecycler
-    fun obtainResultTextIsBold() = resultTextIsBold
-    fun obtainResultTextSize() = resultTextSize
-    fun obtainRandomRepeat() = runRandomRepeat
-
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun convert(
         holder: BaseViewHolder,
         item: RandomSettingData,
@@ -159,20 +152,17 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 radioGroup.setOnCheckedChangeListener { group, checkedId ->
                     group.check(checkedId)
                     when (checkedId) {
-                        radioButtonMin.id -> {
-                            obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MIN)
-                            runDelayTime = RANDOM_SPEED_MIN
-                        }
+                        radioButtonMin.id -> onRandomSettingEventListener?.configRunRandomSpeed(
+                            RANDOM_SPEED_MIN
+                        )
 
-                        radioButtonMedium.id -> {
-                            obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MEDIUM)
-                            runDelayTime = RANDOM_SPEED_MEDIUM
-                        }
+                        radioButtonMedium.id -> onRandomSettingEventListener?.configRunRandomSpeed(
+                            RANDOM_SPEED_MEDIUM
+                        )
 
-                        radioButtonMax.id -> {
-                            obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MAX)
-                            runDelayTime = RANDOM_SPEED_MAX
-                        }
+                        radioButtonMax.id -> onRandomSettingEventListener?.configRunRandomSpeed(
+                            RANDOM_SPEED_MAX
+                        )
                     }
                 }
             }
@@ -183,8 +173,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 selectRecyclerVisibleSwitch.isChecked = showSelectRecycler
                 selectRecyclerVisibleSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                     selectRecyclerVisibleSwitch.isChecked = isChecked
-                    obtainMMKV.putBoolean(randomSelectRecyclerVisible, isChecked)
-                    showSelectRecycler = isChecked
+                    onRandomSettingEventListener?.configShowSelectRecycler(isChecked)
                 }
             }
 
@@ -194,43 +183,34 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 textBoldSwitch.isChecked = resultTextIsBold
                 textBoldSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                     textBoldSwitch.isChecked = isChecked
-                    obtainMMKV.putBoolean(randomTextBold, isChecked)
-                    resultTextIsBold = isChecked
+                    onRandomSettingEventListener?.configResultBold(isChecked)
                 }
             }
 
             RandomSettingData.RANDOM_RESULT_TEXT_SIZE_TYPE -> {
-                val radioGroup =
-                    haveView.findViewById<RadioGroup>(R.id.item_random_setting_result_text_size_radio_group)
-                val radioButtonMin =
-                    haveView.findViewById<RadioButton>(R.id.item_random_setting_result_text_size_min)
-                val radioButtonMedium =
-                    haveView.findViewById<RadioButton>(R.id.item_random_setting_result_text_size_medium)
-                val radioButtonMax =
-                    haveView.findViewById<RadioButton>(R.id.item_random_setting_result_text_size_max)
-                when (resultTextSize) {
-                    RESULT_TEXT_SIZE_MIN -> radioGroup.check(radioButtonMin.id)
-                    RESULT_TEXT_SIZE_MEDIUM -> radioGroup.check(radioButtonMedium.id)
-                    RESULT_TEXT_SIZE_MAX -> radioGroup.check(radioButtonMax.id)
-                }
-                radioGroup.setOnCheckedChangeListener { group, checkedId ->
-                    group.check(checkedId)
-                    when (checkedId) {
-                        radioButtonMin.id -> {
-                            obtainMMKV.putInt(randomTextSize, RESULT_TEXT_SIZE_MIN)
-                            resultTextSize = RESULT_TEXT_SIZE_MIN
+                val resultTextSizeTv =
+                    haveView.findViewById<TextView>(R.id.item_random_setting_size_tv)
+                resultTextSizeTv.text = "${
+                    obtainString(R.string.random_setting_current_result_text_size_text)
+                }:$resultTextSize"
+                val resultTextSizeTipsTv =
+                    haveView.findViewById<TextView>(R.id.item_random_setting_tips_tv)
+                resultTextSizeTipsTv.marquee()
+                val resultTextSizeSeek =
+                    haveView.findViewById<SeekBar>(R.id.item_random_setting_seek)
+                resultTextSizeSeek.apply {
+                    min = RANDOM_RESULT_TEXT_SIZE_MIN_VALUE
+                    max = RANDOM_RESULT_TEXT_SIZE_MAX_VALUE
+                    progress = resultTextSize
+                    addSeekBarListener(onProgressChanged = { seekBar, progress, fromUser ->
+                        resultTextSizeTv.text = "${
+                            obtainString(R.string.random_setting_current_result_text_size_text)
+                        }:$progress"
+                    }, onStopTrackingTouch = { seekBar ->
+                        seekBar?.let {
+                            onRandomSettingEventListener?.configResultTextSize(progress)
                         }
-
-                        radioButtonMedium.id -> {
-                            obtainMMKV.putInt(randomTextSize, RESULT_TEXT_SIZE_MEDIUM)
-                            resultTextSize = RESULT_TEXT_SIZE_MEDIUM
-                        }
-
-                        radioButtonMax.id -> {
-                            obtainMMKV.putInt(randomTextSize, RESULT_TEXT_SIZE_MAX)
-                            resultTextSize = RESULT_TEXT_SIZE_MAX
-                        }
-                    }
+                    })
                 }
             }
 
@@ -245,7 +225,6 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     haveView.findViewById<RadioButton>(R.id.item_random_setting_random_type_auto)
                 val radioButtonManual =
                     haveView.findViewById<RadioButton>(R.id.item_random_setting_random_type_manual)
-                randomTypeTipsTv.marquee()
                 when (runRandomType) {
                     RANDOM_NOW -> {
                         radioGroup.check(radioButtonNow.id)
@@ -273,27 +252,24 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     group.check(checkedId)
                     when (checkedId) {
                         radioButtonNow.id -> {
-                            obtainMMKV.putInt(randomType, RANDOM_NOW)
                             randomTypeTipsTv.text = obtainString(
                                 R.string.random_setting_select_random_type_now_tips_text
                             )
-                            runRandomType = RANDOM_NOW
+                            onRandomSettingEventListener?.configRunRandomType(RANDOM_NOW)
                         }
 
                         radioButtonAuto.id -> {
-                            obtainMMKV.putInt(randomType, RANDOM_AUTO)
                             randomTypeTipsTv.text = obtainString(
                                 R.string.random_setting_select_random_type_auto_tips_text
                             )
-                            runRandomType = RANDOM_AUTO
+                            onRandomSettingEventListener?.configRunRandomType(RANDOM_AUTO)
                         }
 
                         radioButtonManual.id -> {
-                            obtainMMKV.putInt(randomType, RANDOM_MANUAL)
                             randomTypeTipsTv.text = obtainString(
                                 R.string.random_setting_select_random_type_manual_tips_text
                             )
-                            runRandomType = RANDOM_MANUAL
+                            onRandomSettingEventListener?.configRunRandomType(RANDOM_MANUAL)
                         }
                     }
                     randomTypeTipsTv.marquee()
@@ -365,8 +341,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 repeatRandomSwitch.isChecked = runRandomRepeat
                 repeatRandomSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
                     repeatRandomSwitch.isChecked = isChecked
-                    obtainMMKV.putBoolean(randomRepeat, isChecked)
-                    runRandomRepeat = isChecked
+                    onRandomSettingEventListener?.configRunRandomRepeat(isChecked)
                 }
             }
 
@@ -410,6 +385,12 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
     }
 
     interface OnRandomSettingEventListener {
+        fun configRunRandomType(type: Int)
+        fun configRunRandomSpeed(speed: Long)
+        fun configShowSelectRecycler(isShow: Boolean)
+        fun configRunRandomRepeat(isRepeat: Boolean)
+        fun configResultBold(isBold: Boolean)
+        fun configResultTextSize(size: Int)
         fun showSelectDataDialog()
         fun startManagerPage()
         fun deleteAllDataClick()
