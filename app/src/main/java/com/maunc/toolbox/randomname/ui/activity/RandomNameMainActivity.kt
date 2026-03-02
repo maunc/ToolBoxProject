@@ -60,7 +60,7 @@ class RandomNameMainActivity :
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.randomNameMainViewModel = mViewModel
         // 初始化
-        mViewModel.initViewModelConfig()
+        mViewModel.initRandomList()
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             obtainString(R.string.random_title_text)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {

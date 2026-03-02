@@ -37,6 +37,10 @@ class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
                 settingType = obtainString(R.string.random_setting_sleep_text)
             ),
             RandomSettingData(
+                itemType = RandomSettingData.RANDOM_NAME_TYPE_TYPE,
+                settingType = obtainString(R.string.random_setting_random_type_text)
+            ),
+            RandomSettingData(
                 itemType = RandomSettingData.RANDOM_SELECT_LIST_TYPE,
                 settingType = obtainString(R.string.random_setting_not_select_text)
             ),
@@ -51,10 +55,6 @@ class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
             RandomSettingData(
                 itemType = RandomSettingData.RANDOM_RESULT_TEXT_BOLD_TYPE,
                 settingType = obtainString(R.string.random_setting_result_text_bold_text)
-            ),
-            RandomSettingData(
-                itemType = RandomSettingData.RANDOM_NAME_TYPE_TYPE,
-                settingType = obtainString(R.string.random_setting_random_type_text)
             ),
             RandomSettingData(
                 itemType = RandomSettingData.RANDOM_MANAGE_SORT_TYPE,
