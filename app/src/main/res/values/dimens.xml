@@ -106,7 +106,7 @@
     <dimen name="select_group_item_line_margin_horizontal">40dp</dimen>
 
     <!--**********************************  计时器  **********************************-->
-    <dimen name="chronograph_start_button_width">100dp</dimen>
+    <dimen name="chronograph_start_button_width">260dp</dimen>
     <dimen name="chronograph_start_button_height">100dp</dimen>
     <dimen name="chronograph_start_button_icon_size">55dp</dimen>
     <dimen name="chronograph_time_tv_margin_top">390dp</dimen>
