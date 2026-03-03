@@ -42,24 +42,41 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <!--当前名称-->
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/random_name_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="@dimen/dp_150"
-                            android:textColor="@color/black"
-                            app:randomNameText="@{randomNameMainViewModel.targetRunRandomName}"
-                            app:runStatus="@{randomNameMainViewModel.runRandomStatus}"
-                            tools:text="@string/random_none_text"
-                            tools:textSize="56sp" />
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_300"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/random_name_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/dp_150"
+                                android:textColor="@color/black"
+                                app:randomNameText="@{randomNameMainViewModel.targetRunRandomName}"
+                                app:runStatus="@{randomNameMainViewModel.runRandomStatus}"
+                                tools:text="@string/random_none_text"
+                                tools:textSize="56sp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/random_main_name_count_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:textColor="@color/black"
+                                android:visibility="gone"
+                                app:handleEnumCountTv="@{randomNameMainViewModel.runRandomStatus}"
+                                tools:text="@string/random_none_text"
+                                tools:textSize="18sp" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
                         <!--控制按钮-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/random_control_tv"
                             android:layout_width="@dimen/main_start_random_button_width"
                             android:layout_height="@dimen/main_start_random_button_height"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="@dimen/dp_45"
+                            android:layout_marginTop="@dimen/dp_25"
                             android:background="@drawable/bg_random_control_button"
                             android:gravity="center"
                             android:textColor="@color/black"

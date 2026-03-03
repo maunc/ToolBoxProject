@@ -83,7 +83,10 @@ class RandomNameMainActivity :
         mDatabind.randomControlTv.clickScale {
             mViewModel.buttonClickLaunchVibrator()
             when (mViewModel.runRandomStatus.value) {
-                RUN_STATUS_NONE, RUN_STATUS_STOP -> mViewModel.startRandom()
+                RUN_STATUS_NONE, RUN_STATUS_STOP -> {
+                    mViewModel.startRandom()
+                }
+
                 RUN_STATUS_START -> {
                     when (appViewModel.randomNameRunType.value!!) {
                         RANDOM_MANUAL -> mViewModel.stopManualRandom()
@@ -139,6 +142,17 @@ class RandomNameMainActivity :
             randomMainSelectAdapter.addData(
                 RandomNameData(mViewModel.toGroupName.value!!, it)
             )
+            //统计
+            if (appViewModel.randomEnumCountEnable.value == true) {
+                val value = mViewModel.countTargetRandomName[it]
+                if (value == null) {
+                    mViewModel.countTargetRandomName[it] = 1
+                    mDatabind.randomMainNameCountTv.text = "已被点1次"
+                } else {
+                    mViewModel.countTargetRandomName[it] = value + 1
+                    mDatabind.randomMainNameCountTv.text = "已被点${value + 1}次"
+                }
+            }
             mViewModel.selectListChange.value = true
         }
         mViewModel.reStartSelectDataEvent.observe(this) {
@@ -146,6 +160,7 @@ class RandomNameMainActivity :
                 randomMainSelectAdapter.setList(mutableListOf())
                 randomMainNotSelectAdapter.setList(mViewModel.notSelects)
                 randomNameMainSwipeAdapter.setList(mViewModel.randomGroupValue.value)
+                mViewModel.countTargetRandomName.clear()
                 mViewModel.selectListChange.value = true
             }
         }

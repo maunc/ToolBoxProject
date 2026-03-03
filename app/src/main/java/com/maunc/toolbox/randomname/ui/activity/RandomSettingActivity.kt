@@ -12,6 +12,7 @@ import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.ext.toastShort
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.randomEnumCountEnableType
 import com.maunc.toolbox.commonbase.utils.randomRepeat
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
@@ -51,6 +52,11 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
         RandomSettingAdapter().apply {
             setOnRandomSettingEventListener(object :
                 RandomSettingAdapter.OnRandomSettingEventListener {
+                override fun configEnableEnumCount(isEnable: Boolean) {
+                    obtainMMKV.putBoolean(randomEnumCountEnableType, isEnable)
+                    appViewModel.randomEnumCountEnable.value = isEnable
+                }
+
                 override fun configRunRandomType(type: Int) {
                     obtainMMKV.putInt(randomType, type)
                     appViewModel.randomNameRunType.value = type
@@ -116,7 +122,8 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
             appViewModel.randomNameShowSelectRecycler.value ?: false,
             appViewModel.randomNameResultIsBold.value ?: false,
             appViewModel.randomNameRunRepeat.value ?: false,
-            appViewModel.randomNameResultTextSize.value ?: RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE
+            appViewModel.randomNameResultTextSize.value ?: RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE,
+            appViewModel.randomEnumCountEnable.value ?: false,
         )
     }
 

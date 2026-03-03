@@ -87,6 +87,10 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             RandomSettingData.RANDOM_ALLOW_REPEAT_TYPE,
             R.layout.item_random_setting_switch_data
         )
+        addItemType(
+            RandomSettingData.RANDOM_ENUM_TYPE,
+            R.layout.item_random_setting_switch_data
+        )
     }
 
     private var runRandomType = RANDOM_AUTO
@@ -100,6 +104,8 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
     private var runRandomRepeat = false
 
     private var resultTextSize = RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE
+
+    private var enumCountEnable = false
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -345,6 +351,16 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 }
             }
 
+            RandomSettingData.RANDOM_ENUM_TYPE -> {
+                val enumCountEnableSwitch =
+                    haveView.findViewById<SwitchButtonView>(R.id.item_random_setting_switch)
+                enumCountEnableSwitch.isChecked = enumCountEnable
+                enumCountEnableSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                    enumCountEnableSwitch.isChecked = isChecked
+                    onRandomSettingEventListener?.configEnableEnumCount(isChecked)
+                }
+            }
+
             RandomSettingData.RANDOM_MANAGER_DATA_TYPE -> {
                 baseSettingView.setOnClickListener {
                     onRandomSettingEventListener?.startManagerPage()
@@ -368,6 +384,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         resultTextIsBold: Boolean,
         runRandomRepeat: Boolean,
         resultTextSize: Int,
+        enumCountEnable:Boolean
     ) {
         this.runRandomType = runRandomType
         this.runDelayTime = runDelayTime
@@ -375,6 +392,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         this.resultTextIsBold = resultTextIsBold
         this.runRandomRepeat = runRandomRepeat
         this.resultTextSize = resultTextSize
+        this.enumCountEnable = enumCountEnable
         notifyDataSetChanged()
     }
 
@@ -385,6 +403,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
     }
 
     interface OnRandomSettingEventListener {
+        fun configEnableEnumCount(isEnable: Boolean)
         fun configRunRandomType(type: Int)
         fun configRunRandomSpeed(speed: Long)
         fun configShowSelectRecycler(isShow: Boolean)

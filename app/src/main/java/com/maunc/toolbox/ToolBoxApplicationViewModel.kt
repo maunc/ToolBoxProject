@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.maunc.toolbox.commonbase.ext.assetFileParseJson
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.randomEnumCountEnableType
 import com.maunc.toolbox.commonbase.utils.randomRepeat
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
 import com.maunc.toolbox.commonbase.utils.randomSpeed
@@ -50,6 +51,7 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
     var randomNameShowSelectRecycler = UnPeekLiveData<Boolean>()//是否启用查看已点名单
     var randomNameRunSpeed = UnPeekLiveData<Long>()//相差多少时间随机一次
     var randomNameRunType = UnPeekLiveData<Int>()//点名模式
+    var randomEnumCountEnable = UnPeekLiveData<Boolean>()//是否启用统计
 
     /**
      * 初始化点名配置和预制数据
@@ -61,6 +63,7 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
         randomNameShowSelectRecycler.postValue(obtainMMKV.getBoolean(randomSelectRecyclerVisible))
         randomNameRunSpeed.postValue(obtainMMKV.getLong(randomSpeed))
         randomNameRunType.postValue(obtainMMKV.getInt(randomType))
+        randomEnumCountEnable.postValue(obtainMMKV.getBoolean(randomEnumCountEnableType))
     }
 
     /**===============================================   转盘配置相关   ===============================================*/

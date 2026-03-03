@@ -44,6 +44,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     var toGroupName = MutableLiveData(GLOBAL_NONE_STRING)//当前数据属于哪个分组
     private var transitRandomName = MutableLiveData(GLOBAL_NONE_STRING) //避免随机相同的数据造成UI上的卡顿错觉
     var randomGroupValue = MutableLiveData<MutableList<RandomNameData>>(mutableListOf())//总数据 不会变
+    var countTargetRandomName = HashMap<String, Int>()//统计每个人都点了几次
 
     /**启动已点名单后这些值才有用*/
     var selectListChange = MutableLiveData<Boolean>() //名单是否变化了

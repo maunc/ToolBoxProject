@@ -3,8 +3,11 @@ package com.maunc.toolbox.randomname.databindadapter
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.maunc.toolbox.R
+import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
+import com.maunc.toolbox.commonbase.ext.gone
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.visible
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
@@ -19,6 +22,23 @@ object RandomMainDataBindAdapter {
             RUN_STATUS_NONE, RUN_STATUS_STOP -> obtainString(R.string.random_start_text)
             RUN_STATUS_START -> obtainString(R.string.random_stop_text)
             else -> obtainString(R.string.random_start_text)
+        }
+    }
+
+    @BindingAdapter(value = ["handleEnumCountTv"], requireAll = false)
+    @JvmStatic
+    fun handleEnumCountTv(textView: TextView, runStatus: Int) {
+        if (appViewModel.randomEnumCountEnable.value == false) {
+            return
+        }
+        when (runStatus) {
+            RUN_STATUS_STOP -> {
+                textView.visible()
+            }
+
+            RUN_STATUS_NONE, RUN_STATUS_START -> {
+                textView.gone()
+            }
         }
     }
 

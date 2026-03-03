@@ -72,12 +72,13 @@
     <string name="random_setting_manager_data_text">管理所有分组</string>
     <string name="random_setting_vibrator_text">按钮震动</string>
     <string name="random_setting_eggs_text">彩蛋功能</string>
-    <string name="random_setting_repeat_text">是否允许重复点名</string>
+    <string name="random_setting_repeat_text">是否启用重复点名</string>
+    <string name="random_setting_enum_text">是否启用统计</string>
     <string name="random_setting_not_select_text">未点到与点到名单展示</string>
-    <string name="random_setting_result_text_size_text">点名结果文本字号</string>
+    <string name="random_setting_result_text_size_text">结果文本字号</string>
     <string name="random_setting_current_result_text_size_text">当前字体大小为</string>
-    <string name="random_setting_result_text_size_tips_text">设置的文本大小与手机屏幕有关系</string>
-    <string name="random_setting_result_text_bold_text">点名结果文本加粗</string>
+    <string name="random_setting_result_text_size_tips_text">设置的文本大小与手机分辨率有关系</string>
+    <string name="random_setting_result_text_bold_text">结果文本加粗</string>
     <string name="random_setting_speed_one_text">最低速度</string>
     <string name="random_setting_speed_two_text">中等速度</string>
     <string name="random_setting_speed_three_text">最高速度</string>

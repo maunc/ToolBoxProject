@@ -28,6 +28,7 @@ const val randomRepeat = "randomRepeat" //是否允许重复点名
 const val randomSelectRecyclerVisible = "randomSelectRecyclerVisible" //是否启用已点列表功能
 const val randomType = "randomType"//点名类型
 const val randomListSortType = "randomListSortType"//点名类型
+const val randomEnumCountEnableType = "randomEnumCountEnableType"//点名统计
 const val randomEggs = "randomEggs"
 
 /**颜色画板用到的**/
@@ -57,6 +58,7 @@ class MMKVUtils {
         obtainMMKV.putBoolean(randomEggs, false)
         obtainMMKV.putBoolean(randomRepeat, false)
         obtainMMKV.putBoolean(randomSelectRecyclerVisible, false)
+        obtainMMKV.putBoolean(randomEnumCountEnableType, false)
         obtainMMKV.putInt(randomTextSize, RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE)
         obtainMMKV.putInt(randomType, RANDOM_MANUAL)
         obtainMMKV.putInt(randomListSortType, RANDOM_DB_SORT_BY_INSERT_TIME_ASC)
