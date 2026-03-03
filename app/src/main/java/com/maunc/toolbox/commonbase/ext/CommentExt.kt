@@ -26,6 +26,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.constant.GLOBAL_TAG
@@ -75,7 +79,7 @@ fun obtainColor(
 
 fun obtainColorToARAG(
     a: Int = 255, r: Int = 0, g: Int = 0, b: Int = 0,
-)= Color.argb(a, r, g, b)
+) = Color.argb(a, r, g, b)
 
 fun obtainColorStateList(
     @ColorRes colorRes: Int,
@@ -176,6 +180,14 @@ fun Context.gridLayoutManager(
     spanCount: Int,
     orientation: Int = GridLayoutManager.VERTICAL,
 ): GridLayoutManager = GridLayoutManager(this, spanCount, orientation, false)
+
+fun Context.flexboxLayoutManager(
+    flexDirection: Int = FlexDirection.ROW,
+    flexWrap: Int = FlexWrap.WRAP,
+    justifyContent: Int = JustifyContent.FLEX_START,
+): FlexboxLayoutManager = FlexboxLayoutManager(this, flexDirection, flexWrap).apply {
+    this.justifyContent = justifyContent
+}
 
 fun Context.staggeredGridLayoutManager(
     spanCount: Int,

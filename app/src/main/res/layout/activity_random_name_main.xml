@@ -87,22 +87,32 @@
                             android:layout_marginTop="@dimen/dp_20"
                             android:orientation="vertical">
 
-                            <androidx.appcompat.widget.AppCompatTextView
+                            <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="@string/random_main_is_select_recycler"
-                                android:textColor="@color/black"
-                                android:textSize="16sp" />
+                                android:layout_height="wrap_content">
 
-                            <com.us.mauncview.FlowLayout
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dp_25"
+                                    android:text="@string/random_main_is_select_recycler"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/random_main_select_size_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp" />
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/random_main_select_recycler"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginHorizontal="@dimen/dp_15"
-                                android:layout_marginTop="@dimen/dp_10"
-                                app:heightSpace="@dimen/dp_10"
-                                app:widthSpace="@dimen/dp_10" />
+                                android:layout_marginTop="@dimen/dp_10" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
                         <!--未点名单-->
                         <androidx.appcompat.widget.LinearLayoutCompat
@@ -113,22 +123,32 @@
                             android:layout_marginTop="@dimen/dp_10"
                             android:orientation="vertical">
 
-                            <androidx.appcompat.widget.AppCompatTextView
+                            <androidx.appcompat.widget.LinearLayoutCompat
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:text="@string/random_main_not_select_recycler"
-                                android:textColor="@color/black"
-                                android:textSize="16sp" />
+                                android:layout_height="wrap_content">
 
-                            <com.us.mauncview.FlowLayout
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/dp_25"
+                                    android:text="@string/random_main_not_select_recycler"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp" />
+
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/random_main_not_select_size_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp" />
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/random_main_not_select_recycler"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginHorizontal="@dimen/dp_15"
-                                android:layout_marginTop="@dimen/dp_10"
-                                app:heightSpace="@dimen/dp_10"
-                                app:widthSpace="@dimen/dp_10" />
+                                android:layout_marginTop="@dimen/dp_10" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.core.widget.NestedScrollView>

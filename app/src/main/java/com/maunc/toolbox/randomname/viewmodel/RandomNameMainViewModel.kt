@@ -46,6 +46,7 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     var randomGroupValue = MutableLiveData<MutableList<RandomNameData>>(mutableListOf())//总数据 不会变
 
     /**启动已点名单后这些值才有用*/
+    var selectListChange = MutableLiveData<Boolean>() //名单是否变化了
     var notSelects: MutableList<RandomNameData> = mutableListOf()//待点的数据
     var selects: MutableList<RandomNameData> = mutableListOf()//已点过的数据
 

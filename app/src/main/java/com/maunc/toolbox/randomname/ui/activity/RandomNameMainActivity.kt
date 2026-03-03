@@ -1,8 +1,8 @@
 package com.maunc.toolbox.randomname.ui.activity
 
+import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.GravityCompat
@@ -13,13 +13,13 @@ import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.addDrawLayoutListener
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
+import com.maunc.toolbox.commonbase.ext.flexboxLayoutManager
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainActivityIntent
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.ViewOffsetHelper
 import com.maunc.toolbox.databinding.ActivityRandomNameMainBinding
-import com.maunc.toolbox.randomname.adapter.RandomMainNotSelectAdapter
 import com.maunc.toolbox.randomname.adapter.RandomMainSelectAdapter
 import com.maunc.toolbox.randomname.adapter.RandomMainSwipeNameAdapter
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
@@ -49,8 +49,8 @@ class RandomNameMainActivity :
         RandomMainSwipeNameAdapter()
     }
 
-    private val randomMainNotSelectAdapter: RandomMainNotSelectAdapter by lazy {
-        RandomMainNotSelectAdapter()
+    private val randomMainNotSelectAdapter: RandomMainSelectAdapter by lazy {
+        RandomMainSelectAdapter()
     }
 
     private val randomMainSelectAdapter: RandomMainSelectAdapter by lazy {
@@ -104,8 +104,13 @@ class RandomNameMainActivity :
         mDatabind.randomNameMainSwipeRecycler.layoutManager =
             linearLayoutManager(LinearLayoutManager.VERTICAL)
         mDatabind.randomNameMainSwipeRecycler.adapter = randomNameMainSwipeAdapter
-        mDatabind.randomMainNotSelectRecycler.setAdapter(randomMainNotSelectAdapter)
-        mDatabind.randomMainSelectRecycler.setAdapter(randomMainSelectAdapter)
+
+        mDatabind.randomMainNotSelectRecycler.itemAnimator = null
+        mDatabind.randomMainNotSelectRecycler.layoutManager = flexboxLayoutManager()
+        mDatabind.randomMainNotSelectRecycler.adapter = randomMainNotSelectAdapter
+
+        mDatabind.randomMainSelectRecycler.layoutManager = flexboxLayoutManager()
+        mDatabind.randomMainSelectRecycler.adapter = randomMainSelectAdapter
     }
 
     override fun onBackPressCallBack() {
@@ -116,6 +121,7 @@ class RandomNameMainActivity :
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun createObserver() {
         mViewModel.targetRandomName.observe(this) {
             // 每点一次结束时,且不允许重复点名,那么待点名单需要删除
@@ -124,22 +130,31 @@ class RandomNameMainActivity :
                     val randomNameData = mViewModel.notSelects[index]
                     if (randomNameData.randomName == it) {
                         mViewModel.notSelects.remove(randomNameData)
-                        randomMainNotSelectAdapter.remove(index)
+                        randomMainNotSelectAdapter.removeAt(index)
                         break
                     }
                 }
-                // 若想一直增加,移出来即可
-                mViewModel.selects.add(RandomNameData(mViewModel.toGroupName.value!!, it))
-                randomMainSelectAdapter.add(
-                    RandomNameData(mViewModel.toGroupName.value!!, it)
-                )
             }
+            mViewModel.selects.add(RandomNameData(mViewModel.toGroupName.value!!, it))
+            randomMainSelectAdapter.addData(
+                RandomNameData(mViewModel.toGroupName.value!!, it)
+            )
+            mViewModel.selectListChange.value = true
         }
         mViewModel.reStartSelectDataEvent.observe(this) {
             if (it) {
-                randomMainSelectAdapter.clear()
-                randomMainNotSelectAdapter.clearAddAll(mViewModel.notSelects)
+                randomMainSelectAdapter.setList(mutableListOf())
+                randomMainNotSelectAdapter.setList(mViewModel.notSelects)
                 randomNameMainSwipeAdapter.setList(mViewModel.randomGroupValue.value)
+                mViewModel.selectListChange.value = true
+            }
+        }
+        mViewModel.selectListChange.observe(this) {
+            if (it) {
+                val selectSize = randomMainSelectAdapter.data.size
+                val notSelectSize = randomMainNotSelectAdapter.data.size
+                mDatabind.randomMainSelectSizeTv.text = "(${selectSize}):"
+                mDatabind.randomMainNotSelectSizeTv.text = "(${notSelectSize}):"
             }
         }
         appViewModel.randomNameResultTextSize.observe(this) {

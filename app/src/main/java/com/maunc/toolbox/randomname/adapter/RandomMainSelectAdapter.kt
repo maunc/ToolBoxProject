@@ -1,21 +1,23 @@
 package com.maunc.toolbox.randomname.adapter
 
-import android.widget.TextView
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
+import com.maunc.toolbox.databinding.ItemRandomMainSelectBinding
 import com.maunc.toolbox.randomname.database.table.RandomNameData
-import com.us.mauncview.FlowLayoutAdapter
 
-class RandomMainSelectAdapter : FlowLayoutAdapter<RandomNameData>() {
-    override fun bindDataToView(
-        holder: ViewHolder?,
-        position: Int,
-        bean: RandomNameData
+/**
+ * 已点和未点名单
+ */
+class RandomMainSelectAdapter :
+    BaseQuickAdapter<RandomNameData, BaseDataBindingHolder<ItemRandomMainSelectBinding>>(R.layout.item_random_main_select) {
+    override fun convert(
+        holder: BaseDataBindingHolder<ItemRandomMainSelectBinding>,
+        item: RandomNameData,
     ) {
-        holder?.getView<TextView>(R.id.item_random_main_select_name)?.text = bean.randomName
+        holder.dataBinding?.let { mDataBind ->
+            mDataBind.itemRandomMainSelectName.text = item.randomName
+        }
     }
-
-    override fun bindItemLayoutId(
-        position: Int, bean: RandomNameData,
-    ): Int = R.layout.item_random_main_select
 }
 

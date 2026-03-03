@@ -27,9 +27,9 @@ const val RANDOM_MANUAL = 2 //手动
 /**
  * 三个档位速度
  */
-const val RANDOM_SPEED_MIN = 320L
-const val RANDOM_SPEED_MEDIUM = 120L
-const val RANDOM_SPEED_MAX = 20L
+const val RANDOM_SPEED_MIN = 160L
+const val RANDOM_SPEED_MEDIUM = 80L
+const val RANDOM_SPEED_MAX = 15L
 
 /**
  * 结果文本大小

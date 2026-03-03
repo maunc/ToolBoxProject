@@ -107,6 +107,6 @@ dependencies {
     }
     implementation(libs.ext.picture.selector)
     implementation(libs.ext.immersionbar)
-//    implementation(libs.ext.unpeeklivedata)
+    implementation(libs.ext.flex.box)
     implementation(libs.ext.ffmpeg.kit)
 }
