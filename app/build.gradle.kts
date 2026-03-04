@@ -25,6 +25,7 @@ android {
 
     defaultConfig {
         applicationId = applicationIdString
+        //读取的是项目下的libs.versions.toml文件
         minSdk = libs.versions.minSdkVersion.get().toInt()
         targetSdk = libs.versions.targetSdkVersion.get().toInt()
         //读取的是项目下的gradle.properties文件
@@ -83,11 +84,11 @@ android {
 dependencies {
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
-    implementation(project(":ViewLib"))
-    implementation(project(":LiveEventBus"))
-    implementation(project(":FileDownload"))
-    implementation(project(":WebBridgeLib"))
-    implementation(project(":UnPeekLiveData"))
+    implementation(project(":library_custom_view"))
+    implementation(project(":library_live_eventbus"))
+    implementation(project(":library_file_download"))
+    implementation(project(":library_web_bridge"))
+    implementation(project(":library_un_peek_livedata"))
 
     implementation(libs.bundles.android)
     implementation(libs.bundles.smart.refrsh.layout)

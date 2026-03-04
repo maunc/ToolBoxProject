@@ -37,8 +37,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "ToolBox"
 include(":app")
-include(":ViewLib")
-include(":LiveEventBus")
-include(":FileDownload")
-include(":WebBridgeLib")
-include(":UnPeekLiveData")
+include(":library_custom_view") //自定义view库
+include(":library_live_eventbus") //LiveEventBus库
+include(":library_file_download") //下载库
+include(":library_web_bridge") // webToAndroid库
+include(":library_un_peek_livedata") //UnPeekLiveData库

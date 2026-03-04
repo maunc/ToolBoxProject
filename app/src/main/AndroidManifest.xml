@@ -38,7 +38,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon_app"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RandomCallName"
+        android:theme="@style/Theme.ToolBox"
         tools:targetApi="31">
         <activity
             android:name=".ffmpeg.ui.FFmpegMainActivity"
