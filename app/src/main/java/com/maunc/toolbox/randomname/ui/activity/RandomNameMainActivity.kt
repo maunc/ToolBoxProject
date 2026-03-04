@@ -137,20 +137,22 @@ class RandomNameMainActivity :
                         break
                     }
                 }
+                mViewModel.selects.add(RandomNameData(mViewModel.toGroupName.value!!, it))
+                randomMainSelectAdapter.addData(
+                    RandomNameData(mViewModel.toGroupName.value!!, it)
+                )
             }
-            mViewModel.selects.add(RandomNameData(mViewModel.toGroupName.value!!, it))
-            randomMainSelectAdapter.addData(
-                RandomNameData(mViewModel.toGroupName.value!!, it)
-            )
             //统计
             if (appViewModel.randomEnumCountEnable.value == true) {
                 val value = mViewModel.countTargetRandomName[it]
                 if (value == null) {
                     mViewModel.countTargetRandomName[it] = 1
-                    mDatabind.randomMainNameCountTv.text = "已被点1次"
+                    mDatabind.randomMainNameCountTv.text =
+                        String.format(obtainString(R.string.random_main_enum_count_text), 1)
                 } else {
                     mViewModel.countTargetRandomName[it] = value + 1
-                    mDatabind.randomMainNameCountTv.text = "已被点${value + 1}次"
+                    mDatabind.randomMainNameCountTv.text =
+                        String.format(obtainString(R.string.random_main_enum_count_text), value + 1)
                 }
             }
             mViewModel.selectListChange.value = true

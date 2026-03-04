@@ -32,50 +32,52 @@
                     android:id="@+id/common_tool_bar"
                     layout="@layout/layout_tool_bar_common" />
 
-                <androidx.core.widget.NestedScrollView
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/common_tool_bar">
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/common_tool_bar"
+                    android:orientation="vertical">
+                    <!--当前名称-->
+                    <RelativeLayout
+                        android:id="@+id/random_content_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <!--当前名称-->
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_300"
-                            android:orientation="vertical">
+                        android:layout_height="@dimen/dp_300">
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/random_name_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="@dimen/dp_150"
-                                android:textColor="@color/black"
-                                app:randomNameText="@{randomNameMainViewModel.targetRunRandomName}"
-                                app:runStatus="@{randomNameMainViewModel.runRandomStatus}"
-                                tools:text="@string/random_none_text"
-                                tools:textSize="56sp" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/random_name_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/dp_150"
+                            android:textColor="@color/black"
+                            app:randomNameText="@{randomNameMainViewModel.targetRunRandomName}"
+                            app:runStatus="@{randomNameMainViewModel.runRandomStatus}"
+                            tools:text="@string/random_none_text"
+                            tools:textSize="56sp" />
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/random_main_name_count_tv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:textColor="@color/black"
-                                android:visibility="gone"
-                                app:handleEnumCountTv="@{randomNameMainViewModel.runRandomStatus}"
-                                tools:text="@string/random_none_text"
-                                tools:textSize="18sp" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/random_main_name_count_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/random_name_tv"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/black"
+                            android:visibility="gone"
+                            app:handleEnumCountTv="@{randomNameMainViewModel.runRandomStatus}"
+                            tools:text="@string/random_none_text"
+                            tools:textSize="18sp" />
+                    </RelativeLayout>
+                    <!--操作布局-->
+                    <RelativeLayout
+                        android:id="@+id/random_controll_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                         <!--控制按钮-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/random_control_tv"
                             android:layout_width="@dimen/main_start_random_button_width"
                             android:layout_height="@dimen/main_start_random_button_height"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/dp_25"
                             android:background="@drawable/bg_random_control_button"
                             android:gravity="center"
@@ -88,87 +90,101 @@
                             android:id="@+id/random_control_reset_select_tv"
                             android:layout_width="@dimen/main_start_random_button_width"
                             android:layout_height="@dimen/main_start_random_button_height"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_below="@+id/random_control_tv"
+                            android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/dp_30"
                             android:background="@drawable/bg_random_control_button"
                             android:gravity="center"
                             android:text="@string/random_main_reset_select_recycler_text"
                             android:textColor="@color/black"
                             android:textSize="@dimen/welcome_control_button_tv_size" />
-                        <!--已点名单-->
+                    </RelativeLayout>
+
+                    <androidx.core.widget.NestedScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/random_control_tv">
                         <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/random_main_select_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/random_control_tv"
-                            android:layout_marginTop="@dimen/dp_20"
                             android:orientation="vertical">
-
+                            <!--已点名单-->
                             <androidx.appcompat.widget.LinearLayoutCompat
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/dp_25"
-                                    android:text="@string/random_main_is_select_recycler"
-                                    android:textColor="@color/black"
-                                    android:textSize="18sp" />
-
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/random_main_select_size_tv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/black"
-                                    android:textSize="18sp" />
-                            </androidx.appcompat.widget.LinearLayoutCompat>
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/random_main_select_recycler"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginHorizontal="@dimen/dp_15"
-                                android:layout_marginTop="@dimen/dp_10" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-                        <!--未点名单-->
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/random_main_not_select_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/random_main_select_layout"
-                            android:layout_marginTop="@dimen/dp_10"
-                            android:orientation="vertical">
-
-                            <androidx.appcompat.widget.LinearLayoutCompat
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/dp_25"
-                                    android:text="@string/random_main_not_select_recycler"
-                                    android:textColor="@color/black"
-                                    android:textSize="18sp" />
-
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/random_main_not_select_size_tv"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/black"
-                                    android:textSize="18sp" />
-                            </androidx.appcompat.widget.LinearLayoutCompat>
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/random_main_not_select_recycler"
+                                android:id="@+id/random_main_select_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginHorizontal="@dimen/dp_15"
-                                android:layout_marginTop="@dimen/dp_10" />
+                                android:layout_below="@+id/random_control_tv"
+                                android:layout_marginTop="@dimen/dp_20"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dp_10"
+                                        android:text="@string/random_main_is_select_recycler"
+                                        android:textColor="@color/black"
+                                        android:textSize="18sp" />
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/random_main_select_size_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:textSize="18sp" />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/random_main_select_recycler"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="@dimen/dp_10"
+                                    android:layout_marginTop="@dimen/dp_10" />
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+                            <!--未点名单-->
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:id="@+id/random_main_not_select_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/random_main_select_layout"
+                                android:layout_marginTop="@dimen/dp_20"
+                                android:orientation="vertical">
+
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/dp_10"
+                                        android:text="@string/random_main_not_select_recycler"
+                                        android:textColor="@color/black"
+                                        android:textSize="18sp" />
+
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/random_main_not_select_size_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/black"
+                                        android:textSize="18sp" />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/random_main_not_select_recycler"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginHorizontal="@dimen/dp_10"
+                                    android:layout_marginTop="@dimen/dp_10" />
+                            </androidx.appcompat.widget.LinearLayoutCompat>
                         </androidx.appcompat.widget.LinearLayoutCompat>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </androidx.core.widget.NestedScrollView>
+                    </androidx.core.widget.NestedScrollView>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"

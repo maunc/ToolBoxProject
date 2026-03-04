@@ -73,16 +73,15 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         runManualJob = viewModelScope.launch(Dispatchers.IO) {
             val delayTime = appViewModel.randomNameRunSpeed.value ?: return@launch
             val data = obtainRandomList()
+            if (data.isEmpty()) return@launch
             while (isActive) {
                 if (data.size == ARRAY_INDEX_ONE) {
-                    updateTargetName(
-                        data[ARRAY_INDEX_ZERO].randomName,
-                        data[ARRAY_INDEX_ZERO].randomName
-                    )
+                    updateTargetName(data[ARRAY_INDEX_ZERO].randomName)
+                    break
                 }
                 val nextInt = Random().nextInt(data.size)
                 if (data[nextInt].randomName != transitRandomName.value) {
-                    updateTargetName(data[nextInt].randomName, data[nextInt].randomName)
+                    updateTargetName(data[nextInt].randomName)
                     delay(delayTime)
                 }
             }
@@ -97,20 +96,20 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
         runAutoJob = viewModelScope.launch(Dispatchers.IO) {
             val delayTime = appViewModel.randomNameRunSpeed.value ?: return@launch
             val data = obtainRandomList()
+            if (data.isEmpty()) return@launch
             while (isActive) {
                 if (data.size == ARRAY_INDEX_ONE) {
-                    updateTargetName(
-                        data[ARRAY_INDEX_ZERO].randomName,
-                        data[ARRAY_INDEX_ZERO].randomName
-                    )
+                    updateTargetName(data[ARRAY_INDEX_ZERO].randomName)
                     stopAutoRandom()
+                    break
                 }
                 val nextInt = Random().nextInt(data.size)
                 if (data[nextInt].randomName != transitRandomName.value) {
-                    updateTargetName(data[nextInt].randomName, data[nextInt].randomName)
+                    updateTargetName(data[nextInt].randomName)
                     autoTypeRunNum.postValue(autoTypeRunNum.value!! + 1)
                     if (autoTypeRunNum.value!! >= autoTypeRunNumThreshold.value!!) {
                         stopAutoRandom()
+                        break
                     } else {
                         delay(delayTime)
                     }
@@ -129,9 +128,9 @@ class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
     /**
      * 更新当前点名
      */
-    private fun updateTargetName(targetName: String, transitName: String) {
+    private fun updateTargetName(targetName: String) {
         targetRunRandomName.postValue(targetName)
-        transitRandomName.postValue(transitName)
+        transitRandomName.postValue(targetName)
     }
 
     fun initRandomList() {

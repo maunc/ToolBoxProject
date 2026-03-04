@@ -25,6 +25,7 @@
     <string name="random_none_text">未开始点名</string>
     <string name="random_start_error_tips">当前已经点完了,可以重置已点名单,重复操作</string>
     <string name="random_start_not_data_tips">名单没有内容,换一个名单试试吧</string>
+    <string name="random_main_enum_count_text">已被点%d次</string>
     <string name="random_stop_text">暂停点名</string>
     <string name="random_start_text">开始点名</string>
     <string name="random_name_main_swipe_tips">当前分组列表</string>
