@@ -18,11 +18,8 @@ import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 class RandomSelectGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
 
     private var dbSortType = MutableLiveData(obtainMMKV.getInt(randomListSortType))
-
-    var groupData = MutableLiveData<MutableList<RandomNameWithGroup>>(mutableListOf())
-
-    var groupDataIsNull = MutableLiveData<Boolean>()
-
+    var groupData = MutableLiveData<MutableList<RandomNameWithGroup>>()
+    var groupDataIsExist = MutableLiveData<Boolean>()//是否有数据
     var showTipsBool = MutableLiveData<Boolean>()
     var tipsStrVar = MutableLiveData<String>()
 
@@ -41,7 +38,6 @@ class RandomSelectGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
             }
         }, {
             groupData.value = it
-            groupDataIsNull.value = it.isEmpty()
             handleTips(it.isEmpty())
         }, {
             "queryGroupData Error ${it.message}  ${it.stackTrace}".loge()

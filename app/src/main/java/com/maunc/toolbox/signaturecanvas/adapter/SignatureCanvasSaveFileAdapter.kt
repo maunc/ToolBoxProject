@@ -18,7 +18,7 @@ class SignatureCanvasSaveFileAdapter :
     ) {
         holder.dataBinding?.let { mDataBind ->
             val layoutParams = mDataBind.itemCanvasSaveFileImage.layoutParams
-            layoutParams.width = context.obtainScreenWidth() / 2
+            layoutParams.width = obtainScreenWidth() / 2
             mDataBind.itemCanvasSaveFileImage.layoutParams = layoutParams
             mDataBind.itemCanvasSaveFileImage.loadImage(item.uri)
         }

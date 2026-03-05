@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">HToolBox</string>
     <string name="functions_are_under_development">功能开发中~</string>
+    <string name="common_content_title">一些内容</string>
     <string name="permission_manual_request_text">请前往系统设置手动开启权限</string>
     <string name="android_version_not_support_text">Android版本不支持</string>
     <string name="common_not_content">没有检索到数据</string>
@@ -26,6 +27,7 @@
     <string name="random_start_error_tips">当前已经点完了,可以重置已点名单,重复操作</string>
     <string name="random_start_not_data_tips">名单没有内容,换一个名单试试吧</string>
     <string name="random_main_enum_count_text">已被点%d次</string>
+    <string name="random_main_default_count_text">(0):</string>
     <string name="random_stop_text">暂停点名</string>
     <string name="random_start_text">开始点名</string>
     <string name="random_name_main_swipe_tips">当前分组列表</string>
@@ -175,4 +177,19 @@
     <string name="turn_table_recycler_item_menu_tips">侧滑可编辑列表</string>
     <string name="turn_table_builtin_title_tv">预制数据列表</string>
     <string name="turn_table_builtin_select_tips_tv">是否直接使用该列表?</string>
+
+    <!--ffmpeg-->
+    <string name="ffmpeg_item_convert_text">转换</string>
+    <string name="ffmpeg_main_item_one">mp4转mp3</string>
+    <string name="ffmpeg_main_item_two">m3u8转mp4</string>
+    <string name="ffmpeg_mp4_to_mp3_click_tv">选择mp4文件</string>
+    <string name="ffmpeg_mp4_to_mp3_not_file_tips_tv">没有已选择的mp4文件</string>
+    <string name="ffmpeg_mp4_to_mp3_handle_click_tv">开始转换</string>
+    <string name="ffmpeg_mp4_to_mp3_file_path_tips">mp4文件路径:</string>
+    <string name="ffmpeg_mp4_to_mp3_to_end_path_tips">转换后的mp3路径:</string>
+
+    <string name="ffmpeg_m3u8_to_mp4_tips_title_tv">常见问题</string>
+    <string name="ffmpeg_m3u8_to_mp4_tips_content_tv">一、已经损坏的m3u8文件不会检索到的列表中\n二、m3u8文件中的内容如果和已有的片段文件数量不符合也不会检索到列表中\n三、m3u8文件中的指定的片段文件路径如果找不到也不会检索到列表中\n四、只支持转换本地所有的m3u8文件以及片段文件\n五、不要更改m3u8文件中的头标识,否则也无法检索为正常文件\n六、m3u8文件本质不是视频文件,而是有配套的片段文件\n七、如果已有的完整m3u8文件,是可以编辑。例如:你可以删除m3u8文件中部分片段引用(但是要保证片段文件一定要大于m3u8文件中指定的路径数量,还有指定的片段文件一定存在且可读)\n八、片段文件数量且不能小于m3u8文件中指定的文件路径数量(且要保证两边都有且可读,即m3u8文件中声明的片段路径真实存在)\n九、如需要编辑转换出来视频的格式内容可按照上述进行编辑m3u8文件以及他所对应的片段</string>
+    <string name="ffmpeg_success_tv">操作成功</string>
+    <string name="ffmpeg_error_tv">操作失败</string>
 </resources>

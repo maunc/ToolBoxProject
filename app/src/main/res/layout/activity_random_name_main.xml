@@ -104,6 +104,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/random_control_tv">
+
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -128,12 +129,14 @@
                                         android:layout_marginStart="@dimen/dp_10"
                                         android:text="@string/random_main_is_select_recycler"
                                         android:textColor="@color/black"
-                                        android:textSize="18sp" />
+                                        android:textSize="18sp"
+                                        tools:ignore="TooDeepLayout" />
 
                                     <androidx.appcompat.widget.AppCompatTextView
                                         android:id="@+id/random_main_select_size_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:text="@string/random_main_default_count_text"
                                         android:textColor="@color/black"
                                         android:textSize="18sp" />
                                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -170,6 +173,7 @@
                                         android:id="@+id/random_main_not_select_size_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:text="@string/random_main_default_count_text"
                                         android:textColor="@color/black"
                                         android:textSize="18sp" />
                                 </androidx.appcompat.widget.LinearLayoutCompat>

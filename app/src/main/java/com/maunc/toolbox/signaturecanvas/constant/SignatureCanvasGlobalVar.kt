@@ -35,10 +35,5 @@ const val ERASER_WIDTH_MAX_VALUE = 100
 /**setResult来源**/
 const val RESULT_SOURCE_FROM_SIGNATURE_CANVAS_SETTING = 101
 
-/**intent跳转key值**/
-const val INTENT_CANVAS_PEN_WIDTH = "intentCanvasPenWidth"
-const val INTENT_CANVAS_PEN_COLOR = "intentCanvasPenColor"
-const val INTENT_CANVAS_ERASER_WIDTH = "intentCanvasEraserWidth"
-
 /**保存文件时的前缀*/
-const val saveFileNamePrefix = "HToolBox_canvas_"
+const val saveSignatureCanvasFileNamePrefix = "HToolBox_canvas_"

@@ -42,6 +42,10 @@ fun String.loge(
     tag: String = GLOBAL_TAG,
 ) = Log.e(tag, this)
 
+fun String.logd(
+    tag: String = GLOBAL_TAG,
+) = Log.d(tag, this)
+
 fun developmentToast() = toastShort(
     obtainString(R.string.functions_are_under_development)
 )
@@ -131,10 +135,10 @@ fun obtainAppVersionCode(): Int {
 }
 
 //获取屏幕宽度
-fun Context.obtainScreenWidth() = resources.displayMetrics.widthPixels
+fun obtainScreenWidth() = ToolBoxApplication.app.resources.displayMetrics.widthPixels
 
 //获取屏幕高度
-fun Context.obtainScreenHeight() = resources.displayMetrics.heightPixels
+fun obtainScreenHeight() = ToolBoxApplication.app.resources.displayMetrics.heightPixels
 
 /**
  * 获取屏幕高度

@@ -3,6 +3,7 @@ package com.maunc.toolbox.randomname.ui.activity
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.GravityCompat
@@ -162,6 +163,10 @@ class RandomNameMainActivity :
                 randomMainSelectAdapter.setList(mutableListOf())
                 randomMainNotSelectAdapter.setList(mViewModel.notSelects)
                 randomNameMainSwipeAdapter.setList(mViewModel.randomGroupValue.value)
+                Log.e("ww","${randomMainSelectAdapter.data.size},${randomMainNotSelectAdapter.data.size}")
+                mDatabind.randomMainSelectSizeTv.text = "(${randomMainSelectAdapter.data.size}):"
+                mDatabind.randomMainNotSelectSizeTv.text =
+                    "(${randomMainNotSelectAdapter.data.size}):"
                 mViewModel.countTargetRandomName.clear()
                 mViewModel.selectListChange.value = true
             }

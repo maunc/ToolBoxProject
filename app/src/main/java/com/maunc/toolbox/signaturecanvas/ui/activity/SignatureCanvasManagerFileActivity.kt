@@ -1,7 +1,6 @@
 package com.maunc.toolbox.signaturecanvas.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.ext.clickScale
@@ -40,12 +39,11 @@ class SignatureCanvasManagerFileActivity :
 
     override fun createObserver() {
         mViewModel.saveFileList.observe(this) {
-            Log.e("ww", "saveFileListSize:${it.size}")
             mDatabind.signatureCanvasSaveFileSmart.finishRefresh()
-            if(it.isNotEmpty()) {
+            mViewModel.isSaveFileData.value = it.isNotEmpty()
+            if (it.isNotEmpty()) {
                 signatureCanvasSaveFileAdapter.setList(it)
             }
-            mViewModel.isSaveFileData.value = it.isNotEmpty()
         }
     }
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.signaturecanvas.constant.saveFileNamePrefix
+import com.maunc.toolbox.signaturecanvas.constant.saveSignatureCanvasFileNamePrefix
 import com.maunc.toolbox.signaturecanvas.data.CanvasSaveFileData
 import kotlinx.coroutines.launch
 
@@ -17,7 +17,7 @@ class SignatureCanvasManagerFileViewModel : BaseViewModel<BaseModel>() {
 
     private val selection = "${MediaStore.Images.Media.DISPLAY_NAME} LIKE ?"
 
-    private val selectionArgs = arrayOf("%${saveFileNamePrefix}%")
+    private val selectionArgs = arrayOf("%${saveSignatureCanvasFileNamePrefix}%")
 
     private val projection = arrayOf(
         MediaStore.Images.Media._ID,
@@ -30,11 +30,8 @@ class SignatureCanvasManagerFileViewModel : BaseViewModel<BaseModel>() {
 
     private val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
 
-    // 需要收集的列表
-    var saveFileList = MutableLiveData<List<CanvasSaveFileData>>()
-
-    // 是否有数据
-    var isSaveFileData = MutableLiveData(true)
+    var saveFileList = MutableLiveData<List<CanvasSaveFileData>>()// 需要收集的列表
+    var isSaveFileData = MutableLiveData(true)// 是否有数据
 
     /**
      * uri 数据库

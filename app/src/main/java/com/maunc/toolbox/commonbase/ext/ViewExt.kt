@@ -15,6 +15,7 @@ import android.text.Spanned
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.GestureDetector
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.TouchDelegate
 import android.view.View
@@ -26,6 +27,7 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.annotation.LayoutRes
 import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -59,6 +61,12 @@ fun View.obtainViewWidth(action: (Int) -> Unit) {
 
 fun View.obtainViewHeight(action: (Int) -> Unit) {
     post { action.invoke(height) }
+}
+
+fun ViewGroup.addView(@LayoutRes viewId: Int): View {
+    val newView = LayoutInflater.from(this.context).inflate(viewId, this, false)
+    this.addView(newView)
+    return newView
 }
 
 @SuppressLint("ClickableViewAccessibility")

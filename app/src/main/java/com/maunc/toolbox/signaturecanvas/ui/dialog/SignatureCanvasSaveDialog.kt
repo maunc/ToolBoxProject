@@ -5,7 +5,7 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseDialog
 import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
 import com.maunc.toolbox.databinding.DialogSignatureCanvasSaveBinding
-import com.maunc.toolbox.signaturecanvas.constant.saveFileNamePrefix
+import com.maunc.toolbox.signaturecanvas.constant.saveSignatureCanvasFileNamePrefix
 import com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasSaveViewModel
 
 class SignatureCanvasSaveDialog :
@@ -27,7 +27,7 @@ class SignatureCanvasSaveDialog :
             if (editContent?.isEmpty() == true) {
                 onSureListener?.onSure("")
             } else {
-                onSureListener?.onSure(saveFileNamePrefix + editContent)
+                onSureListener?.onSure(saveSignatureCanvasFileNamePrefix + editContent)
             }
             dismissAllowingStateLoss()
         }

@@ -70,10 +70,10 @@ class RandomSelectGroupDialog :
 
     override fun createObserver() {
         mViewModel.groupData.observe(this) {
-            if (it.isNullOrEmpty()) {
-                return@observe
+            mViewModel.groupDataIsExist.value = it.isNotEmpty()
+            if (it.isNotEmpty()) {
+                randomSelectGroupAdapter.setList(it)
             }
-            randomSelectGroupAdapter.setList(it)
         }
     }
 }

@@ -12,7 +12,6 @@ import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.toastShort
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
-import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityTurnTableEditDataBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableEditDataAdapter

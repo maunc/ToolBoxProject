@@ -41,6 +41,12 @@
         android:theme="@style/Theme.ToolBox"
         tools:targetApi="31">
         <activity
+            android:name=".ffmpeg.ui.FFmpegM3u8ToMp4Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ffmpeg.ui.FFmpegMp4ToMp3Activity"
+            android:exported="false" />
+        <activity
             android:name=".ffmpeg.ui.FFmpegMainActivity"
             android:exported="false" />
         <activity
