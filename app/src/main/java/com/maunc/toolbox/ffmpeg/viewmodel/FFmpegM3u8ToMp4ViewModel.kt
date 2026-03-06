@@ -207,7 +207,8 @@ class FFmpegM3u8ToMp4ViewModel : BaseViewModel<BaseModel>() {
     private fun filterSegmentFileDuration(extInfLine: String): Float {
         return try {
             // 截取 #EXTINF: 后的部分，直到第一个逗号
-            extInfLine.substringAfter("#EXTINF:").substringBefore(",").trim().toFloat()
+            extInfLine.substringAfter("#EXTINF:")
+                .substringBefore(",").trim().toFloat()
         } catch (e: Exception) {
             0f
         }

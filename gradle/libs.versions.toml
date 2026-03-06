@@ -29,7 +29,9 @@ lifecycleLivedataKtx = "2.8.7"
 lifecycleViewModelKtxVersion = "2.8.7"
 unpeeklivedataVersion = "7.8.0"
 flexboxVersion = "3.0.0"
-ffmpegVerions = "6.0-2"
+ffmpegVersion = "6.0-2"
+gsyvideoplayerVersion = "11.3.0"
+
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -98,7 +100,8 @@ ext-immersionbar = { group = "com.geyifeng.immersionbar", name = "immersionbar",
 ext-pager-indicator = { group = "com.github.zhpanvip", name = "viewpagerindicator", version.ref = "viewPagerIndicatiorVersion" }
 ext-unpeeklivedata = { group = "com.kunminx.arch", name = "unpeek-livedata", version.ref = "unpeeklivedataVersion" }
 ext-flex-box = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexboxVersion" }
-ext-ffmpeg-kit = { group = "com.arthenica", name = "ffmpeg-kit-full", version.ref = "ffmpegVerions" }
+ext-ffmpeg-kit = { group = "com.arthenica", name = "ffmpeg-kit-full", version.ref = "ffmpegVersion" }
+ext-gsyvideoplayer = { group = "io.github.carguo", name = "gsyvideoplayer", version.ref = "gsyvideoplayerVersion" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

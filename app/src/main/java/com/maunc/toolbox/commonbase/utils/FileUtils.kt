@@ -3,7 +3,6 @@ package com.maunc.toolbox.commonbase.utils
 import android.annotation.SuppressLint
 import java.io.File
 
-
 private const val KB = 1024L
 private const val MB = KB * 1024
 private const val GB = MB * 1024
@@ -29,9 +28,5 @@ fun formatFileSize(bytes: Long): String {
  */
 fun obtainFileSize(filePath: String): Long {
     val file = File(filePath)
-    return if (file.exists() && file.isFile) {
-        file.length()
-    } else {
-        0L
-    }
+    return if (file.exists() && file.isFile) file.length() else 0L
 }

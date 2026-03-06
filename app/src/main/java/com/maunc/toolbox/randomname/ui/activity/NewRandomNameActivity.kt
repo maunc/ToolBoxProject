@@ -38,15 +38,12 @@ class NewRandomNameActivity :
             mViewModel.updateNewGroupLayout(keyBoardHeight, mDatabind.newNameWithGroupMain)
         }
         mDatabind.newNameWithGroupCancelButton.setOnClickListener {
-            mViewModel.buttonClickLaunchVibrator()
             baseFinishCurrentActivity()
         }
         mDatabind.newNameWithGroupDeleteIv.setOnClickListener {
-            mViewModel.buttonClickLaunchVibrator()
             mViewModel.clearEditText(mDatabind.newNameWithGroupEdit)
         }
         mDatabind.newNameWithGroupCreateButton.clickNoRepeat {
-            mViewModel.buttonClickLaunchVibrator()
             mViewModel.initiateCreateNewNameWithGroupEvent()
         }
         mDatabind.newNameWithGroupEdit.spaceProhibitedInput {

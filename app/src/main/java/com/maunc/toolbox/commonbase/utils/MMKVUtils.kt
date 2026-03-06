@@ -19,9 +19,11 @@ private const val DEFAULT_INT = -1
 /**通用*/
 const val commonNotFirstLaunchApp = "notFirstLaunchApp"
 
+const val buttonClickVibrator = "buttonClickVibrator" //按钮点击震动
+
 /** 随机名称用到的 */
 const val randomSpeed = "randomSpeed" // 随机速度 在手动点名下生效
-const val randomButtonClickVibrator = "randomButtonClickVibrator" //按钮点击震动
+
 const val randomTextBold = "randomTextBold" //结果文本加粗
 const val randomTextSize = "randomTextSize" //结果文本大小
 const val randomRepeat = "randomRepeat" //是否允许重复点名
@@ -53,7 +55,7 @@ class MMKVUtils {
         obtainMMKV.putBoolean(commonNotFirstLaunchApp, true)
         //随机名相关
         obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MAX)
-        obtainMMKV.putBoolean(randomButtonClickVibrator, false)
+        obtainMMKV.putBoolean(buttonClickVibrator, false)
         obtainMMKV.putBoolean(randomTextBold, false)
         obtainMMKV.putBoolean(randomEggs, false)
         obtainMMKV.putBoolean(randomRepeat, false)

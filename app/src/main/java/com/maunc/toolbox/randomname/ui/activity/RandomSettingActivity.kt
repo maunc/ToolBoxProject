@@ -110,7 +110,6 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             obtainString(R.string.random_setting_text)
         mDatabind.commonToolBar.commonToolBarBackButton.setOnClickListener {
-            mViewModel.buttonClickLaunchVibrator()
             baseFinishCurrentActivity()
         }
         mDatabind.randomSettingRecycler.layoutManager = linearLayoutManager()

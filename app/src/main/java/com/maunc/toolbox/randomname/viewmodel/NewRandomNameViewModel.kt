@@ -9,6 +9,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
+import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.constant.THREE_DELAY_MILLIS
 import com.maunc.toolbox.commonbase.database.randomNameDao
@@ -19,7 +20,7 @@ import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
 import com.maunc.toolbox.randomname.database.table.RandomNameData
 
-class NewRandomNameViewModel : BaseRandomNameViewModel<BaseModel>() {
+class NewRandomNameViewModel : BaseViewModel<BaseModel>() {
 
     private val handleEdit: Handler = Handler(Looper.getMainLooper())
 

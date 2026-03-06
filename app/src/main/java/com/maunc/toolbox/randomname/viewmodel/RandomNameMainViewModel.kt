@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.maunc.toolbox.R
 import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.base.BaseModel
+import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ONE
 import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ZERO
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
@@ -29,7 +30,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.util.Random
 
-class RandomNameMainViewModel : BaseRandomNameViewModel<BaseModel>() {
+class RandomNameMainViewModel : BaseViewModel<BaseModel>() {
 
     private var runManualJob: Job? = null //手动点名任务
     private var runAutoJob: Job? = null //自动点名任务

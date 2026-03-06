@@ -65,24 +65,20 @@ class RandomNameMainActivity :
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             obtainString(R.string.random_title_text)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
             finishCurrentActivity()
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_setting)
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
             randomMainActivityResult.launch(
                 obtainActivityIntent(RandomSettingActivity::class.java)
             )
             mViewModel.endRandom()
         }
         mDatabind.commonToolBar.commonToolBarTitleTv.setOnLongClickListener {
-            mViewModel.buttonClickLaunchVibrator()
             mDatabind.randomNameDrawerLayout.openDrawer(GravityCompat.END)
             return@setOnLongClickListener true
         }
         mDatabind.randomControlTv.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
             when (mViewModel.runRandomStatus.value) {
                 RUN_STATUS_NONE, RUN_STATUS_STOP -> {
                     mViewModel.startRandom()
@@ -97,7 +93,6 @@ class RandomNameMainActivity :
             }
         }
         mDatabind.randomControlResetSelectTv.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
             mViewModel.endRandom()
         }
         val viewOffsetHelper = ViewOffsetHelper(mDatabind.randomNameMainContentLayout)

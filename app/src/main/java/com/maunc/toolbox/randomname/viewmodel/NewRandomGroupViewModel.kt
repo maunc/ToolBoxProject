@@ -6,6 +6,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
+import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.randomGroupDao
 import com.maunc.toolbox.commonbase.ext.launch
@@ -14,7 +15,7 @@ import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
 import com.maunc.toolbox.randomname.database.table.RandomNameGroup
 
-class NewRandomGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
+class NewRandomGroupViewModel : BaseViewModel<BaseModel>() {
 
     var showDeleteEditIcon = MutableLiveData(false)
     var showInputErrorTips = MutableLiveData(false)
@@ -39,7 +40,7 @@ class NewRandomGroupViewModel : BaseRandomNameViewModel<BaseModel>() {
             it?.let {
                 handleShowTipsEvent(obtainString(R.string.new_group_edit_exist_tips_text))
             } ?: createNewGroup()
-        },{
+        }, {
             "queryRandomNameGroupByInsertTime error:${it.message}  ${it.stackTrace}".loge()
         })
     }

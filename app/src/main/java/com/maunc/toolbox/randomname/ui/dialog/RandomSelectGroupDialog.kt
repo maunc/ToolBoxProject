@@ -30,7 +30,6 @@ class RandomSelectGroupDialog :
             }
 
             setOnItemLongClickListener { adpater, view, pos ->
-                mViewModel.buttonClickLaunchVibrator()
                 val group = data[pos].randomNameGroup
                 if (group.isSelect) {
                     return@setOnItemLongClickListener true

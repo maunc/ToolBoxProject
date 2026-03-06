@@ -89,6 +89,7 @@ dependencies {
     implementation(project(":library_file_download"))
     implementation(project(":library_web_bridge"))
     implementation(project(":library_un_peek_livedata"))
+    implementation(project(":library_video_player"))
 
     implementation(libs.bundles.android)
     implementation(libs.bundles.smart.refrsh.layout)

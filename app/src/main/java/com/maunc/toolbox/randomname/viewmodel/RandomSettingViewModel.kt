@@ -5,6 +5,7 @@ import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
+import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
 import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.loge
@@ -12,7 +13,7 @@ import com.maunc.toolbox.commonbase.ext.mutableListInsert
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.randomname.data.RandomSettingData
 
-class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
+class RandomSettingViewModel : BaseViewModel<BaseModel>() {
 
     private var settingItemData = MutableLiveData<MutableList<RandomSettingData>>(mutableListOf())
 
@@ -27,10 +28,6 @@ class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
             RandomSettingData(
                 itemType = RandomSettingData.RANDOM_MANAGER_DATA_TYPE,
                 settingType = obtainString(R.string.random_setting_manager_data_text)
-            ),
-            RandomSettingData(
-                itemType = RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
-                settingType = obtainString(R.string.random_setting_vibrator_text)
             ),
             RandomSettingData(
                 itemType = RandomSettingData.RANDOM_SPEED_TYPE,
@@ -67,6 +64,10 @@ class RandomSettingViewModel : BaseRandomNameViewModel<BaseModel>() {
             RandomSettingData(
                 itemType = RandomSettingData.RANDOM_DELETE_ALL_DATA_TYPE,
                 settingType = obtainString(R.string.random_setting_random_delete_all_data_text)
+            ),
+            RandomSettingData(
+                itemType = RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE,
+                settingType = obtainString(R.string.random_setting_vibrator_text)
             ),
             RandomSettingData(
                 itemType = RandomSettingData.RANDOM_BUTTON_EGGS_TYPE,

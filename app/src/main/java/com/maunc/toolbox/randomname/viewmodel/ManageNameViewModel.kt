@@ -2,6 +2,7 @@ package com.maunc.toolbox.randomname.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.commonbase.base.BaseModel
+import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.database.randomNameDao
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
 import com.maunc.toolbox.commonbase.ext.launch
@@ -14,7 +15,7 @@ import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_ASC
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_NAME_DESC
 import com.maunc.toolbox.randomname.database.table.RandomNameData
 
-class ManageNameViewModel : BaseRandomNameViewModel<BaseModel>() {
+class ManageNameViewModel : BaseViewModel<BaseModel>() {
 
     private var dbSortType = MutableLiveData(obtainMMKV.getInt(randomListSortType))
 

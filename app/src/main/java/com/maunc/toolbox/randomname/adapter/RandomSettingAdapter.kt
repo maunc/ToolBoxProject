@@ -17,8 +17,6 @@ import com.maunc.toolbox.commonbase.ext.marquee
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
-import com.maunc.toolbox.commonbase.utils.randomButtonClickVibrator
-import com.maunc.toolbox.commonbase.utils.randomEggs
 import com.maunc.toolbox.commonbase.utils.randomListSortType
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
@@ -131,16 +129,6 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             notifyItemChanged(itemPosition)
         }
         when (item.itemType) {
-            RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE -> {
-                val vibratorSwitch =
-                    haveView.findViewById<SwitchButtonView>(R.id.item_random_setting_switch)
-                vibratorSwitch.isChecked = obtainMMKV.getBoolean(randomButtonClickVibrator)
-                vibratorSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-                    vibratorSwitch.isChecked = isChecked
-                    obtainMMKV.putBoolean(randomButtonClickVibrator, isChecked)
-                }
-            }
-
             RandomSettingData.RANDOM_SPEED_TYPE -> {
                 val radioGroup =
                     haveView.findViewById<RadioGroup>(R.id.item_random_setting_speed_radio_group)
@@ -331,16 +319,6 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 }
             }
 
-            RandomSettingData.RANDOM_BUTTON_EGGS_TYPE -> {
-                val eggsSwitch =
-                    haveView.findViewById<SwitchButtonView>(R.id.item_random_setting_switch)
-                eggsSwitch.isChecked = obtainMMKV.getBoolean(randomEggs)
-                eggsSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-                    eggsSwitch.isChecked = isChecked
-                    obtainMMKV.putBoolean(randomEggs, isChecked)
-                }
-            }
-
             RandomSettingData.RANDOM_ALLOW_REPEAT_TYPE -> {
                 val repeatRandomSwitch =
                     haveView.findViewById<SwitchButtonView>(R.id.item_random_setting_switch)
@@ -372,9 +350,16 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                     onRandomSettingEventListener?.showSelectDataDialog()
                 }
             }
+
+            RandomSettingData.RANDOM_BUTTON_VIBRATOR_TYPE -> {
+
+            }
+
+            RandomSettingData.RANDOM_BUTTON_EGGS_TYPE -> {
+
+            }
         }
     }
-
 
     @SuppressLint("NotifyDataSetChanged")
     fun setConfig(
@@ -384,7 +369,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         resultTextIsBold: Boolean,
         runRandomRepeat: Boolean,
         resultTextSize: Int,
-        enumCountEnable:Boolean
+        enumCountEnable: Boolean,
     ) {
         this.runRandomType = runRandomType
         this.runDelayTime = runDelayTime

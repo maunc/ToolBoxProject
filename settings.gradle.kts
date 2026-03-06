@@ -42,3 +42,4 @@ include(":library_live_eventbus") //LiveEventBus库
 include(":library_file_download") //下载库
 include(":library_web_bridge") // webToAndroid库
 include(":library_un_peek_livedata") //UnPeekLiveData库
+include(":library_video_player") // 三方播放器

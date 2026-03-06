@@ -53,7 +53,6 @@ class ManageNameActivity :
     private val manageGroupWithNameAdapter: ManageGroupWithNameAdapter by lazy {
         ManageGroupWithNameAdapter().apply {
             setOnItemClickListener { adapter, view, pos ->
-                mViewModel.buttonClickLaunchVibrator()
                 val randomNameGroupWithName = data[pos]
             }
             setOnItemLongClickListener { adapter, view, pos ->
@@ -83,15 +82,12 @@ class ManageNameActivity :
         mDatabind.manageGroupWithNameViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_add)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
             baseFinishCurrentActivity()
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
             startNewNameActivity()
         }
         mDatabind.manageGroupWithNameNewGroupTv.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
             startNewNameActivity()
         }
         mDatabind.commonToolBar.commonToolBarTitleTv.text = mGroupName

@@ -55,7 +55,6 @@ class ManageGroupActivity : BaseActivity<ManageGroupViewModel, ActivityManageGro
     private val manageGroupAdapter: ManageGroupAdapter by lazy {
         ManageGroupAdapter().apply {
             setOnItemClickListener { adapter, view, pos ->
-                mViewModel.buttonClickLaunchVibrator()
                 val randomNameWithGroup = data[pos]
                 manageGroupActivityResult.launch(
                     obtainActivityIntentPutData(
@@ -85,17 +84,14 @@ class ManageGroupActivity : BaseActivity<ManageGroupViewModel, ActivityManageGro
         mDatabind.manageGroupViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarCompatButton.setImageResource(R.drawable.icon_add)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
             finishCurrentActivity()
         }
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
             manageGroupActivityResult.launch(obtainActivityIntent(NewRandomGroupActivity::class.java))
         }
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             obtainString(R.string.manage_group_page_title_text)
         mDatabind.manageGroupNewGroupTv.clickScale {
-            mViewModel.buttonClickLaunchVibrator()
             manageGroupActivityResult.launch(obtainActivityIntent(NewRandomGroupActivity::class.java))
         }
         mDatabind.manageGroupRecycler.layoutManager =

@@ -36,15 +36,12 @@ class NewRandomGroupActivity :
             mViewModel.updateNewGroupLayout(keyBoardHeight, mDatabind.newGroupMain)
         }
         mDatabind.newGroupCancelButton.setOnClickListener {
-            mViewModel.buttonClickLaunchVibrator()
             baseFinishCurrentActivity()
         }
         mDatabind.newGroupDeleteIv.setOnClickListener {
-            mViewModel.buttonClickLaunchVibrator()
             mDatabind.newGroupEdit.setText(GLOBAL_NONE_STRING)
         }
         mDatabind.newGroupCreateButton.clickNoRepeat {
-            mViewModel.buttonClickLaunchVibrator()
             mViewModel.initiateCreateNewGroupEvent()
         }
         mDatabind.newGroupEdit.spaceProhibitedInput {

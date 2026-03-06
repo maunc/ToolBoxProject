@@ -65,6 +65,7 @@ class FFmpegMp4ToMp3Activity :
                         )
                     )
                 })
+                mDatabind.ffmpegMp4ToMp3VideoPlayer.startVideoPlay(it.realPath)
             }
         }
         mViewModel.transStatus.observe(this) {
@@ -73,7 +74,11 @@ class FFmpegMp4ToMp3Activity :
                     supportFragmentManager, COMMON_LOADING_DIALOG
                 )
 
-                FFMPEG_SUCCESS -> taskEndCallback(R.string.ffmpeg_success_tv)
+                FFMPEG_SUCCESS -> {
+                    taskEndCallback(R.string.ffmpeg_success_tv)
+                    mViewModel.currentSelectMp4File.value = null
+                }
+
                 FFMPEG_ERROR -> taskEndCallback(R.string.ffmpeg_error_tv)
             }
         }
