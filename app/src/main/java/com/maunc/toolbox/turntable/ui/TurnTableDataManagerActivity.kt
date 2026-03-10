@@ -102,10 +102,6 @@ class TurnTableDataManagerActivity :
             mDatabind.turnTableDataManageDataRecycler.smoothCloseMenu()
             return@setOnTouchListener true
         }
-        mDatabind.turnTableDataManageSmartLayout.setOnRefreshListener {
-            mDatabind.turnTableDataManageDataRecycler.smoothCloseMenu()
-            mViewModel.queryTurnTableData()
-        }
         mViewModel.queryTurnTableData()
     }
 

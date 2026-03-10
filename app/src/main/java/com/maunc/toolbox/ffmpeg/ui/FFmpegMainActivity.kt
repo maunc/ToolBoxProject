@@ -23,7 +23,7 @@ class FFmpegMainActivity : BaseActivity<FFmpegMainViewModel, ActivityFfmpegMainB
 
                     FFmpegConfigData.M3U8_TO_MP4_TYPE -> startTargetActivity(FFmpegM3u8ToMp4Activity::class.java)
 
-                    FFmpegConfigData.H265_TO_MP4_TYPE -> startTargetActivity(FFmpegM3u8ToMp4Activity::class.java)
+                    FFmpegConfigData.H265_OR_H264_TO_MP4_TYPE -> startTargetActivity(FFmpegH265OrH264ToMp4Activity::class.java)
                 }
             }
         }

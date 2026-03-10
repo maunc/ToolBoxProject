@@ -182,7 +182,7 @@
     <string name="ffmpeg_item_convert_text">转换</string>
     <string name="ffmpeg_main_item_one">mp4转mp3</string>
     <string name="ffmpeg_main_item_two">m3u8转mp4</string>
-    <string name="ffmpeg_main_item_three">H2565转mp4</string>
+    <string name="ffmpeg_main_item_three">h265(h264)转mp4</string>
     <string name="ffmpeg_mp4_to_mp3_click_tv">选择mp4文件</string>
     <string name="ffmpeg_mp4_to_mp3_not_file_tips_tv">没有已选择的mp4文件</string>
     <string name="ffmpeg_mp4_to_mp3_handle_click_tv">开始转换</string>

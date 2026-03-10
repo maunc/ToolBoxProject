@@ -7,6 +7,6 @@ data class FFmpegConfigData(
     companion object {
         const val MP4_TO_MP3_TYPE = 0//mp4提取音频
         const val M3U8_TO_MP4_TYPE = 1//m3u8转mp4
-        const val H265_TO_MP4_TYPE = 2//H2565转mp4
+        const val H265_OR_H264_TO_MP4_TYPE = 2//H265和H264转mp4
     }
 }

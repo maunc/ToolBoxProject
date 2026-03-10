@@ -10,6 +10,7 @@ import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.utils.createFileDir
 import com.maunc.toolbox.commonbase.utils.createFileDirFromSdCard
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_CREATE_DIR_TAG
+import com.maunc.toolbox.ffmpeg.constant.H265_OR_H264_TO_MP4_SAVE_PATH_NAME
 import com.maunc.toolbox.ffmpeg.constant.M3U8_TO_MP4_SAVE_PATH_NAME
 import com.maunc.toolbox.ffmpeg.constant.MP4_TO_MP3_SAVE_PATH_NAME
 import com.maunc.toolbox.ffmpeg.constant.SAVE_ROOT_PATH
@@ -31,7 +32,7 @@ class FFmpegMainViewModel : BaseViewModel<BaseModel>() {
                 title = obtainString(R.string.ffmpeg_main_item_two)
             ),
             FFmpegConfigData(
-                type = FFmpegConfigData.H265_TO_MP4_TYPE,
+                type = FFmpegConfigData.H265_OR_H264_TO_MP4_TYPE,
                 title = obtainString(R.string.ffmpeg_main_item_three)
             ),
         )
@@ -42,5 +43,6 @@ class FFmpegMainViewModel : BaseViewModel<BaseModel>() {
         Log.e(FFMPEG_CREATE_DIR_TAG, "${createFileDirFromSdCard(SAVE_ROOT_PATH_NAME)}")
         Log.e(FFMPEG_CREATE_DIR_TAG, "${createFileDir(SAVE_ROOT_PATH, MP4_TO_MP3_SAVE_PATH_NAME)}")
         Log.e(FFMPEG_CREATE_DIR_TAG, "${createFileDir(SAVE_ROOT_PATH, M3U8_TO_MP4_SAVE_PATH_NAME)}")
+        Log.e(FFMPEG_CREATE_DIR_TAG, "${createFileDir(SAVE_ROOT_PATH, H265_OR_H264_TO_MP4_SAVE_PATH_NAME)}")
     }
 }

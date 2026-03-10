@@ -90,6 +90,7 @@ dependencies {
     implementation(project(":library_web_bridge"))
     implementation(project(":library_un_peek_livedata"))
     implementation(project(":library_video_player"))
+    implementation(project(":library_usb_manager"))
 
     implementation(libs.bundles.android)
     implementation(libs.bundles.smart.refrsh.layout)

@@ -18,6 +18,10 @@ var MP4_TO_MP3_SAVE_PATH = SAVE_ROOT_PATH + File.separator + MP4_TO_MP3_SAVE_PAT
 const val M3U8_TO_MP4_SAVE_PATH_NAME = "m3u8_to_mp4"
 var M3U8_TO_MP4_SAVE_PATH = SAVE_ROOT_PATH + File.separator + M3U8_TO_MP4_SAVE_PATH_NAME
 
+
+const val H265_OR_H264_TO_MP4_SAVE_PATH_NAME = "h265_or_h264_to_mp4"
+var H265_OR_H264_TO_MP4_SAVE_PATH = SAVE_ROOT_PATH + File.separator + H265_OR_H264_TO_MP4_SAVE_PATH_NAME
+
 /**
  * FFmpeg 进行状态
  */

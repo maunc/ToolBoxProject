@@ -31,7 +31,7 @@ class FFmpegM3u8ToMp4Adapter :
                 fileSize += segment.fileSize
             }
             mDataBind.itemFfmpegMp4ToMp3FileSizeTv.text = "大小:${formatFileSize(fileSize)}"
-            mDataBind.itemFfmpegMp4ToMp3RootLayout.clickScale {
+            mDataBind.itemFfmpegMp4ToMp3RootLayout.setOnClickListener {
                 onM3u8ItemClickListener?.viewDetailsItemClick(item, holder.layoutPosition)
             }
             mDataBind.itemFfmpegMp4ToMp3ConvertLayout.clickScale {
