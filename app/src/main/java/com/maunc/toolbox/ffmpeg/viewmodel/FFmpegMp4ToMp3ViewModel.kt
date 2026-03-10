@@ -15,16 +15,13 @@ import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.ext.logd
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainGlideEngin
-import com.maunc.toolbox.commonbase.utils.createFileDir
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_ERROR
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_NONE
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_START
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_SUCCESS
 import com.maunc.toolbox.ffmpeg.constant.MP4_TO_MP3_SAVE_PATH
-import com.maunc.toolbox.ffmpeg.constant.MP4_TO_MP3_SAVE_PATH_NAME
 import com.maunc.toolbox.ffmpeg.constant.SAVE_FFMPEG_PREFIX
-import com.maunc.toolbox.ffmpeg.constant.SAVE_ROOT_PATH
-import com.maunc.toolbox.ffmpeg.constant.SELECT_VIDEO_MAX_NUM
+import com.maunc.toolbox.ffmpeg.constant.SELECT_MP4_TO_MP3_MAX_NUM
 import java.io.File
 
 class FFmpegMp4ToMp3ViewModel : BaseViewModel<BaseModel>() {
@@ -37,7 +34,7 @@ class FFmpegMp4ToMp3ViewModel : BaseViewModel<BaseModel>() {
     fun startSelectMp4File(context: Context) {
         PictureSelector.create(context)
             .openGallery(SelectMimeType.ofVideo())
-            .setMaxSelectNum(SELECT_VIDEO_MAX_NUM)
+            .setMaxSelectNum(SELECT_MP4_TO_MP3_MAX_NUM)
             .setImageEngine(obtainGlideEngin)
             .forResult(object : OnResultCallbackListener<LocalMedia> {
                 override fun onResult(result: ArrayList<LocalMedia>?) {

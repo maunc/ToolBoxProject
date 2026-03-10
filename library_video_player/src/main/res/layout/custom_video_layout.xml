@@ -79,7 +79,7 @@
                 android:layout_height="@dimen/dp_30"
                 android:scaleType="centerCrop"
                 android:layout_centerVertical="true"
-                android:src="@drawable/icon_play" />
+                android:src="@drawable/icon_pause" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/custom_video_speed_tv"

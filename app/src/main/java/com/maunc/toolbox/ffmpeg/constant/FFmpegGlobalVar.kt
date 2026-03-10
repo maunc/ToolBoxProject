@@ -5,7 +5,9 @@ import java.io.File
 
 const val FFMPEG_CREATE_DIR_TAG = "FFMPEG_CREATE_DIR"
 
-const val SELECT_VIDEO_MAX_NUM = 1
+const val SELECT_MP4_TO_MP3_MAX_NUM = 1
+
+const val SELECT_MERGE_MP4_MAX_NUM = 10
 
 const val SAVE_FFMPEG_PREFIX = "HToolBox_"
 
@@ -18,9 +20,11 @@ var MP4_TO_MP3_SAVE_PATH = SAVE_ROOT_PATH + File.separator + MP4_TO_MP3_SAVE_PAT
 const val M3U8_TO_MP4_SAVE_PATH_NAME = "m3u8_to_mp4"
 var M3U8_TO_MP4_SAVE_PATH = SAVE_ROOT_PATH + File.separator + M3U8_TO_MP4_SAVE_PATH_NAME
 
-
 const val H265_OR_H264_TO_MP4_SAVE_PATH_NAME = "h265_or_h264_to_mp4"
 var H265_OR_H264_TO_MP4_SAVE_PATH = SAVE_ROOT_PATH + File.separator + H265_OR_H264_TO_MP4_SAVE_PATH_NAME
+
+const val MERGE_MP4_SAVE_PATH_NAME = "merge_mp4"
+var MERGE_MP4_SAVE_PATH = SAVE_ROOT_PATH + File.separator + MERGE_MP4_SAVE_PATH_NAME
 
 /**
  * FFmpeg 进行状态

@@ -133,6 +133,9 @@
     <dimen name="dp_260">260dp</dimen>
     <dimen name="dp_300">300dp</dimen>
     <dimen name="dp_320">320dp</dimen>
+    <dimen name="dp_340">340dp</dimen>
     <dimen name="dp_380">380dp</dimen>
     <dimen name="dp_420">420dp</dimen>
+    <dimen name="dp_500">500dp</dimen>
+    <dimen name="dp_550">550dp</dimen>
 </resources>

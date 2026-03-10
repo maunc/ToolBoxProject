@@ -56,6 +56,7 @@ class CustomVideoPlayer @JvmOverloads constructor(
                 customControllerImageView?.setImageResource(R.drawable.icon_pause)
                 customCurrentTimeTextView?.text = customMaxTimeTextView?.text
                 customSeekBar?.progress = 100
+                onCompleteListener?.onComplete()
             }
         )
         initViewEventListener()
@@ -69,7 +70,6 @@ class CustomVideoPlayer @JvmOverloads constructor(
                 resumePlay()
             }
         }
-
 
         customSeekBar?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -89,6 +89,8 @@ class CustomVideoPlayer @JvmOverloads constructor(
         })
     }
 
+    fun goneSpeedView() = customSpeedTextView?.gone()
+
     fun isPlaying() = gsyVideoManager.isPlaying
 
     fun setNewVideoPlay(
@@ -99,6 +101,9 @@ class CustomVideoPlayer @JvmOverloads constructor(
         if (videoUrl == null) return
         setTitle(title)
         setUp(videoUrl, cacheWithPlay, title)
+    }
+
+    fun playVideoPlay() {
         startPlayLogic()
         customControllerImageView?.setImageResource(R.drawable.icon_play)
     }
@@ -107,8 +112,7 @@ class CustomVideoPlayer @JvmOverloads constructor(
         if (mOriginUrl == null || mOriginUrl == "") {
             return
         }
-        startPlayLogic()
-        customControllerImageView?.setImageResource(R.drawable.icon_play)
+        playVideoPlay()
     }
 
     private fun pausePlay() {
@@ -185,5 +189,15 @@ class CustomVideoPlayer @JvmOverloads constructor(
     override fun onDestroy() {
         release()
         gsyVideoManager.releaseMediaPlayer()
+    }
+
+    private var onCompleteListener: OnCompleteListener? = null
+
+    fun setOnCompleteListener(onCompleteListener: OnCompleteListener) {
+        this.onCompleteListener = onCompleteListener
+    }
+
+    fun interface OnCompleteListener {
+        fun onComplete()
     }
 }

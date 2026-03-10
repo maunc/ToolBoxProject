@@ -71,6 +71,7 @@ class FFmpegMp4ToMp3Activity :
                     )
                 })
                 mDatabind.ffmpegMp4ToMp3VideoPlayer.setNewVideoPlay(videoUrl = it.realPath)
+                mDatabind.ffmpegMp4ToMp3VideoPlayer.playVideoPlay()
             }
         }
         mViewModel.transStatus.observe(this) {

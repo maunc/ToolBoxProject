@@ -19,11 +19,21 @@ class FFmpegMainActivity : BaseActivity<FFmpegMainViewModel, ActivityFfmpegMainB
         FFmpegConfigAdapter().apply {
             setOnItemClickListener { adapter, view, pos ->
                 when (data[pos].type) {
-                    FFmpegConfigData.MP4_TO_MP3_TYPE -> startTargetActivity(FFmpegMp4ToMp3Activity::class.java)
+                    FFmpegConfigData.MP4_TO_MP3_TYPE -> startTargetActivity(
+                        FFmpegMp4ToMp3Activity::class.java
+                    )
 
-                    FFmpegConfigData.M3U8_TO_MP4_TYPE -> startTargetActivity(FFmpegM3u8ToMp4Activity::class.java)
+                    FFmpegConfigData.M3U8_TO_MP4_TYPE -> startTargetActivity(
+                        FFmpegM3u8ToMp4Activity::class.java
+                    )
 
-                    FFmpegConfigData.H265_OR_H264_TO_MP4_TYPE -> startTargetActivity(FFmpegH265OrH264ToMp4Activity::class.java)
+                    FFmpegConfigData.H265_OR_H264_TO_MP4_TYPE -> startTargetActivity(
+                        FFmpegH265OrH264ToMp4Activity::class.java
+                    )
+
+                    FFmpegConfigData.MERGE_MP4_TYPE -> startTargetActivity(
+                        FFmpegMergeMp4Activity::class.java
+                    )
                 }
             }
         }
