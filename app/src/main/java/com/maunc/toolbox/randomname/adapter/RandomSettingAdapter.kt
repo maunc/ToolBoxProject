@@ -89,6 +89,10 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
             RandomSettingData.RANDOM_ENUM_TYPE,
             R.layout.item_random_setting_switch_data
         )
+        addItemType(
+            RandomSettingData.RANDOM_BUILTIN_DATA_TYPE,
+            R.layout.item_random_setting_data
+        )
     }
 
     private var runRandomType = RANDOM_AUTO
@@ -345,6 +349,12 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
                 }
             }
 
+            RandomSettingData.RANDOM_BUILTIN_DATA_TYPE->{
+                baseSettingView.setOnClickListener {
+                    onRandomSettingEventListener?.startBuiltinPage()
+                }
+            }
+
             RandomSettingData.RANDOM_SELECT_DATA_TYPE -> {
                 baseSettingView.setOnClickListener {
                     onRandomSettingEventListener?.showSelectDataDialog()
@@ -397,6 +407,7 @@ class RandomSettingAdapter : BaseMultiItemQuickAdapter<RandomSettingData, BaseVi
         fun configResultTextSize(size: Int)
         fun showSelectDataDialog()
         fun startManagerPage()
+        fun startBuiltinPage()
         fun deleteAllDataClick()
     }
 }

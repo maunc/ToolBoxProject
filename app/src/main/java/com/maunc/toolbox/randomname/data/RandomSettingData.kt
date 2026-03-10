@@ -22,5 +22,6 @@ data class RandomSettingData(
         const val RANDOM_ALLOW_REPEAT_TYPE = 10 // 是否允许重复点名
         const val RANDOM_RESULT_TEXT_SIZE_TYPE = 11 // 文本大小
         const val RANDOM_ENUM_TYPE = 12 // 是否启用统计
+        const val RANDOM_BUILTIN_DATA_TYPE = 13 // 内置数据
     }
 }

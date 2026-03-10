@@ -17,6 +17,7 @@ import com.maunc.toolbox.commonbase.utils.randomType
 import com.maunc.toolbox.commonbase.utils.turnTableAnimSoundEffect
 import com.maunc.toolbox.commonbase.utils.turnTableConfigColor
 import com.maunc.toolbox.commonbase.utils.turnTableEnableTouch
+import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 import com.maunc.toolbox.turntable.data.TurnTableConfigColorData
 import com.maunc.toolbox.turntable.database.table.TurnTableNameWithGroup
 import com.maunc.unpeeklivedata.ui.callback.UnPeekLiveData
@@ -52,18 +53,28 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
     var randomNameRunSpeed = UnPeekLiveData<Long>()//相差多少时间随机一次
     var randomNameRunType = UnPeekLiveData<Int>()//点名模式
     var randomEnumCountEnable = UnPeekLiveData<Boolean>()//是否启用统计
+    var randomBuiltinContentData = UnPeekLiveData<MutableList<RandomNameWithGroup>>()//转盘预制数据
 
     /**
      * 初始化点名配置和预制数据
      */
     fun initRandomNameConfig() {
-        randomNameResultTextSize.postValue(obtainMMKV.getInt(randomTextSize))
-        randomNameResultIsBold.postValue(obtainMMKV.getBoolean(randomTextBold))
-        randomNameRunRepeat.postValue(obtainMMKV.getBoolean(randomRepeat))
-        randomNameShowSelectRecycler.postValue(obtainMMKV.getBoolean(randomSelectRecyclerVisible))
-        randomNameRunSpeed.postValue(obtainMMKV.getLong(randomSpeed))
-        randomNameRunType.postValue(obtainMMKV.getInt(randomType))
-        randomEnumCountEnable.postValue(obtainMMKV.getBoolean(randomEnumCountEnableType))
+        viewModelScope.launch(Dispatchers.IO) {
+            val contentListAsync = async {
+                assetFileParseJson<MutableList<RandomNameWithGroup>>(
+                    fileName = "random_name_data/random_name_content.json"
+                )
+            }
+            val contentList = contentListAsync.await()
+            randomBuiltinContentData.postValue(contentList)
+            randomNameResultTextSize.postValue(obtainMMKV.getInt(randomTextSize))
+            randomNameResultIsBold.postValue(obtainMMKV.getBoolean(randomTextBold))
+            randomNameRunRepeat.postValue(obtainMMKV.getBoolean(randomRepeat))
+            randomNameShowSelectRecycler.postValue(obtainMMKV.getBoolean(randomSelectRecyclerVisible))
+            randomNameRunSpeed.postValue(obtainMMKV.getLong(randomSpeed))
+            randomNameRunType.postValue(obtainMMKV.getInt(randomType))
+            randomEnumCountEnable.postValue(obtainMMKV.getBoolean(randomEnumCountEnableType))
+        }
     }
 
     /**===============================================   转盘配置相关   ===============================================*/

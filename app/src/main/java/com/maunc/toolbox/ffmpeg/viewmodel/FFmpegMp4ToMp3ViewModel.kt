@@ -1,7 +1,6 @@
 package com.maunc.toolbox.ffmpeg.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.FFmpegSession
@@ -16,11 +15,15 @@ import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.ext.logd
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainGlideEngin
+import com.maunc.toolbox.commonbase.utils.createFileDir
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_ERROR
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_NONE
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_START
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_SUCCESS
-import com.maunc.toolbox.ffmpeg.constant.SAVE_FFMPEG_MP4_TO_MP3_PATH_PREFIX
+import com.maunc.toolbox.ffmpeg.constant.MP4_TO_MP3_SAVE_PATH
+import com.maunc.toolbox.ffmpeg.constant.MP4_TO_MP3_SAVE_PATH_NAME
+import com.maunc.toolbox.ffmpeg.constant.SAVE_FFMPEG_PREFIX
+import com.maunc.toolbox.ffmpeg.constant.SAVE_ROOT_PATH
 import com.maunc.toolbox.ffmpeg.constant.SELECT_VIDEO_MAX_NUM
 import java.io.File
 
@@ -84,16 +87,14 @@ class FFmpegMp4ToMp3ViewModel : BaseViewModel<BaseModel>() {
 
     fun obtainToMp3Path(mp4Path: String?): String? {
         if (mp4Path == null) return null
-
         val videoFile = File(mp4Path)
-        val parentDir = videoFile.parent ?: ""
         val fileNameWithExt = videoFile.name
         val fileNameWithoutExt = if (fileNameWithExt.contains(".")) {
             fileNameWithExt.substring(0, fileNameWithExt.lastIndexOf("."))
         } else {
             fileNameWithExt
         }
-        val mp3FileName = "$SAVE_FFMPEG_MP4_TO_MP3_PATH_PREFIX$fileNameWithoutExt.mp3"
-        return if (parentDir.isBlank()) mp3FileName else File(parentDir, mp3FileName).absolutePath
+        val mp3FileName = "$SAVE_FFMPEG_PREFIX$fileNameWithoutExt.mp3"
+        return File(MP4_TO_MP3_SAVE_PATH, mp3FileName).absolutePath
     }
 }

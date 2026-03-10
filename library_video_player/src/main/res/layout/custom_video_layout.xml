@@ -1,18 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <!-- 核心播放容器（id 必须为 surface_container，父类会依赖此 id） -->
+
+    <!--核心播放容器（id 必须为 surface_container，父类会依赖此 id）-->
     <FrameLayout
         android:id="@+id/surface_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/custom_video_controller_iv"
-        android:layout_width="@dimen/custom_video_controller_width"
-        android:layout_height="@dimen/custom_video_controller_height"
-        android:src="@drawable/icon_play" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/custom_video_title_tv"
+        android:layout_width="@dimen/custom_video_title_width"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_15"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
+        android:visibility="gone" />
+    <!--进度条，播放，倍速-->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/custom_video_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/dp_10"
+        android:paddingVertical="@dimen/dp_5">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/custom_video_current_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/default_time_text"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="@string/default_time_text" />
+
+            <SeekBar
+                android:id="@+id/custom_video_seekbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:progressBackgroundTint="@color/custom_seek_background_color"
+                android:progressTint="@color/custom_seek_progress_color"
+                android:thumbTint="@color/custom_seek_thumb_color" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/custom_video_max_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/default_time_text"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="@string/default_time_text" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/custom_video_controller_iv"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_play" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/custom_video_speed_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="@string/speed_text"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </RelativeLayout>

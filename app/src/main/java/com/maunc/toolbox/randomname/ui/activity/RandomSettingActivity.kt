@@ -98,6 +98,10 @@ class RandomSettingActivity : BaseActivity<RandomSettingViewModel, ActivityRando
                     startTargetActivity(ManageGroupActivity::class.java)
                 }
 
+                override fun startBuiltinPage() {
+                    startTargetActivity(RandomBuiltinDataActivity::class.java)
+                }
+
                 override fun deleteAllDataClick() {
                     deleteTipsDialog.show(supportFragmentManager, COMMON_DIALOG)
                 }

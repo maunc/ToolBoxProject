@@ -33,6 +33,9 @@ import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.material.tabs.TabLayout.Tab
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.constant.ALPHA
 import com.maunc.toolbox.commonbase.constant.SCALE_X
@@ -161,6 +164,52 @@ fun ImageView.setTint(@ColorRes colorRes: Int) {
 }
 
 /**
+ * 自定义TabLayout的Tab点击事件
+ */
+@SuppressLint("ClickableViewAccessibility")
+fun TabLayout.addCustomTabClickListener(
+    unAvailableTask: (Tab) -> Boolean,
+    tabAvailableClick: (Tab) -> Unit={},
+    tabUnAvailableClick: (Tab) -> Unit={}
+) {
+    post {
+        for (i in 0 until this.tabCount) {
+            val tab = this.getTabAt(i)
+            tab?.let {
+                val tabView = getTabView(it, this)
+                tabView?.setOnTouchListener { v, event ->
+                    if (unAvailableTask(tab)) {
+                        tabUnAvailableClick.invoke(tab)
+                        return@setOnTouchListener true // 返回true = 事件被消费，不会传递给TabLayout
+                    }
+                    if (event.action == MotionEvent.ACTION_UP) {
+                        this.selectTab(tab)
+                        tabAvailableClick.invoke(tab)
+                    }
+                    return@setOnTouchListener false
+                }
+                tabView?.setOnClickListener(null)
+            }
+        }
+    }
+}
+
+fun getTabView(tab: Tab, tabLayout: TabLayout): View? {
+    return try {
+        val field = try {
+            Tab::class.java.getDeclaredField("mView")
+        } catch (e: NoSuchFieldException) {
+            Tab::class.java.getDeclaredField("view")
+        }
+        field.isAccessible = true
+        field.get(tab) as View
+    } catch (e: Exception) {
+        e.printStackTrace()
+        if (tab.position < tabLayout.childCount) tabLayout.getChildAt(tab.position) else null
+    }
+}
+
+/**
  * 设置跑马灯
  */
 fun TextView.marquee() {
@@ -243,6 +292,26 @@ fun ViewPager.addViewPageListener(
 
         override fun onPageScrollStateChanged(state: Int) {
             onPageScrollStateChanged.invoke(state)
+        }
+    })
+}
+
+fun TabLayout.addTabSelectedListener(
+    onTabSelected: (TabLayout.Tab?) -> Unit = {},
+    onTabUnselected: (TabLayout.Tab?) -> Unit = {},
+    onTabReselected: (TabLayout.Tab?) -> Unit = {},
+) {
+    this.addOnTabSelectedListener(object : OnTabSelectedListener {
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            onTabSelected.invoke(tab)
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+            onTabUnselected.invoke(tab)
+        }
+
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+            onTabReselected.invoke(tab)
         }
     })
 }

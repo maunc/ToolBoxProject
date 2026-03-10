@@ -9,11 +9,19 @@ import androidx.lifecycle.viewModelScope
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.FFmpegSession
 import com.arthenica.ffmpegkit.ReturnCode
+import com.luck.picture.lib.thread.PictureThreadUtils.runOnUiThread
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
+import com.maunc.toolbox.commonbase.ext.logd
+import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.utils.obtainFileSize
+import com.maunc.toolbox.ffmpeg.constant.FFMPEG_ERROR
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_NONE
+import com.maunc.toolbox.ffmpeg.constant.FFMPEG_START
+import com.maunc.toolbox.ffmpeg.constant.FFMPEG_SUCCESS
+import com.maunc.toolbox.ffmpeg.constant.M3U8_TO_MP4_SAVE_PATH
+import com.maunc.toolbox.ffmpeg.constant.SAVE_FFMPEG_PREFIX
 import com.maunc.toolbox.ffmpeg.data.FFmpegM3u8ResultData
 import com.maunc.toolbox.ffmpeg.data.FFmpegM3u8TsSegmentData
 import kotlinx.coroutines.Dispatchers
@@ -35,6 +43,48 @@ class FFmpegM3u8ToMp4ViewModel : BaseViewModel<BaseModel>() {
     private val projection = arrayOf(MediaStore.Files.FileColumns.DATA)
     private val selection = "${MediaStore.Files.FileColumns.DISPLAY_NAME} LIKE ?"
     private val args = arrayOf("%.m3u8")
+
+
+    fun startTransformation(m3u8Data: FFmpegM3u8ResultData) {
+        val ffmpegCmd = obtainFFmpegM3u8ToMp4(m3u8Data)
+        transStatus.value = FFMPEG_START
+        FFmpegKit.executeAsync(ffmpegCmd, { session: FFmpegSession ->
+            runOnUiThread {
+                val returnCode = session.returnCode
+                if (ReturnCode.isSuccess(returnCode)) {
+                    "M3U8 TO MP4 Conversion successful".loge()
+                    transStatus.value = FFMPEG_SUCCESS
+                } else if (ReturnCode.isCancel(returnCode)) {
+                    "M3U8 TO MP4 Conversion canceled ${session.logs}".loge()
+                } else {
+                    "M3U8 TO MP4 Conversion failed ${session.logs}".loge()
+                    transStatus.value = FFMPEG_ERROR
+                }
+            }
+        }, { log ->
+            // 实时日志回调（可用于解析进度）
+            "FFmpeg日志：${log.message}".logd()
+        }, { statistics ->
+            // 统计信息回调（如帧率、比特率等）
+            "统计信息：$statistics".logd()
+        })
+    }
+
+    private fun obtainFFmpegM3u8ToMp4(m3u8Data: FFmpegM3u8ResultData): String {
+        val fileNameWithExt = m3u8Data.m3u8FileName
+        val fileNameWithoutExt = if (fileNameWithExt.contains(".")) {
+            fileNameWithExt.substring(0, fileNameWithExt.lastIndexOf("."))
+        } else {
+            fileNameWithExt
+        }
+        val mp4FileName = "$SAVE_FFMPEG_PREFIX$fileNameWithoutExt.mp4"
+        return "-allowed_extensions ALL -i ${m3u8Data.m3u8FilePath} -c copy -y ${
+            File(M3U8_TO_MP4_SAVE_PATH, mp4FileName).absolutePath
+        }"
+//        return "-allowed_extensions ALL -i ${m3u8Data.m3u8FilePath} -c:v mpeg4 -c:a mp3 -y ${
+//            File(M3U8_TO_MP4_SAVE_PATH, mp4FileName).absolutePath
+//        }"
+    }
 
     fun initM3u8FileList() {
         viewModelScope.launch(Dispatchers.IO) {

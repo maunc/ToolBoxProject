@@ -111,4 +111,11 @@ dependencies {
     implementation(libs.ext.immersionbar)
     implementation(libs.ext.flex.box)
     implementation(libs.ext.ffmpeg.kit)
+
+    // 核心GenAI依赖
+//    implementation ("com.google.mediapipe:tasks-genai:0.10.32")
+//    // 依赖配套的基础库（版本需和genai一致）
+//    implementation ("com.google.mediapipe:tasks-core:0.10.32")
+//    // 如需文本生成能力（可选，0.10.29已内置，但显式依赖更稳定）
+//    implementation ("com.google.mediapipe:tasks-text:0.10.32")
 }

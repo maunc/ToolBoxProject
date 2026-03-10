@@ -15,7 +15,7 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
 
     init {
         addItemType(
-            TurnTableSettingData.TURN_TABLE_SELECT_DATA_TYPE,
+            TurnTableSettingData.TURN_TABLE_BUILTIN_DATA_TYPE,
             R.layout.item_turn_table_setting_data
         )
         addItemType(
@@ -68,7 +68,7 @@ class TurnTableSettingAdapter : BaseMultiItemQuickAdapter<TurnTableSettingData, 
             notifyItemChanged(itemPosition)
         }
         when (item.itemType) {
-            TurnTableSettingData.TURN_TABLE_SELECT_DATA_TYPE -> {
+            TurnTableSettingData.TURN_TABLE_BUILTIN_DATA_TYPE -> {
                 baseSettingView.setOnClickListener {
                     onTurnTableSettingEventListener?.showTurnTableDataPage()
                 }

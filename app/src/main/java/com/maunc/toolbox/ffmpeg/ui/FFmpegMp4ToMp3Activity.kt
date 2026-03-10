@@ -1,6 +1,7 @@
 package com.maunc.toolbox.ffmpeg.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.StringRes
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
@@ -13,11 +14,15 @@ import com.maunc.toolbox.commonbase.ext.mutableListInsert
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
+import com.maunc.toolbox.commonbase.utils.createFileDir
 import com.maunc.toolbox.databinding.ActivityFfmpegMp4ToMp3Binding
 import com.maunc.toolbox.ffmpeg.adapter.FFmpegMp4ToMp3MsgAdapter
+import com.maunc.toolbox.ffmpeg.constant.FFMPEG_CREATE_DIR_TAG
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_ERROR
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_START
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_SUCCESS
+import com.maunc.toolbox.ffmpeg.constant.MP4_TO_MP3_SAVE_PATH_NAME
+import com.maunc.toolbox.ffmpeg.constant.SAVE_ROOT_PATH
 import com.maunc.toolbox.ffmpeg.data.FFmpegMp4ToMp3MsgData
 import com.maunc.toolbox.ffmpeg.viewmodel.FFmpegMp4ToMp3ViewModel
 
@@ -65,7 +70,7 @@ class FFmpegMp4ToMp3Activity :
                         )
                     )
                 })
-                mDatabind.ffmpegMp4ToMp3VideoPlayer.startVideoPlay(it.realPath)
+                mDatabind.ffmpegMp4ToMp3VideoPlayer.setNewVideoPlay(videoUrl = it.realPath)
             }
         }
         mViewModel.transStatus.observe(this) {
@@ -77,6 +82,7 @@ class FFmpegMp4ToMp3Activity :
                 FFMPEG_SUCCESS -> {
                     taskEndCallback(R.string.ffmpeg_success_tv)
                     mViewModel.currentSelectMp4File.value = null
+                    mDatabind.ffmpegMp4ToMp3VideoPlayer.onDestroy()
                 }
 
                 FFMPEG_ERROR -> taskEndCallback(R.string.ffmpeg_error_tv)
@@ -87,5 +93,15 @@ class FFmpegMp4ToMp3Activity :
     private fun taskEndCallback(@StringRes toastMsgResId: Int) {
         loadingDialog.dismissAllowingStateLoss()
         toast(obtainString(toastMsgResId))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mDatabind.ffmpegMp4ToMp3VideoPlayer.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mDatabind.ffmpegMp4ToMp3VideoPlayer.onDestroy()
     }
 }

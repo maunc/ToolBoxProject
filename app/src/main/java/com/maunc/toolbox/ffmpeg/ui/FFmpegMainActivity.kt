@@ -22,6 +22,8 @@ class FFmpegMainActivity : BaseActivity<FFmpegMainViewModel, ActivityFfmpegMainB
                     FFmpegConfigData.MP4_TO_MP3_TYPE -> startTargetActivity(FFmpegMp4ToMp3Activity::class.java)
 
                     FFmpegConfigData.M3U8_TO_MP4_TYPE -> startTargetActivity(FFmpegM3u8ToMp4Activity::class.java)
+
+                    FFmpegConfigData.H265_TO_MP4_TYPE -> startTargetActivity(FFmpegM3u8ToMp4Activity::class.java)
                 }
             }
         }
@@ -36,9 +38,8 @@ class FFmpegMainActivity : BaseActivity<FFmpegMainViewModel, ActivityFfmpegMainB
         mDatabind.ffmpegMainTypeRecycler.layoutManager = linearLayoutManager()
         mDatabind.ffmpegMainTypeRecycler.adapter = configAdapter
         configAdapter.setList(mViewModel.initRecyclerData())
+        mViewModel.createFFmpegDir()
     }
 
-    override fun createObserver() {
-
-    }
+    override fun createObserver() {}
 }

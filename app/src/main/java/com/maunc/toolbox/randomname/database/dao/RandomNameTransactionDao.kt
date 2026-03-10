@@ -16,6 +16,14 @@ import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 interface RandomNameTransactionDao {
 
     @Transaction
+    fun insertGroupWithName(randomNameWithGroup: RandomNameWithGroup) {
+        randomGroupDao.insertRandomNameGroup(randomNameWithGroup.randomNameGroup)
+        randomNameWithGroup.randomNameDataList.forEach {
+            randomNameDao.insertRandomName(it)
+        }
+    }
+
+    @Transaction
     fun querySelectGroupData(): RandomNameWithGroup {
         val selectGroup = randomGroupDao.querySelectGroup()
         val randomNameDataList = randomNameDao.queryGroupNameByInsertTime(

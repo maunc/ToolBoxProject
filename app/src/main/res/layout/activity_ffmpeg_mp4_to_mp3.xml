@@ -27,7 +27,7 @@
             android:layout_below="@id/common_tool_bar"
             android:layout_centerHorizontal="true">
 
-            <com.maunc.videoplayer.MauncCustomVideoPlayer
+            <com.maunc.videoplayer.CustomVideoPlayer
                 android:id="@+id/ffmpeg_mp4_to_mp3_video_player"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_260"

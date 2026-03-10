@@ -9,7 +9,6 @@ import android.os.Message
 import android.view.MotionEvent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
 import com.maunc.toolbox.R
@@ -165,7 +164,21 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         finishCurrentActivity()
     }
 
+//    private var llmInference: LlmInference? = null
+
+    @SuppressLint("SdCardPath")
     override fun initView(savedInstanceState: Bundle?) {
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            try {
+//                val build = LlmInferenceOptions.builder()
+//                    .setModelPath("/sdcard/gemma3-1b-it-int4.litertlm")
+//                    .setMaxTokens(1000).setMaxTopK(64)
+//                    .build()
+//                llmInference = LlmInference.createFromOptions(this@ChatRoomActivity, build)
+//            } catch (e: Exception) {
+//                e.message?.loge()
+//            }
+//        }
         mDatabind.chatRoomViewModel = mViewModel
         mDatabind.chatDataAdapter = chatDataAdapter
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
@@ -199,6 +212,13 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 return@setOnClickListener
             }
             chatDataAdapter.addChatTextItem(sendContent)
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                llmInference?.generateResponse(sendContent)?.let {
+//                    withContext(Dispatchers.Main) {
+//                        chatDataAdapter.addChatBotTextItem(it)
+//                    }
+//                }
+//            }
             clearChatRoomEditContent()
         }
         KeyBroadUtils.registerKeyBoardHeightListener(this) {

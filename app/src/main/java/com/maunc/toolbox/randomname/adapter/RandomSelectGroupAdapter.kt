@@ -7,6 +7,8 @@ import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.databinding.ItemRandomSelectGroupBinding
+import com.maunc.toolbox.databinding.ItemRandomSelectGroupNameBinding
+import com.maunc.toolbox.randomname.database.table.RandomNameData
 import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 
 class RandomSelectGroupAdapter :
@@ -34,6 +36,20 @@ class RandomSelectGroupAdapter :
                     R.drawable.icon_group_expand_no
                 }
             )
+        }
+    }
+}
+
+class RandomSelectGroupWithNameAdapter :
+    BaseQuickAdapter<RandomNameData, BaseDataBindingHolder<ItemRandomSelectGroupNameBinding>>(
+        R.layout.item_random_select_group_name
+    ) {
+    override fun convert(
+        holder: BaseDataBindingHolder<ItemRandomSelectGroupNameBinding>,
+        item: RandomNameData,
+    ) {
+        holder.dataBinding?.let { mDataBind ->
+            mDataBind.itemManageGroupWithNameNameTv.text = item.randomName
         }
     }
 }

@@ -1,0 +1,71 @@
+[
+  {
+    "randomNameDataList": [
+      {
+        "randomName": "数据1",
+        "toGroupName": "分组一"
+      },
+      {
+        "randomName": "数据2",
+        "toGroupName": "分组一"
+      },
+      {
+        "randomName": "数据3",
+        "toGroupName": "分组一"
+      },
+      {
+        "randomName": "数据4",
+        "toGroupName": "分组一"
+      }
+    ],
+    "randomNameGroup": {
+      "groupName": "分组一"
+    }
+  },
+  {
+    "randomNameDataList": [
+      {
+        "randomName": "数据1",
+        "toGroupName": "分组二"
+      },
+      {
+        "randomName": "数据2",
+        "toGroupName": "分组二"
+      },
+      {
+        "randomName": "数据3",
+        "toGroupName": "分组二"
+      },
+      {
+        "randomName": "数据4",
+        "toGroupName": "分组二"
+      }
+    ],
+    "randomNameGroup": {
+      "groupName": "分组二"
+    }
+  },
+  {
+    "randomNameDataList": [
+      {
+        "randomName": "数据1",
+        "toGroupName": "分组三"
+      },
+      {
+        "randomName": "数据2",
+        "toGroupName": "分组三"
+      },
+      {
+        "randomName": "数据3",
+        "toGroupName": "分组三"
+      },
+      {
+        "randomName": "数据4",
+        "toGroupName": "分组三"
+      }
+    ],
+    "randomNameGroup": {
+      "groupName": "分组三"
+    }
+  }
+]

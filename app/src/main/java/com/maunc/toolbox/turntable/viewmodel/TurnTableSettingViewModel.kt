@@ -23,7 +23,7 @@ class TurnTableSettingViewModel : BaseViewModel<BaseModel>() {
                 settingType = obtainString(R.string.turn_table_title_manager_data_tv)
             ),
             TurnTableSettingData(
-                itemType = TurnTableSettingData.TURN_TABLE_SELECT_DATA_TYPE,
+                itemType = TurnTableSettingData.TURN_TABLE_BUILTIN_DATA_TYPE,
                 settingType = obtainString(R.string.turn_table_title_setting_select_data)
             ),
             TurnTableSettingData(

@@ -30,6 +30,10 @@ class RandomSettingViewModel : BaseViewModel<BaseModel>() {
                 settingType = obtainString(R.string.random_setting_manager_data_text)
             ),
             RandomSettingData(
+                itemType = RandomSettingData.RANDOM_BUILTIN_DATA_TYPE,
+                settingType = obtainString(R.string.random_setting_builtin_data_text)
+            ),
+            RandomSettingData(
                 itemType = RandomSettingData.RANDOM_SPEED_TYPE,
                 settingType = obtainString(R.string.random_setting_sleep_text)
             ),

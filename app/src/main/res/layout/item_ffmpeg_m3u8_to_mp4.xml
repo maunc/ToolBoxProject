@@ -52,9 +52,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
-                android:background="@drawable/bg_blue_radius_12"
+                android:background="@drawable/bg_white_stroke_gray_radius_12"
                 android:padding="@dimen/dp_5"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="12sp"
                 tools:text="@string/functions_are_under_development" />
 

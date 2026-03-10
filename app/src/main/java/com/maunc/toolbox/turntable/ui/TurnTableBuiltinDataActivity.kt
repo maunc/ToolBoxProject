@@ -20,7 +20,7 @@ class TurnTableBuiltinDataActivity :
     BaseActivity<TurnTableBuiltinDataViewModel, ActivityTurnTableBuiltinDataBinding>() {
 
     private val builtinSelectTipsDialog by lazy {
-        CommonDialog().setTitle(obtainString(R.string.turn_table_builtin_select_tips_tv))
+        CommonDialog().setTitle(obtainString(R.string.common_builtin_select_tips_tv))
     }
 
     private val turnTableBuiltinAdapter by lazy {
@@ -36,7 +36,7 @@ class TurnTableBuiltinDataActivity :
                 builtinSelectTipsDialog.setSureListener {
                     mViewModel.insertTurnTableEditData(data[pos]) {
                         mViewModel.selectGroup(data[pos].turnTableGroupData.groupName)
-                        toastShort("添加“${data[pos].turnTableGroupData.groupName}”成功")
+                        toastShort("添加并使用“${data[pos].turnTableGroupData.groupName}”成功")
                     }
                 }.setCancelListener {
                     mViewModel.insertTurnTableEditData(data[pos]) {
@@ -51,7 +51,7 @@ class TurnTableBuiltinDataActivity :
     @SuppressLint("NotifyDataSetChanged")
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
-            obtainString(R.string.turn_table_builtin_title_tv)
+            obtainString(R.string.common_builtin_title_tv)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
             finishCurrentActivity()
         }
