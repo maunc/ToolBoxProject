@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.Toast
 import androidx.core.animation.addListener
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.obtainDrawable
@@ -28,54 +27,47 @@ import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 
-/**
- * ClsFunction：推箱子游戏视图（带平滑移动动画）
- * CreateDate：2024/5/16
- * Author：TimeWillRememberUs
- * Optimize：修复动画遮挡、优化偏移计算、分层绘制、增强动画流畅度
- */
 @SuppressLint("NotConstructor")
 class PushBoxGameView(
     context: Context?,
     attrs: AttributeSet?,
 ) : View(context, attrs) {
-    private var gate = 0 //当前关数
-    private var currentMap: Array<IntArray>? = null //当前地图
-    private var originalMap: Array<IntArray>? = null //原始地图
-    private var width = obtainScreenWidth() //宽
-    private var height = obtainScreenHeight() //高
-    private var mapRow = 0 //地图行数
-    private var mapColumn = 0 //地图列数
-    private var manX = 0 //人所在行
-    private var manY = 0 //人所在列
-    private var xoff = 10f //左边距
-    private var yoff = 20f //上边距
-    private var pic: Array<Bitmap?>? = null//图片
-    private var picSize = 0 //图片大小
+    private var screenWidth = obtainScreenWidth() // 屏幕宽
+    private var screenHeight = obtainScreenHeight() // 屏幕高
+    private var currentGradleIndex = 0 // 当前关数
+    private var currentMap: Array<IntArray>? = null // 当前地图(随着人物变化而变化)
+    private var originalMap: Array<IntArray>? = null // 当前地图的原始地图
+    private var currentMapRow = 0 // 地图行数
+    private var currentMapColumn = 0 // 地图列数
+    private var manLocationX = 0 // 人所在行
+    private var manLocationY = 0 // 人所在列
+    private var xoff = 10f // 左边距
+    private var yoff = 20f // 上边距
+    private var picList: Array<Bitmap?>? = null // 图片
+    private var currentPicSize = 0 // 图片大小
     private val paint: Paint = Paint().apply {
-        isAntiAlias = true // 抗锯齿
-        isFilterBitmap = true // 位图过滤，动画更平滑
-        isDither = true // 抖动，减少色彩断层
+        isAntiAlias = true
+        isFilterBitmap = true
+        isDither = true
     }
     private var isAnimating = false // 是否正在播放移动动画
     private var isPushBox = false // 是否是推箱子移动
-    private var currentMoveDir: Direction? = null // 当前移动方向
+    private var currentMoveDir: MoveDirection? = null // 当前移动方向
     private var moveAnimator: ValueAnimator? = null // 移动动画对象
     private var animStartManX = 0 // 动画起始时人物X坐标
     private var animStartManY = 0 // 动画起始时人物Y坐标
-    private var animOffsetX = 0f // X轴动画偏移量（像素）
-    private var animOffsetY = 0f // Y轴动画偏移量（像素）
+    private var animOffsetX = 0f // X轴动画偏移量
+    private var animOffsetY = 0f // Y轴动画偏移量
 
-
+    //测量大小
     private var measuredViewWidth = 0
     private var measuredViewHeight = 0
 
-    enum class Direction {
+    enum class MoveDirection {
         UP, DOWN, LEFT, RIGHT
     }
 
     init {
-        this.isFocusable = true
         initMap()
         initPic()
     }
@@ -84,45 +76,39 @@ class PushBoxGameView(
      * 初始化地图
      */
     private fun initMap() {
-        currentMap = obtainTargetMap(gate)
-        originalMap = obtainTargetMap(gate)
-        getMapDetail()
-        getManPosition()
-    }
+        currentMap = obtainTargetMap(currentGradleIndex)
+        originalMap = obtainTargetMap(currentGradleIndex)
 
-    //获取地图详细信息（优化尺寸计算，避免元素挤压）
-    private fun getMapDetail() {
-        mapRow = currentMap!!.size
-        mapColumn = if (mapRow > 0) currentMap!![0].size else 0
+        /**初始化当前地图的信息*/
+        currentMapRow = currentMap!!.size
+        currentMapColumn = if (currentMapRow > 0) currentMap!![0].size else 0
         xoff = 30f
         yoff = 60f
-        val maxSide = max(mapRow, mapColumn)
+        val maxSide = max(currentMapRow, currentMapColumn)
         // 增加边距，避免元素贴边/挤压
-        val availableWidth = width - 2 * xoff - 20
-        val availableHeight = height - yoff - 40
+        val availableWidth = screenWidth - 2 * xoff - 20
+        val availableHeight = screenHeight - yoff - 40
         val s1 = floor((availableWidth / maxSide).toDouble()).toInt()
         val s2 = floor((availableHeight / maxSide).toDouble()).toInt()
-        picSize = min(s1, s2)
-        // 确保tileSize最小为40，避免元素过小
-        picSize = max(picSize, 40)
-    }
-
-    //获取人物位置
-    private fun getManPosition() {
+        currentPicSize = min(s1, s2)
+        currentPicSize = max(currentPicSize, 40)
+        //获取人物位置
         for (i in currentMap!!.indices) {
             for (j in currentMap!![0].indices) {
                 if (currentMap!![i][j] == MAN) {
-                    manX = i
-                    manY = j
+                    manLocationX = i
+                    manLocationY = j
                     break
                 }
             }
         }
+        //重置图片大小
+        initPic()
     }
 
     //初始化图片资源
     private fun initPic() {
-        pic = arrayOfNulls(7)
+        picList = arrayOfNulls(7)
         obtainDrawable(R.drawable.icon_push_box_qiang)?.let { loadPic(WALL, it) }
         obtainDrawable(R.drawable.icon_push_box_goal)?.let { loadPic(GOAL, it) }
         obtainDrawable(R.drawable.icon_push_box_lu)?.let { loadPic(ROAD, it) }
@@ -133,33 +119,48 @@ class PushBoxGameView(
 
     //加载图片
     private fun loadPic(key: Int, tile: Drawable) {
-        val bitmap = Bitmap.createBitmap(picSize, picSize, Bitmap.Config.ARGB_8888)
+        val bitmap = Bitmap.createBitmap(currentPicSize, currentPicSize, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        tile.setBounds(0, 0, picSize, picSize)
+        tile.setBounds(0, 0, currentPicSize, currentPicSize)
         tile.draw(canvas)
-        pic!![key] = bitmap
+        picList!![key] = bitmap
     }
 
-    //更换关卡
-    private fun nextGate() {
-        if (gate < allGradesMapData.size - 1) {
-            gate++
-        } else {
-            Toast.makeText(this.context, "最后一关了", Toast.LENGTH_SHORT).show()
+    /**
+     * 手动设置关卡
+     */
+    fun setGateIndex(index: Int, error: (String) -> Unit = {}) {
+        if (index > allGradesMapData.size - 1) {
+            error.invoke("关卡不合理")
+            return
         }
-        reInitMap()
-    }
-
-    private fun reInitMap() {
+        this.currentGradleIndex = index
         initMap()
-        initPic()
+        invalidate()
     }
 
-    //如果在地图上找不到空的目标区域或者可移动的箱子，则游戏结束
-    private fun gameFinished(): Boolean {
+    //获取当前关卡
+    fun obtainCurrentGradleIndex() = Pair(currentGradleIndex, currentMap)
+
+    /**
+     * 自动更换更换关卡
+     */
+    private fun nextGate() {
+        if (currentGradleIndex < allGradesMapData.size - 1) {
+            currentGradleIndex++
+        } else {
+            // todo 最后一关了
+        }
+        initMap()
+    }
+
+    /**
+     * 检验游戏是否结束
+     */
+    fun verifyGameFinished(): Boolean {
         var finish = true
-        for (i in 0 until mapRow) {
-            for (j in 0 until mapColumn) {
+        for (i in 0 until currentMapRow) {
+            for (j in 0 until currentMapColumn) {
                 if (currentMap!![i][j] == GOAL || currentMap!![i][j] == BOX) {
                     finish = false
                 }
@@ -174,7 +175,7 @@ class PushBoxGameView(
         // 判断是否可移动 + 是否需要推箱子
         val (canMove, needPushBox) = checkMoveRightCondition()
         if (!canMove) return
-        startMoveAnimation(Direction.RIGHT, needPushBox)
+        startMoveAnimation(MoveDirection.RIGHT, needPushBox)
     }
 
     // 人物向左移动
@@ -182,7 +183,7 @@ class PushBoxGameView(
         if (isAnimating || moveAnimator?.isRunning == true) return
         val (canMove, needPushBox) = checkMoveLeftCondition()
         if (!canMove) return
-        startMoveAnimation(Direction.LEFT, needPushBox)
+        startMoveAnimation(MoveDirection.LEFT, needPushBox)
     }
 
     // 人物向上移动
@@ -190,7 +191,7 @@ class PushBoxGameView(
         if (isAnimating || moveAnimator?.isRunning == true) return
         val (canMove, needPushBox) = checkMoveUpCondition()
         if (!canMove) return
-        startMoveAnimation(Direction.UP, needPushBox)
+        startMoveAnimation(MoveDirection.UP, needPushBox)
     }
 
     // 人物向下移动
@@ -198,17 +199,17 @@ class PushBoxGameView(
         if (isAnimating || moveAnimator?.isRunning == true) return
         val (canMove, needPushBox) = checkMoveDownCondition()
         if (!canMove) return
-        startMoveAnimation(Direction.DOWN, needPushBox)
+        startMoveAnimation(MoveDirection.DOWN, needPushBox)
     }
 
     // 检查向右移动的条件
     private fun checkMoveRightCondition(): Pair<Boolean, Boolean> {
         val needPushBox =
-            currentMap!![manX][manY + 1] == BOX || currentMap!![manX][manY + 1] == BOX_AT_GOAL
+            currentMap!![manLocationX][manLocationY + 1] == BOX || currentMap!![manLocationX][manLocationY + 1] == BOX_AT_GOAL
         val canMove = if (needPushBox) {
-            currentMap!![manX][manY + 2] == GOAL || currentMap!![manX][manY + 2] == ROAD
+            currentMap!![manLocationX][manLocationY + 2] == GOAL || currentMap!![manLocationX][manLocationY + 2] == ROAD
         } else {
-            currentMap!![manX][manY + 1] == ROAD || currentMap!![manX][manY + 1] == GOAL
+            currentMap!![manLocationX][manLocationY + 1] == ROAD || currentMap!![manLocationX][manLocationY + 1] == GOAL
         }
         return Pair(canMove, needPushBox)
     }
@@ -216,11 +217,11 @@ class PushBoxGameView(
     // 检查向左移动的条件
     private fun checkMoveLeftCondition(): Pair<Boolean, Boolean> {
         val needPushBox =
-            currentMap!![manX][manY - 1] == BOX || currentMap!![manX][manY - 1] == BOX_AT_GOAL
+            currentMap!![manLocationX][manLocationY - 1] == BOX || currentMap!![manLocationX][manLocationY - 1] == BOX_AT_GOAL
         val canMove = if (needPushBox) {
-            currentMap!![manX][manY - 2] == GOAL || currentMap!![manX][manY - 2] == ROAD
+            currentMap!![manLocationX][manLocationY - 2] == GOAL || currentMap!![manLocationX][manLocationY - 2] == ROAD
         } else {
-            currentMap!![manX][manY - 1] == ROAD || currentMap!![manX][manY - 1] == GOAL
+            currentMap!![manLocationX][manLocationY - 1] == ROAD || currentMap!![manLocationX][manLocationY - 1] == GOAL
         }
         return Pair(canMove, needPushBox)
     }
@@ -228,11 +229,11 @@ class PushBoxGameView(
     // 检查向上移动的条件
     private fun checkMoveUpCondition(): Pair<Boolean, Boolean> {
         val needPushBox =
-            currentMap!![manX - 1][manY] == BOX || currentMap!![manX - 1][manY] == BOX_AT_GOAL
+            currentMap!![manLocationX - 1][manLocationY] == BOX || currentMap!![manLocationX - 1][manLocationY] == BOX_AT_GOAL
         val canMove = if (needPushBox) {
-            currentMap!![manX - 2][manY] == GOAL || currentMap!![manX - 2][manY] == ROAD
+            currentMap!![manLocationX - 2][manLocationY] == GOAL || currentMap!![manLocationX - 2][manLocationY] == ROAD
         } else {
-            currentMap!![manX - 1][manY] == ROAD || currentMap!![manX - 1][manY] == GOAL
+            currentMap!![manLocationX - 1][manLocationY] == ROAD || currentMap!![manLocationX - 1][manLocationY] == GOAL
         }
         return Pair(canMove, needPushBox)
     }
@@ -240,71 +241,66 @@ class PushBoxGameView(
     // 检查向下移动的条件
     private fun checkMoveDownCondition(): Pair<Boolean, Boolean> {
         val needPushBox =
-            currentMap!![manX + 1][manY] == BOX || currentMap!![manX + 1][manY] == BOX_AT_GOAL
+            currentMap!![manLocationX + 1][manLocationY] == BOX || currentMap!![manLocationX + 1][manLocationY] == BOX_AT_GOAL
         val canMove = if (needPushBox) {
-            currentMap!![manX + 2][manY] == GOAL || currentMap!![manX + 2][manY] == ROAD
+            currentMap!![manLocationX + 2][manLocationY] == GOAL || currentMap!![manLocationX + 2][manLocationY] == ROAD
         } else {
-            currentMap!![manX + 1][manY] == ROAD || currentMap!![manX + 1][manY] == GOAL
+            currentMap!![manLocationX + 1][manLocationY] == ROAD || currentMap!![manLocationX + 1][manLocationY] == GOAL
         }
         return Pair(canMove, needPushBox)
     }
 
     /**
-     * 启动移动动画（优化偏移计算、增加动画起始坐标记录）
-     * @param direction 移动方向
+     * 启动移动动画
+     * @param moveDirection 移动方向
      * @param isPushBox 是否推箱子
      */
-    private fun startMoveAnimation(direction: Direction, isPushBox: Boolean) {
+    private fun startMoveAnimation(moveDirection: MoveDirection, isPushBox: Boolean) {
         this.isAnimating = true
-        this.currentMoveDir = direction
+        this.currentMoveDir = moveDirection
         this.isPushBox = isPushBox
         animOffsetX = 0f
         animOffsetY = 0f
-        // 记录动画起始时的人物坐标（修复箱子偏移判断）
-        animStartManX = manX
-        animStartManY = manY
+        // 记录动画起始时的人物坐标
+        animStartManX = manLocationX
+        animStartManY = manLocationY
 
-        // 创建值动画：0 → 1（比例值），避免直接用像素值导致越界
         val animator = ValueAnimator.ofFloat(0f, 1f)
         animator.duration = 60
         animator.interpolator = AccelerateDecelerateInterpolator()
-
         animator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Float
-            when (direction) {
-                Direction.RIGHT -> {
-                    animOffsetX = picSize * progress
+            when (moveDirection) {
+                MoveDirection.RIGHT -> {
+                    animOffsetX = currentPicSize * progress
                     animOffsetY = 0f
                 }
 
-                Direction.LEFT -> {
-                    animOffsetX = -picSize * progress
+                MoveDirection.LEFT -> {
+                    animOffsetX = -currentPicSize * progress
                     animOffsetY = 0f
                 }
 
-                Direction.UP -> {
+                MoveDirection.UP -> {
                     animOffsetX = 0f
-                    animOffsetY = -picSize * progress
+                    animOffsetY = -currentPicSize * progress
                 }
 
-                Direction.DOWN -> {
+                MoveDirection.DOWN -> {
                     animOffsetX = 0f
-                    animOffsetY = picSize * progress
+                    animOffsetY = currentPicSize * progress
                 }
             }
             invalidate()
         }
         animator.addListener(onEnd = {
-            // 更新地图和人物逻辑坐标
-            updateMapAfterMove(direction, isPushBox)
+            updateMapAfterMove(moveDirection, isPushBox)
             isAnimating = false
             animOffsetX = 0f
             animOffsetY = 0f
             currentMoveDir = null
-            this@PushBoxGameView.isPushBox = false
-
-            // 检查是否通关，切换关卡
-            if (gameFinished()) {
+            this.isPushBox = false
+            if (verifyGameFinished()) {
                 nextGate()
             }
         }, onCancel = {
@@ -312,9 +308,8 @@ class PushBoxGameView(
             animOffsetX = 0f
             animOffsetY = 0f
             currentMoveDir = null
-            this@PushBoxGameView.isPushBox = false
+            this.isPushBox = false
         })
-        // 启动动画
         animator.start()
         moveAnimator = animator
     }
@@ -322,63 +317,71 @@ class PushBoxGameView(
     /**
      * 动画结束后更新地图和人物逻辑坐标
      */
-    private fun updateMapAfterMove(direction: Direction, isPushBox: Boolean) {
-        when (direction) {
-            Direction.RIGHT -> {
+    private fun updateMapAfterMove(moveDirection: MoveDirection, isPushBox: Boolean) {
+        when (moveDirection) {
+            MoveDirection.RIGHT -> {
                 if (isPushBox) {
-                    // 推箱子：更新箱子位置
-                    currentMap!![manX][manY + 2] =
-                        if (currentMap!![manX][manY + 2] == GOAL) BOX_AT_GOAL else BOX
-                    currentMap!![manX][manY + 1] = MAN
-                    currentMap!![manX][manY] = roadOrGoal(manX, manY)
-                    manY++
+                    // 更新箱子位置
+                    currentMap!![manLocationX][manLocationY + 2] =
+                        if (currentMap!![manLocationX][manLocationY + 2] == GOAL) BOX_AT_GOAL else BOX
+                    currentMap!![manLocationX][manLocationY + 1] = MAN
+                    currentMap!![manLocationX][manLocationY] =
+                        roadOrGoal(manLocationX, manLocationY)
+                    manLocationY++
                 } else {
-                    // 普通移动：更新人物位置
-                    currentMap!![manX][manY + 1] = MAN
-                    currentMap!![manX][manY] = roadOrGoal(manX, manY)
-                    manY++
+                    // 更新人物位置
+                    currentMap!![manLocationX][manLocationY + 1] = MAN
+                    currentMap!![manLocationX][manLocationY] =
+                        roadOrGoal(manLocationX, manLocationY)
+                    manLocationY++
                 }
             }
 
-            Direction.LEFT -> {
+            MoveDirection.LEFT -> {
                 if (isPushBox) {
-                    currentMap!![manX][manY - 2] =
-                        if (currentMap!![manX][manY - 2] == GOAL) BOX_AT_GOAL else BOX
-                    currentMap!![manX][manY - 1] = MAN
-                    currentMap!![manX][manY] = roadOrGoal(manX, manY)
-                    manY--
+                    currentMap!![manLocationX][manLocationY - 2] =
+                        if (currentMap!![manLocationX][manLocationY - 2] == GOAL) BOX_AT_GOAL else BOX
+                    currentMap!![manLocationX][manLocationY - 1] = MAN
+                    currentMap!![manLocationX][manLocationY] =
+                        roadOrGoal(manLocationX, manLocationY)
+                    manLocationY--
                 } else {
-                    currentMap!![manX][manY - 1] = MAN
-                    currentMap!![manX][manY] = roadOrGoal(manX, manY)
-                    manY--
+                    currentMap!![manLocationX][manLocationY - 1] = MAN
+                    currentMap!![manLocationX][manLocationY] =
+                        roadOrGoal(manLocationX, manLocationY)
+                    manLocationY--
                 }
             }
 
-            Direction.UP -> {
+            MoveDirection.UP -> {
                 if (isPushBox) {
-                    currentMap!![manX - 2][manY] =
-                        if (currentMap!![manX - 2][manY] == GOAL) BOX_AT_GOAL else BOX
-                    currentMap!![manX - 1][manY] = MAN
-                    currentMap!![manX][manY] = roadOrGoal(manX, manY)
-                    manX--
+                    currentMap!![manLocationX - 2][manLocationY] =
+                        if (currentMap!![manLocationX - 2][manLocationY] == GOAL) BOX_AT_GOAL else BOX
+                    currentMap!![manLocationX - 1][manLocationY] = MAN
+                    currentMap!![manLocationX][manLocationY] =
+                        roadOrGoal(manLocationX, manLocationY)
+                    manLocationX--
                 } else {
-                    currentMap!![manX - 1][manY] = MAN
-                    currentMap!![manX][manY] = roadOrGoal(manX, manY)
-                    manX--
+                    currentMap!![manLocationX - 1][manLocationY] = MAN
+                    currentMap!![manLocationX][manLocationY] =
+                        roadOrGoal(manLocationX, manLocationY)
+                    manLocationX--
                 }
             }
 
-            Direction.DOWN -> {
+            MoveDirection.DOWN -> {
                 if (isPushBox) {
-                    currentMap!![manX + 2][manY] =
-                        if (currentMap!![manX + 2][manY] == GOAL) BOX_AT_GOAL else BOX
-                    currentMap!![manX + 1][manY] = MAN
-                    currentMap!![manX][manY] = roadOrGoal(manX, manY)
-                    manX++
+                    currentMap!![manLocationX + 2][manLocationY] =
+                        if (currentMap!![manLocationX + 2][manLocationY] == GOAL) BOX_AT_GOAL else BOX
+                    currentMap!![manLocationX + 1][manLocationY] = MAN
+                    currentMap!![manLocationX][manLocationY] =
+                        roadOrGoal(manLocationX, manLocationY)
+                    manLocationX++
                 } else {
-                    currentMap!![manX + 1][manY] = MAN
-                    currentMap!![manX][manY] = roadOrGoal(manX, manY)
-                    manX++
+                    currentMap!![manLocationX + 1][manLocationY] = MAN
+                    currentMap!![manLocationX][manLocationY] =
+                        roadOrGoal(manLocationX, manLocationY)
+                    manLocationX++
                 }
             }
         }
@@ -403,12 +406,12 @@ class PushBoxGameView(
      */
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (currentMap == null || pic == null) return
-        // 第一步：绘制底层元素（墙、路、目标点）- 最下层
+        if (currentMap == null || picList == null) return
+        //绘制底层元素（墙、路、目标点）- 最下层
         drawBottomLayer(canvas)
-        // 第二步：绘制中层元素（箱子、箱子在目标点）- 中间层
+        //绘制中层元素（箱子、箱子在目标点）- 中间层
         drawMiddleLayer(canvas)
-        // 第三步：绘制顶层元素（人物）- 最上层，避免被遮挡
+        //绘制顶层元素（人物）- 最上层，避免被遮挡
         drawTopLayer(canvas)
     }
 
@@ -416,14 +419,14 @@ class PushBoxGameView(
      * 绘制底层元素：墙、路、目标点
      */
     private fun drawBottomLayer(canvas: Canvas) {
-        for (i in 0 until mapRow) {
-            for (j in 0 until mapColumn) {
+        for (i in 0 until currentMapRow) {
+            for (j in 0 until currentMapColumn) {
                 val tileType = currentMap!![i][j]
                 if (tileType == 0) continue
                 if (tileType in listOf(WALL, ROAD, GOAL)) {
-                    val drawX = xoff + j * picSize
-                    val drawY = yoff + i * picSize
-                    pic!![tileType]?.let { canvas.drawBitmap(it, drawX, drawY, paint) }
+                    val drawX = xoff + j * currentPicSize
+                    val drawY = yoff + i * currentPicSize
+                    picList!![tileType]?.let { canvas.drawBitmap(it, drawX, drawY, paint) }
                 }
             }
         }
@@ -433,19 +436,19 @@ class PushBoxGameView(
      * 绘制中层元素：箱子、箱子在目标点（带动画偏移）
      */
     private fun drawMiddleLayer(canvas: Canvas) {
-        for (i in 0 until mapRow) {
-            for (j in 0 until mapColumn) {
+        for (i in 0 until currentMapRow) {
+            for (j in 0 until currentMapColumn) {
                 val tileType = currentMap!![i][j]
                 if (tileType == 0) continue
                 if (tileType in listOf(BOX, BOX_AT_GOAL)) {
-                    var drawX = xoff + j * picSize
-                    var drawY = yoff + i * picSize
+                    var drawX = xoff + j * currentPicSize
+                    var drawY = yoff + i * currentPicSize
                     // 被推动的箱子应用动画偏移
                     if (isPushBox && isTargetPushBox(i, j)) {
                         drawX += animOffsetX
                         drawY += animOffsetY
                     }
-                    pic!![tileType]?.let { canvas.drawBitmap(it, drawX, drawY, paint) }
+                    picList!![tileType]?.let { canvas.drawBitmap(it, drawX, drawY, paint) }
                 }
             }
         }
@@ -455,14 +458,14 @@ class PushBoxGameView(
      * 绘制顶层元素：人物（带动画偏移）
      */
     private fun drawTopLayer(canvas: Canvas) {
-        for (i in 0 until mapRow) {
-            for (j in 0 until mapColumn) {
+        for (i in 0 until currentMapRow) {
+            for (j in 0 until currentMapColumn) {
                 val tileType = currentMap!![i][j]
                 if (tileType == 0) continue
                 if (tileType == MAN) {
-                    val drawX = xoff + j * picSize + animOffsetX
-                    val drawY = yoff + i * picSize + animOffsetY
-                    pic!![tileType]?.let { canvas.drawBitmap(it, drawX, drawY, paint) }
+                    val drawX = xoff + j * currentPicSize + animOffsetX
+                    val drawY = yoff + i * currentPicSize + animOffsetY
+                    picList!![tileType]?.let { canvas.drawBitmap(it, drawX, drawY, paint) }
                 }
             }
         }
@@ -473,10 +476,10 @@ class PushBoxGameView(
      */
     private fun isTargetPushBox(i: Int, j: Int): Boolean {
         return when (currentMoveDir) {
-            Direction.RIGHT -> (i == animStartManX && j == animStartManY + 1)
-            Direction.LEFT -> (i == animStartManX && j == animStartManY - 1)
-            Direction.UP -> (i == animStartManX - 1 && j == animStartManY)
-            Direction.DOWN -> (i == animStartManX + 1 && j == animStartManY)
+            MoveDirection.RIGHT -> (i == animStartManX && j == animStartManY + 1)
+            MoveDirection.LEFT -> (i == animStartManX && j == animStartManY - 1)
+            MoveDirection.UP -> (i == animStartManX - 1 && j == animStartManY)
+            MoveDirection.DOWN -> (i == animStartManX + 1 && j == animStartManY)
             else -> false
         }
     }
@@ -487,14 +490,12 @@ class PushBoxGameView(
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
         val heightSize = MeasureSpec.getSize(heightMeasureSpec)
-        // 计算默认尺寸（适配wrap_content）
-        val defaultWidth = (obtainScreenWidth() * 0.55f).toInt()
-        val defaultHeight = (obtainScreenHeight() * 0.55f).toInt()
-
+        val defaultWidth = (screenWidth * 0.55f).toInt()
+        val defaultHeight = (screenHeight * 0.55f).toInt()
         measuredViewWidth = when (widthMode) {
-            MeasureSpec.EXACTLY -> widthSize // 固定尺寸或match_parent
-            MeasureSpec.AT_MOST -> min(defaultWidth, widthSize) // wrap_content，不超过父容器
-            else -> defaultWidth // UNSPECIFIED，使用默认尺寸
+            MeasureSpec.EXACTLY -> widthSize
+            MeasureSpec.AT_MOST -> min(defaultWidth, widthSize)
+            else -> defaultWidth
         }
         measuredViewHeight = when (heightMode) {
             MeasureSpec.EXACTLY -> heightSize
@@ -502,9 +503,8 @@ class PushBoxGameView(
             else -> defaultHeight
         }
         setMeasuredDimension(measuredViewWidth, measuredViewHeight)
-
-        getMapDetail()
-        initPic()
+        initMap()
+        invalidate()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -512,8 +512,7 @@ class PushBoxGameView(
         if (w != oldw || h != oldh) {
             measuredViewWidth = w
             measuredViewHeight = h
-            getMapDetail()
-            initPic()
+            initMap()
             invalidate()
         }
     }

@@ -12,15 +12,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".pushbox.ui.PushBoxPreViewActivity">
-    <include
-        android:id="@+id/common_tool_bar"
-        layout="@layout/layout_tool_bar_common" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/common_tool_bar">
+        <include
+            android:id="@+id/common_tool_bar"
+            layout="@layout/layout_tool_bar_common" />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/common_tool_bar">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/push_box_pre_view_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_5"
+                android:layout_marginVertical="@dimen/dp_15"
+                app:cardCornerRadius="@dimen/dp_20">
+
+                <com.maunc.toolbox.pushbox.view.PushBoxGameView
+                    android:id="@+id/push_box_pre_view_game_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/push_box_view_background_color" />
+            </androidx.cardview.widget.CardView>
+
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/push_box_pre_view_card_view"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_5">
+
+                <com.scwang.smart.refresh.header.FalsifyHeader
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/push_box_per_view_gradle_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <com.scwang.smart.refresh.header.FalsifyFooter
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

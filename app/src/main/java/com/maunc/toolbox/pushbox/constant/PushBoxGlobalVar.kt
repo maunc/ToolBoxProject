@@ -20,65 +20,89 @@ const val MAN = 6 //人
 /**
  * 所有的关卡内容
  */
-var allGradesMapData: Array<Array<IntArray>> = arrayOf(
-    arrayOf(
-        intArrayOf(0, 0, 1, 1, 1, 0, 0, 0),
-        intArrayOf(0, 0, 1, 2, 1, 0, 0, 0),
-        intArrayOf(0, 0, 1, 3, 1, 1, 1, 1),
-        intArrayOf(1, 1, 1, 4, 3, 4, 2, 1),
-        intArrayOf(1, 2, 3, 4, 6, 1, 1, 1),
-        intArrayOf(1, 1, 1, 1, 4, 1, 0, 0),
-        intArrayOf(0, 0, 0, 1, 2, 1, 0, 0),
-        intArrayOf(0, 0, 0, 1, 1, 1, 0, 0)
+var allGradesMapData: ArrayList<ArrayList<ArrayList<Int>>> = arrayListOf(
+    arrayListOf(
+        arrayListOf(0, 0, 1, 1, 1, 0, 0, 0),
+        arrayListOf(0, 0, 1, 2, 1, 0, 0, 0),
+        arrayListOf(0, 0, 1, 3, 1, 1, 1, 1),
+        arrayListOf(1, 1, 1, 4, 3, 4, 2, 1),
+        arrayListOf(1, 2, 3, 4, 6, 1, 1, 1),
+        arrayListOf(1, 1, 1, 1, 4, 1, 0, 0),
+        arrayListOf(0, 0, 0, 1, 2, 1, 0, 0),
+        arrayListOf(0, 0, 0, 1, 1, 1, 0, 0)
     ),
-    arrayOf(
-        intArrayOf(1, 1, 1, 1, 1, 0, 0, 0, 0),
-        intArrayOf(1, 3, 3, 6, 1, 0, 0, 0, 0),
-        intArrayOf(1, 3, 4, 4, 1, 0, 1, 1, 1),
-        intArrayOf(1, 3, 4, 3, 1, 0, 1, 2, 1),
-        intArrayOf(1, 1, 1, 3, 1, 1, 1, 2, 1),
-        intArrayOf(0, 1, 1, 3, 3, 3, 3, 2, 1),
-        intArrayOf(0, 1, 3, 3, 3, 1, 3, 3, 1),
-        intArrayOf(0, 1, 3, 3, 3, 1, 1, 1, 1),
-        intArrayOf(0, 1, 1, 1, 1, 1, 0, 0, 0)
+    arrayListOf(
+        arrayListOf(1, 1, 1, 1, 1, 0, 0, 0, 0),
+        arrayListOf(1, 3, 3, 6, 1, 0, 0, 0, 0),
+        arrayListOf(1, 3, 4, 4, 1, 0, 1, 1, 1),
+        arrayListOf(1, 3, 4, 3, 1, 0, 1, 2, 1),
+        arrayListOf(1, 1, 1, 3, 1, 1, 1, 2, 1),
+        arrayListOf(0, 1, 1, 3, 3, 3, 3, 2, 1),
+        arrayListOf(0, 1, 3, 3, 3, 1, 3, 3, 1),
+        arrayListOf(0, 1, 3, 3, 3, 1, 1, 1, 1),
+        arrayListOf(0, 1, 1, 1, 1, 1, 0, 0, 0)
     ),
-    arrayOf(
-        intArrayOf(0, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-        intArrayOf(0, 1, 3, 3, 3, 3, 3, 1, 1, 1),
-        intArrayOf(1, 1, 4, 1, 1, 1, 3, 3, 3, 1),
-        intArrayOf(1, 6, 3, 3, 4, 3, 3, 4, 3, 1),
-        intArrayOf(1, 3, 2, 2, 1, 3, 4, 3, 1, 1),
-        intArrayOf(1, 1, 2, 2, 1, 3, 3, 3, 1, 0),
-        intArrayOf(0, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+    arrayListOf(
+        arrayListOf(0, 1, 1, 1, 1, 1, 1, 1, 0, 0),
+        arrayListOf(0, 1, 3, 3, 3, 3, 3, 1, 1, 1),
+        arrayListOf(1, 1, 4, 1, 1, 1, 3, 3, 3, 1),
+        arrayListOf(1, 6, 3, 3, 4, 3, 3, 4, 3, 1),
+        arrayListOf(1, 3, 2, 2, 1, 3, 4, 3, 1, 1),
+        arrayListOf(1, 1, 2, 2, 1, 3, 3, 3, 1, 0),
+        arrayListOf(0, 1, 1, 1, 1, 1, 1, 1, 1, 0)
     ),
-    arrayOf(
-        intArrayOf(0, 1, 1, 1, 1, 0),
-        intArrayOf(1, 1, 3, 3, 1, 0),
-        intArrayOf(1, 3, 6, 4, 1, 0),
-        intArrayOf(1, 1, 4, 3, 1, 1),
-        intArrayOf(1, 1, 3, 4, 3, 1),
-        intArrayOf(1, 2, 4, 3, 3, 1),
-        intArrayOf(1, 2, 2, 3, 2, 1),
-        intArrayOf(1, 1, 1, 1, 1, 1)
+    arrayListOf(
+        arrayListOf(0, 1, 1, 1, 1, 0),
+        arrayListOf(1, 1, 3, 3, 1, 0),
+        arrayListOf(1, 3, 6, 4, 1, 0),
+        arrayListOf(1, 1, 4, 3, 1, 1),
+        arrayListOf(1, 1, 3, 4, 3, 1),
+        arrayListOf(1, 2, 4, 3, 3, 1),
+        arrayListOf(1, 2, 2, 3, 2, 1),
+        arrayListOf(1, 1, 1, 1, 1, 1)
     ),
-    arrayOf(
-        intArrayOf(0, 1, 1, 1, 1, 1, 1, 1),
-        intArrayOf(0, 1, 3, 3, 3, 3, 3, 1),
-        intArrayOf(0, 1, 3, 2, 4, 2, 3, 1),
-        intArrayOf(1, 1, 3, 4, 6, 4, 3, 1),
-        intArrayOf(1, 3, 3, 2, 4, 2, 3, 1),
-        intArrayOf(1, 3, 3, 3, 3, 3, 3, 1),
-        intArrayOf(1, 1, 1, 1, 1, 1, 1, 1),
+    arrayListOf(
+        arrayListOf(0, 1, 1, 1, 1, 1, 1, 1),
+        arrayListOf(0, 1, 3, 3, 3, 3, 3, 1),
+        arrayListOf(0, 1, 3, 2, 4, 2, 3, 1),
+        arrayListOf(1, 1, 3, 4, 6, 4, 3, 1),
+        arrayListOf(1, 3, 3, 2, 4, 2, 3, 1),
+        arrayListOf(1, 3, 3, 3, 3, 3, 3, 1),
+        arrayListOf(1, 1, 1, 1, 1, 1, 1, 1),
     ),
-    arrayOf(
-        intArrayOf(1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1),
-        intArrayOf(1, 3, 3, 3, 3, 1, 1, 1, 3, 3, 3, 1),
-        intArrayOf(1, 3, 4, 4, 3, 3, 3, 3, 3, 1, 6, 1),
-        intArrayOf(1, 3, 4, 3, 1, 2, 2, 2, 3, 3, 3, 1),
-        intArrayOf(1, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1),
-        intArrayOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0),
-    )
-)  //该7
+    arrayListOf(
+        arrayListOf(1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1),
+        arrayListOf(1, 3, 3, 3, 3, 1, 1, 1, 3, 3, 3, 1),
+        arrayListOf(1, 3, 4, 4, 3, 3, 3, 3, 3, 1, 6, 1),
+        arrayListOf(1, 3, 4, 3, 1, 2, 2, 2, 3, 3, 3, 1),
+        arrayListOf(1, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1),
+        arrayListOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0),
+    ),
+    arrayListOf(
+        arrayListOf(1, 1, 1, 1, 1, 1, 1),
+        arrayListOf(1, 3, 3, 3, 3, 3, 1),
+        arrayListOf(1, 3, 2, 4, 2, 3, 1),
+        arrayListOf(1, 3, 4, 2, 4, 3, 1),
+        arrayListOf(1, 3, 2, 4, 2, 3, 1),
+        arrayListOf(1, 3, 4, 2, 4, 3, 1),
+        arrayListOf(1, 3, 3, 6, 3, 3, 1),
+        arrayListOf(1, 1, 1, 1, 1, 1, 1),
+    ),
+    arrayListOf(
+        arrayListOf(0, 0, 1, 1, 1, 1, 1, 1),
+        arrayListOf(0, 0, 1, 3, 2, 2, 6, 1),
+        arrayListOf(0, 0, 1, 3, 4, 4, 3, 1),
+        arrayListOf(0, 0, 1, 1, 3, 1, 1, 1),
+        arrayListOf(0, 0, 0, 1, 3, 1, 0, 0),
+        arrayListOf(0, 0, 0, 1, 3, 1, 0, 0),
+        arrayListOf(1, 1, 1, 1, 3, 1, 0, 0),
+        arrayListOf(1, 3, 3, 3, 3, 1, 1, 0),
+        arrayListOf(1, 3, 1, 3, 3, 3, 1, 0),
+        arrayListOf(1, 3, 3, 3, 1, 3, 1, 0),
+        arrayListOf(1, 1, 1, 3, 3, 3, 1, 0),
+        arrayListOf(0, 0, 1, 1, 1, 1, 1, 0),
+    ),
+)  //该9
 /**
  * 0无场景  1墙  2目标  3路  4箱子  5目标区域  6人
  */
@@ -87,7 +111,7 @@ var allGradesMapData: Array<Array<IntArray>> = arrayOf(
  * 根据传入的关卡获取对应的地图
  */
 fun obtainTargetMap(targetGradeIndex: Int): Array<IntArray> {
-    val temp: Array<IntArray> =
+    val temp: ArrayList<ArrayList<Int>> =
         if (targetGradeIndex >= 0 && targetGradeIndex < allGradesMapData.size) {
             allGradesMapData[targetGradeIndex]
         } else {
