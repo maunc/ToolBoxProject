@@ -38,6 +38,10 @@ class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
                 itemIcon = R.drawable.icon_tool_box_ffmpeg,
                 itemTitle = obtainString(R.string.tool_box_item_ffmpeg_text)
             ),
+            ToolBoxItemData(
+                itemIcon = R.drawable.icon_tool_box_push_box,
+                itemTitle = obtainString(R.string.tool_box_item_push_box_text)
+            ),
         )
         return localItemData.value!!
     }

@@ -17,6 +17,7 @@
     <string name="tool_box_item_signature_canvas_text">画板</string>
     <string name="tool_box_item_turn_table_text">转盘</string>
     <string name="tool_box_item_ffmpeg_text">音视频编辑</string>
+    <string name="tool_box_item_push_box_text">推箱子</string>
 
 
     <string name="common_builtin_tips">长按可添加到个人列表</string>
@@ -72,7 +73,7 @@
     <string name="select_group_to_main_tips_text">长按以选择该分组,单击查看分组明细~</string>
 
     <!--randomSettingPage-->
-    <string name="random_setting_text">设置</string>
+    <string name="random_setting_text">点名设置</string>
     <string name="random_setting_sleep_text">速度设置</string>
     <string name="random_setting_select_data_text">选择随机分组</string>
     <string name="random_setting_manager_data_text">管理所有分组</string>
@@ -197,4 +198,9 @@
     <string name="ffmpeg_m3u8_to_mp4_tips_content_tv">一、已经损坏的m3u8文件不会检索到的列表中\n二、m3u8文件中的内容如果和已有的片段文件数量不符合也不会检索到列表中\n三、m3u8文件中的指定的片段文件路径如果找不到也不会检索到列表中\n四、只支持转换本地所有的m3u8文件以及片段文件\n五、不要更改m3u8文件中的头标识,否则也无法检索为正常文件\n六、m3u8文件本质不是视频文件,而是有配套的片段文件\n七、如果已有的完整m3u8文件,是可以编辑。例如:你可以删除m3u8文件中部分片段引用(但是要保证片段文件一定要大于m3u8文件中指定的路径数量,还有指定的片段文件一定存在且可读)\n八、片段文件数量且不能小于m3u8文件中指定的文件路径数量(且要保证两边都有且可读,即m3u8文件中声明的片段路径真实存在)\n九、如需要编辑转换出来视频的格式内容可按照上述进行编辑m3u8文件以及他所对应的片段</string>
     <string name="ffmpeg_success_tv">操作成功</string>
     <string name="ffmpeg_error_tv">操作失败</string>
+
+    <!--pushBox-->
+    <string name="push_box_setting_text">推箱子设置</string>
+    <string name="push_box_setting_preview_text">所有关卡预览</string>
+    <string name="push_box_preview_text">关卡预览</string>
 </resources>

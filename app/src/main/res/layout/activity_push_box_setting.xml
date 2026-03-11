@@ -4,16 +4,13 @@
 
     <data>
 
-        <variable
-            name="signatureCanvasSettingViewModel"
-            type="com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasSettingViewModel" />
     </data>
 
     <RelativeLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".signaturecanvas.ui.activity.SignatureCanvasSettingActivity">
+        tools:context=".pushbox.ui.PushBoxSettingActivity">
 
         <include
             android:id="@+id/common_tool_bar"
@@ -33,7 +30,7 @@
                     android:layout_height="wrap_content" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/signature_canvas_setting_recycler"
+                    android:id="@+id/push_box_setting_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

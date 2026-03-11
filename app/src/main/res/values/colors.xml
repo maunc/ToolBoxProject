@@ -22,6 +22,7 @@
 
     <color name="record_dialog_bg_color">#99DBDBDB</color>
     <color name="chat_item_time_gray">#C3C3C3</color>
+    <color name="push_box_view_background_color">#ECE3CE</color>
 
     <color name="turn_table_test_color">#CC008AC8</color>
 </resources>
