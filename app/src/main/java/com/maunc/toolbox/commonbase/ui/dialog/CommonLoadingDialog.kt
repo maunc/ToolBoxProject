@@ -1,6 +1,7 @@
 package com.maunc.toolbox.commonbase.ui.dialog
 
 import android.os.Bundle
+import android.view.KeyEvent
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseDialog
 import com.maunc.toolbox.commonbase.viewmodel.CommonLoadingDialogViewModel
@@ -14,7 +15,10 @@ class CommonLoadingDialog : BaseDialog<CommonLoadingDialogViewModel, DialogCommo
     }
 
     override fun initView(savedInstanceState: Bundle?) {
-
+        // 拦截返回键
+        dialog?.setOnKeyListener { dialog, keyCode, event ->
+            return@setOnKeyListener keyCode == KeyEvent.KEYCODE_BACK
+        }
     }
 
     override fun lazyLoadData() {

@@ -46,210 +46,23 @@ fun obtainTargetMap(targetGradeIndex: Int): Array<IntArray> {
     return result
 }
 
-
 /**
- * 所有的关卡内容
+ * 生成纯原始地图（仅保留墙、路、目标点）
+ * 核心：把游戏地图中的 4(箱子)、5(箱子+目标点)、6(人) 都替换为 2(目标点)或3(路)
  */
-var allGradesMapData: ArrayList<ArrayList<ArrayList<Int>>> = arrayListOf(
-    arrayListOf(
-        arrayListOf(0, 0, 1, 1, 1, 0, 0, 0),
-        arrayListOf(0, 0, 1, 2, 1, 0, 0, 0),
-        arrayListOf(0, 0, 1, 3, 1, 1, 1, 1),
-        arrayListOf(1, 1, 1, 4, 3, 4, 2, 1),
-        arrayListOf(1, 2, 3, 4, 6, 1, 1, 1),
-        arrayListOf(1, 1, 1, 1, 4, 1, 0, 0),
-        arrayListOf(0, 0, 0, 1, 2, 1, 0, 0),
-        arrayListOf(0, 0, 0, 1, 1, 1, 0, 0)
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 1, 0, 0, 0, 0),
-        arrayListOf(1, 3, 3, 6, 1, 0, 0, 0, 0),
-        arrayListOf(1, 3, 4, 4, 1, 0, 1, 1, 1),
-        arrayListOf(1, 3, 4, 3, 1, 0, 1, 2, 1),
-        arrayListOf(1, 1, 1, 3, 1, 1, 1, 2, 1),
-        arrayListOf(0, 1, 1, 3, 3, 3, 3, 2, 1),
-        arrayListOf(0, 1, 3, 3, 3, 1, 3, 3, 1),
-        arrayListOf(0, 1, 3, 3, 3, 1, 1, 1, 1),
-        arrayListOf(0, 1, 1, 1, 1, 1, 0, 0, 0)
-    ),
-    arrayListOf(
-        arrayListOf(0, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-        arrayListOf(0, 1, 3, 3, 3, 3, 3, 1, 1, 1),
-        arrayListOf(1, 1, 4, 1, 1, 1, 3, 3, 3, 1),
-        arrayListOf(1, 6, 3, 3, 4, 3, 3, 4, 3, 1),
-        arrayListOf(1, 3, 2, 2, 1, 3, 4, 3, 1, 1),
-        arrayListOf(1, 1, 2, 2, 1, 3, 3, 3, 1, 0),
-        arrayListOf(0, 1, 1, 1, 1, 1, 1, 1, 1, 0)
-    ),
-    arrayListOf(
-        arrayListOf(0, 1, 1, 1, 1, 0),
-        arrayListOf(1, 1, 3, 3, 1, 0),
-        arrayListOf(1, 3, 6, 4, 1, 0),
-        arrayListOf(1, 1, 4, 3, 1, 1),
-        arrayListOf(1, 1, 3, 4, 3, 1),
-        arrayListOf(1, 2, 4, 3, 3, 1),
-        arrayListOf(1, 2, 2, 3, 2, 1),
-        arrayListOf(1, 1, 1, 1, 1, 1)
-    ),
-    arrayListOf(
-        arrayListOf(0, 1, 1, 1, 1, 1, 1, 1),
-        arrayListOf(0, 1, 3, 3, 3, 3, 3, 1),
-        arrayListOf(0, 1, 3, 2, 4, 2, 3, 1),
-        arrayListOf(1, 1, 3, 4, 6, 4, 3, 1),
-        arrayListOf(1, 3, 3, 2, 4, 2, 3, 1),
-        arrayListOf(1, 3, 3, 3, 3, 3, 3, 1),
-        arrayListOf(1, 1, 1, 1, 1, 1, 1, 1),
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1),
-        arrayListOf(1, 3, 3, 3, 3, 1, 1, 1, 3, 3, 3, 1),
-        arrayListOf(1, 3, 4, 4, 3, 3, 3, 3, 3, 1, 6, 1),
-        arrayListOf(1, 3, 4, 3, 1, 2, 2, 2, 3, 3, 3, 1),
-        arrayListOf(1, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1),
-        arrayListOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0),
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 1, 1, 1),
-        arrayListOf(1, 3, 3, 3, 3, 3, 1),
-        arrayListOf(1, 3, 2, 4, 2, 3, 1),
-        arrayListOf(1, 3, 4, 2, 4, 3, 1),
-        arrayListOf(1, 3, 2, 4, 2, 3, 1),
-        arrayListOf(1, 3, 4, 2, 4, 3, 1),
-        arrayListOf(1, 3, 3, 6, 3, 3, 1),
-        arrayListOf(1, 1, 1, 1, 1, 1, 1),
-    ),
-    arrayListOf(
-        arrayListOf(0, 0, 1, 1, 1, 1, 1, 1),
-        arrayListOf(0, 0, 1, 3, 2, 2, 6, 1),
-        arrayListOf(0, 0, 1, 3, 4, 4, 3, 1),
-        arrayListOf(0, 0, 1, 1, 3, 1, 1, 1),
-        arrayListOf(0, 0, 0, 1, 3, 1, 0, 0),
-        arrayListOf(0, 0, 0, 1, 3, 1, 0, 0),
-        arrayListOf(1, 1, 1, 1, 3, 1, 0, 0),
-        arrayListOf(1, 3, 3, 3, 3, 1, 1, 0),
-        arrayListOf(1, 3, 1, 3, 3, 3, 1, 0),
-        arrayListOf(1, 3, 3, 3, 1, 3, 1, 0),
-        arrayListOf(1, 1, 1, 3, 3, 3, 1, 0),
-        arrayListOf(0, 0, 1, 1, 1, 1, 1, 0),
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 0, 0),
-        arrayListOf(1, 3, 2, 1, 0, 0),
-        arrayListOf(1, 3, 3, 1, 1, 1),
-        arrayListOf(1, 2, 6, 3, 3, 1),
-        arrayListOf(1, 4, 3, 4, 3, 1),
-        arrayListOf(1, 3, 3, 1, 1, 1),
-        arrayListOf(1, 1, 1, 1, 0, 0),
-    ),
-    arrayListOf(
-        arrayListOf(0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1),
-        arrayListOf(0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 1),
-        arrayListOf(0, 0, 0, 0, 0, 0, 1, 2, 1, 3, 1),
-        arrayListOf(1, 1, 1, 1, 1, 1, 1, 2, 1, 3, 1),
-        arrayListOf(1, 3, 6, 3, 4, 3, 4, 3, 4, 3, 1),
-        arrayListOf(1, 3, 1, 3, 1, 3, 1, 3, 1, 1, 1),
-        arrayListOf(1, 3, 3, 3, 3, 3, 3, 3, 1, 0, 0),
-        arrayListOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0),
-    ),
-    arrayListOf(
-        arrayListOf(0, 0, 1, 1, 1, 1, 1, 1, 0),
-        arrayListOf(0, 0, 1, 3, 3, 3, 3, 1, 0),
-        arrayListOf(0, 0, 1, 3, 1, 1, 6, 1, 1),
-        arrayListOf(1, 1, 1, 3, 1, 3, 4, 3, 1),
-        arrayListOf(1, 3, 2, 2, 1, 3, 4, 3, 1),
-        arrayListOf(1, 3, 3, 3, 3, 3, 3, 3, 1),
-        arrayListOf(1, 3, 3, 1, 1, 1, 1, 1, 1),
-        arrayListOf(1, 1, 1, 1, 0, 0, 0, 0, 0),
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 1, 0, 0, 0, 0),
-        arrayListOf(1, 3, 3, 3, 1, 1, 0, 0, 0),
-        arrayListOf(1, 3, 4, 3, 3, 1, 0, 0, 0),
-        arrayListOf(1, 1, 3, 4, 3, 1, 1, 1, 1),
-        arrayListOf(0, 1, 1, 1, 6, 2, 3, 3, 1),
-        arrayListOf(0, 0, 1, 3, 3, 2, 1, 3, 1),
-        arrayListOf(0, 0, 1, 3, 3, 3, 3, 3, 1),
-        arrayListOf(0, 0, 1, 1, 1, 1, 1, 1, 1),
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 0, 0, 0),
-        arrayListOf(1, 2, 3, 1, 1, 0, 0),
-        arrayListOf(1, 2, 6, 3, 1, 0, 0),
-        arrayListOf(1, 2, 3, 4, 1, 0, 0),
-        arrayListOf(1, 1, 4, 3, 1, 1, 1),
-        arrayListOf(0, 1, 3, 4, 3, 3, 1),
-        arrayListOf(0, 1, 3, 3, 3, 3, 1),
-        arrayListOf(0, 1, 3, 3, 1, 1, 1),
-        arrayListOf(0, 1, 1, 1, 1, 0, 0),
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 1, 1, 1),
-        arrayListOf(1, 3, 3, 3, 3, 3, 1),
-        arrayListOf(1, 3, 1, 4, 1, 3, 1),
-        arrayListOf(1, 2, 3, 4, 2, 6, 1),
-        arrayListOf(1, 3, 3, 3, 1, 1, 1),
-        arrayListOf(1, 1, 1, 1, 1, 0, 0),
-    ),
-    arrayListOf(
-        arrayListOf(0, 0, 0, 0, 0, 1, 1, 1, 0),
-        arrayListOf(1, 1, 1, 1, 1, 1, 6, 1, 1),
-        arrayListOf(1, 3, 3, 3, 3, 2, 2, 3, 1),
-        arrayListOf(1, 3, 3, 3, 1, 3, 4, 3, 1),
-        arrayListOf(1, 1, 1, 1, 1, 4, 1, 3, 1),
-        arrayListOf(0, 0, 0, 0, 1, 3, 3, 3, 1),
-        arrayListOf(0, 0, 0, 0, 1, 1, 1, 1, 1),
-    ),
-    arrayListOf(
-        arrayListOf(0, 1, 1, 1, 1, 0, 0, 0, 0, 0),
-        arrayListOf(0, 1, 3, 3, 1, 1, 1, 1, 0, 0),
-        arrayListOf(0, 1, 3, 3, 3, 3, 3, 1, 1, 0),
-        arrayListOf(1, 1, 3, 1, 1, 3, 3, 3, 1, 0),
-        arrayListOf(1, 2, 3, 2, 1, 3, 6, 4, 1, 1),
-        arrayListOf(1, 3, 3, 3, 1, 3, 4, 4, 3, 1),
-        arrayListOf(1, 3, 3, 2, 1, 3, 3, 3, 3, 1),
-        arrayListOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 1, 0),
-        arrayListOf(1, 3, 6, 3, 1, 0),
-        arrayListOf(1, 2, 2, 2, 1, 0),
-        arrayListOf(1, 4, 4, 4, 1, 1),
-        arrayListOf(1, 3, 3, 3, 3, 1),
-        arrayListOf(1, 3, 3, 3, 3, 1),
-        arrayListOf(1, 1, 1, 1, 1, 1),
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 1, 1, 1),
-        arrayListOf(1, 3, 3, 3, 3, 3, 1),
-        arrayListOf(1, 2, 3, 2, 3, 3, 1),
-        arrayListOf(1, 3, 1, 1, 3, 1, 1),
-        arrayListOf(1, 3, 3, 4, 3, 1, 0),
-        arrayListOf(1, 1, 1, 4, 3, 1, 0),
-        arrayListOf(0, 0, 1, 6, 3, 1, 0),
-        arrayListOf(0, 0, 1, 3, 3, 1, 0),
-        arrayListOf(0, 0, 1, 1, 1, 1, 0),
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 1, 1, 1, 1),
-        arrayListOf(1, 3, 3, 3, 2, 2, 3, 1),
-        arrayListOf(1, 3, 3, 6, 4, 4, 3, 1),
-        arrayListOf(1, 1, 1, 1, 1, 3, 1, 1),
-        arrayListOf(0, 0, 0, 1, 3, 3, 1, 0),
-        arrayListOf(0, 0, 0, 1, 3, 3, 1, 0),
-        arrayListOf(0, 0, 0, 1, 3, 3, 1, 0),
-        arrayListOf(0, 0, 0, 1, 1, 1, 1, 0),
-    ),
-    arrayListOf(
-        arrayListOf(1, 1, 1, 1, 1, 1, 1, 0, 0),
-        arrayListOf(1, 3, 3, 3, 3, 3, 1, 1, 1),
-        arrayListOf(1, 3, 3, 6, 4, 4, 2, 2, 1),
-        arrayListOf(1, 1, 1, 1, 3, 1, 1, 3, 1),
-        arrayListOf(0, 0, 1, 3, 3, 3, 3, 3, 1),
-        arrayListOf(0, 0, 1, 3, 3, 1, 1, 1, 1),
-        arrayListOf(0, 0, 1, 3, 3, 1, 0, 0, 0),
-        arrayListOf(0, 0, 1, 1, 1, 1, 0, 0, 0),
-    ),
-)  //该21
-/**
- * 0无场景  1墙  2要推到目标  3路  4箱子  5目标区域  6人
- */
+fun obtainTargetPureOriginalMap(gradeIndex: Int): Array<IntArray> {
+    val gameMap = obtainTargetMap(gradeIndex)
+    return Array(gameMap.size) { i ->
+        IntArray(gameMap[i].size) { j ->
+            when (gameMap[i][j]) {
+                WALL -> WALL          // 1=墙
+                GOAL -> GOAL          // 2=目标点
+                ROAD -> ROAD          // 3=路
+                BOX -> ROAD           // 4=箱子 → 原始是路
+                BOX_AT_GOAL -> GOAL   // 5=箱子+目标点 → 原始是目标点
+                MAN -> ROAD           // 6=人 → 原始是路
+                else -> ROAD          // 其他 → 路
+            }
+        }
+    }
+}
