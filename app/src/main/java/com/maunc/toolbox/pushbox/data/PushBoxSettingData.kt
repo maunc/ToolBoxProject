@@ -9,6 +9,7 @@ data class PushBoxSettingData(
     override val itemType: Int,
 ) : Serializable, MultiItemEntity {
     companion object {
-        const val PUSH_BOX_MAP_PREVIEW = 0//地图预览
+        const val PUSH_BOX_MAP_PREVIEW_TYPE = 0//地图预览
+        const val PUSH_BOX_CONTROLLER_SIZE = 1//方向键大小
     }
 }

@@ -1,5 +1,6 @@
 package com.maunc.toolbox.commonbase.utils
 
+import com.maunc.toolbox.pushbox.constant.PUSH_BOX_CONTROLLER_SIZE_MEDIUM
 import com.maunc.toolbox.randomname.constant.RANDOM_DB_SORT_BY_INSERT_TIME_ASC
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_RESULT_TEXT_SIZE_DEFAULT_VALUE
@@ -46,6 +47,9 @@ const val turnTableEnableTouch = "turnTableEnableTouch"
 const val turnTableAnimSoundEffect = "turnTableAnimSoundEffect"
 const val turnTableConfigColor = "turnTableConfigColor"
 
+/**推箱子用到的*/
+const val pushBoxControllerButtonSize = "pushBoxControllerSize"
+
 class MMKVUtils {
 
     fun init() {
@@ -77,6 +81,9 @@ class MMKVUtils {
         obtainMMKV.putBoolean(turnTableEnableTouch, false)
         obtainMMKV.putBoolean(turnTableAnimSoundEffect, false)
         obtainMMKV.putInt(turnTableConfigColor, 0)
+
+        //推箱子相关
+        obtainMMKV.putInt(pushBoxControllerButtonSize, PUSH_BOX_CONTROLLER_SIZE_MEDIUM)
     }
 
     fun getString(

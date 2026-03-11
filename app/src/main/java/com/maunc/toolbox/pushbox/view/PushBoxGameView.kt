@@ -19,10 +19,12 @@ import com.maunc.toolbox.pushbox.constant.BOX
 import com.maunc.toolbox.pushbox.constant.BOX_AT_GOAL
 import com.maunc.toolbox.pushbox.constant.GOAL
 import com.maunc.toolbox.pushbox.constant.MAN
+import com.maunc.toolbox.pushbox.constant.PushBoxMoveDirection
 import com.maunc.toolbox.pushbox.constant.ROAD
 import com.maunc.toolbox.pushbox.constant.WALL
 import com.maunc.toolbox.pushbox.constant.allGradesMapData
 import com.maunc.toolbox.pushbox.constant.obtainTargetMap
+import com.maunc.toolbox.pushbox.data.PushBoxStepRecord
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
@@ -54,20 +56,19 @@ class PushBoxGameView(
     }
     private var isAnimating = false // 是否正在播放移动动画
     private var isPushBox = false // 是否是推箱子移动
-    private var currentMoveDir: MoveDirection? = null // 当前移动方向
+    private var currentMoveDir: PushBoxMoveDirection? = null // 当前移动方向
     private var moveAnimator: ValueAnimator? = null // 移动动画对象
     private var animStartManX = 0 // 动画起始时人物X坐标
     private var animStartManY = 0 // 动画起始时人物Y坐标
     private var animOffsetX = 0f // X轴动画偏移量
     private var animOffsetY = 0f // Y轴动画偏移量
+    private val stepHistory = mutableListOf<PushBoxStepRecord>() // 步数记录列表
+    private var canUndo = false // 是否可以回退
 
     //测量大小
     private var measuredViewWidth = 0
     private var measuredViewHeight = 0
 
-    enum class MoveDirection {
-        UP, DOWN, LEFT, RIGHT
-    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -107,12 +108,65 @@ class PushBoxGameView(
      */
     fun setGateIndex(index: Int, error: (String) -> Unit = {}) {
         if (index > allGradesMapData.size - 1) {
-            error.invoke("关卡不合理")
+            error.invoke("已经没有关卡了")
             return
         }
         this.currentGradleIndex = index
+        clearStepHistory()
         initMap()
         invalidate()
+    }
+
+    /**
+     * 记录移动前的状态
+     */
+    private fun recordStepBeforeMove(direction: PushBoxMoveDirection, isPushBox: Boolean) {
+        // 深拷贝当前地图状态（避免引用传递）
+        val mapCopy = Array(currentMapRow) { i ->
+            currentMap!![i].copyOf()
+        }
+        // 添加到历史记录
+        stepHistory.add(
+            PushBoxStepRecord(
+                mapState = mapCopy,
+                manX = manLocationX,
+                manY = manLocationY,
+                moveDirection = direction,
+                isPushBox = isPushBox
+            )
+        )
+        canUndo = stepHistory.isNotEmpty()
+    }
+
+    /**
+     * 回退上一步操作
+     */
+    fun undoLastStep(): Boolean {
+        if (!canUndo || stepHistory.isEmpty() || isAnimating) return false
+        // 获取最后一步记录并移除
+        val lastStep = stepHistory[stepHistory.size - 1]
+        stepHistory.removeAt(stepHistory.size - 1)
+        canUndo = stepHistory.isNotEmpty()
+
+        currentMap = lastStep.mapState
+        manLocationX = lastStep.manX
+        manLocationY = lastStep.manY
+        if (currentGradleMoveNumber > 0) {
+            currentGradleMoveNumber--
+            onPushBoxEventListener?.onCurrentGradeMoveNumber(currentGradleMoveNumber)
+        }
+        invalidate()
+        return true
+    }
+
+    private fun clearStepHistory() {
+        stepHistory.clear()
+        canUndo = false
+        currentGradleMoveNumber = 0
+    }
+
+    fun canUndoStep(): Boolean {
+        return canUndo && !isAnimating && stepHistory.isNotEmpty()
     }
 
     //获取当前关卡
@@ -193,7 +247,9 @@ class PushBoxGameView(
         // 判断是否可移动 + 是否需要推箱子
         val (canMove, needPushBox) = checkMoveRightCondition()
         if (!canMove) return
-        startMoveAnimation(MoveDirection.RIGHT, needPushBox)
+
+        recordStepBeforeMove(PushBoxMoveDirection.RIGHT, needPushBox)
+        startMoveAnimation(PushBoxMoveDirection.RIGHT, needPushBox)
     }
 
     // 人物向左移动
@@ -201,7 +257,8 @@ class PushBoxGameView(
         if (isAnimating || moveAnimator?.isRunning == true) return
         val (canMove, needPushBox) = checkMoveLeftCondition()
         if (!canMove) return
-        startMoveAnimation(MoveDirection.LEFT, needPushBox)
+        recordStepBeforeMove(PushBoxMoveDirection.LEFT, needPushBox)
+        startMoveAnimation(PushBoxMoveDirection.LEFT, needPushBox)
     }
 
     // 人物向上移动
@@ -209,7 +266,8 @@ class PushBoxGameView(
         if (isAnimating || moveAnimator?.isRunning == true) return
         val (canMove, needPushBox) = checkMoveUpCondition()
         if (!canMove) return
-        startMoveAnimation(MoveDirection.UP, needPushBox)
+        recordStepBeforeMove(PushBoxMoveDirection.UP, needPushBox)
+        startMoveAnimation(PushBoxMoveDirection.UP, needPushBox)
     }
 
     // 人物向下移动
@@ -217,7 +275,8 @@ class PushBoxGameView(
         if (isAnimating || moveAnimator?.isRunning == true) return
         val (canMove, needPushBox) = checkMoveDownCondition()
         if (!canMove) return
-        startMoveAnimation(MoveDirection.DOWN, needPushBox)
+        recordStepBeforeMove(PushBoxMoveDirection.DOWN, needPushBox)
+        startMoveAnimation(PushBoxMoveDirection.DOWN, needPushBox)
     }
 
     // 检查向右移动的条件
@@ -270,10 +329,10 @@ class PushBoxGameView(
 
     /**
      * 启动移动动画
-     * @param moveDirection 移动方向
+     * @param PushBoxMoveDirection 移动方向
      * @param isPushBox 是否推箱子
      */
-    private fun startMoveAnimation(moveDirection: MoveDirection, isPushBox: Boolean) {
+    private fun startMoveAnimation(moveDirection: PushBoxMoveDirection, isPushBox: Boolean) {
         this.isAnimating = true
         this.currentMoveDir = moveDirection
         this.isPushBox = isPushBox
@@ -289,22 +348,22 @@ class PushBoxGameView(
         animator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Float
             when (moveDirection) {
-                MoveDirection.RIGHT -> {
+                PushBoxMoveDirection.RIGHT -> {
                     animOffsetX = currentPicSize * progress
                     animOffsetY = 0f
                 }
 
-                MoveDirection.LEFT -> {
+                PushBoxMoveDirection.LEFT -> {
                     animOffsetX = -currentPicSize * progress
                     animOffsetY = 0f
                 }
 
-                MoveDirection.UP -> {
+                PushBoxMoveDirection.UP -> {
                     animOffsetX = 0f
                     animOffsetY = -currentPicSize * progress
                 }
 
-                MoveDirection.DOWN -> {
+                PushBoxMoveDirection.DOWN -> {
                     animOffsetX = 0f
                     animOffsetY = currentPicSize * progress
                 }
@@ -319,9 +378,7 @@ class PushBoxGameView(
             currentMoveDir = null
             this.isPushBox = false
             if (verifyGameFinished()) {
-                //重置信息
-                currentGradleMoveNumber = 0
-                onPushBoxEventListener?.onCurrentGradeMoveNumber(currentGradleMoveNumber)
+                onPushBoxEventListener?.onCurrentGradeMoveNumber(0)
                 if (currentGradleIndex < allGradesMapData.size - 1) {
                     currentGradleIndex++
                     onPushBoxEventListener?.onNextGrade(
@@ -347,9 +404,9 @@ class PushBoxGameView(
     /**
      * 动画结束后更新地图和人物逻辑坐标
      */
-    private fun updateMapAfterMove(moveDirection: MoveDirection, isPushBox: Boolean) {
+    private fun updateMapAfterMove(moveDirection: PushBoxMoveDirection, isPushBox: Boolean) {
         when (moveDirection) {
-            MoveDirection.RIGHT -> {
+            PushBoxMoveDirection.RIGHT -> {
                 if (isPushBox) {
                     // 更新箱子位置
                     currentMap!![manLocationX][manLocationY + 2] =
@@ -367,7 +424,7 @@ class PushBoxGameView(
                 }
             }
 
-            MoveDirection.LEFT -> {
+            PushBoxMoveDirection.LEFT -> {
                 if (isPushBox) {
                     currentMap!![manLocationX][manLocationY - 2] =
                         if (currentMap!![manLocationX][manLocationY - 2] == GOAL) BOX_AT_GOAL else BOX
@@ -383,7 +440,7 @@ class PushBoxGameView(
                 }
             }
 
-            MoveDirection.UP -> {
+            PushBoxMoveDirection.UP -> {
                 if (isPushBox) {
                     currentMap!![manLocationX - 2][manLocationY] =
                         if (currentMap!![manLocationX - 2][manLocationY] == GOAL) BOX_AT_GOAL else BOX
@@ -399,7 +456,7 @@ class PushBoxGameView(
                 }
             }
 
-            MoveDirection.DOWN -> {
+            PushBoxMoveDirection.DOWN -> {
                 if (isPushBox) {
                     currentMap!![manLocationX + 2][manLocationY] =
                         if (currentMap!![manLocationX + 2][manLocationY] == GOAL) BOX_AT_GOAL else BOX
@@ -506,10 +563,10 @@ class PushBoxGameView(
      */
     private fun isTargetPushBox(i: Int, j: Int): Boolean {
         return when (currentMoveDir) {
-            MoveDirection.RIGHT -> (i == animStartManX && j == animStartManY + 1)
-            MoveDirection.LEFT -> (i == animStartManX && j == animStartManY - 1)
-            MoveDirection.UP -> (i == animStartManX - 1 && j == animStartManY)
-            MoveDirection.DOWN -> (i == animStartManX + 1 && j == animStartManY)
+            PushBoxMoveDirection.RIGHT -> (i == animStartManX && j == animStartManY + 1)
+            PushBoxMoveDirection.LEFT -> (i == animStartManX && j == animStartManY - 1)
+            PushBoxMoveDirection.UP -> (i == animStartManX - 1 && j == animStartManY)
+            PushBoxMoveDirection.DOWN -> (i == animStartManX + 1 && j == animStartManY)
             else -> false
         }
     }

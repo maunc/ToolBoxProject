@@ -201,6 +201,16 @@
 
     <!--pushBox-->
     <string name="push_box_setting_text">推箱子设置</string>
+    <string name="push_box_main_re_start_text">重新开始</string>
+    <string name="push_box_main_undo_text">回退</string>
+    <string name="push_box_main_up_gradle_text">上一关</string>
+    <string name="push_box_main_next_gradle_text">下一关</string>
     <string name="push_box_setting_preview_text">所有关卡预览</string>
+    <string name="push_box_setting_controller_size_text">方向键大小</string>
+    <string name="push_box_setting_controller_size_one_text">最小</string>
+    <string name="push_box_setting_controller_size_two_text">较小</string>
+    <string name="push_box_setting_controller_size_three_text">中等</string>
+    <string name="push_box_setting_controller_size_four_text">较大</string>
+    <string name="push_box_setting_controller_size_five_text">最大</string>
     <string name="push_box_preview_text">关卡预览</string>
 </resources>

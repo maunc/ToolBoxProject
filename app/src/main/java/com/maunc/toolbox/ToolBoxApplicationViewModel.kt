@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.maunc.toolbox.commonbase.ext.assetFileParseJson
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
+import com.maunc.toolbox.commonbase.utils.pushBoxControllerButtonSize
 import com.maunc.toolbox.commonbase.utils.randomEnumCountEnableType
 import com.maunc.toolbox.commonbase.utils.randomRepeat
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
@@ -78,7 +79,6 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
     }
 
     /**===============================================   转盘配置相关   ===============================================*/
-
     var turnTableColorIndex = UnPeekLiveData<Int>()// 转盘当前颜色
     var turnTableTouch = UnPeekLiveData<Boolean>()//转盘当前是否可以触摸
     var turnTableSoundEffect = UnPeekLiveData<Boolean>() //转盘是否开启音效
@@ -108,6 +108,16 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
             turnTableTouch.postValue(obtainMMKV.getBoolean(turnTableEnableTouch))
             turnTableSoundEffect.postValue(obtainMMKV.getBoolean(turnTableAnimSoundEffect))
         }
+    }
+
+    /**===============================================   推箱子配置相关   ===============================================*/
+    var pushBoxControllerSize = UnPeekLiveData<Int>()// 方向键大小
+
+    /**
+     * 初始化推箱子配置
+     */
+    fun initPushBoxConfig() {
+        pushBoxControllerSize.postValue(obtainMMKV.getInt(pushBoxControllerButtonSize))
     }
 
     override fun onCleared() {
