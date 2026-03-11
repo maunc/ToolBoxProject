@@ -37,10 +37,12 @@ class PushBoxGameView(
     private var currentGradleIndex = 0 // 当前关数
     private var currentMap: Array<IntArray>? = null // 当前地图(随着人物变化而变化)
     private var originalMap: Array<IntArray>? = null // 当前地图的原始地图
-    private var currentMapRow = 0 // 地图行数
-    private var currentMapColumn = 0 // 地图列数
+    private var currentMapRow = 0 // 当前地图行数
+    private var currentMapColumn = 0 // 当前地图列数
     private var manLocationX = 0 // 人所在行
     private var manLocationY = 0 // 人所在列
+    private var currentGradleMoveNumber = 0
+
     private var xoff = 10f // 左边距
     private var yoff = 20f // 上边距
     private var picList: Array<Bitmap?>? = null // 图片
@@ -67,10 +69,54 @@ class PushBoxGameView(
         UP, DOWN, LEFT, RIGHT
     }
 
-    init {
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
+        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
+        val defaultWidth = (screenWidth * 0.55f).toInt()
+        val defaultHeight = (screenHeight * 0.55f).toInt()
+        measuredViewWidth = when (widthMode) {
+            MeasureSpec.EXACTLY -> widthSize
+            MeasureSpec.AT_MOST -> min(defaultWidth, widthSize)
+            else -> defaultWidth
+        }
+        measuredViewHeight = when (heightMode) {
+            MeasureSpec.EXACTLY -> heightSize
+            MeasureSpec.AT_MOST -> min(defaultHeight, heightSize)
+            else -> defaultHeight
+        }
+        setMeasuredDimension(measuredViewWidth, measuredViewHeight)
         initMap()
-        initPic()
+        invalidate()
     }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        if (w != oldw || h != oldh) {
+            measuredViewWidth = w
+            measuredViewHeight = h
+            initMap()
+            invalidate()
+        }
+    }
+
+    /**
+     * 手动设置关卡
+     */
+    fun setGateIndex(index: Int, error: (String) -> Unit = {}) {
+        if (index > allGradesMapData.size - 1) {
+            error.invoke("关卡不合理")
+            return
+        }
+        this.currentGradleIndex = index
+        initMap()
+        invalidate()
+    }
+
+    //获取当前关卡
+    fun obtainCurrentGradleIndex() = Pair(currentGradleIndex, currentMap)
 
     /**
      * 初始化地图
@@ -124,34 +170,6 @@ class PushBoxGameView(
         tile.setBounds(0, 0, currentPicSize, currentPicSize)
         tile.draw(canvas)
         picList!![key] = bitmap
-    }
-
-    /**
-     * 手动设置关卡
-     */
-    fun setGateIndex(index: Int, error: (String) -> Unit = {}) {
-        if (index > allGradesMapData.size - 1) {
-            error.invoke("关卡不合理")
-            return
-        }
-        this.currentGradleIndex = index
-        initMap()
-        invalidate()
-    }
-
-    //获取当前关卡
-    fun obtainCurrentGradleIndex() = Pair(currentGradleIndex, currentMap)
-
-    /**
-     * 自动更换更换关卡
-     */
-    private fun nextGate() {
-        if (currentGradleIndex < allGradesMapData.size - 1) {
-            currentGradleIndex++
-        } else {
-            // todo 最后一关了
-        }
-        initMap()
     }
 
     /**
@@ -266,7 +284,7 @@ class PushBoxGameView(
         animStartManY = manLocationY
 
         val animator = ValueAnimator.ofFloat(0f, 1f)
-        animator.duration = 60
+        animator.duration = 50
         animator.interpolator = AccelerateDecelerateInterpolator()
         animator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Float
@@ -301,7 +319,19 @@ class PushBoxGameView(
             currentMoveDir = null
             this.isPushBox = false
             if (verifyGameFinished()) {
-                nextGate()
+                //重置信息
+                currentGradleMoveNumber = 0
+                onPushBoxEventListener?.onCurrentGradeMoveNumber(currentGradleMoveNumber)
+                if (currentGradleIndex < allGradesMapData.size - 1) {
+                    currentGradleIndex++
+                    onPushBoxEventListener?.onNextGrade(
+                        currentGradleIndex, allGradesMapData[currentGradleIndex]
+                    )
+                } else {
+                    onPushBoxEventListener?.onNotGrade()
+                }
+            } else {
+                onPushBoxEventListener?.onCurrentGradeMoveNumber(++this.currentGradleMoveNumber)
             }
         }, onCancel = {
             isAnimating = false
@@ -484,42 +514,21 @@ class PushBoxGameView(
         }
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val widthMode = MeasureSpec.getMode(widthMeasureSpec)
-        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
-        val heightMode = MeasureSpec.getMode(heightMeasureSpec)
-        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
-        val defaultWidth = (screenWidth * 0.55f).toInt()
-        val defaultHeight = (screenHeight * 0.55f).toInt()
-        measuredViewWidth = when (widthMode) {
-            MeasureSpec.EXACTLY -> widthSize
-            MeasureSpec.AT_MOST -> min(defaultWidth, widthSize)
-            else -> defaultWidth
-        }
-        measuredViewHeight = when (heightMode) {
-            MeasureSpec.EXACTLY -> heightSize
-            MeasureSpec.AT_MOST -> min(defaultHeight, heightSize)
-            else -> defaultHeight
-        }
-        setMeasuredDimension(measuredViewWidth, measuredViewHeight)
-        initMap()
-        invalidate()
-    }
-
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        if (w != oldw || h != oldh) {
-            measuredViewWidth = w
-            measuredViewHeight = h
-            initMap()
-            invalidate()
-        }
-    }
-
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         moveAnimator?.cancel()
         moveAnimator = null
+    }
+
+    private var onPushBoxEventListener: OnPushBoxEventListener? = null
+
+    interface OnPushBoxEventListener {
+        fun onCurrentGradeMoveNumber(currentNumber: Int)
+        fun onNextGrade(mapIndex: Int, map: ArrayList<ArrayList<Int>>)//下一关
+        fun onNotGrade()//没有关卡了
+    }
+
+    fun setOnPushBoxEventListener(onPushBoxEventListener: OnPushBoxEventListener) {
+        this.onPushBoxEventListener = onPushBoxEventListener
     }
 }

@@ -9,10 +9,27 @@ import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.databinding.ActivityPushBoxMainBinding
+import com.maunc.toolbox.pushbox.view.PushBoxGameView
 import com.maunc.toolbox.pushbox.viewmodel.PushBoxMainViewModel
 
+@SuppressLint("SetTextI18n")
 class PushBoxMainActivity : BaseActivity<PushBoxMainViewModel, ActivityPushBoxMainBinding>() {
-    @SuppressLint("SetTextI18n")
+
+    private val onPushBoxEventListener = object : PushBoxGameView.OnPushBoxEventListener {
+
+        override fun onCurrentGradeMoveNumber(currentNumber: Int) {
+            mDatabind.pushBoxMainCurrentMoveNumTv.text = "当前关卡移动次数:$currentNumber"
+        }
+
+        override fun onNextGrade(mapIndex: Int, map: ArrayList<ArrayList<Int>>) {
+            handlePushBoxMainUI(mapIndex)
+        }
+
+        override fun onNotGrade() {
+
+        }
+    }
+
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             obtainString(R.string.tool_box_item_push_box_text)
@@ -23,8 +40,7 @@ class PushBoxMainActivity : BaseActivity<PushBoxMainViewModel, ActivityPushBoxMa
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
             startTargetActivity(PushBoxSettingActivity::class.java)
         }
-        mDatabind.pushBoxMainCurrentIndexTv.text =
-            "第${mDatabind.pushBoxGameView.obtainCurrentGradleIndex().first + 1}关"
+        handlePushBoxMainUI(0)
         mDatabind.pushBoxControllerUp.clickScale {
             mDatabind.pushBoxGameView.moveUp()
         }
@@ -37,6 +53,13 @@ class PushBoxMainActivity : BaseActivity<PushBoxMainViewModel, ActivityPushBoxMa
         mDatabind.pushBoxControllerRight.clickScale {
             mDatabind.pushBoxGameView.moveRight()
         }
+        mDatabind.pushBoxGameView.setOnPushBoxEventListener(onPushBoxEventListener)
+    }
+
+    private fun handlePushBoxMainUI(currentIndex: Int) {
+        mDatabind.pushBoxMainCurrentIndexTv.text = "第${currentIndex + 1}关"
+        mDatabind.pushBoxGameView.setGateIndex(currentIndex)
+        mDatabind.pushBoxMainCurrentMoveNumTv.text = "当前关卡移动次数:0"
     }
 
     override fun createObserver() {
