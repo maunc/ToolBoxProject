@@ -29,11 +29,11 @@ class PushBoxGradleAdapter :
         holder.dataBinding?.let { mDataBind ->
             if (selectIndex == holder.layoutPosition) {
                 mDataBind.itemPushBoxGradleTv.setBackgroundDrawable(
-                    obtainDrawable(R.drawable.bg_white_stroke_blue_radius_12)
+                    obtainDrawable(R.drawable.stroke_blue_bg_white_radius_12)
                 )
             } else {
                 mDataBind.itemPushBoxGradleTv.setBackgroundDrawable(
-                    obtainDrawable(R.drawable.bg_white_stroke_black_radius_12)
+                    obtainDrawable(R.drawable.stroke_black_bg_white_radius_12)
                 )
             }
             mDataBind.itemPushBoxGradleTv.text = "${item.index + 1}"

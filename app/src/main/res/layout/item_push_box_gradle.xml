@@ -15,7 +15,7 @@
             android:id="@+id/item_push_box_gradle_tv"
             android:layout_width="@dimen/dp_70"
             android:layout_height="@dimen/dp_70"
-            android:background="@drawable/bg_white_stroke_black_radius_12"
+            android:background="@drawable/stroke_black_bg_white_radius_12"
             android:gravity="center"
             android:padding="@dimen/dp_5"
             android:textColor="@color/black"

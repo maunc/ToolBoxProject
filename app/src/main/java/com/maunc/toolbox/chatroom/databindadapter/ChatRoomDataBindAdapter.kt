@@ -45,12 +45,12 @@ object ChatRoomDataBindAdapter {
         when (recordStatus) {
             RECORD_VIEW_STATUS_DOWN, RECORD_VIEW_STATUS_MOVE_CANCEL_DONE -> {
                 textView.text = obtainString(R.string.voice_record_up_tips)
-                textView.setBackgroundResource(R.drawable.bg_white_50_radius_12)
+                textView.setBackgroundResource(R.drawable.bg_radius_12_white_50)
             }
 
             RECORD_VIEW_STATUS_UP -> {
                 textView.text = obtainString(R.string.voice_record_down_tips)
-                textView.setBackgroundResource(R.drawable.bg_white_radius_12)
+                textView.setBackgroundResource(R.drawable.bg_radius_12_white)
             }
 
             RECORD_VIEW_STATUS_MOVE_CANCEL -> {

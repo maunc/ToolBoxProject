@@ -94,7 +94,7 @@
                             android:id="@+id/voice_record_up_cancel_bg"
                             android:layout_width="@dimen/voice_start_record_up_cancel_layout_size"
                             android:layout_height="@dimen/voice_start_record_up_cancel_layout_size"
-                            android:background="@drawable/bg_record_controller_none_oval"
+                            android:background="@drawable/bg_oval_gray"
                             tools:ignore="UselessParent">
 
                             <androidx.appcompat.widget.AppCompatImageView
@@ -118,7 +118,7 @@
                             android:id="@+id/voice_record_up_sure_bg"
                             android:layout_width="@dimen/voice_start_record_up_cancel_layout_size"
                             android:layout_height="@dimen/voice_start_record_up_cancel_layout_size"
-                            android:background="@drawable/bg_record_controller_none_oval"
+                            android:background="@drawable/bg_oval_gray"
                             tools:ignore="UselessParent">
 
                             <androidx.appcompat.widget.AppCompatImageView
@@ -206,7 +206,7 @@
                                 android:layout_width="@dimen/chat_room_controller_edit_width"
                                 android:layout_height="@dimen/chat_room_controller_edit_height"
                                 android:layout_centerInParent="true"
-                                android:background="@drawable/bg_white_radius_12"
+                                android:background="@drawable/bg_radius_12_white"
                                 android:maxLength="10000"
                                 android:paddingStart="@dimen/dp_12"
                                 android:paddingEnd="@dimen/dp_12"

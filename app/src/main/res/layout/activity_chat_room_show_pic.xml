@@ -28,7 +28,7 @@
             android:layout_height="@dimen/dp_40"
             android:layout_marginStart="@dimen/dp_30"
             android:layout_marginTop="@dimen/dp_60"
-            android:background="@drawable/bg_record_controller_none_oval"
+            android:background="@drawable/bg_oval_gray"
             android:padding="@dimen/dp_10"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -46,7 +46,7 @@
             android:layout_height="@dimen/dp_40"
             android:layout_marginTop="@dimen/dp_60"
             android:layout_marginEnd="@dimen/dp_30"
-            android:background="@drawable/bg_record_controller_none_oval"
+            android:background="@drawable/bg_oval_gray"
             android:padding="@dimen/dp_10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">

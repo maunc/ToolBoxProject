@@ -34,7 +34,7 @@
         android:layout_marginTop="@dimen/dp_25"
         android:layout_marginEnd="@dimen/dp_8"
         android:layout_toStartOf="@id/item_chat_room_user_iv"
-        android:background="@drawable/bg_blue_radius_12"
+        android:background="@drawable/bg_radius_12_blue"
         android:paddingHorizontal="@dimen/dp_15"
         android:paddingVertical="@dimen/dp_10">
 

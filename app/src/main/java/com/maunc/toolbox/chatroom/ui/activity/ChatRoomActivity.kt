@@ -472,7 +472,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                     ) {
                         action()
                         mDatabind.voiceRecordUpSureBg.setBackgroundResource(
-                            R.drawable.bg_record_controller_sure_oval
+                            R.drawable.bg_oval_green
                         )
                         mDatabind.voiceRecordUpSureIcon.setTint(R.color.white)
                     }
@@ -484,7 +484,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                     ) {
                         action()
                         mDatabind.voiceRecordUpSureBg.setBackgroundResource(
-                            R.drawable.bg_record_controller_none_oval
+                            R.drawable.bg_oval_gray
                         )
                         mDatabind.voiceRecordUpSureIcon.setTint(R.color.black)
                     }
@@ -499,7 +499,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                     ) {
                         action()
                         mDatabind.voiceRecordUpCancelBg.setBackgroundResource(
-                            R.drawable.bg_record_controller_cancel_oval
+                            R.drawable.bg_oval_red
                         )
                         mDatabind.voiceRecordUpCancelIcon.setTint(R.color.white)
                     }
@@ -511,7 +511,7 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                     ) {
                         action()
                         mDatabind.voiceRecordUpCancelBg.setBackgroundResource(
-                            R.drawable.bg_record_controller_none_oval
+                            R.drawable.bg_oval_gray
                         )
                         mDatabind.voiceRecordUpCancelIcon.setTint(R.color.black)
                     }

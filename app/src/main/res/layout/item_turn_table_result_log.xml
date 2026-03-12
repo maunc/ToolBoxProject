@@ -10,7 +10,7 @@
         android:id="@+id/item_turn_table_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_turn_table_log_item"
+        android:background="@drawable/bg_radius_24_gray"
         android:paddingHorizontal="@dimen/dp_10"
         android:paddingVertical="@dimen/dp_5"
         android:textColor="@color/black"

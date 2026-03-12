@@ -15,7 +15,7 @@
             android:id="@+id/item_turn_table_config_color_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_f2f2f2_radius_24"
+            android:background="@drawable/bg_radius_24_f2f2f2"
             android:paddingVertical="@dimen/dp_10"
             tools:ignore="UselessParent">
 

@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/new_name_with_group_layout_height"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/bg_gray_top_radius_18"
+            android:background="@drawable/bg_radius_18_gray_top_half"
             tools:ignore="UselessParent">
 
             <RelativeLayout
@@ -76,7 +76,7 @@
                         android:layout_height="@dimen/new_name_with_group_loading_size"
                         android:layout_centerInParent="true"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/icon_new_loading"
+                        android:src="@drawable/icon_loading"
                         android:visibility="@{newNameWithGroupViewModel.newNameWithLoading?View.VISIBLE:View.GONE}"
                         app:handleRotateAnimation="@{newNameWithGroupViewModel.newNameWithLoading}" />
                 </RelativeLayout>
@@ -94,7 +94,7 @@
                     android:id="@+id/new_name_with_group_edit"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/new_name_with_group_edit_height"
-                    android:background="@drawable/bg_new_group_edit"
+                    android:background="@drawable/bg_radius_8_white"
                     android:inputType="text"
                     android:maxLength="@{newNameWithGroupViewModel.newNameEditMaxNum}"
                     android:paddingStart="@dimen/dp_12"

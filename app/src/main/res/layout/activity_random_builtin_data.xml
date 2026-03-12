@@ -52,7 +52,7 @@
                 android:gravity="center"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/common_builtin_tips"
-                android:textColor="@color/black"
+                android:textColor="@color/blue"
                 android:textSize="18sp" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -67,10 +67,10 @@
                     android:layout_marginHorizontal="@dimen/dp_15"
                     android:layout_marginBottom="@dimen/dp_5"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_blue_radius_24"
+                    android:background="@drawable/common_control_button_bg"
                     android:gravity="center"
                     android:text="@string/common_builtin_expand_all_tv"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>

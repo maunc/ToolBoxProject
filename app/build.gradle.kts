@@ -33,6 +33,10 @@ android {
         versionName = providers.gradleProperty(propertyNameVersionNameKey).get()
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            //noinspection ChromeOsAbiSupport
+            abiFilters += arrayListOf("armeabi-v7a", "arm64-v8a")
+        }
     }
 
     buildTypes {
@@ -75,8 +79,8 @@ android {
 
     applicationVariants.all {
         outputs.all {
-            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName =
-                variantOutPutFileName
+            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl)
+                .outputFileName = variantOutPutFileName
         }
     }
 }

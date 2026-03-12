@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_70"
             android:layout_marginTop="@dimen/dp_8"
-            android:background="@drawable/bg_new_group_edit"
+            android:background="@drawable/bg_radius_8_white"
             android:hint="@string/turn_table_new_data_title_hint_tv"
             android:maxLength="10"
             android:paddingStart="@dimen/dp_12"

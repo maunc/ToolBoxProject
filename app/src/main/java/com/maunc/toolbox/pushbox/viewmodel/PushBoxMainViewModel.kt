@@ -16,25 +16,25 @@ class PushBoxMainViewModel : BaseViewModel<BaseModel>() {
         PushBoxMainFunctionData(
             title = obtainString(R.string.push_box_main_up_gradle_text),
             img = R.drawable.icon_ffmpeg_convert,
-            backgroundRes = R.drawable.bg_blue_radius_12,
+            backgroundRes = R.drawable.bg_radius_12_blue,
             functionType = PushBoxMainFunctionData.PUSH_BOX_MAIN_FUNCTION_UP_GRADE
         ),
         PushBoxMainFunctionData(
             title = obtainString(R.string.push_box_main_next_gradle_text),
             img = R.drawable.icon_ffmpeg_convert,
-            backgroundRes = R.drawable.bg_blue_radius_12,
+            backgroundRes = R.drawable.bg_radius_12_blue,
             functionType = PushBoxMainFunctionData.PUSH_BOX_MAIN_FUNCTION_NEXT_GRADE
         ),
         PushBoxMainFunctionData(
             title = obtainString(R.string.push_box_main_undo_text),
-            img = R.drawable.icon_new_loading,
-            backgroundRes = R.drawable.bg_purple_radius_12,
+            img = R.drawable.icon_loading,
+            backgroundRes = R.drawable.bg_radius_12_purple,
             functionType = PushBoxMainFunctionData.PUSH_BOX_MAIN_FUNCTION_UNDO_GRADE
         ),
         PushBoxMainFunctionData(
             title = obtainString(R.string.push_box_main_re_start_text),
-            img = R.drawable.icon_new_loading,
-            backgroundRes = R.drawable.bg_red_radius_12,
+            img = R.drawable.icon_loading,
+            backgroundRes = R.drawable.bg_radius_12_red,
             functionType = PushBoxMainFunctionData.PUSH_BOX_MAIN_FUNCTION_RESTART_GRADE
         ),
     )

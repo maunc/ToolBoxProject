@@ -15,7 +15,7 @@
             android:id="@+id/item_random_main_select_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_stroke_gray_radius_12"
+            android:background="@drawable/stroke_gray_bg_white_radius_12"
             android:paddingHorizontal="@dimen/dp_10"
             android:paddingVertical="@dimen/dp_5"
             android:text="@string/random_start_text" />

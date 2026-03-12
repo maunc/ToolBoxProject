@@ -65,7 +65,7 @@
                 android:layout_below="@id/manage_group_none_data_tips_tv"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
-                android:background="@drawable/bg_random_control_button"
+                android:background="@drawable/common_control_button_bg"
                 android:gravity="center"
                 android:text="@string/manage_group_page_new_group_text"
                 android:textColor="@color/black"

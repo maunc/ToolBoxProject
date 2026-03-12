@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dp_10"
-                android:background="@drawable/bg_f2f2f2_radius_24"
+                android:background="@drawable/bg_radius_24_f2f2f2"
                 android:orientation="horizontal"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5">

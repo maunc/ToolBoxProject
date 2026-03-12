@@ -52,13 +52,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_10"
-                android:background="@drawable/random_setting_speed_bg_selector"
+                android:background="@drawable/common_radio_button_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/push_box_setting_controller_size_one_text"
-                android:textColor="@drawable/random_setting_speed_color_selector"
+                android:textColor="@drawable/common_radio_button_text_color_selector"
                 android:textSize="16sp" />
 
             <RadioButton
@@ -66,13 +66,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_10"
-                android:background="@drawable/random_setting_speed_bg_selector"
+                android:background="@drawable/common_radio_button_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/push_box_setting_controller_size_two_text"
-                android:textColor="@drawable/random_setting_speed_color_selector"
+                android:textColor="@drawable/common_radio_button_text_color_selector"
                 android:textSize="16sp" />
 
             <RadioButton
@@ -80,13 +80,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_10"
-                android:background="@drawable/random_setting_speed_bg_selector"
+                android:background="@drawable/common_radio_button_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/push_box_setting_controller_size_three_text"
-                android:textColor="@drawable/random_setting_speed_color_selector"
+                android:textColor="@drawable/common_radio_button_text_color_selector"
                 android:textSize="16sp" />
 
             <RadioButton
@@ -94,13 +94,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_10"
-                android:background="@drawable/random_setting_speed_bg_selector"
+                android:background="@drawable/common_radio_button_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/push_box_setting_controller_size_four_text"
-                android:textColor="@drawable/random_setting_speed_color_selector"
+                android:textColor="@drawable/common_radio_button_text_color_selector"
                 android:textSize="16sp" />
 
             <RadioButton
@@ -108,13 +108,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/dp_10"
-                android:background="@drawable/random_setting_speed_bg_selector"
+                android:background="@drawable/common_radio_button_bg_selector"
                 android:button="@null"
                 android:gravity="center"
                 android:paddingHorizontal="@dimen/dp_15"
                 android:paddingVertical="@dimen/dp_5"
                 android:text="@string/push_box_setting_controller_size_five_text"
-                android:textColor="@drawable/random_setting_speed_color_selector"
+                android:textColor="@drawable/common_radio_button_text_color_selector"
                 android:textSize="16sp" />
         </RadioGroup>
     </RelativeLayout>
