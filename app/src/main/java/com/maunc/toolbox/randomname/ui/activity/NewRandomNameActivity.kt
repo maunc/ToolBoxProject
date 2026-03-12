@@ -62,9 +62,7 @@ class NewRandomNameActivity :
 
     override fun createObserver() {
         mViewModel.newRandomNameSuccess.observe(this) {
-            if (it) {
-                mViewModel.clearEditText(mDatabind.newNameWithGroupEdit)
-            }
+            if (it) mViewModel.clearEditText(mDatabind.newNameWithGroupEdit)
         }
     }
 

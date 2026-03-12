@@ -2,6 +2,8 @@ package com.maunc.toolbox.ffmpeg.constant
 
 import com.maunc.toolbox.commonbase.utils.obtainSDCardRootPath
 import java.io.File
+import java.util.Formatter
+import java.util.Locale
 
 const val FFMPEG_CREATE_DIR_TAG = "FFMPEG_CREATE_DIR"
 
@@ -33,3 +35,17 @@ const val FFMPEG_START = 1
 const val FFMPEG_SUCCESS = 2
 const val FFMPEG_ERROR = 3
 const val FFMPEG_NONE = 4
+
+/**
+ * 视频时长计算
+ */
+fun stringForTime(timeMs: Long): String {
+    val totalSeconds = timeMs / 1000L
+    val seconds = totalSeconds % 60L
+    val minutes = totalSeconds / 60L % 60L
+    val hours = totalSeconds / 3600L
+    val stringBuilder = StringBuilder()
+    val mFormatter = Formatter(stringBuilder, Locale.getDefault())
+    return if (hours > 0L) mFormatter.format("%d:%02d:%02d", hours, minutes, seconds)
+        .toString() else mFormatter.format("%02d:%02d", minutes, seconds).toString()
+}

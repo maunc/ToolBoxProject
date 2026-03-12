@@ -45,6 +45,7 @@ class CustomVideoPlayer @JvmOverloads constructor(
         setVideoStatusListener(
             onPrepared = {
                 customSeekBar?.max = 100
+                customSeekBar?.progress = 0
                 customMaxTimeTextView?.text = stringForTime(gsyVideoManager.duration)
             },
             onProgress = { progress, secProgress, currentTime, totalTime ->
@@ -56,7 +57,7 @@ class CustomVideoPlayer @JvmOverloads constructor(
                 customControllerImageView?.setImageResource(R.drawable.icon_pause)
                 customCurrentTimeTextView?.text = customMaxTimeTextView?.text
                 customSeekBar?.progress = 100
-                onCompleteListener?.onComplete()
+                if (isAuto) onCompleteListener?.onComplete()
             }
         )
         initViewEventListener()
@@ -97,10 +98,12 @@ class CustomVideoPlayer @JvmOverloads constructor(
         videoUrl: String?,
         title: String = "",
         cacheWithPlay: Boolean = true,
-    ) {
-        if (videoUrl == null) return
+    ): CustomVideoPlayer {
+        if (videoUrl == null) return this
         setTitle(title)
         setUp(videoUrl, cacheWithPlay, title)
+        customControllerImageView?.setImageResource(R.drawable.icon_pause)
+        return this
     }
 
     fun playVideoPlay() {
@@ -134,10 +137,11 @@ class CustomVideoPlayer @JvmOverloads constructor(
     /**
      * 设置标题
      */
-    fun setTitle(title: String) {
-        if (title == "") return
+    fun setTitle(title: String): CustomVideoPlayer {
+        if (title == "") return this
         customTitleTextView?.visible()
         customTitleTextView?.setTextOrMarquee(title)
+        return this
     }
 
     /**

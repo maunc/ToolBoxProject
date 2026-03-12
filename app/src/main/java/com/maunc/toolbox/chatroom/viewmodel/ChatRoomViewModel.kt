@@ -12,7 +12,7 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.maunc.toolbox.R
 import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_TEXT_TYPE
+import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
@@ -54,7 +54,7 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
 
     /**view相关*/
     var softKeyBroadHeight = MutableLiveData<Int>() //软键盘高度
-    var chatRoomType = MutableLiveData(CHAT_ROOM_TEXT_TYPE) //是文本输入还是语音输入状态
+    var chatRoomType = MutableLiveData(CHAT_ROOM_RECORD_TYPE) //是文本输入还是语音输入状态
     var recordViewStatus = MutableLiveData(RECORD_VIEW_STATUS_UP) //录音状态
     var editContentString = MutableLiveData(GLOBAL_NONE_STRING) //输入框当前字符串的长度
     var editTextViewMaxLineWidth = MutableLiveData(

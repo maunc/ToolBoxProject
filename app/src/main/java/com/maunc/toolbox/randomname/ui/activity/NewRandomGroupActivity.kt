@@ -58,9 +58,7 @@ class NewRandomGroupActivity :
 
     override fun createObserver() {
         mViewModel.whetherDataHasChange.observe(this) {
-            if (it) {
-                baseFinishCurrentActivity()
-            }
+            if (it) baseFinishCurrentActivity()
         }
     }
 

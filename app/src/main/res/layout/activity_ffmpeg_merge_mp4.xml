@@ -4,6 +4,11 @@
 
     <data>
 
+        <variable
+            name="ffmpegMergeMp4ViewModel"
+            type="com.maunc.toolbox.ffmpeg.viewmodel.FFmpegMergeMp4ViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <RelativeLayout
@@ -25,13 +30,14 @@
                 android:id="@+id/ffmpeg_merge_mp4_not_select_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/ffmpeg_merge_mp4_controller_layout">
+                android:layout_above="@id/ffmpeg_merge_mp4_controller_layout"
+                android:visibility="@{ffmpegMergeMp4ViewModel.targetSelectList==null?View.VISIBLE:View.GONE}">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/dp_80"
+                    android:layout_marginTop="@dimen/dp_120"
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -46,7 +52,7 @@
                         android:layout_width="@dimen/dp_200"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/dp_15"
+                        android:layout_marginTop="@dimen/dp_20"
                         android:background="@drawable/common_control_button_bg"
                         android:gravity="center"
                         android:paddingHorizontal="@dimen/dp_10"
@@ -62,17 +68,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/ffmpeg_merge_mp4_controller_layout"
-                android:visibility="gone">
+                android:visibility="@{ffmpegMergeMp4ViewModel.targetSelectList==null?View.GONE:View.VISIBLE}">
 
                 <com.maunc.videoplayer.CustomVideoPlayer
-                    android:id="@+id/item_ffmpeg_merge_mp4_player"
+                    android:id="@+id/ffmpeg_merge_mp4_player"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_260" />
 
                 <com.scwang.smart.refresh.layout.SmartRefreshLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/item_ffmpeg_merge_mp4_player">
+                    android:layout_below="@id/ffmpeg_merge_mp4_player">
 
                     <com.scwang.smart.refresh.header.FalsifyHeader
                         android:layout_width="match_parent"
@@ -102,9 +108,9 @@
                     android:layout_width="@dimen/dp_260"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:layout_marginVertical="@dimen/dp_10"
                     android:background="@drawable/common_control_button_bg"
                     android:gravity="center"
-                    android:layout_marginVertical="@dimen/dp_10"
                     android:paddingHorizontal="@dimen/dp_10"
                     android:paddingVertical="@dimen/dp_15"
                     android:text="@string/ffmpeg_merge_mp4_handle_click_tv"

@@ -58,15 +58,17 @@ public class MusicLineView extends View {
             canvas.drawRect(mRectWidth * i + offsets, currentHeight, mRectWidth * (i + 1), mHeight, mPaint);
         }
         if (isPlay) {
-            postInvalidateDelayed(180);
+            postInvalidateDelayed(100);
         }
     }
 
-    public void stop() {
+    public MusicLineView stop() {
         this.isPlay = false;
+        return this;
     }
 
-    public void play() {
+    public MusicLineView play() {
         this.isPlay = true;
+        return this;
     }
 }

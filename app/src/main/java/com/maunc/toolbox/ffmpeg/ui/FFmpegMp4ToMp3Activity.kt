@@ -65,8 +65,7 @@ class FFmpegMp4ToMp3Activity :
                         )
                     )
                 )
-                mDatabind.ffmpegMp4ToMp3VideoPlayer.setNewVideoPlay(videoUrl = it.realPath)
-                mDatabind.ffmpegMp4ToMp3VideoPlayer.playVideoPlay()
+                mDatabind.ffmpegMp4ToMp3VideoPlayer.setNewVideoPlay(it.realPath).playVideoPlay()
             }
         }
         mViewModel.transStatus.observe(this) {
@@ -75,11 +74,7 @@ class FFmpegMp4ToMp3Activity :
                     supportFragmentManager, COMMON_LOADING_DIALOG
                 )
 
-                FFMPEG_SUCCESS -> {
-                    taskEndCallback(R.string.ffmpeg_success_tv)
-                    mViewModel.currentSelectMp4File.value = null
-                    mDatabind.ffmpegMp4ToMp3VideoPlayer.onDestroy()
-                }
+                FFMPEG_SUCCESS -> taskEndCallback(R.string.ffmpeg_success_tv)
 
                 FFMPEG_ERROR -> taskEndCallback(R.string.ffmpeg_error_tv)
             }
@@ -87,6 +82,8 @@ class FFmpegMp4ToMp3Activity :
     }
 
     private fun taskEndCallback(@StringRes toastMsgResId: Int) {
+        mViewModel.currentSelectMp4File.value = null
+        mDatabind.ffmpegMp4ToMp3VideoPlayer.onDestroy()
         loadingDialog.dismissAllowingStateLoss()
         toast(obtainString(toastMsgResId))
     }

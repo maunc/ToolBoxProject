@@ -11,6 +11,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import androidx.core.animation.addListener
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.obtainDrawable
@@ -388,7 +389,7 @@ class PushBoxGameView(
         animStartManY = manLocationY
 
         val animator = ValueAnimator.ofFloat(0f, 1f)
-        animator.duration = 50
+        animator.duration = 66
         animator.interpolator = AccelerateDecelerateInterpolator()
         animator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Float

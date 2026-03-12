@@ -27,8 +27,9 @@ class FFmpegH265OrH264ToMp4Activity :
     }
 
     private val ffmpegH265OrH264ToMp4Adapter by lazy {
-        FFmpegH265OrH264ToMp4Adapter().apply { 
-            setOnH265OrH264ItemClickListener(object :FFmpegH265OrH264ToMp4Adapter.OnH265OrH264ItemClickListener{
+        FFmpegH265OrH264ToMp4Adapter().apply {
+            setOnH265OrH264ItemClickListener(object :
+                FFmpegH265OrH264ToMp4Adapter.OnH265OrH264ItemClickListener {
                 override fun convertItemClick(fileData: FFmpegH265OrH264ToMp4ResultData, pos: Int) {
                     mViewModel.startTransformation(fileData)
                 }
@@ -36,7 +37,7 @@ class FFmpegH265OrH264ToMp4Activity :
                 override fun viewDetailsItemClick(
                     fileData: FFmpegH265OrH264ToMp4ResultData, pos: Int,
                 ) {
-                    
+
                 }
             })
         }
@@ -57,9 +58,8 @@ class FFmpegH265OrH264ToMp4Activity :
     override fun createObserver() {
         mViewModel.resultList.observe(this) {
             mViewModel.isExistFile.value = it.isNotEmpty()
-            if (!it.isNullOrEmpty()) {
-                ffmpegH265OrH264ToMp4Adapter.setList(it)
-            }
+            if (it.isNullOrEmpty()) return@observe
+            ffmpegH265OrH264ToMp4Adapter.setList(it)
         }
         mViewModel.transStatus.observe(this) {
             when (it) {
@@ -67,9 +67,7 @@ class FFmpegH265OrH264ToMp4Activity :
                     supportFragmentManager, COMMON_LOADING_DIALOG
                 )
 
-                FFMPEG_SUCCESS -> {
-                    taskEndCallback(R.string.ffmpeg_success_tv)
-                }
+                FFMPEG_SUCCESS -> taskEndCallback(R.string.ffmpeg_success_tv)
 
                 FFMPEG_ERROR -> taskEndCallback(R.string.ffmpeg_error_tv)
             }

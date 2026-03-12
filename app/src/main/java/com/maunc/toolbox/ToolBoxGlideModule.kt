@@ -23,17 +23,18 @@ class ToolBoxGlideModule : AppGlideModule() {
     override fun applyOptions(context: Context, builder: GlideBuilder) {
         super.applyOptions(context, builder)
         val diskCacheDir = "${context.cacheDir}/image_cache"
-        Log.e(TAG,"applyOptions diskCacheDir:$diskCacheDir")
+        Log.e(TAG, "applyOptions diskCacheDir:$diskCacheDir")
         builder.setMemoryCache(LruResourceCache(MEMORY_CACHE_SIZE))
         builder.setSourceExecutor(
-            GlideExecutor.newSourceBuilder().setThreadCount(4).setThreadTimeoutMillis(5000).build()
+            GlideExecutor.newSourceBuilder().setThreadCount(4)
+                .setThreadTimeoutMillis(5000).build()
         )
         builder.setDiskCache(DiskLruCacheFactory(diskCacheDir, DISK_CACHE_SIZE))
         builder.setDefaultRequestOptions(RequestOptions().format(DecodeFormat.PREFER_RGB_565))
     }
 
     override fun isManifestParsingEnabled(): Boolean {
-        Log.e(TAG,"isManifestParsingEnabled")
+        Log.e(TAG, "isManifestParsingEnabled")
         return false
     }
 }

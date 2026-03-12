@@ -1,7 +1,6 @@
 package com.maunc.toolbox.ffmpeg.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.StringRes
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
@@ -67,6 +66,7 @@ class FFmpegM3u8ToMp4Activity :
     override fun createObserver() {
         mViewModel.m3u8ResultList.observe(this) {
             mViewModel.isExistM3u8File.value = it.isNotEmpty()
+            if (it.isNullOrEmpty()) return@observe
             m3u8ResultAdapter.setList(it)
         }
         mViewModel.transStatus.observe(this) {
@@ -75,9 +75,7 @@ class FFmpegM3u8ToMp4Activity :
                     supportFragmentManager, COMMON_LOADING_DIALOG
                 )
 
-                FFMPEG_SUCCESS -> {
-                    taskEndCallback(R.string.ffmpeg_success_tv)
-                }
+                FFMPEG_SUCCESS -> taskEndCallback(R.string.ffmpeg_success_tv)
 
                 FFMPEG_ERROR -> taskEndCallback(R.string.ffmpeg_error_tv)
             }

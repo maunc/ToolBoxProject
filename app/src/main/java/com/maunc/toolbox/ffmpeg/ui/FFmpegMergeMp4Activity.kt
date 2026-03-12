@@ -2,22 +2,14 @@ package com.maunc.toolbox.ffmpeg.ui
 
 import android.os.Bundle
 import androidx.annotation.StringRes
-import com.arthenica.ffmpegkit.FFmpegKit
-import com.arthenica.ffmpegkit.FFmpegSession
-import com.arthenica.ffmpegkit.ReturnCode
-import com.luck.picture.lib.thread.PictureThreadUtils
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.COMMON_LOADING_DIALOG
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.gone
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.logd
-import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.toast
-import com.maunc.toolbox.commonbase.ext.visible
 import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
 import com.maunc.toolbox.databinding.ActivityFfmpegMergeMp4Binding
 import com.maunc.toolbox.ffmpeg.adapter.FFmpegMergeMp4Adapter
@@ -32,12 +24,18 @@ class FFmpegMergeMp4Activity :
     private val loadingDialog by lazy {
         CommonLoadingDialog()
     }
-        
+
     private val ffmpegMergeMp4Adapter by lazy {
-        FFmpegMergeMp4Adapter()
+        FFmpegMergeMp4Adapter().apply {
+            setOnItemClickListener { adapter, view, pos ->
+                mViewModel.playCurrentIndex = pos
+                playMp4FileAndHandleRecycler(pos, data[pos].realPath)
+            }
+        }
     }
 
     override fun initView(savedInstanceState: Bundle?) {
+        mDatabind.ffmpegMergeMp4ViewModel = mViewModel
         mDatabind.commonToolBar.commonToolBarTitleTv.text =
             obtainString(R.string.ffmpeg_main_item_four)
         mDatabind.commonToolBar.commonToolBarBackButton.clickScale {
@@ -55,72 +53,79 @@ class FFmpegMergeMp4Activity :
                 mViewModel.startSelectMp4File(this)
                 return@clickScale
             }
+            rePlayerResourceAndRecycler()
             mViewModel.startMergeMp4List()
         }
         mDatabind.ffmpegMergeMp4DataRecycler.layoutManager = linearLayoutManager()
         mDatabind.ffmpegMergeMp4DataRecycler.adapter = ffmpegMergeMp4Adapter
-        mDatabind.itemFfmpegMergeMp4Player.setOnCompleteListener {
-
+        mDatabind.ffmpegMergeMp4Player.setOnCompleteListener {
+            mViewModel.playCurrentIndex += 1
+            if (mViewModel.playCurrentIndex > (mViewModel.targetSelectList.value?.size ?: 1) - 1) {
+                rePlayerResourceAndRecycler()
+                return@setOnCompleteListener
+            }
+            playMp4FileAndHandleRecycler(
+                mViewModel.playCurrentIndex,
+                ffmpegMergeMp4Adapter.data[mViewModel.playCurrentIndex].realPath
+            )
         }
-        FFmpegKit.executeAsync("-i /storage/emulated/0/HToolBox/merge_mp4/normal_1773139237290.mp4 -hide_banner",{ session: FFmpegSession ->
-            PictureThreadUtils.runOnUiThread {
-                val returnCode = session.returnCode
-                if (ReturnCode.isSuccess(returnCode)) {
-                } else if (ReturnCode.isCancel(returnCode)) {
-                } else {
-                }
-            }
-        }, { log ->
-            // 实时日志回调（可用于解析进度）
-            "FFmpeg日志：${log.message}".logd()
-        }, { statistics ->
-            // 统计信息回调（如帧率、比特率等）
-            "统计信息：$statistics".logd()
-        })
-
-        FFmpegKit.executeAsync("-i /storage/emulated/0/HToolBox/merge_mp4/normal_1773139244861.mp4 -hide_banner",{ session: FFmpegSession ->
-            PictureThreadUtils.runOnUiThread {
-                val returnCode = session.returnCode
-                if (ReturnCode.isSuccess(returnCode)) {
-                } else if (ReturnCode.isCancel(returnCode)) {
-                } else {
-                }
-            }
-        }, { log ->
-            // 实时日志回调（可用于解析进度）
-            "FFmpeg日志：${log.message}".logd()
-        }, { statistics ->
-            // 统计信息回调（如帧率、比特率等）
-            "统计信息：$statistics".logd()
-        })
     }
 
     override fun createObserver() {
         mViewModel.targetSelectList.observe(this) {
-            if (!it.isNullOrEmpty()) {
-                ffmpegMergeMp4Adapter.setList(it)
-                mDatabind.ffmpegMergeMp4SelectLayout.visible()
-                mDatabind.ffmpegMergeMp4NotSelectLayout.gone()
+            if (it.isNullOrEmpty()) {
+                rePlayerResourceAndRecycler()
+                return@observe
             }
+            rePlayerResourceAndRecycler()
+            ffmpegMergeMp4Adapter.setList(it)
+            playMp4FileAndHandleRecycler(
+                mViewModel.playCurrentIndex,
+                ffmpegMergeMp4Adapter.data[mViewModel.playCurrentIndex].realPath
+            )
         }
         mViewModel.transStatus.observe(this) {
             when (it) {
                 FFMPEG_START -> loadingDialog.show(
-                    supportFragmentManager,
-                    COMMON_LOADING_DIALOG
+                    supportFragmentManager, COMMON_LOADING_DIALOG
                 )
 
-                FFMPEG_SUCCESS -> {
-                    taskEndCallback(R.string.ffmpeg_success_tv)
-                }
+                FFMPEG_SUCCESS -> taskEndCallback(R.string.ffmpeg_success_tv)
 
                 FFMPEG_ERROR -> taskEndCallback(R.string.ffmpeg_error_tv)
             }
         }
     }
 
+    private fun playMp4FileAndHandleRecycler(pos: Int, path: String) {
+        ffmpegMergeMp4Adapter.selectMp4(pos)
+        mDatabind.ffmpegMergeMp4Player.setNewVideoPlay(path).playVideoPlay()
+    }
+
     private fun taskEndCallback(@StringRes toastMsgResId: Int) {
+        rePlayerResourceAndRecycler()
+        mViewModel.currentSelectList.clear()
+        mViewModel.targetSelectList.value = null
         loadingDialog.dismissAllowingStateLoss()
         toast(obtainString(toastMsgResId))
+    }
+
+    /**
+     * 重置布局和释放播放器资源
+     */
+    private fun rePlayerResourceAndRecycler() {
+        mViewModel.playCurrentIndex = 0
+        ffmpegMergeMp4Adapter.selectMp4(-1)
+        mDatabind.ffmpegMergeMp4Player.onDestroy()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mDatabind.ffmpegMergeMp4Player.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mDatabind.ffmpegMergeMp4Player.onDestroy()
     }
 }

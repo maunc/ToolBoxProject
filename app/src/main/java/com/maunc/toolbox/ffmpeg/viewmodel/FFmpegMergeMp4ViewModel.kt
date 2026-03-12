@@ -1,7 +1,6 @@
 package com.maunc.toolbox.ffmpeg.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.arthenica.ffmpegkit.FFmpegKit
@@ -30,33 +29,27 @@ import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 
-
 class FFmpegMergeMp4ViewModel : BaseViewModel<BaseModel>() {
 
     var transStatus = MutableLiveData(FFMPEG_NONE)//转换状态
-    var currentSelectNum = 0 //当前选中视频个数
     var currentSelectList = mutableListOf<LocalMedia>() //中转视频列表
     var targetSelectList = MutableLiveData<MutableList<LocalMedia>>()//最终视频列表
     var playCurrentIndex = 0 //当前播放下标
 
-
-    var unificationVideoList = mutableListOf<String>()
-    var tempMp4TextFilePath = ""
+    private var unificationVideoList = mutableListOf<String>() // 统一所有合并视频的格式
+    private var tempMp4TextFilePath = "" // 临时文件(记录合并的视频列表)
 
     fun startSelectMp4File(context: Context) {
         PictureSelector.create(context)
             .openGallery(SelectMimeType.ofVideo())
-            .setMaxSelectNum(SELECT_MERGE_MP4_MAX_NUM - currentSelectNum)
+            .setMaxSelectNum(SELECT_MERGE_MP4_MAX_NUM)
             .setImageEngine(obtainGlideEngin)
-            /*.setSelectedData(currentSelectList)*/
+            .setSelectedData(currentSelectList)
             .forResult(object : OnResultCallbackListener<LocalMedia> {
                 override fun onResult(result: ArrayList<LocalMedia>?) {
-                    currentSelectNum += result?.size ?: 0
                     currentSelectList.clear()
                     currentSelectList.addAll(result ?: mutableListOf())
-                    targetSelectList.postValue(targetSelectList.value?.apply {
-                        addAll(currentSelectList)
-                    } ?: currentSelectList)
+                    targetSelectList.postValue(currentSelectList)
                 }
 
                 override fun onCancel() {}
@@ -71,23 +64,16 @@ class FFmpegMergeMp4ViewModel : BaseViewModel<BaseModel>() {
             targetSelectList.value!!.forEach { video ->
                 val async = async {
                     unificationVideoParameter(
-                        video.realPath,
-                        MERGE_MP4_SAVE_PATH,
-                        video.width,
-                        video.height
+                        video.realPath, MERGE_MP4_SAVE_PATH, video.width, video.height
                     )
                 }.await()
-                Log.e("ww", "async:${async}")
                 unificationVideoList.add(async)
                 val file = async {
                     createVideoTextTemp()
                 }.await()
                 tempMp4TextFilePath = file?.absolutePath ?: ""
             }
-            if (tempMp4TextFilePath == "") {
-                Log.e("ww", "创建合并文件失败")
-                return@launch
-            }
+            if (tempMp4TextFilePath == "") return@launch
             val ffmpegCmd = obtainFFmpegMergeMp4Cmd(fileName)
             FFmpegKit.executeAsync(ffmpegCmd, { session: FFmpegSession ->
                 runOnUiThread {
@@ -123,7 +109,7 @@ class FFmpegMergeMp4ViewModel : BaseViewModel<BaseModel>() {
                 File(MERGE_MP4_SAVE_PATH, "${fileName}.mp4").absolutePath
     }
 
-    fun createVideoTextTemp(): File? {
+    private fun createVideoTextTemp(): File? {
         val file = File(MERGE_MP4_SAVE_PATH, "video_text_temp.text")
         try {
             FileWriter(file).use { writer ->
@@ -138,13 +124,11 @@ class FFmpegMergeMp4ViewModel : BaseViewModel<BaseModel>() {
         }
     }
 
-    fun deleteVideoTextTempAndNormalVideo() {
+    private fun deleteVideoTextTempAndNormalVideo() {
         if (tempMp4TextFilePath == "") return
         try {
             val file = File(tempMp4TextFilePath)
-            if (file.exists()) {
-                file.delete()
-            }
+            if (file.exists()) file.delete()
             val targetDir = File(MERGE_MP4_SAVE_PATH)
             if (!targetDir.exists() || !targetDir.isDirectory) return
             val files = targetDir.listFiles()
@@ -159,7 +143,7 @@ class FFmpegMergeMp4ViewModel : BaseViewModel<BaseModel>() {
         }
     }
 
-    fun unificationVideoParameter(
+    private fun unificationVideoParameter(
         sourcePath: String, outputDir: String, width: Int, height: Int,
     ): String {
         val fileName = "normal_${System.currentTimeMillis()}.mp4"
