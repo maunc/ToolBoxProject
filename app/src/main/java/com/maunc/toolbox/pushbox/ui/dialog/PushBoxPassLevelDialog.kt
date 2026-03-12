@@ -1,7 +1,6 @@
 package com.maunc.toolbox.pushbox.ui.dialog
 
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseDialog
@@ -9,6 +8,7 @@ import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.databinding.DialogPushBoxPassLevelBinding
+import com.maunc.toolbox.pushbox.constant.formatTimeStampToHMS
 import com.maunc.toolbox.pushbox.viewmodel.PushBoxPassLevelViewModel
 
 class PushBoxPassLevelDialog :
@@ -55,8 +55,10 @@ class PushBoxPassLevelDialog :
     }
 
     fun setTime(time: Long): PushBoxPassLevelDialog {
-        this.timeText =
-            String.format(obtainString(R.string.push_box_main_pass_level_time_text), time)
+        this.timeText = String.format(
+            obtainString(R.string.push_box_main_pass_level_time_text),
+            formatTimeStampToHMS(time)
+        )
         return this
     }
 

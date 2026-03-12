@@ -11,6 +11,7 @@ import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.pushBoxControllerButtonSize
+import com.maunc.toolbox.commonbase.utils.pushBoxTouchView
 import com.maunc.toolbox.databinding.ActivityPushBoxSettingBinding
 import com.maunc.toolbox.pushbox.adapter.PushBoxSettingAdapter
 import com.maunc.toolbox.pushbox.constant.PUSH_BOX_CONTROLLER_SIZE_MEDIUM
@@ -30,6 +31,11 @@ class PushBoxSettingActivity :
                     obtainMMKV.putInt(pushBoxControllerButtonSize, size)
                     appViewModel.pushBoxControllerSize.value = size
                 }
+
+                override fun configTouchMove(isTouch: Boolean) {
+                    obtainMMKV.putBoolean(pushBoxTouchView, isTouch)
+                    appViewModel.pushBoxViewTouch.value = isTouch
+                }
             })
         }
     }
@@ -44,7 +50,8 @@ class PushBoxSettingActivity :
         mDatabind.pushBoxSettingRecycler.adapter = pushBoxSettingAdapter
         pushBoxSettingAdapter.setList(mViewModel.settingDataList)
         pushBoxSettingAdapter.setConfig(
-            appViewModel.pushBoxControllerSize.value ?: PUSH_BOX_CONTROLLER_SIZE_MEDIUM
+            appViewModel.pushBoxControllerSize.value ?: PUSH_BOX_CONTROLLER_SIZE_MEDIUM,
+            appViewModel.pushBoxViewTouch.value ?: false
         )
     }
 

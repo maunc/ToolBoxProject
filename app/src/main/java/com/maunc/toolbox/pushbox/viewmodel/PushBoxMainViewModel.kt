@@ -9,6 +9,9 @@ import com.maunc.toolbox.pushbox.data.PushBoxMainFunctionData
 
 class PushBoxMainViewModel : BaseViewModel<BaseModel>() {
 
+    //起始时间
+    var startTimeValue: Long = 0L
+
     fun initFunctionList() = mutableListOf<PushBoxMainFunctionData>().mutableListInsert(
         PushBoxMainFunctionData(
             title = obtainString(R.string.push_box_main_up_gradle_text),

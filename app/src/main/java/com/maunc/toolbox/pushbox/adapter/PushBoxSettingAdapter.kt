@@ -16,6 +16,7 @@ import com.maunc.toolbox.pushbox.constant.PUSH_BOX_CONTROLLER_SIZE_MEDIUM
 import com.maunc.toolbox.pushbox.constant.PUSH_BOX_CONTROLLER_SIZE_MIN
 import com.maunc.toolbox.pushbox.constant.PUSH_BOX_CONTROLLER_SIZE_MIN_TWO
 import com.maunc.toolbox.pushbox.data.PushBoxSettingData
+import com.us.mauncview.SwitchButtonView
 
 class PushBoxSettingAdapter : BaseMultiItemQuickAdapter<PushBoxSettingData, BaseViewHolder>() {
 
@@ -28,9 +29,15 @@ class PushBoxSettingAdapter : BaseMultiItemQuickAdapter<PushBoxSettingData, Base
             PushBoxSettingData.PUSH_BOX_CONTROLLER_SIZE,
             R.layout.item_push_box_setting_controller_size
         )
+        addItemType(
+            PushBoxSettingData.PUSH_BOX_TOUCH_VIEW,
+            R.layout.item_push_box_setting_switch_data
+        )
     }
 
     private var controllerSize = PUSH_BOX_CONTROLLER_SIZE_MEDIUM
+
+    private var touchMove = false
 
     override fun convert(holder: BaseViewHolder, item: PushBoxSettingData) {
         val itemPosition = holder.layoutPosition
@@ -103,14 +110,26 @@ class PushBoxSettingAdapter : BaseMultiItemQuickAdapter<PushBoxSettingData, Base
                     }
                 }
             }
+
+            PushBoxSettingData.PUSH_BOX_TOUCH_VIEW -> {
+                val enableTouchSwitch =
+                    haveView.findViewById<SwitchButtonView>(R.id.item_push_box_setting_switch)
+                enableTouchSwitch.isChecked = touchMove
+                enableTouchSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                    enableTouchSwitch.isChecked = isChecked
+                    onPushBoxSettingEventListener?.configTouchMove(isChecked)
+                }
+            }
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun setConfig(
         controllerSize: Int,
+        touchMove:Boolean
     ) {
         this.controllerSize = controllerSize
+        this.touchMove = touchMove
         notifyDataSetChanged()
     }
 
@@ -123,5 +142,6 @@ class PushBoxSettingAdapter : BaseMultiItemQuickAdapter<PushBoxSettingData, Base
     interface OnPushBoxSettingEventListener {
         fun startPreviewPage()
         fun configControllerSize(size: Int)
+        fun configTouchMove(isTouch: Boolean)
     }
 }

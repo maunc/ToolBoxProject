@@ -8,6 +8,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.addListener
@@ -26,6 +27,8 @@ import com.maunc.toolbox.pushbox.constant.allGradesMapData
 import com.maunc.toolbox.pushbox.constant.obtainTargetMap
 import com.maunc.toolbox.pushbox.constant.obtainTargetPureOriginalMap
 import com.maunc.toolbox.pushbox.data.PushBoxStepRecord
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
@@ -35,6 +38,11 @@ class PushBoxGameView(
     context: Context?,
     attrs: AttributeSet?,
 ) : View(context, attrs) {
+
+    companion object {
+        private const val MIN_SLIDE_DISTANCE = 30f // 最小滑动距离（过滤误触）
+    }
+
     private var screenWidth = obtainScreenWidth() // 屏幕宽
     private var screenHeight = obtainScreenHeight() // 屏幕高
     private var currentGradleIndex = 0 // 当前关数
@@ -69,6 +77,12 @@ class PushBoxGameView(
     //测量大小
     private var measuredViewWidth = 0
     private var measuredViewHeight = 0
+
+    private var touchStartX = 0f // 触摸起点X
+    private var touchStartY = 0f // 触摸起点Y
+
+    // 是否启用触摸移动
+    private var isEnableTouchMove = AtomicBoolean(false)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -163,11 +177,8 @@ class PushBoxGameView(
         currentGradleMoveNumber = 0
     }
 
-    fun canUndoStep(): Boolean {
-        return canUndo && !isAnimating && stepHistory.isNotEmpty()
-    }
+    fun canUndoStep() = canUndo && !isAnimating && stepHistory.isNotEmpty()
 
-    //获取当前关卡
     fun obtainCurrentGradleIndex() = Pair(currentGradleIndex, currentMap)
 
     /**
@@ -226,7 +237,7 @@ class PushBoxGameView(
     /**
      * 检验游戏是否结束
      */
-    fun verifyGameFinished(): Boolean {
+    private fun verifyGameFinished(): Boolean {
         var finish = true
         for (i in 0 until currentMapRow) {
             for (j in 0 until currentMapColumn) {
@@ -236,6 +247,42 @@ class PushBoxGameView(
             }
         }
         return finish
+    }
+
+    fun setTouchMove(isTouch: Boolean) = isEnableTouchMove.set(isTouch)
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (isAnimating) return true
+        if (!isEnableTouchMove.get()) return true
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                touchStartX = event.x
+                touchStartY = event.y
+                return true
+            }
+
+            MotionEvent.ACTION_UP -> {
+                val endX = event.x
+                val endY = event.y
+                val dx = endX - touchStartX // X轴偏移（正：右滑，负：左滑）
+                val dy = endY - touchStartY // Y轴偏移（正：下滑，负：上滑）
+
+                val absDx = abs(dx)
+                val absDy = abs(dy)
+
+                // 过滤无效滑动（偏移量小于最小距离）
+                if (absDx < MIN_SLIDE_DISTANCE && absDy < MIN_SLIDE_DISTANCE) {
+                    return true
+                }
+                if (absDx > absDy) { // 横向滑动
+                    if (dx > 0) moveRight() else moveLeft()
+                } else {  // 纵向滑动
+                    if (dy > 0) moveDown() else moveUp()
+                }
+            }
+        }
+        return super.onTouchEvent(event)
     }
 
     // 移动方法（上下左右）

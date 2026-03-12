@@ -211,6 +211,7 @@
     <string name="push_box_main_pass_level_time_text">通过本关耗时:%s</string>
     <string name="push_box_setting_preview_text">所有关卡预览</string>
     <string name="push_box_setting_controller_size_text">方向键大小</string>
+    <string name="push_box_setting_touch_move_text">启用触摸移动</string>
     <string name="push_box_setting_controller_size_one_text">最小</string>
     <string name="push_box_setting_controller_size_two_text">较小</string>
     <string name="push_box_setting_controller_size_three_text">中等</string>

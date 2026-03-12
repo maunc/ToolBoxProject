@@ -49,6 +49,7 @@ const val turnTableConfigColor = "turnTableConfigColor"
 
 /**推箱子用到的*/
 const val pushBoxControllerButtonSize = "pushBoxControllerSize"
+const val pushBoxTouchView = "pushBoxTouchView"
 
 class MMKVUtils {
 
@@ -84,6 +85,7 @@ class MMKVUtils {
 
         //推箱子相关
         obtainMMKV.putInt(pushBoxControllerButtonSize, PUSH_BOX_CONTROLLER_SIZE_MEDIUM)
+        obtainMMKV.putBoolean(pushBoxTouchView, false)
     }
 
     fun getString(

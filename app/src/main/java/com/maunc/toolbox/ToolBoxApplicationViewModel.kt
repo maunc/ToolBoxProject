@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.maunc.toolbox.commonbase.ext.assetFileParseJson
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.pushBoxControllerButtonSize
+import com.maunc.toolbox.commonbase.utils.pushBoxTouchView
 import com.maunc.toolbox.commonbase.utils.randomEnumCountEnableType
 import com.maunc.toolbox.commonbase.utils.randomRepeat
 import com.maunc.toolbox.commonbase.utils.randomSelectRecyclerVisible
@@ -112,12 +113,14 @@ class ToolBoxApplicationViewModel(application: Application) : AndroidViewModel(a
 
     /**===============================================   推箱子配置相关   ===============================================*/
     var pushBoxControllerSize = UnPeekLiveData<Int>()// 方向键大小
+    var pushBoxViewTouch = UnPeekLiveData<Boolean>()//是否可以触摸移动
 
     /**
      * 初始化推箱子配置
      */
     fun initPushBoxConfig() {
         pushBoxControllerSize.postValue(obtainMMKV.getInt(pushBoxControllerButtonSize))
+        pushBoxViewTouch.postValue(obtainMMKV.getBoolean(pushBoxTouchView))
     }
 
     override fun onCleared() {

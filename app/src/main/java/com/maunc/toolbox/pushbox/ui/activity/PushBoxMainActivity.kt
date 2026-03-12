@@ -36,15 +36,15 @@ class PushBoxMainActivity : BaseActivity<PushBoxMainViewModel, ActivityPushBoxMa
     private val onPushBoxEventListener = object : PushBoxGameView.OnPushBoxEventListener {
 
         override fun onCurrentGradeMoveNumber(currentNumber: Int) {
-            mDatabind.pushBoxMainCurrentMoveNumTv.text =
-                String.format(
-                    obtainString(R.string.push_box_main_current_move_num_text), currentNumber
-                )
+            mDatabind.pushBoxMainCurrentMoveNumTv.text = String.format(
+                obtainString(R.string.push_box_main_current_move_num_text), currentNumber
+            )
         }
 
         override fun onPassGrade(passMapIndex: Int, nextMapIndex: Int, passMoveNum: Int) {
             PushBoxPassLevelDialog().setCurrentLevel(nextMapIndex)
-                .setTime(0L).setMoveNum(passMoveNum).setOnReStartListener {
+                .setTime(System.currentTimeMillis() - mViewModel.startTimeValue)
+                .setMoveNum(passMoveNum).setOnReStartListener {
                     rePushBoxMainUI(passMapIndex)
                 }.setOnNextListener {
                     rePushBoxMainUI(nextMapIndex)
@@ -96,7 +96,6 @@ class PushBoxMainActivity : BaseActivity<PushBoxMainViewModel, ActivityPushBoxMa
         mDatabind.commonToolBar.commonToolBarCompatButton.clickScale {
             startTargetActivity(PushBoxSettingActivity::class.java)
         }
-        rePushBoxMainUI(0)
         mDatabind.pushBoxControllerUp.clickScale {
             mDatabind.pushBoxGameView.moveUp()
         }
@@ -115,9 +114,11 @@ class PushBoxMainActivity : BaseActivity<PushBoxMainViewModel, ActivityPushBoxMa
         )
         mDatabind.pushBoxMainFunctionRecycler.adapter = pushBoxMainFunctionAdapter
         pushBoxMainFunctionAdapter.setList(mViewModel.initFunctionList())
+        rePushBoxMainUI(0)
     }
 
     private fun rePushBoxMainUI(currentIndex: Int) {
+        mViewModel.startTimeValue = System.currentTimeMillis()
         mDatabind.pushBoxMainCurrentIndexTv.text = "第${currentIndex + 1}关"
         mDatabind.pushBoxGameView.setGateIndex(currentIndex)
         mDatabind.pushBoxMainCurrentMoveNumTv.text =
@@ -133,6 +134,9 @@ class PushBoxMainActivity : BaseActivity<PushBoxMainViewModel, ActivityPushBoxMa
                 PUSH_BOX_CONTROLLER_SIZE_MAX_TWO -> handleControllerSize(obtainDimens(R.dimen.dp_125))
                 PUSH_BOX_CONTROLLER_SIZE_MAX -> handleControllerSize(obtainDimens(R.dimen.dp_150))
             }
+        }
+        appViewModel.pushBoxViewTouch.observe(this) {
+            mDatabind.pushBoxGameView.setTouchMove(it)
         }
         appViewModel.initPushBoxConfig()
     }

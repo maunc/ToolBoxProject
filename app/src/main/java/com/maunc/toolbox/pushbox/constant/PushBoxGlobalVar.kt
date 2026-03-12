@@ -1,5 +1,7 @@
 package com.maunc.toolbox.pushbox.constant
 
+import android.annotation.SuppressLint
+
 /**
  * 方向键的大小配置
  */
@@ -65,4 +67,45 @@ fun obtainTargetPureOriginalMap(gradeIndex: Int): Array<IntArray> {
             }
         }
     }
+}
+
+
+
+/**
+ * 格式化时间戳为 时:分:秒（自动隐藏前导0的小时位）
+ */
+@SuppressLint("DefaultLocale")
+fun formatTimeStampToHMS(timeStamp: Long): String {
+    val totalSeconds = (timeStamp / 1000).toInt()
+
+    val hours = totalSeconds / 3600
+    val minutes = (totalSeconds % 3600) / 60
+    val seconds = totalSeconds % 60
+
+    val minuteStr = String.format("%02d", minutes)
+    val secondStr = String.format("%02d", seconds)
+
+    return if (hours > 0) {
+        val hourStr = String.format("%02d", hours)
+        "$hourStr:$minuteStr:$secondStr"
+    } else {
+        "$minuteStr:$secondStr"
+    }
+}
+
+/**
+ * 格式化时间戳为 时:分:秒（强制展示小时位，即使为0）
+ */
+@SuppressLint("DefaultLocale")
+fun formatTimeStampToFullHMS(timeStamp: Long): String {
+    val totalSeconds = (timeStamp / 1000).toInt()
+    val hours = totalSeconds / 3600
+    val minutes = (totalSeconds % 3600) / 60
+    val seconds = totalSeconds % 60
+
+    val hourStr = String.format("%02d", hours)
+    val minuteStr = String.format("%02d", minutes)
+    val secondStr = String.format("%02d", seconds)
+
+    return "$hourStr:$minuteStr:$secondStr"
 }
