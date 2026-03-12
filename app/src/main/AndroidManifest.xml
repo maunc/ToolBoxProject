@@ -90,13 +90,13 @@
             android:name=".turntable.ui.TurnTableDataManagerActivity"
             android:exported="false" />
         <activity
-            android:name=".signaturecanvas.ui.activity.SignatureCanvasManagerFileActivity"
+            android:name=".signaturecanvas.ui.SignatureCanvasManagerFileActivity"
             android:exported="false" />
         <activity
-            android:name=".signaturecanvas.ui.activity.SignatureCanvasMainActivity"
+            android:name=".signaturecanvas.ui.SignatureCanvasMainActivity"
             android:exported="false" />
         <activity
-            android:name=".signaturecanvas.ui.activity.SignatureCanvasSettingActivity"
+            android:name=".signaturecanvas.ui.SignatureCanvasSettingActivity"
             android:exported="false" />
         <activity
             android:name=".chatroom.ui.activity.ChatRoomShowTextActivity"

@@ -56,7 +56,7 @@ class FFmpegMergeMp4ViewModel : BaseViewModel<BaseModel>() {
             })
     }
 
-    fun startMergeMp4List(fileName: String = "aaa") {
+    fun startMergeMp4List(fileName: String = "default") {
         if (targetSelectList.value == null) return
         if (targetSelectList.value!!.isEmpty()) return
         transStatus.value = FFMPEG_START
@@ -99,7 +99,7 @@ class FFmpegMergeMp4ViewModel : BaseViewModel<BaseModel>() {
         }
     }
 
-    private fun obtainFFmpegMergeMp4Cmd(fileName: String = "HTool_Merge_Video"): String {
+    private fun obtainFFmpegMergeMp4Cmd(fileName: String): String {
         return "-y -f concat -safe 0 -i $tempMp4TextFilePath " +
                 "-c:v mpeg4 -b:v 5000k -q:v 2 " +  // 去掉-r 30，避免参数冲突
                 "-vf fps=30 " +                    // 用fps滤镜替代-r，兼容vsync 0

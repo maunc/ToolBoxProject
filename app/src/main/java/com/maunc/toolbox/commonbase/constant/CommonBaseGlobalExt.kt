@@ -51,4 +51,5 @@ const val ARRAY_INDEX_TWO = 2
 //公共Dialog
 const val COMMON_DIALOG = "commonDialog"
 const val COMMON_LOADING_DIALOG = "commonLoadingDialog"
+const val COMMON_EDIT_DATA_DIALOG = "commonEditDataDialog"
 const val COMMON_NOTICE_DIALOG = "commonNoticeDialog"

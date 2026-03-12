@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.signaturecanvas.constant.saveSignatureCanvasFileNamePrefix
+import com.maunc.toolbox.signaturecanvas.constant.SAVE_SIGNATURE_CANVAS_FILENAME_PREFIX
 import com.maunc.toolbox.signaturecanvas.data.CanvasSaveFileData
 import kotlinx.coroutines.launch
 
@@ -17,7 +17,7 @@ class SignatureCanvasManagerFileViewModel : BaseViewModel<BaseModel>() {
 
     private val selection = "${MediaStore.Images.Media.DISPLAY_NAME} LIKE ?"
 
-    private val selectionArgs = arrayOf("%${saveSignatureCanvasFileNamePrefix}%")
+    private val selectionArgs = arrayOf("%${SAVE_SIGNATURE_CANVAS_FILENAME_PREFIX}%")
 
     private val projection = arrayOf(
         MediaStore.Images.Media._ID,

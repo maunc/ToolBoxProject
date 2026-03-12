@@ -1,9 +1,10 @@
-package com.maunc.toolbox.signaturecanvas.ui.activity
+package com.maunc.toolbox.signaturecanvas.ui
 
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.commonbase.constant.COMMON_EDIT_DATA_DIALOG
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.gridLayoutManager
@@ -13,6 +14,7 @@ import com.maunc.toolbox.commonbase.ext.obtainColorToARAG
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
+import com.maunc.toolbox.commonbase.ui.dialog.CommonEditDataDialog
 import com.maunc.toolbox.commonbase.utils.PixelCopyUtils
 import com.maunc.toolbox.commonbase.utils.canvasEraserWidth
 import com.maunc.toolbox.commonbase.utils.canvasPenColorA
@@ -26,7 +28,7 @@ import com.maunc.toolbox.signaturecanvas.adapter.SignatureCanvasControllerAdapte
 import com.maunc.toolbox.signaturecanvas.constant.MODE_ERASER
 import com.maunc.toolbox.signaturecanvas.constant.MODE_PEN
 import com.maunc.toolbox.signaturecanvas.constant.RESULT_SOURCE_FROM_SIGNATURE_CANVAS_SETTING
-import com.maunc.toolbox.signaturecanvas.ui.dialog.SignatureCanvasSaveDialog
+import com.maunc.toolbox.signaturecanvas.constant.SAVE_SIGNATURE_CANVAS_FILENAME_PREFIX
 import com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasMainViewModel
 
 class SignatureCanvasMainActivity :
@@ -55,11 +57,12 @@ class SignatureCanvasMainActivity :
         }
     }
 
-    private val signatureCanvasSaveDialog by lazy {
-        SignatureCanvasSaveDialog()
+    private val commonEditDataDialog by lazy {
+        CommonEditDataDialog()
+            .setPrefixString(SAVE_SIGNATURE_CANVAS_FILENAME_PREFIX)
             .setSureListener { fileName ->
                 if (fileName.isEmpty()) {
-                    toast(getString(R.string.signature_canvas_setting_save_edit_tips))
+                    toast(getString(R.string.common_dialog_edit_data_tips))
                     return@setSureListener
                 }
                 PixelCopyUtils.createBitmapFromView(
@@ -109,7 +112,7 @@ class SignatureCanvasMainActivity :
                 }
 
                 override fun onSaveListener() {
-                    signatureCanvasSaveDialog.show(supportFragmentManager, "")
+                    commonEditDataDialog.show(supportFragmentManager, COMMON_EDIT_DATA_DIALOG)
                 }
             })
         }

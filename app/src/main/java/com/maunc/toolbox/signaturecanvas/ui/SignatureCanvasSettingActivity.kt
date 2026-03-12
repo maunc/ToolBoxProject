@@ -1,4 +1,4 @@
-package com.maunc.toolbox.signaturecanvas.ui.activity
+package com.maunc.toolbox.signaturecanvas.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle

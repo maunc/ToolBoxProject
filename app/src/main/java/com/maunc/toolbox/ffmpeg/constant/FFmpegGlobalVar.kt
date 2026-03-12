@@ -9,6 +9,7 @@ const val FFMPEG_CREATE_DIR_TAG = "FFMPEG_CREATE_DIR"
 
 const val SELECT_MP4_TO_MP3_MAX_NUM = 1
 
+//最多合并视频数量
 const val SELECT_MERGE_MP4_MAX_NUM = 10
 
 const val SAVE_FFMPEG_PREFIX = "HToolBox_"

@@ -36,4 +36,4 @@ const val ERASER_WIDTH_MAX_VALUE = 100
 const val RESULT_SOURCE_FROM_SIGNATURE_CANVAS_SETTING = 101
 
 /**保存文件时的前缀*/
-const val saveSignatureCanvasFileNamePrefix = "HToolBox_canvas_"
+const val SAVE_SIGNATURE_CANVAS_FILENAME_PREFIX = "HToolBox_canvas_"

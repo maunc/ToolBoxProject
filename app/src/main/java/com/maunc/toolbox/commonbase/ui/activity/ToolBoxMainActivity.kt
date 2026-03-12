@@ -16,7 +16,7 @@ import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
 import com.maunc.toolbox.ffmpeg.ui.FFmpegMainActivity
 import com.maunc.toolbox.pushbox.ui.activity.PushBoxMainActivity
 import com.maunc.toolbox.randomname.ui.activity.RandomNameMainActivity
-import com.maunc.toolbox.signaturecanvas.ui.activity.SignatureCanvasMainActivity
+import com.maunc.toolbox.signaturecanvas.ui.SignatureCanvasMainActivity
 import com.maunc.toolbox.turntable.ui.TurnTableMainActivity
 
 class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMainBinding>() {

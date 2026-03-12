@@ -30,7 +30,7 @@ import com.maunc.toolbox.signaturecanvas.constant.ERASER_WIDTH_MAX_VALUE
 import com.maunc.toolbox.signaturecanvas.constant.PEN_WIDTH_MAX_VALUE
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingColorData
 import com.maunc.toolbox.signaturecanvas.data.CanvasSettingData
-import com.maunc.toolbox.signaturecanvas.ui.activity.SignatureCanvasManagerFileActivity
+import com.maunc.toolbox.signaturecanvas.ui.SignatureCanvasManagerFileActivity
 
 @SuppressLint("SetTextI18n")
 class SignatureCanvasSettingAdapter :

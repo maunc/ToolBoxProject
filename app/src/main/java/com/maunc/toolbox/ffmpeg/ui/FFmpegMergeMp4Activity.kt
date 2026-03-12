@@ -4,18 +4,21 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.commonbase.constant.COMMON_EDIT_DATA_DIALOG
 import com.maunc.toolbox.commonbase.constant.COMMON_LOADING_DIALOG
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.toast
+import com.maunc.toolbox.commonbase.ui.dialog.CommonEditDataDialog
 import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
 import com.maunc.toolbox.databinding.ActivityFfmpegMergeMp4Binding
 import com.maunc.toolbox.ffmpeg.adapter.FFmpegMergeMp4Adapter
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_ERROR
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_START
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_SUCCESS
+import com.maunc.toolbox.ffmpeg.constant.SAVE_FFMPEG_PREFIX
 import com.maunc.toolbox.ffmpeg.viewmodel.FFmpegMergeMp4ViewModel
 
 class FFmpegMergeMp4Activity :
@@ -23,6 +26,17 @@ class FFmpegMergeMp4Activity :
 
     private val loadingDialog by lazy {
         CommonLoadingDialog()
+    }
+
+    private val commonEditDataDialog by lazy {
+        CommonEditDataDialog().setPrefixString(SAVE_FFMPEG_PREFIX).setSureListener { fileName ->
+            if (fileName.isEmpty()) {
+                toast(getString(R.string.common_dialog_edit_data_tips))
+                return@setSureListener
+            }
+            rePlayerResourceAndRecycler()
+            mViewModel.startMergeMp4List(fileName)
+        }
     }
 
     private val ffmpegMergeMp4Adapter by lazy {
@@ -53,8 +67,7 @@ class FFmpegMergeMp4Activity :
                 mViewModel.startSelectMp4File(this)
                 return@clickScale
             }
-            rePlayerResourceAndRecycler()
-            mViewModel.startMergeMp4List()
+            commonEditDataDialog.show(supportFragmentManager, COMMON_EDIT_DATA_DIALOG)
         }
         mDatabind.ffmpegMergeMp4DataRecycler.layoutManager = linearLayoutManager()
         mDatabind.ffmpegMergeMp4DataRecycler.adapter = ffmpegMergeMp4Adapter
