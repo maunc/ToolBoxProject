@@ -16,14 +16,15 @@ enum class PushBoxMoveDirection {
 }
 
 /**
- * 0无场景  1墙   2目标   3路   4箱子   5目标区域   6人
+ * 0无场景  1墙   2目标   3路   4箱子   5箱子在目标点   6人  7人物在目标点
  */
 const val WALL: Int = 1//墙
 const val GOAL = 2 //目标
 const val ROAD = 3 //路
 const val BOX = 4 //箱子
-const val BOX_AT_GOAL = 5 //目标箱子(箱子和目标重合)
+const val BOX_AT_GOAL = 5 //箱子在目标点
 const val MAN = 6 //人
+const val MAN_AT_GOAL = 7 //人物在目标点
 
 /**
  * 根据传入的关卡获取对应的地图
@@ -63,12 +64,12 @@ fun obtainTargetPureOriginalMap(gradeIndex: Int): Array<IntArray> {
                 BOX -> ROAD           // 4=箱子 → 原始是路
                 BOX_AT_GOAL -> GOAL   // 5=箱子+目标点 → 原始是目标点
                 MAN -> ROAD           // 6=人 → 原始是路
+                MAN_AT_GOAL -> GOAL   // 7人物在目标点 → 原始是目标点
                 else -> ROAD          // 其他 → 路
             }
         }
     }
 }
-
 
 
 /**

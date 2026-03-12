@@ -331,7 +331,64 @@ var allGradesMapData: ArrayList<ArrayList<ArrayList<Int>>> = arrayListOf(
         arrayListOf(1, 3, 3, 3, 3, 3, 3, 3, 1),
         arrayListOf(1, 1, 1, 1, 1, 1, 1, 1, 1),
     ),
-    //该35
+    arrayListOf(
+        arrayListOf(0, 1, 1, 1, 1, 0),
+        arrayListOf(1, 1, 3, 3, 1, 0),
+        arrayListOf(1, 2, 3, 4, 1, 0),
+        arrayListOf(1, 2, 4, 3, 1, 0),
+        arrayListOf(1, 2, 4, 3, 1, 0),
+        arrayListOf(1, 2, 4, 3, 1, 0),
+        arrayListOf(1, 2, 3, 4, 1, 1),
+        arrayListOf(1, 3, 3, 3, 6, 1),
+        arrayListOf(1, 1, 3, 3, 3, 1),
+        arrayListOf(0, 1, 1, 1, 1, 1),
+    ),
+    arrayListOf(
+        arrayListOf(1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayListOf(1, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+        arrayListOf(1, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 6, 3, 1),
+        arrayListOf(1, 3, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 1),
+        arrayListOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+    ),
+    arrayListOf(
+        arrayListOf(0, 0, 0, 0, 0, 0, 1, 1, 1),
+        arrayListOf(1, 1, 1, 1, 1, 0, 1, 2, 1),
+        arrayListOf(1, 3, 3, 3, 1, 1, 1, 2, 1),
+        arrayListOf(1, 3, 3, 3, 4, 3, 1, 2, 1),
+        arrayListOf(1, 3, 4, 3, 3, 4, 3, 3, 1),
+        arrayListOf(1, 1, 1, 1, 1, 6, 1, 3, 1),
+        arrayListOf(0, 0, 0, 0, 1, 3, 3, 3, 1),
+        arrayListOf(0, 0, 0, 0, 1, 1, 1, 1, 1),
+    ),
+    arrayListOf(
+        arrayListOf(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+        arrayListOf(1, 3, 3, 3, 3, 3, 3, 3, 3, 1),
+        arrayListOf(1, 3, 1, 1, 2, 1, 1, 1, 3, 1),
+        arrayListOf(1, 3, 1, 3, 4, 4, 3, 2, 3, 1),
+        arrayListOf(1, 3, 2, 3, 6, 4, 1, 1, 3, 1),
+        arrayListOf(1, 1, 1, 1, 1, 3, 3, 3, 3, 1),
+        arrayListOf(0, 0, 0, 0, 1, 1, 1, 1, 1, 1),
+    ),
+    arrayListOf(
+        arrayListOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0),
+        arrayListOf(1, 3, 3, 3, 1, 1, 1, 1, 0, 0),
+        arrayListOf(1, 3, 1, 3, 1, 3, 2, 1, 0, 0),
+        arrayListOf(1, 3, 3, 3, 3, 4, 3, 1, 1, 1),
+        arrayListOf(1, 1, 1, 3, 1, 4, 2, 3, 3, 1),
+        arrayListOf(1, 3, 3, 3, 1, 6, 3, 3, 3, 1),
+        arrayListOf(1, 3, 1, 3, 1, 1, 1, 1, 1, 1),
+        arrayListOf(1, 3, 3, 3, 1, 0, 0, 0, 0, 0),
+        arrayListOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0),
+    ),
+    arrayListOf(
+        arrayListOf(0, 1, 1, 1, 1, 1, 0),
+        arrayListOf(0, 1, 3, 3, 3, 1, 0),
+        arrayListOf(1, 1, 3, 3, 3, 1, 1),
+        arrayListOf(1, 3, 4, 4, 4, 3, 1),
+        arrayListOf(1, 3, 2, 7, 2, 3, 1),
+        arrayListOf(1, 1, 1, 1, 1, 1, 1),
+    ),
+    //该41
     arrayListOf(
         //93
         arrayListOf(0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -351,5 +408,5 @@ var allGradesMapData: ArrayList<ArrayList<ArrayList<Int>>> = arrayListOf(
     ),
 )
 /**
- * 0无场景  1墙  2要推到目标  3路  4箱子  5目标区域  6人
+ * 0无场景  1墙   2目标   3路   4箱子   5箱子在目标点   6人   7人物在目标点
  */

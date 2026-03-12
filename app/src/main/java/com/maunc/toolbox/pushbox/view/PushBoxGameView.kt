@@ -11,7 +11,6 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import androidx.core.animation.addListener
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.obtainDrawable
@@ -21,6 +20,7 @@ import com.maunc.toolbox.pushbox.constant.BOX
 import com.maunc.toolbox.pushbox.constant.BOX_AT_GOAL
 import com.maunc.toolbox.pushbox.constant.GOAL
 import com.maunc.toolbox.pushbox.constant.MAN
+import com.maunc.toolbox.pushbox.constant.MAN_AT_GOAL
 import com.maunc.toolbox.pushbox.constant.PushBoxMoveDirection
 import com.maunc.toolbox.pushbox.constant.ROAD
 import com.maunc.toolbox.pushbox.constant.WALL
@@ -204,7 +204,7 @@ class PushBoxGameView(
         //获取人物位置
         for (i in currentMap.indices) {
             for (j in currentMap[0].indices) {
-                if (currentMap[i][j] == MAN) {
+                if (currentMap[i][j] == MAN || currentMap[i][j] == MAN_AT_GOAL) {
                     manLocationX = i
                     manLocationY = j
                     break
@@ -217,13 +217,14 @@ class PushBoxGameView(
 
     //初始化图片资源
     private fun initPic() {
-        picList = arrayOfNulls(7)
+        picList = arrayOfNulls(8)
         obtainDrawable(R.drawable.icon_push_box_qiang)?.let { loadPic(WALL, it) }
         obtainDrawable(R.drawable.icon_push_box_goal)?.let { loadPic(GOAL, it) }
         obtainDrawable(R.drawable.icon_push_box_lu)?.let { loadPic(ROAD, it) }
         obtainDrawable(R.drawable.icon_push_box_xiangzi)?.let { loadPic(BOX, it) }
         obtainDrawable(R.drawable.icon_push_box_boxgoal)?.let { loadPic(BOX_AT_GOAL, it) }
         obtainDrawable(R.drawable.icon_push_box_ren)?.let { loadPic(MAN, it) }
+        obtainDrawable(R.drawable.icon_push_box_rengoal)?.let { loadPic(MAN_AT_GOAL, it) }
     }
 
     //加载图片
@@ -465,69 +466,89 @@ class PushBoxGameView(
         when (direction) {
             PushBoxMoveDirection.RIGHT -> {
                 if (isPushBox) {
+                    // 推箱子向右移动
                     val newBoxX = manLocationX
                     val newBoxY = manLocationY + 2
-                    currentMap[newBoxX][newBoxY] =
-                        if (originalMap[newBoxX][newBoxY] == GOAL) BOX_AT_GOAL else BOX
-                    currentMap[manLocationX][manLocationY + 1] = MAN
-                    currentMap[manLocationX][manLocationY] = originalMap[manLocationX][manLocationY]
-                    currentMap[manLocationX][manLocationY + 1] = MAN
-                    currentMap[manLocationX][manLocationY + 1] = MAN
-                    currentMap[manLocationX][manLocationY + 1] = MAN
-                    currentMap[manLocationX][manLocationY + 1] = MAN
-                    currentMap[manLocationX][manLocationY] = originalMap[manLocationX][manLocationY]
+                    // 箱子新位置：判断是否是目标点
+                    currentMap[newBoxX][newBoxY] = if (originalMap[newBoxX][newBoxY] == GOAL) BOX_AT_GOAL else BOX
+
+                    // 人物新位置（原箱子位置）
+                    val newManY = manLocationY + 1
+                    currentMap[manLocationX][newManY] = if (originalMap[manLocationX][newManY] == GOAL) MAN_AT_GOAL else MAN
+
+                    // 人物原位置恢复：如果是MAN_AT_GOAL则恢复为GOAL，否则恢复原始地形
+                    currentMap[manLocationX][manLocationY] = if (currentMap[manLocationX][manLocationY] == MAN_AT_GOAL) GOAL else originalMap[manLocationX][manLocationY]
                     manLocationY++
                 } else {
-                    currentMap[manLocationX][manLocationY + 1] = MAN
-                    currentMap[manLocationX][manLocationY] = originalMap[manLocationX][manLocationY]
+                    // 普通向右移动
+                    val newManY = manLocationY + 1
+                    // 新位置：目标点则设为MAN_AT_GOAL，否则设为MAN
+                    currentMap[manLocationX][newManY] = if (originalMap[manLocationX][newManY] == GOAL) MAN_AT_GOAL else MAN
+                    // 原位置恢复
+                    currentMap[manLocationX][manLocationY] = if (currentMap[manLocationX][manLocationY] == MAN_AT_GOAL) GOAL else originalMap[manLocationX][manLocationY]
                     manLocationY++
                 }
             }
 
             PushBoxMoveDirection.LEFT -> {
                 if (isPushBox) {
+                    // 推箱子向左移动
                     val newBoxX = manLocationX
                     val newBoxY = manLocationY - 2
-                    currentMap[newBoxX][newBoxY] =
-                        if (originalMap[newBoxX][newBoxY] == GOAL) BOX_AT_GOAL else BOX
-                    currentMap[manLocationX][manLocationY - 1] = MAN
-                    currentMap[manLocationX][manLocationY] = originalMap[manLocationX][manLocationY]
+                    currentMap[newBoxX][newBoxY] = if (originalMap[newBoxX][newBoxY] == GOAL) BOX_AT_GOAL else BOX
+
+                    val newManY = manLocationY - 1
+                    currentMap[manLocationX][newManY] = if (originalMap[manLocationX][newManY] == GOAL) MAN_AT_GOAL else MAN
+
+                    currentMap[manLocationX][manLocationY] = if (currentMap[manLocationX][manLocationY] == MAN_AT_GOAL) GOAL else originalMap[manLocationX][manLocationY]
                     manLocationY--
                 } else {
-                    currentMap[manLocationX][manLocationY - 1] = MAN
-                    currentMap[manLocationX][manLocationY] = originalMap[manLocationX][manLocationY]
+                    // 普通向左移动
+                    val newManY = manLocationY - 1
+                    currentMap[manLocationX][newManY] = if (originalMap[manLocationX][newManY] == GOAL) MAN_AT_GOAL else MAN
+                    currentMap[manLocationX][manLocationY] = if (currentMap[manLocationX][manLocationY] == MAN_AT_GOAL) GOAL else originalMap[manLocationX][manLocationY]
                     manLocationY--
                 }
             }
 
             PushBoxMoveDirection.UP -> {
                 if (isPushBox) {
+                    // 推箱子向上移动
                     val newBoxX = manLocationX - 2
                     val newBoxY = manLocationY
-                    currentMap[newBoxX][newBoxY] =
-                        if (originalMap[newBoxX][newBoxY] == GOAL) BOX_AT_GOAL else BOX
-                    currentMap[manLocationX - 1][manLocationY] = MAN
-                    currentMap[manLocationX][manLocationY] = originalMap[manLocationX][manLocationY]
+                    currentMap[newBoxX][newBoxY] = if (originalMap[newBoxX][newBoxY] == GOAL) BOX_AT_GOAL else BOX
+
+                    val newManX = manLocationX - 1
+                    currentMap[newManX][manLocationY] = if (originalMap[newManX][manLocationY] == GOAL) MAN_AT_GOAL else MAN
+
+                    currentMap[manLocationX][manLocationY] = if (currentMap[manLocationX][manLocationY] == MAN_AT_GOAL) GOAL else originalMap[manLocationX][manLocationY]
                     manLocationX--
                 } else {
-                    currentMap[manLocationX - 1][manLocationY] = MAN
-                    currentMap[manLocationX][manLocationY] = originalMap[manLocationX][manLocationY]
+                    // 普通向上移动
+                    val newManX = manLocationX - 1
+                    currentMap[newManX][manLocationY] = if (originalMap[newManX][manLocationY] == GOAL) MAN_AT_GOAL else MAN
+                    currentMap[manLocationX][manLocationY] = if (currentMap[manLocationX][manLocationY] == MAN_AT_GOAL) GOAL else originalMap[manLocationX][manLocationY]
                     manLocationX--
                 }
             }
 
             PushBoxMoveDirection.DOWN -> {
                 if (isPushBox) {
+                    // 推箱子向下移动
                     val newBoxX = manLocationX + 2
                     val newBoxY = manLocationY
-                    currentMap[newBoxX][newBoxY] =
-                        if (originalMap[newBoxX][newBoxY] == GOAL) BOX_AT_GOAL else BOX
-                    currentMap[manLocationX + 1][manLocationY] = MAN
-                    currentMap[manLocationX][manLocationY] = originalMap[manLocationX][manLocationY]
+                    currentMap[newBoxX][newBoxY] = if (originalMap[newBoxX][newBoxY] == GOAL) BOX_AT_GOAL else BOX
+
+                    val newManX = manLocationX + 1
+                    currentMap[newManX][manLocationY] = if (originalMap[newManX][manLocationY] == GOAL) MAN_AT_GOAL else MAN
+
+                    currentMap[manLocationX][manLocationY] = if (currentMap[manLocationX][manLocationY] == MAN_AT_GOAL) GOAL else originalMap[manLocationX][manLocationY]
                     manLocationX++
                 } else {
-                    currentMap[manLocationX + 1][manLocationY] = MAN
-                    currentMap[manLocationX][manLocationY] = originalMap[manLocationX][manLocationY]
+                    // 普通向下移动
+                    val newManX = manLocationX + 1
+                    currentMap[newManX][manLocationY] = if (originalMap[newManX][manLocationY] == GOAL) MAN_AT_GOAL else MAN
+                    currentMap[manLocationX][manLocationY] = if (currentMap[manLocationX][manLocationY] == MAN_AT_GOAL) GOAL else originalMap[manLocationX][manLocationY]
                     manLocationX++
                 }
             }
@@ -594,7 +615,7 @@ class PushBoxGameView(
             for (j in 0 until currentMapColumn) {
                 val tileType = currentMap[i][j]
                 if (tileType == 0) continue
-                if (tileType == MAN) {
+                if (tileType == MAN || tileType == MAN_AT_GOAL) {
                     val drawX = xoff + j * currentPicSize + animOffsetX
                     val drawY = yoff + i * currentPicSize + animOffsetY
                     picList[tileType]?.let { canvas.drawBitmap(it, drawX, drawY, paint) }
