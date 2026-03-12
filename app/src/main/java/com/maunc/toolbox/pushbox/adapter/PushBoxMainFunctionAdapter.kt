@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.ext.clickScale
+import com.maunc.toolbox.commonbase.ext.obtainDrawable
 import com.maunc.toolbox.databinding.ItemPushBoxMainFunctionBinding
 import com.maunc.toolbox.pushbox.data.PushBoxMainFunctionData
 
@@ -16,6 +17,7 @@ class PushBoxMainFunctionAdapter :
         item: PushBoxMainFunctionData,
     ) {
         holder.dataBinding?.let { mDataBind ->
+            mDataBind.itemPushBoxMainFunctionRoot.background = obtainDrawable(item.backgroundRes)
             mDataBind.itemPushBoxMainFunctionImg.setImageResource(item.img)
             mDataBind.itemPushBoxMainFunctionTv.text = item.title
             mDataBind.itemPushBoxMainFunctionRoot.clickScale {

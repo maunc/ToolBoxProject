@@ -1,4 +1,4 @@
-package com.maunc.toolbox.pushbox.ui
+package com.maunc.toolbox.pushbox.ui.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -13,6 +13,7 @@ import com.maunc.toolbox.commonbase.ext.obtainDimens
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.setWidthAndHeight
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
+import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.databinding.ActivityPushBoxMainBinding
 import com.maunc.toolbox.pushbox.adapter.PushBoxMainFunctionAdapter
 import com.maunc.toolbox.pushbox.constant.PUSH_BOX_CONTROLLER_SIZE_MAX
@@ -25,6 +26,7 @@ import com.maunc.toolbox.pushbox.data.PushBoxMainFunctionData.Companion.PUSH_BOX
 import com.maunc.toolbox.pushbox.data.PushBoxMainFunctionData.Companion.PUSH_BOX_MAIN_FUNCTION_RESTART_GRADE
 import com.maunc.toolbox.pushbox.data.PushBoxMainFunctionData.Companion.PUSH_BOX_MAIN_FUNCTION_UNDO_GRADE
 import com.maunc.toolbox.pushbox.data.PushBoxMainFunctionData.Companion.PUSH_BOX_MAIN_FUNCTION_UP_GRADE
+import com.maunc.toolbox.pushbox.ui.dialog.PushBoxPassLevelDialog
 import com.maunc.toolbox.pushbox.view.PushBoxGameView
 import com.maunc.toolbox.pushbox.viewmodel.PushBoxMainViewModel
 
@@ -34,14 +36,23 @@ class PushBoxMainActivity : BaseActivity<PushBoxMainViewModel, ActivityPushBoxMa
     private val onPushBoxEventListener = object : PushBoxGameView.OnPushBoxEventListener {
 
         override fun onCurrentGradeMoveNumber(currentNumber: Int) {
-            mDatabind.pushBoxMainCurrentMoveNumTv.text = "当前关卡移动次数:$currentNumber"
+            mDatabind.pushBoxMainCurrentMoveNumTv.text =
+                String.format(
+                    obtainString(R.string.push_box_main_current_move_num_text), currentNumber
+                )
         }
 
-        override fun onNextGrade(mapIndex: Int, map: ArrayList<ArrayList<Int>>) {
-            rePushBoxMainUI(mapIndex)
+        override fun onPassGrade(passMapIndex: Int, nextMapIndex: Int, passMoveNum: Int) {
+            PushBoxPassLevelDialog().setCurrentLevel(nextMapIndex)
+                .setTime(0L).setMoveNum(passMoveNum).setOnReStartListener {
+                    rePushBoxMainUI(passMapIndex)
+                }.setOnNextListener {
+                    rePushBoxMainUI(nextMapIndex)
+                }.show(supportFragmentManager, "pushBoxPassLevelDialog")
         }
 
         override fun onNotGrade() {
+            toast("牛逼")
         }
     }
 
@@ -109,7 +120,8 @@ class PushBoxMainActivity : BaseActivity<PushBoxMainViewModel, ActivityPushBoxMa
     private fun rePushBoxMainUI(currentIndex: Int) {
         mDatabind.pushBoxMainCurrentIndexTv.text = "第${currentIndex + 1}关"
         mDatabind.pushBoxGameView.setGateIndex(currentIndex)
-        mDatabind.pushBoxMainCurrentMoveNumTv.text = "当前关卡移动次数:0"
+        mDatabind.pushBoxMainCurrentMoveNumTv.text =
+            String.format(obtainString(R.string.push_box_main_current_move_num_text), 0)
     }
 
     override fun createObserver() {

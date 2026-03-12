@@ -10,7 +10,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".pushbox.ui.PushBoxSettingActivity">
+        tools:context=".pushbox.ui.activity.PushBoxSettingActivity">
 
         <include
             android:id="@+id/common_tool_bar"

@@ -1,6 +1,5 @@
 package com.maunc.toolbox.ffmpeg.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
@@ -17,30 +16,25 @@ import com.maunc.toolbox.ffmpeg.constant.SAVE_ROOT_PATH_NAME
 import com.maunc.toolbox.ffmpeg.data.FFmpegConfigData
 
 class FFmpegMainViewModel : BaseViewModel<BaseModel>() {
-    private var ffmpegMainItemData =
-        MutableLiveData<MutableList<FFmpegConfigData>>(mutableListOf())
 
-    fun initRecyclerData(): MutableList<FFmpegConfigData> {
-        ffmpegMainItemData.value?.mutableListInsert(
-            FFmpegConfigData(
-                type = FFmpegConfigData.MP4_TO_MP3_TYPE,
-                title = obtainString(R.string.ffmpeg_main_item_one)
-            ),
-            FFmpegConfigData(
-                type = FFmpegConfigData.M3U8_TO_MP4_TYPE,
-                title = obtainString(R.string.ffmpeg_main_item_two)
-            ),
-            FFmpegConfigData(
-                type = FFmpegConfigData.H265_OR_H264_TO_MP4_TYPE,
-                title = obtainString(R.string.ffmpeg_main_item_three)
-            ),
-            FFmpegConfigData(
-                type = FFmpegConfigData.MERGE_MP4_TYPE,
-                title = obtainString(R.string.ffmpeg_main_item_four)
-            ),
-        )
-        return ffmpegMainItemData.value!!
-    }
+    fun initRecyclerData() = mutableListOf<FFmpegConfigData>().mutableListInsert(
+        FFmpegConfigData(
+            type = FFmpegConfigData.MP4_TO_MP3_TYPE,
+            title = obtainString(R.string.ffmpeg_main_item_one)
+        ),
+        FFmpegConfigData(
+            type = FFmpegConfigData.M3U8_TO_MP4_TYPE,
+            title = obtainString(R.string.ffmpeg_main_item_two)
+        ),
+        FFmpegConfigData(
+            type = FFmpegConfigData.H265_OR_H264_TO_MP4_TYPE,
+            title = obtainString(R.string.ffmpeg_main_item_three)
+        ),
+        FFmpegConfigData(
+            type = FFmpegConfigData.MERGE_MP4_TYPE,
+            title = obtainString(R.string.ffmpeg_main_item_four)
+        ),
+    )
 
     fun createFFmpegDir() {
         createFileDirFromSdCard(SAVE_ROOT_PATH_NAME)

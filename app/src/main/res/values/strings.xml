@@ -201,10 +201,14 @@
 
     <!--pushBox-->
     <string name="push_box_setting_text">推箱子设置</string>
+    <string name="push_box_main_current_move_num_text">当前关卡移动次数:%d</string>
     <string name="push_box_main_re_start_text">重新开始</string>
     <string name="push_box_main_undo_text">回退</string>
     <string name="push_box_main_up_gradle_text">上一关</string>
     <string name="push_box_main_next_gradle_text">下一关</string>
+    <string name="push_box_main_pass_level_text">恭喜你通过第%d关</string>
+    <string name="push_box_main_pass_level_move_num_text">通过本关使用的步数:%d</string>
+    <string name="push_box_main_pass_level_time_text">通过本关耗时:%s</string>
     <string name="push_box_setting_preview_text">所有关卡预览</string>
     <string name="push_box_setting_controller_size_text">方向键大小</string>
     <string name="push_box_setting_controller_size_one_text">最小</string>

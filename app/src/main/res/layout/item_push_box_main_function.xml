@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dp_5"
         android:layout_marginVertical="@dimen/dp_5"
-        android:background="@drawable/bg_blue_radius_12"
         android:orientation="horizontal"
         android:paddingHorizontal="@dimen/dp_10"
         android:paddingVertical="@dimen/dp_5">

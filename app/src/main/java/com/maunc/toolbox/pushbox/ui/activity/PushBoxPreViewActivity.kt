@@ -1,4 +1,4 @@
-package com.maunc.toolbox.pushbox.ui
+package com.maunc.toolbox.pushbox.ui.activity
 
 import android.os.Bundle
 import com.maunc.toolbox.R

@@ -29,28 +29,26 @@ class SignatureCanvasMainViewModel : BaseViewModel<BaseModel>() {
     //画笔颜色
     var mCanvasPenColor = MutableLiveData<Int>()
 
-    var controllerDataList = mutableListOf<CanvasControllerData>().apply {
-        mutableListInsert(
-            CanvasControllerData(
-                image = R.drawable.icon_signature_canvas_pen,
-                title = obtainString(R.string.signature_canvas_pen_tv),
-                type = SIGN_CONTROLLER_PEN
-            ),
-            CanvasControllerData(
-                image = R.drawable.icon_signature_canvas_eraser,
-                title = obtainString(R.string.signature_canvas_eraser_tv),
-                type = SIGN_CONTROLLER_ERASER
-            ),
-            CanvasControllerData(
-                image = R.drawable.icon_signature_canvas_clear,
-                title = obtainString(R.string.signature_canvas_clear_tv),
-                type = SIGN_CONTROLLER_CLEAR
-            ),
-            CanvasControllerData(
-                image = R.drawable.icon_signature_canvas_save,
-                title = obtainString(R.string.signature_canvas_save_tv),
-                type = SIGN_CONTROLLER_SAVE
-            ),
-        )
-    }
+    var controllerDataList = mutableListOf<CanvasControllerData>().mutableListInsert(
+        CanvasControllerData(
+            image = R.drawable.icon_signature_canvas_pen,
+            title = obtainString(R.string.signature_canvas_pen_tv),
+            type = SIGN_CONTROLLER_PEN
+        ),
+        CanvasControllerData(
+            image = R.drawable.icon_signature_canvas_eraser,
+            title = obtainString(R.string.signature_canvas_eraser_tv),
+            type = SIGN_CONTROLLER_ERASER
+        ),
+        CanvasControllerData(
+            image = R.drawable.icon_signature_canvas_clear,
+            title = obtainString(R.string.signature_canvas_clear_tv),
+            type = SIGN_CONTROLLER_CLEAR
+        ),
+        CanvasControllerData(
+            image = R.drawable.icon_signature_canvas_save,
+            title = obtainString(R.string.signature_canvas_save_tv),
+            type = SIGN_CONTROLLER_SAVE
+        ),
+    )
 }

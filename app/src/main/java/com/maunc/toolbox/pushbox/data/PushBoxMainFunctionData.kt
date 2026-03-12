@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 data class PushBoxMainFunctionData(
     val title: String,
     @DrawableRes val img: Int,
+    @DrawableRes val backgroundRes: Int,
     val functionType: Int,
 ) {
     companion object {

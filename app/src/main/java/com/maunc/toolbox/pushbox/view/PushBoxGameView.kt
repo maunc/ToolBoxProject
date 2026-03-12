@@ -44,7 +44,7 @@ class PushBoxGameView(
     private var currentMapColumn = 0 // 当前地图列数
     private var manLocationX = 0 // 人所在行
     private var manLocationY = 0 // 人所在列
-    private var currentGradleMoveNumber = 0
+    private var currentGradleMoveNumber = 0 //当前关卡走过的步数
 
     private var xoff = 30f // 左边距
     private var yoff = 60f // 上边距
@@ -396,19 +396,18 @@ class PushBoxGameView(
      * 通知游戏状态变化（步数/通关）
      */
     private fun notifyGameStateChange() {
-        if (verifyGameFinished()) {
-            onPushBoxEventListener?.onCurrentGradeMoveNumber(0)
-            if (currentGradleIndex < allGradesMapData.size - 1) {
-                currentGradleIndex++
-                onPushBoxEventListener?.onNextGrade(
-                    currentGradleIndex, allGradesMapData[currentGradleIndex]
-                )
-            } else {
-                onPushBoxEventListener?.onNotGrade()
-            }
-        } else {
+        if (!verifyGameFinished()) { //没过关
             onPushBoxEventListener?.onCurrentGradeMoveNumber(++currentGradleMoveNumber)
+            return
         }
+        if (currentGradleIndex >= allGradesMapData.size - 1) { //最后一关
+            onPushBoxEventListener?.onNotGrade()
+            return
+        }
+        currentGradleIndex++ // 下一关
+        onPushBoxEventListener?.onPassGrade(
+            currentGradleIndex - 1, currentGradleIndex, currentGradleMoveNumber
+        )
     }
 
     /**
@@ -579,8 +578,15 @@ class PushBoxGameView(
 
     interface OnPushBoxEventListener {
         fun onCurrentGradeMoveNumber(currentNumber: Int)
-        fun onNextGrade(mapIndex: Int, map: ArrayList<ArrayList<Int>>)//下一关
-        fun onNotGrade()//没有关卡了
+
+        /**
+         * 通过当前关卡
+         * @param passMapIndex 通过关卡的下标
+         * @param nextMapIndex  下一关的下标
+         * @param passMoveNum 通过关卡使用的步数
+         */
+        fun onPassGrade(passMapIndex: Int, nextMapIndex: Int, passMoveNum: Int)//下一关
+        fun onNotGrade()
     }
 
     fun setOnPushBoxEventListener(onPushBoxEventListener: OnPushBoxEventListener) {

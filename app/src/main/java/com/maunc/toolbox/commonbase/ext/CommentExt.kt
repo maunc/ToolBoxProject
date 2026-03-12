@@ -198,10 +198,11 @@ fun Context.staggeredGridLayoutManager(
     orientation: Int = StaggeredGridLayoutManager.VERTICAL,
 ): StaggeredGridLayoutManager = StaggeredGridLayoutManager(spanCount, orientation)
 
-fun <T> MutableList<T>.mutableListInsert(vararg data: T) {
+fun <T> MutableList<T>.mutableListInsert(vararg data: T): MutableList<T> {
     data.forEach {
         this.add(it)
     }
+    return this
 }
 
 fun RecyclerView.addCustomizeItemDecoration(

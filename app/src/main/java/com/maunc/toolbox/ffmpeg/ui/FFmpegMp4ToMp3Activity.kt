@@ -1,7 +1,6 @@
 package com.maunc.toolbox.ffmpeg.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.StringRes
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
@@ -14,15 +13,11 @@ import com.maunc.toolbox.commonbase.ext.mutableListInsert
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
-import com.maunc.toolbox.commonbase.utils.createFileDir
 import com.maunc.toolbox.databinding.ActivityFfmpegMp4ToMp3Binding
 import com.maunc.toolbox.ffmpeg.adapter.FFmpegMp4ToMp3MsgAdapter
-import com.maunc.toolbox.ffmpeg.constant.FFMPEG_CREATE_DIR_TAG
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_ERROR
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_START
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_SUCCESS
-import com.maunc.toolbox.ffmpeg.constant.MP4_TO_MP3_SAVE_PATH_NAME
-import com.maunc.toolbox.ffmpeg.constant.SAVE_ROOT_PATH
 import com.maunc.toolbox.ffmpeg.data.FFmpegMp4ToMp3MsgData
 import com.maunc.toolbox.ffmpeg.viewmodel.FFmpegMp4ToMp3ViewModel
 
@@ -59,8 +54,8 @@ class FFmpegMp4ToMp3Activity :
     override fun createObserver() {
         mViewModel.currentSelectMp4File.observe(this) {
             it?.let {
-                currentMp4MsgAdapter.setList(mutableListOf<FFmpegMp4ToMp3MsgData>().apply {
-                    mutableListInsert(
+                currentMp4MsgAdapter.setList(
+                    mutableListOf<FFmpegMp4ToMp3MsgData>().mutableListInsert(
                         FFmpegMp4ToMp3MsgData(
                             obtainString(R.string.ffmpeg_mp4_to_mp3_file_path_tips), it.realPath
                         ),
@@ -69,7 +64,7 @@ class FFmpegMp4ToMp3Activity :
                             mViewModel.obtainToMp3Path(it.realPath) ?: GLOBAL_NONE_STRING
                         )
                     )
-                })
+                )
                 mDatabind.ffmpegMp4ToMp3VideoPlayer.setNewVideoPlay(videoUrl = it.realPath)
                 mDatabind.ffmpegMp4ToMp3VideoPlayer.playVideoPlay()
             }

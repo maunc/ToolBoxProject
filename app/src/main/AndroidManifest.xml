@@ -42,13 +42,13 @@
         android:theme="@style/Theme.ToolBox"
         tools:targetApi="31">
         <activity
-            android:name=".pushbox.ui.PushBoxPreViewActivity"
+            android:name=".pushbox.ui.activity.PushBoxPreViewActivity"
             android:exported="false" />
         <activity
-            android:name=".pushbox.ui.PushBoxSettingActivity"
+            android:name=".pushbox.ui.activity.PushBoxSettingActivity"
             android:exported="false" />
         <activity
-            android:name=".pushbox.ui.PushBoxMainActivity"
+            android:name=".pushbox.ui.activity.PushBoxMainActivity"
             android:exported="false" />
         <activity
             android:name=".ffmpeg.ui.FFmpegMergeMp4Activity"
