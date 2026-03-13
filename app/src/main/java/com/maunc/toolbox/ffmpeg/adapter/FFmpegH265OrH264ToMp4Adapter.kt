@@ -25,10 +25,10 @@ class FFmpegH265OrH264ToMp4Adapter :
                 "大小:${formatFileSize(item.fileSize)}"
             mDataBind.itemFfmpegH265OrH264ToMp4FileTimeTv.text = "修改日期:${item.timeString}"
             mDataBind.itemFfmpegH265OrH264ToMp4RootLayout.setOnClickListener {
-                onH265OrH264ItemClickListener?.viewDetailsItemClick(item, holder.layoutPosition)
+                onH265OrH264ItemClickListener?.viewDetailsItemClick(item, holder.bindingAdapterPosition)
             }
             mDataBind.itemFfmpegH265OrH264ToMp4ConvertLayout.clickScale {
-                onH265OrH264ItemClickListener?.convertItemClick(item, holder.layoutPosition)
+                onH265OrH264ItemClickListener?.convertItemClick(item, holder.bindingAdapterPosition)
             }
         }
     }

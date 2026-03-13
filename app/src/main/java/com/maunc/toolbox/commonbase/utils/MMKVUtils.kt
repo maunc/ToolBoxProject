@@ -57,7 +57,6 @@ class MMKVUtils {
         if (obtainMMKV.getBoolean(commonNotFirstLaunchApp)) {
             return
         }
-        obtainMMKV.putBoolean(commonNotFirstLaunchApp, true)
         //随机名相关
         obtainMMKV.putLong(randomSpeed, RANDOM_SPEED_MAX)
         obtainMMKV.putBoolean(buttonClickVibrator, false)

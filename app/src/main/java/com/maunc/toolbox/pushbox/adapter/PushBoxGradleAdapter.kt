@@ -27,7 +27,7 @@ class PushBoxGradleAdapter :
         item: PushBoxGradleData,
     ) {
         holder.dataBinding?.let { mDataBind ->
-            if (selectIndex == holder.layoutPosition) {
+            if (selectIndex == holder.bindingAdapterPosition) {
                 mDataBind.itemPushBoxGradleTv.setBackgroundDrawable(
                     obtainDrawable(R.drawable.stroke_blue_bg_white_radius_12)
                 )

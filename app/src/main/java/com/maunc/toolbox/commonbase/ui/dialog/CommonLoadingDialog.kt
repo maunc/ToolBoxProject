@@ -28,4 +28,14 @@ class CommonLoadingDialog : BaseDialog<CommonLoadingDialogViewModel, DialogCommo
     override fun createObserver() {
 
     }
+
+    override fun dismissAllowingStateLoss() {
+        if (dialog?.isShowing == false) return
+        super.dismissAllowingStateLoss()
+    }
+
+    override fun dismiss() {
+        if (dialog?.isShowing == false) return
+        super.dismiss()
+    }
 }

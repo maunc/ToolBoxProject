@@ -30,6 +30,8 @@ class FFmpegMergeMp4Adapter :
         notifyDataSetChanged()
     }
 
+    fun obtainCurrentSelectPos() = selectMp4Pos
+
     @SuppressLint("SetTextI18n")
     override fun convert(
         holder: BaseDataBindingHolder<ItemFfmpegMergeMp4Binding>,
@@ -42,7 +44,7 @@ class FFmpegMergeMp4Adapter :
             mDataBind.itemFfmpegMergeMp4FileTimeTv.text = "时长:${stringForTime(item.duration)}"
             mDataBind.itemFfmpegMergeMp4FileAddTimeTv.text =
                 "修改日期:${dateFormat.format(item.dateAddedTime * 1000)}"
-            if (holder.layoutPosition == selectMp4Pos) {
+            if (holder.bindingAdapterPosition == selectMp4Pos) {
                 mDataBind.itemFfmpegMergeMp4FilePlayFlag.play().visible()
             } else {
                 mDataBind.itemFfmpegMergeMp4FilePlayFlag.stop().gone()

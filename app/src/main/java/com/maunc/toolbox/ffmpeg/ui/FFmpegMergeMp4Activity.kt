@@ -42,6 +42,7 @@ class FFmpegMergeMp4Activity :
     private val ffmpegMergeMp4Adapter by lazy {
         FFmpegMergeMp4Adapter().apply {
             setOnItemClickListener { adapter, view, pos ->
+                if (pos == obtainCurrentSelectPos()) return@setOnItemClickListener
                 mViewModel.playCurrentIndex = pos
                 playMp4FileAndHandleRecycler(pos, data[pos].realPath)
             }

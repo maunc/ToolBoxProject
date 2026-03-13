@@ -40,7 +40,7 @@ class TurnTableEditDataAdapter :
     override fun convert(holder: BaseViewHolder, item: TurnTableEditData) {
         // 如果所有item的所有值都一样那么hashCode就会一样
         // 所以再TurnTableEditData中加了一当前时间保证hashCode一定不一样
-        val itemPosition = holder.layoutPosition
+        val itemPosition = holder.bindingAdapterPosition
         val haveView = holder.itemView
         val nameEditView =
             haveView.findViewById<AppCompatEditText>(R.id.item_turn_table_edit_data_name_edit)
@@ -67,7 +67,7 @@ class TurnTableEditDataAdapter :
             showSoftInputKeyBoard(view as AppCompatEditText)
         }
         nameEditView.addEditTextListener(afterTextChanged = { editContent ->
-            if (isSetEditViewText || itemPosition == RecyclerView.NO_POSITION || holder.layoutPosition >= data.size) {
+            if (isSetEditViewText || itemPosition == RecyclerView.NO_POSITION || holder.bindingAdapterPosition >= data.size) {
                 return@addEditTextListener
             }
             //保证当前只有一个输入框输入内容

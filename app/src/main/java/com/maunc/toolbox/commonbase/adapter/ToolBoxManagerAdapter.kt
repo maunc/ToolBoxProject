@@ -13,7 +13,18 @@ class ToolBoxManagerAdapter :
         item: ToolBoxItemData,
     ) {
         holder.dataBinding?.let { mDataBind ->
-            mDataBind.itemToolBoxBackgroundIcon.setImageResource(item.itemIcon)
+            mDataBind.itemToolBoxBackgroundIcon.setImageResource(
+                when (item.itemType) {
+                    ToolBoxItemData.TOOL_BOX_ITEM_CHRONOGRAPH -> R.drawable.icon_tool_box_chronograph
+                    ToolBoxItemData.TOOL_BOX_ITEM_RANDOM_NAME -> R.drawable.icon_tool_box_random_name
+                    ToolBoxItemData.TOOL_BOX_ITEM_CHAT_ROOM -> R.drawable.icon_tool_box_chat_room
+                    ToolBoxItemData.TOOL_BOX_ITEM_SIGNATURE_CANVAS -> R.drawable.icon_tool_box_signature_canvas
+                    ToolBoxItemData.TOOL_BOX_ITEM_TURN_TABLE -> R.drawable.icon_tool_box_turn_table
+                    ToolBoxItemData.TOOL_BOX_ITEM_FFMPEG -> R.drawable.icon_tool_box_ffmpeg
+                    ToolBoxItemData.TOOL_BOX_ITEM_PUSH_BOX -> R.drawable.icon_tool_box_push_box
+                    else -> R.drawable.ic_launcher
+                }
+            )
             mDataBind.itemToolBoxTitleTv.text = item.itemTitle
         }
     }

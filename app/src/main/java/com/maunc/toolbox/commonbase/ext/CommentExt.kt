@@ -223,39 +223,3 @@ fun RecyclerView.addCustomizeItemDecoration(
         }
     })
 }
-
-/**   权限相关   */
-//检验权限是否可用
-fun Context.checkPermissionAvailable(
-    permission: String,
-): Boolean = ContextCompat.checkSelfPermission(
-    this, permission
-) == PackageManager.PERMISSION_GRANTED
-
-//检验是否要去手动开启权限
-fun Activity.checkPermissionManualRequest(
-    permission: String,
-): Boolean = !shouldShowRequestPermissionRationale(permission)
-
-//前往当前app设置页面
-fun Activity.startAppSystemSettingPage() = startActivity(
-    Intent().apply {
-        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        data = Uri.fromParts("package", packageName, null)
-    }
-)
-
-fun Activity.startAllFileSettingPage() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        if (!Environment.isExternalStorageManager()) {
-            startActivity(
-                Intent().apply {
-                    action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
-                    data = Uri.parse("package:" + applicationContext.packageName)
-                }
-            )
-        }
-    } else {
-        toastShort(obtainString(R.string.android_version_not_support_text))
-    }
-}

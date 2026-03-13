@@ -1,42 +1,75 @@
 package com.maunc.toolbox.commonbase.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.data.ToolBoxItemData
+import com.maunc.toolbox.commonbase.database.toolBoxItemDao
+import com.maunc.toolbox.commonbase.ext.launch
 import com.maunc.toolbox.commonbase.ext.mutableListInsert
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.utils.commonNotFirstLaunchApp
+import com.maunc.toolbox.commonbase.utils.obtainMMKV
 
 class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
 
-    fun initRecyclerData() = mutableListOf<ToolBoxItemData>().mutableListInsert(
+    var toolBoxListLiveData = MutableLiveData<MutableList<ToolBoxItemData>>(mutableListOf())
+
+    fun initToolBoxItemList() {
+        if (obtainMMKV.getBoolean(commonNotFirstLaunchApp)) {
+            queryToolBoxList()
+            return
+        }
+        obtainMMKV.putBoolean(commonNotFirstLaunchApp, true)
+        launch({
+            toolBoxItemDao.initToolBoxMainItem(obtainStartToolBoxData())
+        }, { queryToolBoxList() })
+    }
+
+    private fun queryToolBoxList() {
+        launch({ toolBoxItemDao.queryToolBoxList() }, { toolBoxListLiveData.postValue(it) })
+    }
+
+    fun updateToolBoxList(newList: MutableList<ToolBoxItemData>) {
+        launch({ toolBoxItemDao.updateToolBoxItem(newList) })
+    }
+
+    private fun obtainStartToolBoxData() = mutableListOf<ToolBoxItemData>().mutableListInsert(
         ToolBoxItemData(
-            itemIcon = R.drawable.icon_tool_box_chronograph,
-            itemTitle = obtainString(R.string.tool_box_item_chronograph_text)
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_CHRONOGRAPH,
+            itemTitle = obtainString(R.string.tool_box_item_chronograph_text),
+            itemSort = 0
         ),
         ToolBoxItemData(
-            itemIcon = R.drawable.icon_tool_box_random_name,
-            itemTitle = obtainString(R.string.tool_box_item_random_name_text)
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_RANDOM_NAME,
+            itemTitle = obtainString(R.string.tool_box_item_random_name_text),
+            itemSort = 1
         ),
         ToolBoxItemData(
-            itemIcon = R.drawable.icon_tool_box_chat_room,
-            itemTitle = obtainString(R.string.tool_box_item_chat_room_text)
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_CHAT_ROOM,
+            itemTitle = obtainString(R.string.tool_box_item_chat_room_text),
+            itemSort = 2
         ),
         ToolBoxItemData(
-            itemIcon = R.drawable.icon_tool_box_signature_canvas,
-            itemTitle = obtainString(R.string.tool_box_item_signature_canvas_text)
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_SIGNATURE_CANVAS,
+            itemTitle = obtainString(R.string.tool_box_item_signature_canvas_text),
+            itemSort = 3
         ),
         ToolBoxItemData(
-            itemIcon = R.drawable.icon_tool_box_turn_table,
-            itemTitle = obtainString(R.string.tool_box_item_turn_table_text)
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_TURN_TABLE,
+            itemTitle = obtainString(R.string.tool_box_item_turn_table_text),
+            itemSort = 4
         ),
         ToolBoxItemData(
-            itemIcon = R.drawable.icon_tool_box_ffmpeg,
-            itemTitle = obtainString(R.string.tool_box_item_ffmpeg_text)
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_FFMPEG,
+            itemTitle = obtainString(R.string.tool_box_item_ffmpeg_text),
+            itemSort = 5
         ),
         ToolBoxItemData(
-            itemIcon = R.drawable.icon_tool_box_push_box,
-            itemTitle = obtainString(R.string.tool_box_item_push_box_text)
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_PUSH_BOX,
+            itemTitle = obtainString(R.string.tool_box_item_push_box_text),
+            itemSort = 6
         ),
     )
 }

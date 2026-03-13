@@ -32,10 +32,10 @@ class FFmpegM3u8ToMp4Adapter :
             }
             mDataBind.itemFfmpegMp4ToMp3FileSizeTv.text = "大小:${formatFileSize(fileSize)}"
             mDataBind.itemFfmpegMp4ToMp3RootLayout.setOnClickListener {
-                onM3u8ItemClickListener?.viewDetailsItemClick(item, holder.layoutPosition)
+                onM3u8ItemClickListener?.viewDetailsItemClick(item, holder.bindingAdapterPosition)
             }
             mDataBind.itemFfmpegMp4ToMp3ConvertLayout.clickScale {
-                onM3u8ItemClickListener?.convertItemClick(item, holder.layoutPosition)
+                onM3u8ItemClickListener?.convertItemClick(item, holder.bindingAdapterPosition)
             }
         }
     }

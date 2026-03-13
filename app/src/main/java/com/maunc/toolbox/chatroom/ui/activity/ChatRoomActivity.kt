@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.view.MotionEvent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.SelectMimeType
@@ -39,8 +38,6 @@ import com.maunc.toolbox.commonbase.constant.ONE_DELAY_S
 import com.maunc.toolbox.commonbase.ext.addEditTextListener
 import com.maunc.toolbox.commonbase.ext.addRecyclerViewScrollListener
 import com.maunc.toolbox.commonbase.ext.animateSetWidthAndHeight
-import com.maunc.toolbox.commonbase.ext.checkPermissionAvailable
-import com.maunc.toolbox.commonbase.ext.checkPermissionManualRequest
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.hideSoftInputKeyBoard
@@ -54,11 +51,14 @@ import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.setTint
 import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.ext.startActivityWithData
-import com.maunc.toolbox.commonbase.ext.startAppSystemSettingPage
 import com.maunc.toolbox.commonbase.ext.toJson
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
+import com.maunc.toolbox.commonbase.utils.RequestPermissionHelper
+import com.maunc.toolbox.commonbase.utils.hasCameraPermission
+import com.maunc.toolbox.commonbase.utils.hasRecordAudioPermission
+import com.maunc.toolbox.commonbase.utils.startAppSystemSettingPage
 import com.maunc.toolbox.databinding.ActivityChatRoomBinding
 import java.io.File
 
@@ -80,25 +80,17 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         const val MESSAGE_AUDIO_CURRENT_TIME_WHAT = 1//录音中时间消息
     }
 
-    private val requestRecordAudioPermissionResult = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { result ->
-        if (!result) {
-            if (checkPermissionManualRequest(Manifest.permission.RECORD_AUDIO)) {
-                showPermissionForeverNotTips()
-            }
+    private val requestRecordAudioPermissionResult = RequestPermissionHelper(this,
+        Manifest.permission.RECORD_AUDIO, onPermanentDenied = {
+            showPermissionForeverNotTips()
         }
-    }
+    )
 
-    private val requestCameraPermissionResult = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { result ->
-        if (!result) {
-            if (checkPermissionManualRequest(Manifest.permission.CAMERA)) {
-                showPermissionForeverNotTips()
-            }
+    private val requestCameraPermissionResult = RequestPermissionHelper(this,
+        Manifest.permission.CAMERA, onPermanentDenied = {
+            showPermissionForeverNotTips()
         }
-    }
+    )
 
     private fun showPermissionForeverNotTips() {
         restoreOriginalStateView()
@@ -229,8 +221,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
         }
         //录音按钮触摸
         mDatabind.chatRoomRecordStartButton.setOnTouchListener { v, event ->
-            if (!checkPermissionAvailable(Manifest.permission.RECORD_AUDIO)) {
-                requestRecordAudioPermissionResult.launch(Manifest.permission.RECORD_AUDIO)
+            if (!hasRecordAudioPermission()) {
+                requestRecordAudioPermissionResult.requestPermission()
                 return@setOnTouchListener false
             }
             when (event.action) {
@@ -339,8 +331,8 @@ class ChatRoomActivity : BaseActivity<ChatRoomViewModel, ActivityChatRoomBinding
                 })
         }
         mDatabind.chatRoomPhotoIcon.setOnClickListener {
-            if (!checkPermissionAvailable(Manifest.permission.CAMERA)) {
-                requestCameraPermissionResult.launch(Manifest.permission.CAMERA)
+            if (!hasCameraPermission()) {
+                requestCameraPermissionResult.requestPermission()
                 return@setOnClickListener
             }
             PictureSelector.create(this)

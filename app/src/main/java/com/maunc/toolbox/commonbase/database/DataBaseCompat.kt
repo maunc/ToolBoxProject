@@ -5,6 +5,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.constant.DATA_BASE_NAME
+import com.maunc.toolbox.commonbase.data.ToolBoxItemDao
+import com.maunc.toolbox.commonbase.data.ToolBoxItemData
 import com.maunc.toolbox.randomname.database.dao.RandomNameDao
 import com.maunc.toolbox.randomname.database.dao.RandomNameGroupDao
 import com.maunc.toolbox.randomname.database.dao.RandomNameTransactionDao
@@ -18,6 +20,12 @@ val toolBoxProjectDataBase: ToolBoxProjectDataBase by lazy(mode = LazyThreadSafe
     ToolBoxProjectDataBase.DATABASE_INSTANCE
 }
 
+/**首页*/
+val toolBoxItemDao: ToolBoxItemDao by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+    toolBoxProjectDataBase.obtainToolBoxDao()
+}
+
+/**点名*/
 val randomNameDao: RandomNameDao by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
     toolBoxProjectDataBase.obtainRandomNameDao()
 }
@@ -30,12 +38,14 @@ val randomNameTransactionDao: RandomNameTransactionDao by lazy(mode = LazyThread
     toolBoxProjectDataBase.obtainRandomNameTransactionDao()
 }
 
+/**转盘*/
 val turnTableDataDao: TurnTableDataDao by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
     toolBoxProjectDataBase.obtainTurnTableDataDao()
 }
 
 @Database(
     entities = [
+        ToolBoxItemData::class,
         RandomNameData::class,
         RandomNameGroup::class,
         TurnTableNameData::class,
@@ -51,6 +61,9 @@ abstract class ToolBoxProjectDataBase : RoomDatabase() {
             ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
         }
     }
+
+    /**首页列表*/
+    abstract fun obtainToolBoxDao(): ToolBoxItemDao
 
     /** 随机姓名表 */
     abstract fun obtainRandomNameDao(): RandomNameDao

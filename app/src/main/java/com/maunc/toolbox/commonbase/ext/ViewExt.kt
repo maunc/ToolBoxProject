@@ -31,6 +31,7 @@ import androidx.annotation.LayoutRes
 import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -169,8 +170,8 @@ fun ImageView.setTint(@ColorRes colorRes: Int) {
 @SuppressLint("ClickableViewAccessibility")
 fun TabLayout.addCustomTabClickListener(
     unAvailableTask: (Tab) -> Boolean,
-    tabAvailableClick: (Tab) -> Unit={},
-    tabUnAvailableClick: (Tab) -> Unit={}
+    tabAvailableClick: (Tab) -> Unit = {},
+    tabUnAvailableClick: (Tab) -> Unit = {},
 ) {
     post {
         for (i in 0 until this.tabCount) {
@@ -269,6 +270,66 @@ fun EditText.spaceProhibitedInput(tipsAction: () -> Unit = {}) {
             return null
         }
     })
+}
+
+/**
+ * 为RecyclerView添加拖拽功能
+ */
+fun RecyclerView.addItemTouchHelper(
+    isLongPressDragEnabled: Boolean = true,
+    isItemViewSwipeEnabled: Boolean = false,
+    dragFlags: Int = ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT,
+    swipeFlags: Int = 0,
+    onMove: (fromPosition: Int, toPosition: Int) -> Boolean = { _, _ -> false },
+    onSwipe: (RecyclerView.ViewHolder, Int) -> Unit = { _, _ -> },
+    onSelectedChanged: (RecyclerView.ViewHolder?, Int) -> Unit = { _, _ -> },
+    onClearView: (RecyclerView, RecyclerView.ViewHolder) -> Unit = { _, _ -> },
+) {
+    val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
+        override fun getMovementFlags(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+        ) = makeMovementFlags(dragFlags, swipeFlags)
+
+        override fun isLongPressDragEnabled() = isLongPressDragEnabled
+        override fun isItemViewSwipeEnabled() = isItemViewSwipeEnabled
+
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder,
+        ): Boolean {
+            val fromPosition = viewHolder.bindingAdapterPosition
+            val toPosition = target.bindingAdapterPosition
+            val adapter = recyclerView.adapter ?: return false
+            if (fromPosition < 0 || toPosition < 0 ||
+                fromPosition >= adapter.itemCount ||
+                toPosition >= adapter.itemCount
+            ) return false
+            return onMove(fromPosition, toPosition)
+        }
+
+        override fun onSwiped(
+            viewHolder: RecyclerView.ViewHolder,
+            direction: Int,
+        ) = onSwipe.invoke(viewHolder, direction)
+
+        override fun onSelectedChanged(
+            viewHolder: RecyclerView.ViewHolder?, actionState: Int,
+        ) {
+            super.onSelectedChanged(viewHolder, actionState)
+            onSelectedChanged.invoke(viewHolder, actionState)
+        }
+
+        override fun clearView(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+        ) {
+            super.clearView(recyclerView, viewHolder)
+            onClearView.invoke(recyclerView, viewHolder)
+        }
+    })
+    itemTouchHelper.attachToRecyclerView(this)
 }
 
 /**=========================================View  Listener  优化=========================================*/

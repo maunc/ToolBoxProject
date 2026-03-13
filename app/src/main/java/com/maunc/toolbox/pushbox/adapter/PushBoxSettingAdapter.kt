@@ -40,7 +40,7 @@ class PushBoxSettingAdapter : BaseMultiItemQuickAdapter<PushBoxSettingData, Base
     private var touchMove = false
 
     override fun convert(holder: BaseViewHolder, item: PushBoxSettingData) {
-        val itemPosition = holder.layoutPosition
+        val itemPosition = holder.bindingAdapterPosition
         val haveView = holder.itemView
         haveView.findViewById<TextView>(R.id.item_push_box_setting_type_tv).apply {
             text = item.title

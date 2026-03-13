@@ -21,7 +21,7 @@ class TurnTableConfigColorAdapter :
             mDataBind.itemTurnTableConfigColorTestTurnTable.setHideBoard(true)
             mDataBind.itemTurnTableConfigColorTestTurnTable.setCircleRadius(150f)
             mDataBind.itemTurnTableConfigColorTestTurnTable.setTurnTableColor(item.colorList)
-            mDataBind.itemTurnTableConfigColorFlag.visibleOrGone(currentSelectIndex == holder.layoutPosition)
+            mDataBind.itemTurnTableConfigColorFlag.visibleOrGone(currentSelectIndex == holder.bindingAdapterPosition)
         }
     }
 

@@ -1,16 +1,21 @@
 package com.maunc.toolbox.commonbase.ui.activity
 
 import android.os.Bundle
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.maunc.toolbox.R
 import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.chatroom.ui.activity.ChatRoomActivity
 import com.maunc.toolbox.chronograph.ui.ChronographMainActivity
 import com.maunc.toolbox.commonbase.adapter.ToolBoxManagerAdapter
 import com.maunc.toolbox.commonbase.base.BaseActivity
+import com.maunc.toolbox.commonbase.data.ToolBoxItemData
 import com.maunc.toolbox.commonbase.ext.addCustomizeItemDecoration
+import com.maunc.toolbox.commonbase.ext.addItemTouchHelper
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
+import com.maunc.toolbox.commonbase.ext.obtainDrawable
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
+import com.maunc.toolbox.commonbase.utils.checkFilePermission
 import com.maunc.toolbox.commonbase.viewmodel.ToolBoxMainViewModel
 import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
 import com.maunc.toolbox.ffmpeg.ui.FFmpegMainActivity
@@ -18,6 +23,7 @@ import com.maunc.toolbox.pushbox.ui.activity.PushBoxMainActivity
 import com.maunc.toolbox.randomname.ui.activity.RandomNameMainActivity
 import com.maunc.toolbox.signaturecanvas.ui.SignatureCanvasMainActivity
 import com.maunc.toolbox.turntable.ui.TurnTableMainActivity
+import java.util.Collections
 
 class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMainBinding>() {
 
@@ -25,34 +31,31 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
         ToolBoxManagerAdapter().apply {
             setOnItemClickListener { adapter, view, pos ->
                 val itemData = getItem(pos)
-                when (itemData.itemTitle) {
-                    obtainString(R.string.tool_box_item_chronograph_text) -> {
+                when (itemData.itemType) {
+                    ToolBoxItemData.TOOL_BOX_ITEM_CHRONOGRAPH ->
                         startTargetActivity(ChronographMainActivity::class.java)
-                    }
 
-                    obtainString(R.string.tool_box_item_random_name_text) -> {
+                    ToolBoxItemData.TOOL_BOX_ITEM_RANDOM_NAME ->
                         startTargetActivity(RandomNameMainActivity::class.java)
-                    }
 
-                    obtainString(R.string.tool_box_item_chat_room_text) -> {
+                    ToolBoxItemData.TOOL_BOX_ITEM_CHAT_ROOM ->
                         startTargetActivity(ChatRoomActivity::class.java)
-                    }
 
-                    obtainString(R.string.tool_box_item_signature_canvas_text) -> {
+                    ToolBoxItemData.TOOL_BOX_ITEM_SIGNATURE_CANVAS -> {
                         startTargetActivity(SignatureCanvasMainActivity::class.java)
                     }
 
-                    obtainString(R.string.tool_box_item_turn_table_text) -> {
+                    ToolBoxItemData.TOOL_BOX_ITEM_TURN_TABLE ->
                         startTargetActivity(TurnTableMainActivity::class.java)
+
+                    ToolBoxItemData.TOOL_BOX_ITEM_FFMPEG -> {
+                        if (checkFilePermission()) {
+                            startTargetActivity(FFmpegMainActivity::class.java)
+                        }
                     }
 
-                    obtainString(R.string.tool_box_item_ffmpeg_text) -> {
-                        startTargetActivity(FFmpegMainActivity::class.java)
-                    }
-
-                    obtainString(R.string.tool_box_item_push_box_text) -> {
+                    ToolBoxItemData.TOOL_BOX_ITEM_PUSH_BOX ->
                         startTargetActivity(PushBoxMainActivity::class.java)
-                    }
                 }
             }
         }
@@ -67,10 +70,47 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
         mDatabind.toolBoxMainRecycler.layoutManager = linearLayoutManager()
         mDatabind.toolBoxMainRecycler.addCustomizeItemDecoration()
         mDatabind.toolBoxMainRecycler.adapter = toolBoxManagerAdapter
-        toolBoxManagerAdapter.setList(mViewModel.initRecyclerData())
+        mViewModel.initToolBoxItemList()
+        mDatabind.toolBoxMainRecycler.addItemTouchHelper(
+            onMove = { fromPosition, toPosition ->
+                val currentList = toolBoxManagerAdapter.data
+                if (fromPosition < toPosition) { // 从下往上拖，依次交换
+                    for (i in fromPosition until toPosition) {
+                        Collections.swap(currentList, i, i + 1)
+                    }
+                } else { // 从上往下拖，依次交换
+                    for (i in fromPosition downTo toPosition + 1) {
+                        Collections.swap(currentList, i, i - 1)
+                    }
+                }
+                toolBoxManagerAdapter.notifyItemMoved(fromPosition, toPosition)
+                return@addItemTouchHelper true
+            },
+            onSelectedChanged = { viewHolder, actionState ->
+                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                    viewHolder?.itemView?.scaleX = 1.1f
+                    viewHolder?.itemView?.scaleY = 1.1f
+                    viewHolder?.itemView?.background =
+                        obtainDrawable(R.drawable.stroke_black_bg_gray_radius_24)
+                }
+            },
+            onClearView = { recyclerView, viewHolder ->
+                if (!recyclerView.isComputingLayout) {
+                    mViewModel.updateToolBoxList(toolBoxManagerAdapter.data.mapIndexed { index, data ->
+                        data.copy(itemSort = index)
+                    }.toMutableList())
+                    viewHolder.itemView.scaleX = 1.0f
+                    viewHolder.itemView.scaleY = 1.0f
+                    viewHolder.itemView.background =
+                        obtainDrawable(R.drawable.bg_item_tool_box_selector)
+                }
+            }
+        )
     }
 
     override fun createObserver() {
-
+        mViewModel.toolBoxListLiveData.observe(this) {
+            toolBoxManagerAdapter.setList(it)
+        }
     }
 }
