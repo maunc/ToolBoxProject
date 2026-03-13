@@ -1,7 +1,5 @@
 package com.maunc.toolbox.randomname.viewmodel
 
-import android.os.Handler
-import android.os.Looper
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
@@ -13,8 +11,6 @@ import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.randomname.data.RandomSettingData
 
 class RandomSettingViewModel : BaseViewModel<BaseModel>() {
-
-    var handler: Handler? = Handler(Looper.getMainLooper())
 
     fun initRecyclerData() = mutableListOf<RandomSettingData>().mutableListInsert(
         RandomSettingData(
@@ -87,11 +83,5 @@ class RandomSettingViewModel : BaseViewModel<BaseModel>() {
             deleteResultCallback(false)
             "delete all data error:${it.message}  ${it.stackTrace}".loge()
         })
-    }
-
-    override fun onCleared() {
-        handler?.removeCallbacksAndMessages(null)
-        handler = null
-        super.onCleared()
     }
 }

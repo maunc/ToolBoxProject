@@ -67,6 +67,11 @@ fun View.obtainViewHeight(action: (Int) -> Unit) {
     post { action.invoke(height) }
 }
 
+fun View.setScale(x: Float, y: Float) {
+    scaleX = x
+    scaleY = y
+}
+
 fun ViewGroup.addView(@LayoutRes viewId: Int): View {
     val newView = LayoutInflater.from(this.context).inflate(viewId, this, false)
     this.addView(newView)
