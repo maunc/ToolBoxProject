@@ -75,12 +75,14 @@
                         <!--控制按钮-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/random_control_tv"
-                            android:layout_width="@dimen/main_start_random_button_width"
-                            android:layout_height="@dimen/main_start_random_button_height"
+                            android:layout_width="@dimen/dp_260"
+                            android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/dp_25"
                             android:background="@drawable/common_control_button_bg"
                             android:gravity="center"
+                            android:paddingHorizontal="@dimen/dp_10"
+                            android:paddingVertical="@dimen/dp_25"
                             android:textColor="@color/black"
                             android:textSize="@dimen/welcome_control_button_tv_size"
                             app:handleControlButtonTv="@{randomNameMainViewModel.runRandomStatus}"
@@ -88,13 +90,15 @@
                         <!--重置名单-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/random_control_reset_select_tv"
-                            android:layout_width="@dimen/main_start_random_button_width"
-                            android:layout_height="@dimen/main_start_random_button_height"
+                            android:layout_width="@dimen/dp_260"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/random_control_tv"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/dp_30"
                             android:background="@drawable/common_control_button_bg"
                             android:gravity="center"
+                            android:paddingHorizontal="@dimen/dp_10"
+                            android:paddingVertical="@dimen/dp_25"
                             android:text="@string/random_main_reset_select_recycler_text"
                             android:textColor="@color/black"
                             android:textSize="@dimen/welcome_control_button_tv_size" />

@@ -71,5 +71,15 @@ class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
             itemTitle = obtainString(R.string.tool_box_item_push_box_text),
             itemSort = 6
         ),
+        ToolBoxItemData(
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_FTP,
+            itemTitle = obtainString(R.string.tool_box_item_ftp_text),
+            itemSort = 7
+        ),
+        ToolBoxItemData(
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_DEVICE_MSG,
+            itemTitle = obtainString(R.string.tool_box_item_device_msg_text),
+            itemSort = 8
+        ),
     )
 }

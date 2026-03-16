@@ -77,6 +77,17 @@ android {
 //        exclude(group = "androidx.lifecycle", module = "lifecycle-viewmodel-ktx")
 //    }
 
+    packaging {
+        resources {
+            // 排除冲突的 DEPENDENCIES,META-INF文件
+            excludes += "META-INF/DEPENDENCIES"
+            excludes += "META-INF/LICENSE"
+            excludes += "META-INF/LICENSE.txt"
+            excludes += "META-INF/NOTICE"
+            excludes += "META-INF/NOTICE.txt"
+        }
+    }
+
     applicationVariants.all {
         outputs.all {
             (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl)
@@ -95,6 +106,7 @@ dependencies {
     implementation(project(":library_un_peek_livedata"))
     implementation(project(":library_video_player"))
     implementation(project(":library_usb_manager"))
+    implementation(project(":library_ftp_server"))
 
     implementation(libs.bundles.android)
     implementation(libs.bundles.smart.refrsh.layout)

@@ -14,11 +14,14 @@ import com.maunc.toolbox.commonbase.ext.addItemTouchHelper
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
 import com.maunc.toolbox.commonbase.ext.obtainDrawable
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.setScale
 import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.commonbase.utils.checkFilePermission
 import com.maunc.toolbox.commonbase.viewmodel.ToolBoxMainViewModel
 import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
+import com.maunc.toolbox.devicemsg.ui.DeviceMsgActivity
 import com.maunc.toolbox.ffmpeg.ui.FFmpegMainActivity
+import com.maunc.toolbox.ftp.ui.FtpMainActivity
 import com.maunc.toolbox.pushbox.ui.activity.PushBoxMainActivity
 import com.maunc.toolbox.randomname.ui.activity.RandomNameMainActivity
 import com.maunc.toolbox.signaturecanvas.ui.SignatureCanvasMainActivity
@@ -48,14 +51,19 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
                     ToolBoxItemData.TOOL_BOX_ITEM_TURN_TABLE ->
                         startTargetActivity(TurnTableMainActivity::class.java)
 
-                    ToolBoxItemData.TOOL_BOX_ITEM_FFMPEG -> {
-                        if (checkFilePermission()) {
-                            startTargetActivity(FFmpegMainActivity::class.java)
-                        }
+                    ToolBoxItemData.TOOL_BOX_ITEM_FFMPEG -> if (checkFilePermission()) {
+                        startTargetActivity(FFmpegMainActivity::class.java)
                     }
 
                     ToolBoxItemData.TOOL_BOX_ITEM_PUSH_BOX ->
                         startTargetActivity(PushBoxMainActivity::class.java)
+
+                    ToolBoxItemData.TOOL_BOX_ITEM_FTP -> if (checkFilePermission()) {
+                        startTargetActivity(FtpMainActivity::class.java)
+                    }
+
+                    ToolBoxItemData.TOOL_BOX_ITEM_DEVICE_MSG ->
+                        startTargetActivity(DeviceMsgActivity::class.java)
                 }
             }
         }
@@ -88,8 +96,7 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
             },
             onSelectedChanged = { viewHolder, actionState ->
                 if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                    viewHolder?.itemView?.scaleX = 1.1f
-                    viewHolder?.itemView?.scaleY = 1.1f
+                    viewHolder?.itemView?.setScale(1.1f, 1.1f)
                     viewHolder?.itemView?.background =
                         obtainDrawable(R.drawable.stroke_black_bg_gray_radius_24)
                 }
@@ -99,8 +106,7 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
                     mViewModel.updateToolBoxList(toolBoxManagerAdapter.data.mapIndexed { index, data ->
                         data.copy(itemSort = index)
                     }.toMutableList())
-                    viewHolder.itemView.scaleX = 1.0f
-                    viewHolder.itemView.scaleY = 1.0f
+                    viewHolder.itemView.setScale(1.0f, 1.0f)
                     viewHolder.itemView.background =
                         obtainDrawable(R.drawable.bg_item_tool_box_selector)
                 }

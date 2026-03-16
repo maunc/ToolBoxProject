@@ -39,7 +39,7 @@ class FFmpegM3u8ToMp4Activity :
     }
 
     private val tipsDialog by lazy {
-        CommonNoticeDialog().setTitle(obtainString(R.string.ffmpeg_m3u8_to_mp4_tips_title_tv))
+        CommonNoticeDialog().setTitle(obtainString(R.string.common_tips_title_tv))
             .setContentText(obtainString(R.string.ffmpeg_m3u8_to_mp4_tips_content_tv))
     }
 

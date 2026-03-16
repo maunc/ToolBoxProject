@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Build
@@ -239,22 +240,29 @@ fun EditText.requestFocusable() {
 }
 
 /**
- * 输入框禁止输入非中文
+ * 输入框禁止输入中文
  */
 fun EditText.chineseProhibitedInput(tipsAction: () -> Unit = {}) {
-    this.filters = arrayOf(object : InputFilter {
+    this.filters += arrayOf(object : InputFilter {
         override fun filter(
             source: CharSequence?, start: Int, end: Int, dest: Spanned?, dstart: Int, dend: Int,
         ): CharSequence? {
             for (i in start until end) {
-                if (!source.toString()[i].isChineseChar()) {
+                if (source.toString()[i].isChineseChar()) {
                     tipsAction.invoke()
-                    return "" // 返回空字符，禁止输入非中文字符
+                    return "" // 返回空字符，禁止输入中文字符
                 }
             }
             return null
         }
     })
+}
+
+/**
+ * 输入框禁止输入空格
+ */
+fun EditText.setMaxLength(maxLength: Int) {
+    this.filters += arrayOf(InputFilter.LengthFilter(maxLength))
 }
 
 /**
@@ -287,6 +295,7 @@ fun RecyclerView.addItemTouchHelper(
     swipeFlags: Int = 0,
     onMove: (fromPosition: Int, toPosition: Int) -> Boolean = { _, _ -> false },
     onSwipe: (RecyclerView.ViewHolder, Int) -> Unit = { _, _ -> },
+    onChildDraw: (Canvas, RecyclerView, RecyclerView.ViewHolder, Float, Float, Int, Boolean) -> Unit = { _, _, _, _, _, _, _ -> },
     onSelectedChanged: (RecyclerView.ViewHolder?, Int) -> Unit = { _, _ -> },
     onClearView: (RecyclerView, RecyclerView.ViewHolder) -> Unit = { _, _ -> },
 ) {
@@ -318,6 +327,14 @@ fun RecyclerView.addItemTouchHelper(
             viewHolder: RecyclerView.ViewHolder,
             direction: Int,
         ) = onSwipe.invoke(viewHolder, direction)
+
+        override fun onChildDraw(
+            c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+            dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean,
+        ) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            onChildDraw.invoke(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        }
 
         override fun onSelectedChanged(
             viewHolder: RecyclerView.ViewHolder?, actionState: Int,
