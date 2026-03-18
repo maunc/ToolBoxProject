@@ -22,21 +22,16 @@
             android:layout_below="@id/common_tool_bar"
             android:orientation="vertical">
 
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/ftp_main_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/ftp_main_view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/gray" />
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/ftp_main_tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </RelativeLayout>
 </layout>

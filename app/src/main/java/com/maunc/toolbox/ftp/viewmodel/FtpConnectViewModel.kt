@@ -1,5 +1,6 @@
 package com.maunc.toolbox.ftp.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
@@ -10,17 +11,21 @@ import com.maunc.toolbox.ftp.data.FtpConnectConfigData
 import com.maunc.toolbox.ftp.data.FtpServerConfigData
 
 class FtpConnectViewModel : BaseViewModel<BaseModel>() {
+
+    var currentConnect = MutableLiveData(false)//当前登录状态
+    var ftpConnectMessage = MutableLiveData(GLOBAL_NONE_STRING)//提示
+
     val ftpConnectConfigList = mutableListOf<FtpConnectConfigData>().mutableListInsert(
         FtpConnectConfigData(
             title = obtainString(R.string.ftp_server_host_text),
             type = FtpServerConfigData.FTP_SHARE_DIR,
-            content = "10.118.57.180",
+            content = "10.193.202.145",
             editHint = obtainString(R.string.ftp_server_host_tips_text)
         ),
         FtpConnectConfigData(
             title = obtainString(R.string.ftp_server_port_text),
             type = FtpServerConfigData.FTP_PORT_TYPE,
-            content = obtainString(R.string.ftp_server_default_port_text),
+            content = "2121",
             editHint = obtainString(R.string.ftp_server_port_tips_text)
         ),
         FtpConnectConfigData(

@@ -42,6 +42,8 @@ class FtpMainActivity : BaseActivity<FtpMainViewModel, ActivityFtpMainBinding>()
                 else -> FtpConnectFragment.newInstance()
             }
         }
+        // 禁止左右滑动切换
+        mDatabind.ftpMainViewPager.isUserInputEnabled = false
         TabLayoutMediator(
             mDatabind.ftpMainTabLayout,
             mDatabind.ftpMainViewPager,
@@ -55,7 +57,6 @@ class FtpMainActivity : BaseActivity<FtpMainViewModel, ActivityFtpMainBinding>()
     }
 
     override fun createObserver() {
-
     }
 
     override fun onDestroy() {

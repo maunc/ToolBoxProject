@@ -16,6 +16,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_60"
             android:gravity="center"
+            android:text="@string/ftp_main_tab_server_text"
             android:textColor="@color/black"
             android:textSize="26sp" />
 

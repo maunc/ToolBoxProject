@@ -1,36 +1,35 @@
-package com.maunc.toolbox.localfile.adapter
+package com.maunc.toolbox.ftp.adapter
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.loadImage
 import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.databinding.ItemFtpRemoteFileDataBinding
+import com.maunc.toolbox.ftp.data.FtpRemoteFileData
 import com.maunc.toolbox.localfile.data.LocalFileData
-import java.io.File
 
 /**
- * 本地文件/文件夹列表适配器（目录优先）。
+ * FTP 远程文件列表适配器
  */
-class LocalFileDataAdapter :
-    BaseQuickAdapter<LocalFileData, BaseDataBindingHolder<ItemFtpRemoteFileDataBinding>>(
+class FtpRemoteFileAdapter :
+    BaseQuickAdapter<FtpRemoteFileData, BaseDataBindingHolder<ItemFtpRemoteFileDataBinding>>(
         R.layout.item_ftp_remote_file_data,
     ) {
 
     override fun convert(
         holder: BaseDataBindingHolder<ItemFtpRemoteFileDataBinding>,
-        item: LocalFileData,
+        item: FtpRemoteFileData,
     ) {
         holder.dataBinding?.apply {
-            itemFtpRemoteFileNameTv.text = item.fileName
-            itemFtpRemoteFileExpandIv.visibleOrGone(item.fileType == LocalFileData.LOCAL_FILE_TYPE_DIR)
+            itemFtpRemoteFileNameTv.text = item.name
+            itemFtpRemoteFileExpandIv.visibleOrGone(item.isDir)
             when (item.fileType) {
                 LocalFileData.LOCAL_FILE_TYPE_DIR -> {
                     itemFtpRemoteFileTypeImage.setImageResource(R.drawable.icon_local_file_dir)
                 }
 
                 LocalFileData.LOCAL_FILE_TYPE_IMAGE -> {
-                    itemFtpRemoteFileTypeImage.loadImage(File(item.absolutePath))
+                    itemFtpRemoteFileTypeImage.setImageResource(R.drawable.icon_local_file_image)
                 }
 
                 LocalFileData.LOCAL_FILE_TYPE_VIDEO -> {

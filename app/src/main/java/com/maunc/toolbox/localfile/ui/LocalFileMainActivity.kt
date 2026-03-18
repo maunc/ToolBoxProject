@@ -13,9 +13,9 @@ import com.maunc.toolbox.commonbase.ext.toastShort
 import com.maunc.toolbox.commonbase.utils.obtainSDCardRootPath
 import com.maunc.toolbox.databinding.ActivityLocalFileMainBinding
 import com.maunc.toolbox.localfile.adapter.LocalFileDataAdapter
-import com.maunc.toolbox.localfile.adapter.LocalFilePathGuideAdapter
+import com.maunc.toolbox.ftp.adapter.FtpRemoteFilePathGuideAdapter
 import com.maunc.toolbox.localfile.data.LocalFileData
-import com.maunc.toolbox.localfile.data.LocalFilePathGuideData
+import com.maunc.toolbox.ftp.data.FtpRemoteFilePathGuideData
 import com.maunc.toolbox.localfile.viewmodel.LocalFileMainViewModel
 import java.io.File
 import java.util.ArrayDeque
@@ -41,7 +41,7 @@ class LocalFileMainActivity : BaseActivity<LocalFileMainViewModel, ActivityLocal
     }
 
     private val pathGuideAdapter by lazy {
-        LocalFilePathGuideAdapter().apply {
+        FtpRemoteFilePathGuideAdapter().apply {
             setOnItemClickListener { _, _, position ->
                 val item = data.getOrNull(position) ?: return@setOnItemClickListener
                 val root = fileStack.firstOrNull() ?: return@setOnItemClickListener
@@ -112,16 +112,16 @@ class LocalFileMainActivity : BaseActivity<LocalFileMainViewModel, ActivityLocal
     private fun buildPathBreadcrumb(
         rootPath: String,
         currentPath: String,
-    ): MutableList<LocalFilePathGuideData> {
+    ): MutableList<FtpRemoteFilePathGuideData> {
         val rTrimEnd = rootPath.trimEnd('/')
         val cTrimEnd = currentPath.trimEnd('/')
-        val pathGuideList = mutableListOf<LocalFilePathGuideData>()
+        val pathGuideList = mutableListOf<FtpRemoteFilePathGuideData>()
         if (!cTrimEnd.startsWith(rTrimEnd)) {
-            pathGuideList.add(LocalFilePathGuideData(cTrimEnd, File(cTrimEnd).name))
+            pathGuideList.add(FtpRemoteFilePathGuideData(cTrimEnd, File(cTrimEnd).name))
             return pathGuideList
         }
         pathGuideList.add(
-            LocalFilePathGuideData(
+            FtpRemoteFilePathGuideData(
                 rTrimEnd, obtainString(R.string.tool_box_item_local_file_text)
             )
         )
@@ -130,7 +130,7 @@ class LocalFileMainActivity : BaseActivity<LocalFileMainViewModel, ActivityLocal
         var acc = rTrimEnd
         for (part in remainder.split('/').filter { it.isNotEmpty() }) {
             acc = if (acc.endsWith("/")) "$acc$part" else "$acc/$part"
-            pathGuideList.add(LocalFilePathGuideData(acc, part))
+            pathGuideList.add(FtpRemoteFilePathGuideData(acc, part))
         }
         return pathGuideList
     }

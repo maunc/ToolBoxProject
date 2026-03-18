@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="ftpConnectViewModel"
+            type="com.maunc.toolbox.ftp.viewmodel.FtpConnectViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- 登录前布局 -->
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/ftp_connect_login_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true">
+            android:layout_above="@id/ftp_connect_controller_disconnect"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:visibility="@{ftpConnectViewModel.currentConnect?View.GONE:View.VISIBLE}">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -47,31 +57,62 @@
                         android:textSize="26sp" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/ftp_connect_controller_disconnect"
-                        android:layout_width="@dimen/dp_260"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/dp_30"
-                        android:background="@drawable/common_control_button_bg"
-                        android:gravity="center"
-                        android:paddingHorizontal="@dimen/dp_10"
-                        android:paddingVertical="@dimen/dp_15"
-                        android:text="@string/ftp_server_disconnect_text"
-                        android:textColor="@color/black"
-                        android:textSize="26sp" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/ftp_connect_controller_status_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/dp_30"
                         android:gravity="center"
+                        android:text="@{ftpConnectViewModel.ftpConnectMessage}"
                         android:textColor="@color/black"
                         android:textSize="26sp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>
+
+        <!-- 登录后文件列表布局 -->
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ftp_connect_file_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ftp_connect_controller_disconnect"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:orientation="vertical"
+            android:visibility="@{ftpConnectViewModel.currentConnect?View.VISIBLE:View.GONE}"
+            tools:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ftp_connect_path_guide_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_5" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ftp_connect_file_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_weight="1" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/ftp_connect_controller_disconnect"
+            android:layout_width="@dimen/dp_260"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:background="@drawable/common_control_button_bg"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/dp_10"
+            android:paddingVertical="@dimen/dp_15"
+            android:text="@string/ftp_server_disconnect_text"
+            android:textColor="@color/black"
+            android:textSize="26sp" />
     </RelativeLayout>
 </layout>

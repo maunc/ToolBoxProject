@@ -18,19 +18,19 @@
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/item_local_file_type_image"
+            android:id="@+id/item_ftp_remote_file_type_image"
             android:layout_width="@dimen/dp_50"
             android:layout_height="@dimen/dp_50"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dp_10" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/item_local_file_name_tv"
+            android:id="@+id/item_ftp_remote_file_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dp_10"
-            android:layout_toEndOf="@id/item_local_file_type_image"
+            android:layout_toEndOf="@id/item_ftp_remote_file_type_image"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/black"
@@ -38,7 +38,7 @@
             tools:text="MyFolder" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/item_local_file_expand_iv"
+            android:id="@+id/item_ftp_remote_file_expand_iv"
             android:layout_width="@dimen/dp_25"
             android:layout_height="@dimen/dp_25"
             android:layout_alignParentEnd="true"
