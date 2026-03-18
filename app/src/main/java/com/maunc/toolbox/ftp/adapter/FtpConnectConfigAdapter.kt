@@ -33,6 +33,7 @@ class FtpConnectConfigAdapter :
         val itemPosition = holder.bindingAdapterPosition
         holder.dataBinding?.let { mDataBind ->
             mDataBind.itemFtpConfigTitle.text = item.title
+            mDataBind.itemFtpConfigEditView.setHint(item.editHint)
             // 解决赋值错乱的问题
             isSetEditViewText = true
             mDataBind.itemFtpConfigEditView.setText(item.content)

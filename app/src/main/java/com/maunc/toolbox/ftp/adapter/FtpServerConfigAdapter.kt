@@ -32,7 +32,7 @@ class FtpServerConfigAdapter :
         val itemPosition = holder.bindingAdapterPosition
         holder.dataBinding?.let { mDataBind ->
             mDataBind.itemFtpConfigTitle.text = item.title
-            // 解决赋值错乱的问题
+            mDataBind.itemFtpConfigEditView.setHint(item.editHint)
             isSetEditViewText = true
             mDataBind.itemFtpConfigEditView.setText(item.content)
             isSetEditViewText = false

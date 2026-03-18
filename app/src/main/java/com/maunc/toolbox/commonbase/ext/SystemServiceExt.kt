@@ -121,6 +121,16 @@ fun hideSoftInputKeyBoard(
     }, delayMillis)
 }
 
+fun showSoftInputKeyBoard(
+    focusView: View,
+    delayMillis: Long = DELAY_KEY_BROAD,
+) {
+    focusView.postDelayed({
+        val inputManger = ToolBoxApplication.app.inputMethodManager
+        inputManger?.showSoftInput(focusView, InputMethodManager.SHOW_IMPLICIT)
+    }, delayMillis)
+}
+
 /**
  * 强制隐藏软键盘（适配特殊场景，比如键盘未绑定到某个 View）
  */

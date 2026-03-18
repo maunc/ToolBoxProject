@@ -45,13 +45,18 @@
         android:theme="@style/Theme.ToolBox"
         tools:targetApi="31">
         <activity
+            android:name=".ftp.ui.activity.FtpServerConfigActivity"
+            android:exported="false"
+            android:theme="@style/Activity.Transparent"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
             android:name=".localfile.ui.LocalFileMainActivity"
             android:exported="false" />
         <activity
             android:name=".devicemsg.ui.DeviceMessageActivity"
             android:exported="false" />
         <activity
-            android:name=".ftp.ui.FtpMainActivity"
+            android:name=".ftp.ui.activity.FtpMainActivity"
             android:exported="false" />
         <activity
             android:name=".pushbox.ui.activity.PushBoxPreViewActivity"

@@ -13,10 +13,12 @@ import org.apache.ftpserver.usermanager.impl.ConcurrentLoginPermission
 import org.apache.ftpserver.usermanager.impl.TransferRatePermission
 import org.apache.ftpserver.usermanager.impl.WritePermission
 import java.io.File
+import java.nio.charset.Charset
 
 val ftpServerManager: FtpServerManager by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
     FtpServerManager.ftpServerManager
 }
+
 /**
  * FTP  服务端管理器：用于创建“FTP 服务器”
  */
@@ -50,7 +52,7 @@ class FtpServerManager private constructor() {
 
     /**
      * 启动FTP服务器
-     * @param port 端口号（默认2121）
+     * @param port 端口号
      * @param username 访问账号
      * @param password 访问密码
      * @param shareDir 共享目录路径
@@ -119,25 +121,6 @@ class FtpServerManager private constructor() {
                 ftpServer = null
             }
         }
-    }
-
-    /**
-     * 获取当前设备局域网IP（供客户端访问）
-     */
-    fun obtainLocalIpAddress(): String {
-        val interfaces = java.net.NetworkInterface.getNetworkInterfaces()
-        while (interfaces.hasMoreElements()) {
-            val `interface` = interfaces.nextElement()
-            val addresses = `interface`.inetAddresses
-            while (addresses.hasMoreElements()) {
-                val address = addresses.nextElement()
-                // 过滤回环地址、IPv6地址，只返回IPv4
-                if (!address.isLoopbackAddress && address is java.net.Inet4Address) {
-                    return address.hostAddress ?: ""
-                }
-            }
-        }
-        return "127.0.0.1"
     }
 
     /**

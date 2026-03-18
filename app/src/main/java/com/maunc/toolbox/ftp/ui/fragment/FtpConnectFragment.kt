@@ -1,4 +1,4 @@
-package com.maunc.toolbox.ftp.ui
+package com.maunc.toolbox.ftp.ui.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle

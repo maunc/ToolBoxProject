@@ -1,4 +1,4 @@
-package com.maunc.toolbox.ftp.ui
+package com.maunc.toolbox.ftp.ui.activity
 
 import android.os.Bundle
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -13,6 +13,8 @@ import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ui.dialog.CommonNoticeDialog
 import com.maunc.toolbox.databinding.ActivityFtpMainBinding
+import com.maunc.toolbox.ftp.ui.fragment.FtpServerFragment
+import com.maunc.toolbox.ftp.ui.fragment.FtpConnectFragment
 import com.maunc.toolbox.ftp.viewmodel.FtpMainViewModel
 
 class FtpMainActivity : BaseActivity<FtpMainViewModel, ActivityFtpMainBinding>() {
