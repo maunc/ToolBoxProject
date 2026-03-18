@@ -52,6 +52,30 @@ class DeviceMessageActivity : BaseActivity<DeviceMessageViewModel, ActivityDevic
                     content = "${mViewModel.obtainAndroidApiLevelVersion()}"
                 ),
                 DeviceMessageData(
+                    title = "Build标签:",
+                    content = mViewModel.obtainBuildTags()
+                ),
+                DeviceMessageData(
+                    title = "Build ID:",
+                    content = mViewModel.obtainBuildId()
+                ),
+                DeviceMessageData(
+                    title = "CodeName:",
+                    content = mViewModel.obtainCodeName()
+                ),
+                DeviceMessageData(
+                    title = "硬件识别码:",
+                    content = mViewModel.obtainAndroidId()
+                ),
+                DeviceMessageData(
+                    title = "系统构建时间:",
+                    content = mViewModel.obtainBuildTime()
+                ),
+                DeviceMessageData(
+                    title = "CPU指令集:",
+                    content = mViewModel.obtainCpuAbis()
+                ),
+                DeviceMessageData(
                     title = "主板型号:",
                     content = mViewModel.obtainBoardModel()
                 ),

@@ -2,10 +2,15 @@ package com.maunc.toolbox.devicemsg.viewmodel
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.provider.Settings
 import android.text.TextUtils
+import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.commonbase.base.BaseModel
 import com.maunc.toolbox.commonbase.base.BaseViewModel
 import java.lang.reflect.Method
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class DeviceMessageViewModel : BaseViewModel<BaseModel>() {
 
@@ -97,6 +102,81 @@ class DeviceMessageViewModel : BaseViewModel<BaseModel>() {
     fun obtainBoardHardwareVersion(): String {
         val hardwareVer = getSystemProperty("ro.board.hardware")
         return if (TextUtils.isEmpty(hardwareVer)) UNKNOWN else hardwareVer.trim()
+    }
+
+    /**
+     * Build TAGS（例如 release-keys / test-keys）
+     */
+    fun obtainBuildTags(): String = try {
+        val tags = Build.TAGS
+        if (TextUtils.isEmpty(tags)) UNKNOWN else tags.trim()
+    } catch (e: Exception) {
+        UNKNOWN
+    }
+
+    /**
+     * 系统构建时间（常被当作“出厂时间”的近似值）
+     *
+     * 说明：Android 通常无法获取真实出厂日期；Build.TIME 是系统镜像构建时间（毫秒）。
+     */
+    fun obtainBuildTime(): String = try {
+        val timeMillis = Build.TIME
+        if (timeMillis <= 0L) UNKNOWN
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        sdf.format(Date(timeMillis))
+    } catch (e: Exception) {
+        UNKNOWN
+    }
+
+    /**
+     * CPU 指令集（ABI 列表）
+     */
+    @SuppressLint("ObsoleteSdkInt")
+    fun obtainCpuAbis(): String = try {
+        val abis = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Build.SUPPORTED_ABIS?.toList().orEmpty()
+        } else {
+            listOfNotNull(Build.CPU_ABI, Build.CPU_ABI2).filter { it.isNotBlank() }
+        }
+        if (abis.isEmpty()) UNKNOWN else abis.joinToString(", ")
+    } catch (e: Exception) {
+        UNKNOWN
+    }
+
+    /**
+     * Build ID（构建ID）
+     */
+    fun obtainBuildId(): String = try {
+        val id = Build.ID
+        if (TextUtils.isEmpty(id)) UNKNOWN else id.trim()
+    } catch (e: Exception) {
+        UNKNOWN
+    }
+
+    /**
+     * Android CodeName（开发代号）
+     */
+    fun obtainCodeName(): String = try {
+        val code = Build.VERSION.CODENAME
+        if (TextUtils.isEmpty(code)) UNKNOWN else code.trim()
+    } catch (e: Exception) {
+        UNKNOWN
+    }
+
+    /**
+     * 硬件识别码（常用：ANDROID_ID）
+     *
+     * 说明：受系统/隐私策略影响，不保证跨恢复出厂/跨用户稳定；但一般用于设备唯一标识足够。
+     */
+    @SuppressLint("HardwareIds")
+    fun obtainAndroidId(): String = try {
+        val id = Settings.Secure.getString(
+            ToolBoxApplication.app.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+        if (TextUtils.isEmpty(id)) UNKNOWN else id.trim()
+    } catch (e: Exception) {
+        UNKNOWN
     }
 
     @SuppressLint("PrivateApi")
