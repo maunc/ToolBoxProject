@@ -1,27 +1,31 @@
 package com.maunc.toolbox.ftp.ui.fragment
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maunc.ftp.ConnectConfig
 import com.maunc.ftp.ftpConnectManager
+import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseFragment
+import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
+import com.maunc.toolbox.commonbase.ext.marquee
+import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.postSmoothScrollToPosition
 import com.maunc.toolbox.commonbase.ext.toastShort
 import com.maunc.toolbox.databinding.FragmentFtpConnectBinding
 import com.maunc.toolbox.ftp.adapter.FtpConnectConfigAdapter
 import com.maunc.toolbox.ftp.adapter.FtpRemoteFileAdapter
 import com.maunc.toolbox.ftp.adapter.FtpRemoteFilePathGuideAdapter
 import com.maunc.toolbox.ftp.data.FtpRemoteFileData
-import com.maunc.toolbox.ftp.data.FtpRemoteFilePathGuideData
 import com.maunc.toolbox.ftp.viewmodel.FtpConnectViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.apache.commons.net.ftp.FTPFile
-import java.util.ArrayDeque
 
 class FtpConnectFragment : BaseFragment<FtpConnectViewModel, FragmentFtpConnectBinding>() {
 
@@ -40,18 +44,23 @@ class FtpConnectFragment : BaseFragment<FtpConnectViewModel, FragmentFtpConnectB
         FtpConnectConfigAdapter()
     }
 
-    private val remoteFileStack = ArrayDeque<String>()
-
     private val remoteFileAdapter by lazy {
         FtpRemoteFileAdapter().apply {
             setOnItemClickListener { _, _, position ->
                 val item = data.getOrNull(position) ?: return@setOnItemClickListener
                 if (item.isDir) {
-                    remoteFileStack.addLast(item.remotePath)
-                    loadRemoteDir(item.remotePath)
+                    mViewModel.remoteFileStack.addLast(item.remotePath)
+                    mViewModel.loadRemoteDir(item.remotePath)
                 } else {
-                    toastShort(item.remotePath)
+                    Log.e("ww", "路径:${item.remotePath}")
                 }
+            }
+
+            setOnItemLongClickListener { _, _, position ->
+                val item = data.getOrNull(position) ?: return@setOnItemLongClickListener true
+                if (item.isDir) return@setOnItemLongClickListener true
+                showCopyMoveDialog(item)
+                true
             }
         }
     }
@@ -60,8 +69,8 @@ class FtpConnectFragment : BaseFragment<FtpConnectViewModel, FragmentFtpConnectB
         FtpRemoteFilePathGuideAdapter().apply {
             setOnItemClickListener { _, _, position ->
                 val item = data.getOrNull(position) ?: return@setOnItemClickListener
-                rebuildStackTo(item.realPath)
-                loadRemoteDir(item.realPath)
+                mViewModel.rebuildStackTo(item.realPath)
+                mViewModel.loadRemoteDir(item.realPath)
             }
         }
     }
@@ -78,10 +87,9 @@ class FtpConnectFragment : BaseFragment<FtpConnectViewModel, FragmentFtpConnectB
                 return
             }
             // 仍有上一级目录时，弹栈返回上一层
-            if (remoteFileStack.size > 1) {
-                remoteFileStack.removeLast()
-                val prev = remoteFileStack.last()
-                loadRemoteDir(prev)
+            if (mViewModel.remoteFileStack.size > 1) {
+                mViewModel.remoteFileStack.removeLast()
+                mViewModel.loadRemoteDir(mViewModel.remoteFileStack.last())
                 return
             }
             isEnabled = false
@@ -91,6 +99,18 @@ class FtpConnectFragment : BaseFragment<FtpConnectViewModel, FragmentFtpConnectB
                 isEnabled = true
             }
         }
+    }
+
+    private fun showCopyMoveDialog(item: FtpRemoteFileData) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(item.name)
+            .setItems(arrayOf("复制到本地", "移动到本地", "删除文件")) { _, which ->
+                when (which) {
+                    0 -> mViewModel.copyRemoteFileToLocal(item, deleteRemoteAfter = false)
+                    1 -> mViewModel.copyRemoteFileToLocal(item, deleteRemoteAfter = true)
+                    2 -> mViewModel.deleteRemoteFile(item)
+                }
+            }.setNegativeButton(obtainString(R.string.common_dialog_cancel_text), null).show()
     }
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -103,19 +123,21 @@ class FtpConnectFragment : BaseFragment<FtpConnectViewModel, FragmentFtpConnectB
                         port = ftpConnectConfigAdapter.data[1].content.toInt(),
                         username = ftpConnectConfigAdapter.data[2].content,
                         password = ftpConnectConfigAdapter.data[3].content,
+                        controlEncoding = "UTF-8",
+                        tryEnableUtf8 = true,
                     )
                 )
                 withContext(Dispatchers.Main) {
                     mViewModel.ftpConnectMessage.value = "$result"
                     if (result is com.maunc.ftp.Result.Success) {
-                        onLoginSuccess()
+                        mViewModel.onLoginSuccess()
                     }
                 }
             }
         }
         mDatabind.ftpConnectControllerDisconnect.clickScale {
             ftpConnectManager.disconnect()
-            onExitLogin()
+            mViewModel.onExitLogin()
         }
         mDatabind.ftpConnectConfigRecycler.adapter = ftpConnectConfigAdapter
         mDatabind.ftpConnectConfigRecycler.layoutManager = activity?.linearLayoutManager()
@@ -127,7 +149,7 @@ class FtpConnectFragment : BaseFragment<FtpConnectViewModel, FragmentFtpConnectB
 
         mDatabind.ftpConnectFileRecycler.layoutManager = activity?.linearLayoutManager()
         mDatabind.ftpConnectFileRecycler.adapter = remoteFileAdapter
-
+        mDatabind.ftpConnectCopyMessageTv.marquee()
         requireActivity().onBackPressedDispatcher.addCallback(this, backCallback)
     }
 
@@ -140,103 +162,23 @@ class FtpConnectFragment : BaseFragment<FtpConnectViewModel, FragmentFtpConnectB
     }
 
     override fun createObserver() {
-
-    }
-
-    private fun onLoginSuccess() {
-        mViewModel.currentConnect.value = true
-        remoteFileStack.clear()
-        remoteFileStack.addLast("/")
-        loadRemoteDir("/")
-    }
-
-    private fun onExitLogin() {
-        mViewModel.currentConnect.value = false
-        mViewModel.ftpConnectMessage.value = "断开连接"
-        remoteFileStack.clear()
-        pathGuideAdapter.setList(emptyList())
-        remoteFileAdapter.setList(emptyList())
-    }
-
-    private fun rebuildStackTo(path: String) {
-        remoteFileStack.clear()
-        val parts = path.trimEnd('/').split('/').filter { it.isNotBlank() }
-        var acc = "/"
-        remoteFileStack.addLast(acc)
-        for (p in parts) {
-            acc = if (acc.endsWith("/")) "$acc$p" else "$acc/$p"
-            remoteFileStack.addLast(acc)
-        }
-    }
-
-    private fun loadRemoteDir(path: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val result = ftpConnectManager.list(path)
-            withContext(Dispatchers.Main) {
-                when (result) {
-                    is com.maunc.ftp.Result.Success -> {
-                        val list = result.value
-                        pathGuideAdapter.setList(buildPathBreadcrumb(path).toMutableList())
-                        remoteFileAdapter.setList(mapToRemoteData(path, list).toMutableList())
-                        if (pathGuideAdapter.data.isNotEmpty()) {
-                            mDatabind.ftpConnectPathGuideRecycler.post {
-                                mDatabind.ftpConnectPathGuideRecycler.smoothScrollToPosition(
-                                    pathGuideAdapter.data.size - 1
-                                )
-                            }
-                        }
-                    }
-
-                    is com.maunc.ftp.Result.Failure -> {
-                        toastShort(result.reason)
-                    }
-                }
+        mViewModel.currentConnect.observe(this) {
+            if (it) {
+                mViewModel.rootPathName.value = ftpConnectConfigAdapter.data[0].content
+            } else {
+                pathGuideAdapter.setList(emptyList())
+                remoteFileAdapter.setList(emptyList())
+                mViewModel.ftpCopyMessage.value = GLOBAL_NONE_STRING
             }
         }
-    }
-
-    private fun buildPathBreadcrumb(current: String): List<FtpRemoteFilePathGuideData> {
-        val c = current.trimEnd('/')
-        val out = mutableListOf<FtpRemoteFilePathGuideData>()
-        out.add(FtpRemoteFilePathGuideData("/", ftpConnectConfigAdapter.data[0].content))
-        val remainder = c.removePrefix("/").trimStart('/')
-        if (remainder.isEmpty()) return out
-        var acc = "/"
-        for (part in remainder.split('/').filter { it.isNotEmpty() }) {
-            acc = if (acc.endsWith("/")) "$acc$part" else "$acc/$part"
-            out.add(FtpRemoteFilePathGuideData(acc, part))
+        mViewModel.pathGuideList.observe(this) {
+            pathGuideAdapter.setList(it)
+            if (pathGuideAdapter.data.isNotEmpty()) {
+                mDatabind.ftpConnectPathGuideRecycler.postSmoothScrollToPosition(pathGuideAdapter.data.size - 1)
+            }
         }
-        return out
-    }
-
-    private fun mapToRemoteData(parentPath: String, files: List<FTPFile>): List<FtpRemoteFileData> {
-        val sorted = files.filter { it.name != "." && it.name != ".." }
-            .sortedWith(compareBy<FTPFile> { !it.isDirectory }.thenBy {
-                it.name?.lowercase() ?: ""
-            })
-        return sorted.mapNotNull { f ->
-            val name = f.name ?: return@mapNotNull null
-            val isDir = f.isDirectory
-            val remotePath =
-                if (parentPath.endsWith("/")) "$parentPath$name" else "$parentPath/$name"
-            val ext = name.substringAfterLast('.', "").takeIf { it.isNotBlank() }
-            val type = if (isDir) FtpRemoteFileData.LOCAL_FILE_TYPE_DIR
-            else FtpRemoteFileData.getFileTypeFromExtension(ext)
-
-            FtpRemoteFileData(
-                name = name,
-                remotePath = remotePath,
-                isDir = isDir,
-                sizeBytes = if (isDir) 0L else f.size,
-                timestampMillis = runCatching { f.timestamp?.timeInMillis ?: 0L }.getOrDefault(0L),
-                extension = ext,
-                fileType = type,
-                ftpType = f.type,
-                owner = f.user,
-                group = f.group,
-                hardLinkCount = runCatching { f.hardLinkCount }.getOrDefault(0),
-                rawListing = runCatching { f.rawListing }.getOrNull(),
-            )
+        mViewModel.remoteFileList.observe(this) {
+            remoteFileAdapter.setList(it)
         }
     }
 

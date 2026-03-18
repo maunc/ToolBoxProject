@@ -20,7 +20,7 @@
             android:id="@+id/ftp_connect_login_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/ftp_connect_controller_disconnect"
+            android:layout_above="@id/ftp_connecting_log_layout"
             android:layout_marginBottom="@dimen/dp_10"
             android:visibility="@{ftpConnectViewModel.currentConnect?View.GONE:View.VISIBLE}">
 
@@ -76,7 +76,7 @@
             android:id="@+id/ftp_connect_file_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/ftp_connect_controller_disconnect"
+            android:layout_above="@id/ftp_connecting_log_layout"
             android:layout_marginBottom="@dimen/dp_10"
             android:orientation="vertical"
             android:visibility="@{ftpConnectViewModel.currentConnect?View.VISIBLE:View.GONE}"
@@ -100,19 +100,42 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/ftp_connect_controller_disconnect"
-            android:layout_width="@dimen/dp_260"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ftp_connecting_log_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dp_10"
-            android:background="@drawable/common_control_button_bg"
             android:gravity="center"
-            android:paddingHorizontal="@dimen/dp_10"
-            android:paddingVertical="@dimen/dp_15"
-            android:text="@string/ftp_server_disconnect_text"
-            android:textColor="@color/black"
-            android:textSize="26sp" />
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ftp_connect_copy_message_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_3"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{ftpConnectViewModel.ftpCopyMessage}"
+                android:textColor="@color/red"
+                android:textSize="14sp"
+                tools:text="下载中: demo.pdf  37% (123/456)" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ftp_connect_controller_disconnect"
+                android:layout_width="@dimen/dp_260"
+                android:layout_height="wrap_content"
+                android:background="@drawable/common_control_button_bg"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:paddingVertical="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_5"
+                android:text="@string/ftp_server_disconnect_text"
+                android:textColor="@color/black"
+                android:textSize="26sp" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </RelativeLayout>
 </layout>
