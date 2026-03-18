@@ -2,7 +2,7 @@ package com.maunc.toolbox.ftp.data
 
 import java.io.Serializable
 
-data class FtpConfigData(
+data class FtpServerConfigData(
     val type: Int,
     val title: String,
     var content: String,

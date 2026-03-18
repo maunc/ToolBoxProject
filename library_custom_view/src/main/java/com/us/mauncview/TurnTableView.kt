@@ -45,6 +45,9 @@ class TurnTableView @JvmOverloads constructor(
 
         // 最小触发惯性动画的角速度（°/ms），低于这个值不触发惯性
         private const val MIN_INERTIA_SPEED = 0.1f
+
+        // 默认半径
+        private const val DEFAULT_RADIUS_DP = 450f
     }
 
     // view的总宽度
@@ -172,7 +175,7 @@ class TurnTableView @JvmOverloads constructor(
     }
 
     init {
-        circleRadius = 450f
+        circleRadius = DEFAULT_RADIUS_DP
         backGroundCircleRadius = circleRadius + 10f
         sweepAngle = 360f / turnTableContentList.size
         firstSectorColor = colorResList[0]
@@ -228,7 +231,7 @@ class TurnTableView @JvmOverloads constructor(
     private fun calculateSize(
         measureMode: Int,
         measureSize: Int,
-        defaultSize: Int = 950,/*默认半径是450f 自适应长度=半径*2+黑色边框(30f)  半径可配置这里也可以配置*/
+        defaultSize: Int = (circleRadius * 2).toInt() + 50,/*默认半径是450f 自适应长度=半径*2+黑色边框(30f)  半径可配置这里也可以配置*/
     ): Int {
         return when (measureMode) {
             // 精确模式：match_parent/固定数值，直接用父View给的size

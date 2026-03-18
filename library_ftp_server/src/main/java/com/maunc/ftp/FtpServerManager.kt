@@ -17,7 +17,9 @@ import java.io.File
 val ftpServerManager: FtpServerManager by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
     FtpServerManager.ftpServerManager
 }
-
+/**
+ * FTP  服务端管理器：用于创建“FTP 服务器”
+ */
 class FtpServerManager private constructor() {
     // FTP服务器实例
     private var ftpServer: FtpServer? = null
@@ -60,7 +62,7 @@ class FtpServerManager private constructor() {
         password: String = DEFAULT_PWD,
         shareDir: String = DEFAULT_SHARE_DIR,
     ): Pair<Boolean, String> {
-        if (!isValidPort(port)) return Pair(false, FTP_SHARE_PORT_NOT)
+        if (!port.isValidPort()) return Pair(false, FTP_SHARE_PORT_NOT)
         if (!File(shareDir).exists()) return Pair(false, FTP_SHARE_DIR_NOT_EXISTS)
         if (isServerRunning()) return Pair(false, FTP_SERVER_STATUS_RUNNING)
         stopFtpServer()
@@ -152,15 +154,5 @@ class FtpServerManager private constructor() {
             ftpServer?.isSuspended == true -> FTP_SERVER_STATUS_PAUSE
             else -> FTP_SERVER_STATUS_RUNNING
         }
-    }
-
-    /**
-     * 校验端口是否合理，且避免常见系统端口
-     * @param allowSystemPorts 是否允许 1~1023 的系统端口
-     */
-    fun isValidPort(port: Int, allowSystemPorts: Boolean = false): Boolean {
-        if (port !in 1..65535) return false
-        if (!allowSystemPorts && port in 1..1023) return false
-        return true
     }
 }

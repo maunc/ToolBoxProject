@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".devicemsg.ui.DeviceMessageActivity">
+
+        <include
+            android:id="@+id/common_tool_bar"
+            layout="@layout/layout_tool_bar_common" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/common_tool_bar"
+            android:layout_centerHorizontal="true">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/device_message_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

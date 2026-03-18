@@ -29,6 +29,7 @@ data class ToolBoxItemData(
         const val TOOL_BOX_ITEM_PUSH_BOX = 6//推箱子
         const val TOOL_BOX_ITEM_FTP = 7//FTP
         const val TOOL_BOX_ITEM_DEVICE_MSG = 8//设备信息
+        const val TOOL_BOX_ITEM_LOCAL_FILE = 9//本地外部存储
     }
 }
 

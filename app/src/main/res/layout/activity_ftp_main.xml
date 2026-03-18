@@ -16,84 +16,27 @@
             android:id="@+id/common_tool_bar"
             layout="@layout/layout_tool_bar_common" />
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/common_tool_bar"
-            android:layout_centerHorizontal="true">
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/ftp_main_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/ftp_main_config_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/dp_20"
-                    android:layout_marginTop="@dimen/dp_20"
-                    android:nestedScrollingEnabled="false" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/gray" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_30"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/ftp_main_controller_connect"
-                        android:layout_width="@dimen/dp_260"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/common_control_button_bg"
-                        android:gravity="center"
-                        android:paddingHorizontal="@dimen/dp_10"
-                        android:paddingVertical="@dimen/dp_15"
-                        android:text="@string/ftp_main_connect_text"
-                        android:textColor="@color/black"
-                        android:textSize="26sp" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/ftp_main_controller_disconnect"
-                        android:layout_width="@dimen/dp_260"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/dp_30"
-                        android:background="@drawable/common_control_button_bg"
-                        android:gravity="center"
-                        android:paddingHorizontal="@dimen/dp_10"
-                        android:paddingVertical="@dimen/dp_15"
-                        android:text="@string/ftp_main_disconnect_text"
-                        android:textColor="@color/black"
-                        android:textSize="26sp" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/ftp_main_controller_none"
-                        android:layout_width="@dimen/dp_260"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/dp_30"
-                        android:background="@drawable/common_control_button_bg"
-                        android:gravity="center"
-                        android:paddingHorizontal="@dimen/dp_10"
-                        android:paddingVertical="@dimen/dp_15"
-                        android:text="@string/ftp_main_current_status_text"
-                        android:textColor="@color/black"
-                        android:textSize="26sp" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/ftp_main_controller_status_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/dp_30"
-                        android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="26sp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </androidx.core.widget.NestedScrollView>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/ftp_main_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </RelativeLayout>
 </layout>

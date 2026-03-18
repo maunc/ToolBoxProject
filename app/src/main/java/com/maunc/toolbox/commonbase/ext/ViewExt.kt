@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.graphics.Rect
@@ -43,7 +44,6 @@ import com.maunc.toolbox.commonbase.constant.ALPHA
 import com.maunc.toolbox.commonbase.constant.SCALE_X
 import com.maunc.toolbox.commonbase.constant.SCALE_Y
 
-
 fun View.visible() {
     visibility = View.VISIBLE
 }
@@ -73,10 +73,22 @@ fun View.setScale(x: Float, y: Float) {
     scaleY = y
 }
 
+fun Context.inflateView(
+    @LayoutRes viewId: Int,
+): View = LayoutInflater.from(this).inflate(
+    viewId, null, false
+)
+
 fun ViewGroup.addView(@LayoutRes viewId: Int): View {
     val newView = LayoutInflater.from(this.context).inflate(viewId, this, false)
     this.addView(newView)
     return newView
+}
+
+fun RecyclerView.postSmoothScrollToPosition(pos: Int) {
+    post {
+        smoothScrollToPosition(pos)
+    }
 }
 
 @SuppressLint("ClickableViewAccessibility")
@@ -380,20 +392,20 @@ fun ViewPager.addViewPageListener(
 }
 
 fun TabLayout.addTabSelectedListener(
-    onTabSelected: (TabLayout.Tab?) -> Unit = {},
-    onTabUnselected: (TabLayout.Tab?) -> Unit = {},
-    onTabReselected: (TabLayout.Tab?) -> Unit = {},
+    onTabUnselected: (Tab?) -> Unit = {},
+    onTabReselected: (Tab?) -> Unit = {},
+    onTabSelected: (Tab?) -> Unit = {},
 ) {
     this.addOnTabSelectedListener(object : OnTabSelectedListener {
-        override fun onTabSelected(tab: TabLayout.Tab?) {
+        override fun onTabSelected(tab: Tab?) {
             onTabSelected.invoke(tab)
         }
 
-        override fun onTabUnselected(tab: TabLayout.Tab?) {
+        override fun onTabUnselected(tab: Tab?) {
             onTabUnselected.invoke(tab)
         }
 
-        override fun onTabReselected(tab: TabLayout.Tab?) {
+        override fun onTabReselected(tab: Tab?) {
             onTabReselected.invoke(tab)
         }
     })

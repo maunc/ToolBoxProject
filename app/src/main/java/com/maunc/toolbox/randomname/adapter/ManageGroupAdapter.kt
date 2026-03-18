@@ -4,17 +4,17 @@ import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.databinding.ItemManageGroupBinding
+import com.maunc.toolbox.databinding.ItemRandomManageGroupBinding
 import com.maunc.toolbox.randomname.database.table.RandomNameWithGroup
 import java.text.SimpleDateFormat
 import java.util.Date
 
 class ManageGroupAdapter :
-    BaseQuickAdapter<RandomNameWithGroup, BaseDataBindingHolder<ItemManageGroupBinding>>(R.layout.item_manage_group) {
+    BaseQuickAdapter<RandomNameWithGroup, BaseDataBindingHolder<ItemRandomManageGroupBinding>>(R.layout.item_random_manage_group) {
 
     @SuppressLint("SetTextI18n")
     override fun convert(
-        holder: BaseDataBindingHolder<ItemManageGroupBinding>,
+        holder: BaseDataBindingHolder<ItemRandomManageGroupBinding>,
         item: RandomNameWithGroup,
     ) {
         holder.dataBinding?.let { mDataBind ->

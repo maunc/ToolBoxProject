@@ -4,20 +4,19 @@ import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.chatroom.data.convertTime
-import com.maunc.toolbox.databinding.ItemManageGroupWithNameBinding
+import com.maunc.toolbox.databinding.ItemRandomManageGroupWithNameBinding
 import com.maunc.toolbox.randomname.database.table.RandomNameData
 import java.text.SimpleDateFormat
 import java.util.Date
 
 class ManageGroupWithNameAdapter :
-    BaseQuickAdapter<RandomNameData, BaseDataBindingHolder<ItemManageGroupWithNameBinding>>(
-        R.layout.item_manage_group_with_name
+    BaseQuickAdapter<RandomNameData, BaseDataBindingHolder<ItemRandomManageGroupWithNameBinding>>(
+        R.layout.item_random_manage_group_with_name
     ) {
 
     @SuppressLint("SetTextI18n")
     override fun convert(
-        holder: BaseDataBindingHolder<ItemManageGroupWithNameBinding>,
+        holder: BaseDataBindingHolder<ItemRandomManageGroupWithNameBinding>,
         item: RandomNameData,
     ) {
         holder.dataBinding?.let { mDataBind ->

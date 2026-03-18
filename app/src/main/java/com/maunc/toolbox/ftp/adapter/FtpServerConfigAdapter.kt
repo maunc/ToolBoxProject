@@ -11,10 +11,10 @@ import com.maunc.toolbox.commonbase.ext.chineseProhibitedInput
 import com.maunc.toolbox.commonbase.ext.setMaxLength
 import com.maunc.toolbox.commonbase.ext.spaceProhibitedInput
 import com.maunc.toolbox.databinding.ItemFtpConfigBinding
-import com.maunc.toolbox.ftp.data.FtpConfigData
+import com.maunc.toolbox.ftp.data.FtpServerConfigData
 
-class FtpConfigAdapter :
-    BaseQuickAdapter<FtpConfigData, BaseDataBindingHolder<ItemFtpConfigBinding>>(
+class FtpServerConfigAdapter :
+    BaseQuickAdapter<FtpServerConfigData, BaseDataBindingHolder<ItemFtpConfigBinding>>(
         R.layout.item_ftp_config
     ) {
 
@@ -27,7 +27,7 @@ class FtpConfigAdapter :
     @SuppressLint("ClickableViewAccessibility")
     override fun convert(
         holder: BaseDataBindingHolder<ItemFtpConfigBinding>,
-        item: FtpConfigData,
+        item: FtpServerConfigData,
     ) {
         val itemPosition = holder.bindingAdapterPosition
         holder.dataBinding?.let { mDataBind ->
@@ -39,14 +39,16 @@ class FtpConfigAdapter :
             mDataBind.itemFtpConfigEditView.spaceProhibitedInput()
             mDataBind.itemFtpConfigEditView.chineseProhibitedInput()
             when (item.type) {
-                FtpConfigData.FTP_PORT_TYPE -> {
+                FtpServerConfigData.FTP_PORT_TYPE -> {
                     mDataBind.itemFtpConfigEditView.inputType =
                         InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
                     mDataBind.itemFtpConfigEditView.setMaxLength(5)
                 }
 
-                FtpConfigData.FTP_SHARE_DIR -> mDataBind.itemFtpConfigEditView.setMaxLength(9999)
-                FtpConfigData.FTP_USE_TYPE, FtpConfigData.FTP_PASS_WORD_TYPE ->
+                FtpServerConfigData.FTP_SHARE_DIR ->
+                    mDataBind.itemFtpConfigEditView.setMaxLength(9999)
+
+                FtpServerConfigData.FTP_USE_TYPE, FtpServerConfigData.FTP_PASS_WORD_TYPE ->
                     mDataBind.itemFtpConfigEditView.setMaxLength(8)
             }
             mDataBind.itemFtpConfigEditView.setOnTouchListener { view, event ->

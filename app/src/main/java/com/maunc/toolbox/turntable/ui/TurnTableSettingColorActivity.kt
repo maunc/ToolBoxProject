@@ -2,7 +2,6 @@ package com.maunc.toolbox.turntable.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import com.maunc.toolbox.R
 import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.base.BaseActivity

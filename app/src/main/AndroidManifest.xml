@@ -45,7 +45,10 @@
         android:theme="@style/Theme.ToolBox"
         tools:targetApi="31">
         <activity
-            android:name=".devicemsg.ui.DeviceMsgActivity"
+            android:name=".localfile.ui.LocalFileMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".devicemsg.ui.DeviceMessageActivity"
             android:exported="false" />
         <activity
             android:name=".ftp.ui.FtpMainActivity"

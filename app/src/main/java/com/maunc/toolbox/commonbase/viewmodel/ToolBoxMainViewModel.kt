@@ -81,5 +81,10 @@ class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
             itemTitle = obtainString(R.string.tool_box_item_device_msg_text),
             itemSort = 8
         ),
+        ToolBoxItemData(
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_LOCAL_FILE,
+            itemTitle = obtainString(R.string.tool_box_item_local_file_text),
+            itemSort = 9
+        ),
     )
 }
