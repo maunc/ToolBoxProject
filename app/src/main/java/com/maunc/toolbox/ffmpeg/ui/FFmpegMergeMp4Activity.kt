@@ -1,15 +1,19 @@
 package com.maunc.toolbox.ffmpeg.ui
 
 import android.os.Bundle
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.annotation.StringRes
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.COMMON_EDIT_DATA_DIALOG
 import com.maunc.toolbox.commonbase.constant.COMMON_LOADING_DIALOG
+import com.maunc.toolbox.commonbase.ext.addItemTouchHelper
 import com.maunc.toolbox.commonbase.ext.clickScale
 import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
 import com.maunc.toolbox.commonbase.ext.linearLayoutManager
+import com.maunc.toolbox.commonbase.ext.obtainDrawable
 import com.maunc.toolbox.commonbase.ext.obtainString
+import com.maunc.toolbox.commonbase.ext.setScale
 import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonEditDataDialog
 import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
@@ -20,9 +24,11 @@ import com.maunc.toolbox.ffmpeg.constant.FFMPEG_START
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_SUCCESS
 import com.maunc.toolbox.ffmpeg.constant.SAVE_FFMPEG_PREFIX
 import com.maunc.toolbox.ffmpeg.viewmodel.FFmpegMergeMp4ViewModel
+import java.util.Collections
 
 class FFmpegMergeMp4Activity :
     BaseActivity<FFmpegMergeMp4ViewModel, ActivityFfmpegMergeMp4Binding>() {
+    private var dragTargetPosition = 0
 
     private val loadingDialog by lazy {
         CommonLoadingDialog()
@@ -72,6 +78,44 @@ class FFmpegMergeMp4Activity :
         }
         mDatabind.ffmpegMergeMp4DataRecycler.layoutManager = linearLayoutManager()
         mDatabind.ffmpegMergeMp4DataRecycler.adapter = ffmpegMergeMp4Adapter
+        mDatabind.ffmpegMergeMp4DataRecycler.addItemTouchHelper(
+            onMove = { fromPosition, toPosition ->
+                dragTargetPosition = toPosition
+                val currentList = ffmpegMergeMp4Adapter.data
+                if (fromPosition < toPosition) {
+                    for (i in fromPosition until toPosition) {
+                        Collections.swap(currentList, i, i + 1)
+                    }
+                } else {
+                    for (i in fromPosition downTo toPosition + 1) {
+                        Collections.swap(currentList, i, i - 1)
+                    }
+                }
+                ffmpegMergeMp4Adapter.notifyItemMoved(fromPosition, toPosition)
+                true
+            },
+            onSelectedChanged = { viewHolder, actionState ->
+                if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
+                    viewHolder?.itemView?.setScale(1.05f, 1.05f)
+                    viewHolder?.itemView?.background =
+                        obtainDrawable(R.drawable.stroke_black_bg_gray_radius_24)
+                }
+            },
+            onClearView = { recyclerView, viewHolder ->
+                if (!recyclerView.isComputingLayout) {
+                    // 拖拽结束后同步顺序到 ViewModel，确保播放与合并顺序一致
+                    val sortedList = ffmpegMergeMp4Adapter.data.toMutableList()
+                    mViewModel.playCurrentIndex =
+                        dragTargetPosition.coerceIn(0, (sortedList.size - 1).coerceAtLeast(0))
+                    mViewModel.currentSelectList.clear()
+                    mViewModel.currentSelectList.addAll(sortedList)
+                    mViewModel.targetSelectList.value = sortedList
+                    viewHolder.itemView.setScale(1.0f, 1.0f)
+                    viewHolder.itemView.background =
+                        obtainDrawable(R.drawable.bg_item_tool_box_selector)
+                }
+            }
+        )
         mDatabind.ffmpegMergeMp4Player.setOnCompleteListener {
             mViewModel.playCurrentIndex += 1
             if (mViewModel.playCurrentIndex > (mViewModel.targetSelectList.value?.size ?: 1) - 1) {
@@ -91,8 +135,10 @@ class FFmpegMergeMp4Activity :
                 rePlayerResourceAndRecycler()
                 return@observe
             }
-            rePlayerResourceAndRecycler()
+            mDatabind.ffmpegMergeMp4Player.onDestroy()
             ffmpegMergeMp4Adapter.setList(it)
+            mViewModel.playCurrentIndex =
+                mViewModel.playCurrentIndex.coerceIn(0, ffmpegMergeMp4Adapter.data.lastIndex)
             playMp4FileAndHandleRecycler(
                 mViewModel.playCurrentIndex,
                 ffmpegMergeMp4Adapter.data[mViewModel.playCurrentIndex].realPath

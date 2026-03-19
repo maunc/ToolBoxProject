@@ -10,7 +10,8 @@
         android:id="@+id/item_ffmpeg_merge_mp4_root_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/dp_5">
+        android:layout_marginVertical="@dimen/dp_5"
+        android:background="@drawable/bg_item_tool_box_selector">
 
         <RelativeLayout
             android:id="@+id/item_ffmpeg_merge_mp4_msg_layout"
