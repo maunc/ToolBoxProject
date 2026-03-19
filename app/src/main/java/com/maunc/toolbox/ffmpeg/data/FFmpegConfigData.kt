@@ -9,5 +9,6 @@ data class FFmpegConfigData(
         const val M3U8_TO_MP4_TYPE = 1//m3u8转mp4
         const val H265_OR_H264_TO_MP4_TYPE = 2//H265和H264转mp4
         const val MERGE_MP4_TYPE = 3//合并多个mp4
+        const val MP4_TO_GIF_TYPE = 4//mp4转gif
     }
 }

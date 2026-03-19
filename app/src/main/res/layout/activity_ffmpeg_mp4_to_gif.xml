@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="ffmpegMp4ToGifViewModel"
+            type="com.maunc.toolbox.ffmpeg.viewmodel.FFmpegMp4ToGifViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ffmpeg.ui.FFmpegMp4ToGifActivity">
+
+        <include
+            android:id="@+id/common_tool_bar"
+            layout="@layout/layout_tool_bar_common" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/common_tool_bar"
+            android:layout_centerHorizontal="true">
+
+            <com.maunc.videoplayer.CustomVideoPlayer
+                android:id="@+id/ffmpeg_mp4_to_gif_video_player"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_260"
+                android:visibility="@{ffmpegMp4ToGifViewModel.currentSelectMp4File==null?View.GONE:View.VISIBLE}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ffmpeg_mp4_to_gif_target_file_msg_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_180"
+                android:layout_below="@+id/ffmpeg_mp4_to_gif_video_player"
+                android:layout_marginHorizontal="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/stroke_black_bg_white_radius_12"
+                android:padding="@dimen/dp_10"
+                android:visibility="@{ffmpegMp4ToGifViewModel.currentSelectMp4File==null?View.GONE:View.VISIBLE}" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ffmpeg_mp4_to_gif_not_file_tips"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_180"
+                android:layout_marginHorizontal="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_20"
+                android:gravity="center"
+                android:text="@string/ffmpeg_mp4_to_gif_not_file_tips_tv"
+                android:textColor="@color/black"
+                android:textSize="36sp"
+                android:visibility="@{ffmpegMp4ToGifViewModel.currentSelectMp4File==null?View.VISIBLE:View.GONE}" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/dp_60"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ffmpeg_mp4_to_gif_select_mp4_file_tv"
+                    android:layout_width="@dimen/dp_260"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/common_control_button_bg"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dp_15"
+                    android:text="@string/ffmpeg_mp4_to_gif_click_tv"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/ffmpeg_mp4_to_gif_handle_mp4_file_to_tv"
+                    android:layout_width="@dimen/dp_260"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:background="@drawable/common_control_button_bg"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/dp_15"
+                    android:text="@string/ffmpeg_mp4_to_gif_handle_click_tv"
+                    android:textColor="@color/black"
+                    android:textSize="26sp" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>
+

@@ -50,9 +50,6 @@
             android:theme="@style/Activity.Transparent"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".localfile.ui.LocalFileMainActivity"
-            android:exported="false" />
-        <activity
             android:name=".devicemsg.ui.DeviceMessageActivity"
             android:exported="false" />
         <activity
@@ -81,6 +78,9 @@
             android:exported="false" />
         <activity
             android:name=".ffmpeg.ui.FFmpegMp4ToMp3Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ffmpeg.ui.FFmpegMp4ToGifActivity"
             android:exported="false" />
         <activity
             android:name=".ffmpeg.ui.FFmpegMainActivity"

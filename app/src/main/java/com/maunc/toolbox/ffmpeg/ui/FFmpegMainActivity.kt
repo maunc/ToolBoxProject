@@ -34,6 +34,10 @@ class FFmpegMainActivity : BaseActivity<FFmpegMainViewModel, ActivityFfmpegMainB
                     FFmpegConfigData.MERGE_MP4_TYPE -> startTargetActivity(
                         FFmpegMergeMp4Activity::class.java
                     )
+
+                    FFmpegConfigData.MP4_TO_GIF_TYPE -> startTargetActivity(
+                        FFmpegMp4ToGifActivity::class.java
+                    )
                 }
             }
         }

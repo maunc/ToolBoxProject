@@ -22,7 +22,6 @@ import com.maunc.toolbox.databinding.ActivityToolBoxMainBinding
 import com.maunc.toolbox.devicemsg.ui.DeviceMessageActivity
 import com.maunc.toolbox.ffmpeg.ui.FFmpegMainActivity
 import com.maunc.toolbox.ftp.ui.activity.FtpMainActivity
-import com.maunc.toolbox.localfile.ui.LocalFileMainActivity
 import com.maunc.toolbox.pushbox.ui.activity.PushBoxMainActivity
 import com.maunc.toolbox.randomname.ui.activity.RandomNameMainActivity
 import com.maunc.toolbox.signaturecanvas.ui.SignatureCanvasMainActivity
@@ -65,10 +64,6 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
 
                     ToolBoxItemData.TOOL_BOX_ITEM_DEVICE_MSG ->
                         startTargetActivity(DeviceMessageActivity::class.java)
-
-                    ToolBoxItemData.TOOL_BOX_ITEM_LOCAL_FILE -> if (checkFilePermission()) {
-                        startTargetActivity(LocalFileMainActivity::class.java)
-                    }
                 }
             }
         }

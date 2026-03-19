@@ -8,6 +8,7 @@ import java.util.Locale
 const val FFMPEG_CREATE_DIR_TAG = "FFMPEG_CREATE_DIR"
 
 const val SELECT_MP4_TO_MP3_MAX_NUM = 1
+const val SELECT_MP4_TO_GIF_MAX_NUM = 1
 
 //最多合并视频数量
 const val SELECT_MERGE_MP4_MAX_NUM = 10
@@ -19,6 +20,9 @@ var SAVE_ROOT_PATH = obtainSDCardRootPath() + File.separator + SAVE_ROOT_PATH_NA
 
 const val MP4_TO_MP3_SAVE_PATH_NAME = "mp4_to_mp3"
 var MP4_TO_MP3_SAVE_PATH = SAVE_ROOT_PATH + File.separator + MP4_TO_MP3_SAVE_PATH_NAME
+
+const val MP4_TO_GIF_SAVE_PATH_NAME = "mp4_to_gif"
+var MP4_TO_GIF_SAVE_PATH = SAVE_ROOT_PATH + File.separator + MP4_TO_GIF_SAVE_PATH_NAME
 
 const val M3U8_TO_MP4_SAVE_PATH_NAME = "m3u8_to_mp4"
 var M3U8_TO_MP4_SAVE_PATH = SAVE_ROOT_PATH + File.separator + M3U8_TO_MP4_SAVE_PATH_NAME

@@ -1,8 +1,5 @@
 package com.maunc.toolbox.turntable.constant
 
-import android.graphics.Color
-import com.maunc.toolbox.commonbase.ext.mutableListInsert
-import com.maunc.toolbox.turntable.data.TurnTableConfigColorData
 import com.maunc.toolbox.turntable.data.TurnTableEditData
 import com.maunc.toolbox.turntable.database.table.TurnTableNameWithGroup
 
