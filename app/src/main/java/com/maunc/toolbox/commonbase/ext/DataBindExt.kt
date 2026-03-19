@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 
 @JvmName("inflateWithGeneric")
 fun <VB : ViewBinding> AppCompatActivity.inflateBindingWithGeneric(
@@ -68,4 +69,15 @@ private fun <VB : ViewBinding> withGenericBindingClass(
 @Suppress("UNCHECKED_CAST")
 fun <VM> getVmClazz(
     obj: Any,
-): VM = (obj.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as VM
+): VM {
+    var genericSuperclass: Type? = obj.javaClass.genericSuperclass
+    var superclass: Class<*>? = obj.javaClass.superclass
+    while (superclass != null) {
+        if (genericSuperclass is ParameterizedType) {
+            return genericSuperclass.actualTypeArguments[0] as VM
+        }
+        genericSuperclass = superclass.genericSuperclass
+        superclass = superclass.superclass
+    }
+    throw IllegalArgumentException("There is no generic of ViewModel.")
+}

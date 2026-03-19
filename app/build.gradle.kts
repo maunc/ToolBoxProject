@@ -34,8 +34,9 @@ android {
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         ndk {
+            // 仅保留 arm64，可显著降低 APK 体积（代价：不支持 32 位设备）
             //noinspection ChromeOsAbiSupport
-            abiFilters += arrayListOf("armeabi-v7a", "arm64-v8a")
+            abiFilters += arrayListOf("arm64-v8a")
         }
     }
 
@@ -52,11 +53,28 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            // release 不打 native 调试符号，进一步减小包体
+            ndk {
+                debugSymbolLevel = "none"
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")
+        }
+    }
+
+    // 使用 AAB 发布时，按设备下发资源/ABI，可减少用户下载体积
+    bundle {
+        abi {
+            enableSplit = true
+        }
+        density {
+            enableSplit = true
+        }
+        language {
+            enableSplit = true
         }
     }
     compileOptions {
@@ -85,6 +103,9 @@ android {
             excludes += "META-INF/LICENSE.txt"
             excludes += "META-INF/NOTICE"
             excludes += "META-INF/NOTICE.txt"
+            excludes += "META-INF/*.kotlin_module"
+            excludes += "META-INF/AL2.0"
+            excludes += "META-INF/LGPL2.1"
         }
     }
 

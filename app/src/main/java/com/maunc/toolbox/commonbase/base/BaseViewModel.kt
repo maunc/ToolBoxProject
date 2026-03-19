@@ -4,22 +4,41 @@ import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
 
 abstract class BaseViewModel<M : BaseModel?> : ViewModel(), BaseLifecycle {
 
     var model: M? = null
 
     init {
-        val parameterizedType = javaClass.genericSuperclass as ParameterizedType
-        val actualTypeArguments = parameterizedType.actualTypeArguments
-        val mClass = actualTypeArguments[0] as Class<M>
-        try {
-            model = mClass.newInstance()
-        } catch (e: IllegalAccessException) {
-            Log.e("BaseViewModel", e.toString())
-        } catch (e: InstantiationException) {
-            Log.e("BaseViewModel", e.toString())
+        val mClass = obtainGenericModelClass()
+        if (mClass != null) {
+            try {
+                model = mClass.newInstance()
+            } catch (e: IllegalAccessException) {
+                Log.e("BaseViewModel", e.toString())
+            } catch (e: InstantiationException) {
+                Log.e("BaseViewModel", e.toString())
+            }
         }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun obtainGenericModelClass(): Class<M>? {
+        var genericSuperclass: Type? = javaClass.genericSuperclass
+        var superclass: Class<*>? = javaClass.superclass
+        while (superclass != null) {
+            if (genericSuperclass is ParameterizedType) {
+                val modelType = genericSuperclass.actualTypeArguments[0]
+                if (modelType is Class<*>) {
+                    return modelType as Class<M>
+                }
+            }
+            genericSuperclass = superclass.genericSuperclass
+            superclass = superclass.superclass
+        }
+        Log.e("BaseViewModel", "No generic model class found for ${javaClass.name}")
+        return null
     }
 
     override fun onCreate(owner: LifecycleOwner) {

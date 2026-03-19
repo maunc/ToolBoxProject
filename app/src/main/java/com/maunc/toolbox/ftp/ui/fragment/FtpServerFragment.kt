@@ -2,6 +2,7 @@ package com.maunc.toolbox.ftp.ui.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import com.maunc.ftp.ftpServerManager
 import com.maunc.toolbox.R
@@ -46,12 +47,20 @@ class FtpServerFragment : BaseFragment<FtpServerViewModel, FragmentFtpServerBind
 
     @SuppressLint("SetTextI18n")
     override fun initView(savedInstanceState: Bundle?) {
+        if (ftpServerManager.isServerRunning()) {
+            mDatabind.ftpServerControllerTv.text =
+                obtainString(R.string.ftp_server_disconnect_text)
+            setKeepScreenOn(true)
+        } else {
+            setKeepScreenOn(false)
+        }
         mDatabind.ftpServerControllerTv.clickScale {
             if (ftpServerManager.isServerRunning()) {
                 ftpServerManager.stopFtpServer()
                 mDatabind.ftpServerControllerTv.text =
                     obtainString(R.string.ftp_server_connect_text)
                 mDatabind.ftpServerControllerStatusText.text = "已断开连接"
+                setKeepScreenOn(false)
                 return@clickScale
             }
             val (connectResult, message) = ftpServerManager.startFtpServer(
@@ -62,11 +71,13 @@ class FtpServerFragment : BaseFragment<FtpServerViewModel, FragmentFtpServerBind
             )
             if (!connectResult) {
                 mDatabind.ftpServerControllerStatusText.text = "创建连接失败:${message}"
+                setKeepScreenOn(false)
                 return@clickScale
             }
             mDatabind.ftpServerControllerStatusText.text = "创建连接成功!\n地址:${message}"
             mDatabind.ftpServerControllerTv.text =
                 obtainString(R.string.ftp_server_disconnect_text)
+            setKeepScreenOn(true)
         }
         mDatabind.ftpServerConfigTv.clickScale {
             if (ftpServerManager.isServerRunning()) {
@@ -93,4 +104,13 @@ class FtpServerFragment : BaseFragment<FtpServerViewModel, FragmentFtpServerBind
     }
 
     override fun createObserver() {}
+
+    private fun setKeepScreenOn(enable: Boolean) {
+        val window = activity?.window ?: return
+        if (enable) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
 }

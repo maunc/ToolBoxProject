@@ -57,3 +57,28 @@
 
 # 保留泛型类/方法的签名（避免泛型类型被擦除导致反射异常）
 -keepattributes Signature, InnerClasses, EnclosingMethod
+
+# 保留基类泛型签名及继承层级，避免 release 下反射获取泛型失败
+-keep class com.maunc.toolbox.commonbase.base.BaseActivity { *; }
+-keep class com.maunc.toolbox.commonbase.base.BaseFragment { *; }
+-keep class com.maunc.toolbox.commonbase.base.BaseDialog { *; }
+-keep class com.maunc.toolbox.commonbase.base.BaseBottomDialog { *; }
+-keep class com.maunc.toolbox.commonbase.base.BaseViewModel { *; }
+-keep class * extends com.maunc.toolbox.commonbase.base.BaseActivity { *; }
+-keep class * extends com.maunc.toolbox.commonbase.base.BaseFragment { *; }
+-keep class * extends com.maunc.toolbox.commonbase.base.BaseDialog { *; }
+-keep class * extends com.maunc.toolbox.commonbase.base.BaseBottomDialog { *; }
+-keep class * extends com.maunc.toolbox.commonbase.base.BaseViewModel { *; }
+
+# R8 missing classes (来自 mapping/release/missing_rules.txt)
+-dontwarn java.beans.BeanInfo
+-dontwarn java.beans.IntrospectionException
+-dontwarn java.beans.Introspector
+-dontwarn java.beans.PropertyDescriptor
+
+# BRVAH + DataBinding Holder 在 release 下避免 Holder 泛型退化导致 ClassCastException
+-keep class com.chad.library.adapter.base.BaseQuickAdapter { *; }
+-keep class * extends com.chad.library.adapter.base.BaseQuickAdapter { *; }
+-keep class com.chad.library.adapter.base.viewholder.BaseViewHolder { *; }
+-keep class com.chad.library.adapter.base.viewholder.BaseDataBindingHolder { *; }
+-keep class * extends com.chad.library.adapter.base.viewholder.BaseDataBindingHolder { *; }
