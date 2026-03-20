@@ -1,11 +1,14 @@
 package com.maunc.toolbox
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
+import com.maunc.toolbox.commonbase.constant.GLOBAL_TAG
 import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.commonbase.utils.AppStatusManager
+import com.maunc.torrent.TorrentManager
 import com.tencent.mmkv.MMKV
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -44,9 +47,16 @@ class ToolBoxApplication : Application(), ViewModelStoreOwner {
             this, getViewModelFactory()
         )[ToolBoxApplicationViewModel::class]
         AppStatusManager.initAppStatusManager(this)
+        try {
+            // 提前启动会话便于 DHT；失败时不阻断应用启动
+            TorrentManager.init()
+        } catch (t: Throwable) {
+            Log.e(GLOBAL_TAG, "LibTorrentSession.ensureStarted in Application", t)
+        }
     }
 
     override fun onTerminate() {
+        TorrentManager.unInit()
         super.onTerminate()
     }
 

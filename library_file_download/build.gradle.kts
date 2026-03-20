@@ -4,11 +4,10 @@ plugins {
 
 android {
     namespace = "com.liulishuo.filedownloader"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdkVerison.get().toInt()
 
     defaultConfig {
-        minSdk = 24
-        targetSdk = 35
+        minSdk = libs.versions.minSdkVersion.get().toInt()
     }
     buildTypes {
         release {
@@ -29,6 +28,3 @@ android {
 
 dependencies {
 }
-
-
-

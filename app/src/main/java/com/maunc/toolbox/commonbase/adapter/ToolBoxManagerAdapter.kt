@@ -24,7 +24,7 @@ class ToolBoxManagerAdapter :
                     ToolBoxItemData.TOOL_BOX_ITEM_PUSH_BOX -> R.drawable.icon_tool_box_push_box
                     ToolBoxItemData.TOOL_BOX_ITEM_FTP -> R.drawable.icon_tool_box_ftp
                     ToolBoxItemData.TOOL_BOX_ITEM_DEVICE_MSG -> R.drawable.icon_tool_box_device_info
-                    ToolBoxItemData.TOOL_BOX_ITEM_TORRENT_PARSE -> R.drawable.icon_tool_box_device_info
+                    ToolBoxItemData.TOOL_BOX_ITEM_TORRENT_PARSE -> R.drawable.icon_tool_box_torrent
                     else -> R.drawable.ic_launcher
                 }
             )

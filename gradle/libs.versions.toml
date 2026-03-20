@@ -32,6 +32,9 @@ flexboxVersion = "3.0.0"
 ffmpegVersion = "6.0-2"
 gsyvideoplayerVersion = "11.3.0"
 
+
+libtorrent4j = "2.1.0-35"
+
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -61,6 +64,10 @@ exo-player = [
 ext-glide = [
     "ext-glide",
     "ext-glide-compiler"
+]
+ext-libtorrent = [
+    "ext-libtorrent4j",
+    "ext-libtorrent4j-android-arm64"
 ]
 
 [libraries]
@@ -102,6 +109,9 @@ ext-unpeeklivedata = { group = "com.kunminx.arch", name = "unpeek-livedata", ver
 ext-flex-box = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexboxVersion" }
 ext-ffmpeg-kit = { group = "com.arthenica", name = "ffmpeg-kit-full", version.ref = "ffmpegVersion" }
 ext-gsyvideoplayer = { group = "io.github.carguo", name = "gsyvideoplayer", version.ref = "gsyvideoplayerVersion" }
+
+ext-libtorrent4j-android-arm64 = { module = "org.libtorrent4j:libtorrent4j-android-arm64", version.ref = "libtorrent4j" }
+ext-libtorrent4j = { module = "org.libtorrent4j:libtorrent4j", version.ref = "libtorrent4j" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

@@ -82,3 +82,7 @@
 -keep class com.chad.library.adapter.base.viewholder.BaseViewHolder { *; }
 -keep class com.chad.library.adapter.base.viewholder.BaseDataBindingHolder { *; }
 -keep class * extends com.chad.library.adapter.base.viewholder.BaseDataBindingHolder { *; }
+
+# libtorrent4j：JNI / SWIG
+-keep class org.libtorrent4j.swig.libtorrent_jni { *; }
+-keep class org.libtorrent4j.swig.** { *; }

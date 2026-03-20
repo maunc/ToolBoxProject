@@ -256,4 +256,12 @@
     <string name="torrent_main_empty_tips_text">未检索到本地 .torrent 文件</string>
     <string name="torrent_main_parse_torrent_failed_text">读取或解析种子失败</string>
     <string name="torrent_main_file_size_label">大小：%s</string>
+    <string name="torrent_download_started">已开始下载，保存目录：%s</string>
+    <string name="torrent_download_failed">下载失败</string>
+    <string name="torrent_magnet_dialog_title">磁链下载</string>
+    <string name="torrent_magnet_dialog_hint">magnet:?xt=urn:btih:…</string>
+    <string name="torrent_magnet_dialog_confirm">开始下载</string>
+    <string name="torrent_magnet_progress_title">磁链任务</string>
+    <string name="torrent_magnet_progress_speed_sz">下行 %1$s</string>
+    <string name="torrent_magnet_progress_done_sz">已完成 %1$s / %2$s</string>
 </resources>

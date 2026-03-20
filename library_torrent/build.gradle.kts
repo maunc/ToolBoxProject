@@ -4,14 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.maunc.ftp"
+    namespace = "com.maunc.torrent"
     compileSdk = libs.versions.compileSdkVerison.get().toInt()
 
     defaultConfig {
         minSdk = libs.versions.minSdkVersion.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -30,21 +29,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
-    packaging {
-        resources {
-            excludes += "META-INF/DEPENDENCIES"
-            excludes += "META-INF/LICENSE"
-            excludes += "META-INF/LICENSE.txt"
-            excludes += "META-INF/NOTICE"
-            excludes += "META-INF/NOTICE.txt"
-            excludes += "META-INF/AL2.0"
-            excludes += "META-INF/LGPL2.1"
-        }
-    }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
+    api(libs.bundles.ext.libtorrent)
 }

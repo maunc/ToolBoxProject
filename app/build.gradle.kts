@@ -128,6 +128,7 @@ dependencies {
     implementation(project(":library_video_player"))
     implementation(project(":library_usb_manager"))
     implementation(project(":library_ftp_server"))
+    implementation(project(":library_torrent"))
 
     implementation(libs.bundles.android)
     implementation(libs.bundles.smart.refrsh.layout)

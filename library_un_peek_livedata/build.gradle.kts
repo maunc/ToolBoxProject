@@ -5,11 +5,10 @@ plugins {
 
 android {
     namespace = "com.maunc.unpeeklivedata"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdkVerison.get().toInt()
 
     defaultConfig {
-        minSdk = 24
-
+        minSdk = libs.versions.minSdkVersion.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
