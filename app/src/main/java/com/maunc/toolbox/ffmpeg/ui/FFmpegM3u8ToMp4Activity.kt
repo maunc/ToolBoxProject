@@ -2,15 +2,15 @@ package com.maunc.toolbox.ffmpeg.ui
 
 import android.os.Bundle
 import androidx.annotation.StringRes
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ext.toast
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.COMMON_LOADING_DIALOG
 import com.maunc.toolbox.commonbase.constant.COMMON_NOTICE_DIALOG
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
 import com.maunc.toolbox.commonbase.ui.dialog.CommonNoticeDialog
 import com.maunc.toolbox.databinding.ActivityFfmpegM3u8ToMp4Binding

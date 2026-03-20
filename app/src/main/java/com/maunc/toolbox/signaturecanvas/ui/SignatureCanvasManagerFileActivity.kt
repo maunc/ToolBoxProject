@@ -1,12 +1,12 @@
 package com.maunc.toolbox.signaturecanvas.ui
 
 import android.os.Bundle
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.gridLayoutManager
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.gridLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.databinding.ActivitySignatureCanvasManagerFileBinding
 import com.maunc.toolbox.signaturecanvas.adapter.SignatureCanvasSaveFileAdapter
 import com.maunc.toolbox.signaturecanvas.viewmodel.SignatureCanvasManagerFileViewModel

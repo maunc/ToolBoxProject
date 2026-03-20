@@ -2,17 +2,17 @@ package com.maunc.toolbox.chronograph.ui
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chronograph.adpater.ChronographAdapter
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_NONE
 import com.maunc.toolbox.chronograph.constant.DEF_TIME_TEXT
 import com.maunc.toolbox.chronograph.constant.timeUnitMillion
 import com.maunc.toolbox.chronograph.viewmodel.ChronographMainViewModel
-import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.databinding.ActivityChronographMainBinding
 import kotlinx.coroutines.launch
 

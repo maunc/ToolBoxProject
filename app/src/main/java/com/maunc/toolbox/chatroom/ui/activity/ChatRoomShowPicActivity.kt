@@ -6,6 +6,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
+import com.maunc.base.ext.enterActivityAnim
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.fromJson
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.adapter.ChatRoomShowPicPagerAdapter
 import com.maunc.toolbox.chatroom.constant.FULL_SCREEN_IMAGE_DATA_EXTRA
@@ -13,10 +17,6 @@ import com.maunc.toolbox.chatroom.constant.FULL_SCREEN_IMAGE_POS_EXTRA
 import com.maunc.toolbox.chatroom.data.ChatImageData
 import com.maunc.toolbox.chatroom.ui.fragment.ChatRoomImageFragment
 import com.maunc.toolbox.chatroom.viewmodel.ChatRoomShowPicViewModel
-import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.enterActivityAnim
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.fromJson
 import com.maunc.toolbox.databinding.ActivityChatRoomShowPicBinding
 
 @SuppressLint("NewApi")

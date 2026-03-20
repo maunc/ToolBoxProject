@@ -5,8 +5,8 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Build
-import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.commonbase.ext.audioManager
+import com.maunc.base.BaseApp
+import com.maunc.base.ext.audioManager
 
 const val TURN_TABLE_ANIM_SOUND_ID = 0
 
@@ -15,7 +15,7 @@ class SoundPlayerHelper {
 
     private val soundIdMap = HashMap<Int, Int>()
 
-   private val soundPoolPlayer: SoundPool by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
+    private val soundPoolPlayer: SoundPool by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
         val audioAttributes = AudioAttributes.Builder()
             .setUsage(AudioAttributes.USAGE_GAME) // 根据场景设置
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -37,7 +37,7 @@ class SoundPlayerHelper {
      * @param tag 自定义标识（用于后续播放）
      */
     fun loadSound(resId: Int, tag: Int) {
-        val soundId = soundPoolPlayer.load(ToolBoxApplication.app, resId, 1)
+        val soundId = soundPoolPlayer.load(BaseApp.app, resId, 1)
         soundIdMap[tag] = soundId
     }
 
@@ -46,7 +46,7 @@ class SoundPlayerHelper {
      * @param soundType 音效类型(AudioManager.FX_KEY_CLICK)
      */
     fun playSystemUiSound(soundType: Int) {
-        val audioManager = ToolBoxApplication.app.audioManager
+        val audioManager = BaseApp.app.audioManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             audioManager?.playSoundEffect(soundType, 1.0f)
         } else {

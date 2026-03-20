@@ -120,6 +120,7 @@ android {
 dependencies {
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
+    implementation(project(":library_common_base"))
     implementation(project(":library_custom_view"))
     implementation(project(":library_live_eventbus"))
     implementation(project(":library_file_download"))
@@ -130,25 +131,15 @@ dependencies {
     implementation(project(":library_ftp_server"))
     implementation(project(":library_torrent"))
 
-    implementation(libs.bundles.android)
-    implementation(libs.bundles.smart.refrsh.layout)
-    implementation(libs.bundles.exo.player)
-    implementation(libs.bundles.ext.glide)
-    implementation(libs.ext.gson)
-
-    implementation(libs.ext.baseAdapter)
-    implementation(libs.ext.swipeRecyclerView)
     implementation(libs.ext.room.ktx)
     implementation(libs.ext.room.runtime)
     kapt(libs.ext.room.compiler)
-    implementation(libs.androidx.lifecycle.ktx)
+
     implementation(libs.ext.auto.size)
     implementation(libs.ext.mmkv) {
         exclude("org.jetbrains.kotlin", "kotlin-stdlib")
     }
     implementation(libs.ext.picture.selector)
-    implementation(libs.ext.immersionbar)
-    implementation(libs.ext.flex.box)
     implementation(libs.ext.ffmpeg.kit)
 
     // 核心GenAI依赖

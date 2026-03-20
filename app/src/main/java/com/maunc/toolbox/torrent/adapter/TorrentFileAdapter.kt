@@ -3,8 +3,8 @@ package com.maunc.toolbox.torrent.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.utils.formatFileSize
+import com.maunc.base.ext.obtainString
+import com.maunc.base.utils.formatFileSize
 import com.maunc.toolbox.databinding.ItemTorrentFileBinding
 import com.maunc.toolbox.torrent.data.TorrentFileData
 

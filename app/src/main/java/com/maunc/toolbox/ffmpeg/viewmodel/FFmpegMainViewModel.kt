@@ -1,12 +1,12 @@
 package com.maunc.toolbox.ffmpeg.viewmodel
 
+import com.maunc.base.ext.mutableListInsert
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.commonbase.ext.mutableListInsert
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.utils.createFileDir
-import com.maunc.toolbox.commonbase.utils.createFileDirFromSdCard
+import com.maunc.base.utils.createFileDir
+import com.maunc.base.utils.createFileDirFromSdCard
 import com.maunc.toolbox.ffmpeg.constant.H265_OR_H264_TO_MP4_SAVE_PATH_NAME
 import com.maunc.toolbox.ffmpeg.constant.M3U8_TO_MP4_SAVE_PATH_NAME
 import com.maunc.toolbox.ffmpeg.constant.MERGE_MP4_SAVE_PATH_NAME

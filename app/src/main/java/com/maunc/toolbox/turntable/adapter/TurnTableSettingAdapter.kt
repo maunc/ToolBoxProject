@@ -6,8 +6,8 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.maunc.base.ext.visibleOrGone
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.turntable.data.TurnTableSettingData
 import com.us.mauncview.SwitchButtonView
 

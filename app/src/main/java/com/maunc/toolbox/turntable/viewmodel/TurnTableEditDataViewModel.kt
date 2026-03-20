@@ -1,12 +1,12 @@
 package com.maunc.toolbox.turntable.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
+import com.maunc.base.ext.loge
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
+import com.maunc.base.ui.launch
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.turnTableDataDao
-import com.maunc.toolbox.commonbase.ext.launch
-import com.maunc.toolbox.commonbase.ext.loge
 import com.maunc.toolbox.turntable.adapter.TurnTableEditDataAdapter
 import com.maunc.toolbox.turntable.constant.editDataToStringList
 import com.maunc.toolbox.turntable.data.TurnTableEditData

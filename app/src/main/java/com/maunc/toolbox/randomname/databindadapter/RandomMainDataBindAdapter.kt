@@ -5,10 +5,10 @@ import androidx.databinding.BindingAdapter
 import com.maunc.toolbox.R
 import com.maunc.toolbox.appViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
-import com.maunc.toolbox.commonbase.ext.gone
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.ext.visible
-import com.maunc.toolbox.commonbase.ext.visibleOrGone
+import com.maunc.base.ext.gone
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ext.visible
+import com.maunc.base.ext.visibleOrGone
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_NONE
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_START
 import com.maunc.toolbox.randomname.constant.RUN_STATUS_STOP

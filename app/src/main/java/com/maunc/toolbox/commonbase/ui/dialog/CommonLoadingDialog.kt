@@ -2,8 +2,8 @@ package com.maunc.toolbox.commonbase.ui.dialog
 
 import android.os.Bundle
 import android.view.KeyEvent
+import com.maunc.base.ui.BaseDialog
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseDialog
 import com.maunc.toolbox.commonbase.viewmodel.CommonLoadingDialogViewModel
 import com.maunc.toolbox.databinding.DialogCommonLoadingBinding
 

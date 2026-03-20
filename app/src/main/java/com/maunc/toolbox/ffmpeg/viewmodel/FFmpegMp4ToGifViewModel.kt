@@ -11,11 +11,10 @@ import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.luck.picture.lib.thread.PictureThreadUtils.runOnUiThread
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.commonbase.ext.logd
-import com.maunc.toolbox.commonbase.ext.loge
-import com.maunc.toolbox.commonbase.ext.obtainGlideEngin
+import com.maunc.base.ext.loge
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
+import com.maunc.toolbox.commonbase.utils.obtainGlideEngin
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_ERROR
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_NONE
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_START
@@ -83,9 +82,9 @@ class FFmpegMp4ToGifViewModel : BaseViewModel<BaseModel>() {
                 }
             }
         }, { log ->
-            "FFmpeg日志：${log.message}".logd()
+            "FFmpeg日志：${log.message}".loge()
         }, { statistics ->
-            "统计信息：$statistics".logd()
+            "统计信息：$statistics".loge()
         })
     }
 

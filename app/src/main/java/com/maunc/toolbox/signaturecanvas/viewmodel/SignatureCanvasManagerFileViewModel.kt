@@ -4,9 +4,9 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
+import com.maunc.base.BaseApp
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
 import com.maunc.toolbox.signaturecanvas.constant.SAVE_SIGNATURE_CANVAS_FILENAME_PREFIX
 import com.maunc.toolbox.signaturecanvas.data.CanvasSaveFileData
 import kotlinx.coroutines.launch
@@ -42,7 +42,7 @@ class SignatureCanvasManagerFileViewModel : BaseViewModel<BaseModel>() {
      */
     fun initSaveFile() {
         viewModelScope.launch {
-            val cursor = ToolBoxApplication.app.contentResolver.query(
+            val cursor = BaseApp.app.contentResolver.query(
                 uri, projection, selection, selectionArgs, sortOrder
             )
             // use内部实现了close

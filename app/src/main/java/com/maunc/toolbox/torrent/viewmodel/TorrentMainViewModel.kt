@@ -4,11 +4,11 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.maunc.base.BaseApp
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
 import com.maunc.toolbox.R
-import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.torrent.data.TorrentFileData
 import com.maunc.torrent.TorrentDownloadProgress
 import com.maunc.torrent.TorrentManager
@@ -44,7 +44,7 @@ class TorrentMainViewModel : BaseViewModel<BaseModel>() {
     fun initTorrentFileList() {
         viewModelScope.launch(Dispatchers.IO) {
             val pathSet = LinkedHashSet<String>()
-            ToolBoxApplication.app.contentResolver.query(
+            BaseApp.app.contentResolver.query(
                 mediaUri, mediaProjection, mediaSelection, mediaArgs, null,
             )?.use { cursor ->
                 val dataIndex = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
@@ -76,7 +76,7 @@ class TorrentMainViewModel : BaseViewModel<BaseModel>() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 TorrentManager.downloadTorrentFile(
-                    path, defaultTorrentSaveDir(ToolBoxApplication.app)
+                    path, defaultTorrentSaveDir(BaseApp.app)
                 )
             } catch (t: Throwable) {
                 uiMessage.postValue(
@@ -104,7 +104,7 @@ class TorrentMainViewModel : BaseViewModel<BaseModel>() {
             try {
                 TorrentManager.downloadMagnetWithProgress(
                     magnetUri = uri,
-                    saveDir = defaultTorrentSaveDir(ToolBoxApplication.app),
+                    saveDir = defaultTorrentSaveDir(BaseApp.app),
                     cancel = { !isActive },
                 ) { p ->
                     magnetProgressState.postValue(p)

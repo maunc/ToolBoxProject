@@ -2,8 +2,8 @@ package com.maunc.toolbox.turntable.adapter
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.maunc.base.ext.visibleOrGone
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.databinding.ItemTurnTableConfigColorBinding
 import com.maunc.toolbox.turntable.data.TurnTableConfigColorData
 

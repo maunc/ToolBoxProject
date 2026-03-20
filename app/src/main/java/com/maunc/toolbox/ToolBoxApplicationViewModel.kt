@@ -5,7 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.maunc.toolbox.commonbase.ext.assetFileParseJson
+import com.maunc.base.ext.assetFileParseJson
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.pushBoxControllerButtonSize
 import com.maunc.toolbox.commonbase.utils.pushBoxTouchView

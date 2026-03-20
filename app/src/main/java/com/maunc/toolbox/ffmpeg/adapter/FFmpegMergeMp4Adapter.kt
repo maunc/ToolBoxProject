@@ -4,12 +4,11 @@ import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.luck.picture.lib.entity.LocalMedia
+import com.maunc.base.ext.gone
+import com.maunc.base.ext.marquee
+import com.maunc.base.ext.visible
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.gone
-import com.maunc.toolbox.commonbase.ext.marquee
-import com.maunc.toolbox.commonbase.ext.obtainColor
-import com.maunc.toolbox.commonbase.ext.visible
-import com.maunc.toolbox.commonbase.utils.formatFileSize
+import com.maunc.base.utils.formatFileSize
 import com.maunc.toolbox.databinding.ItemFfmpegMergeMp4Binding
 import com.maunc.toolbox.ffmpeg.constant.stringForTime
 import java.text.SimpleDateFormat

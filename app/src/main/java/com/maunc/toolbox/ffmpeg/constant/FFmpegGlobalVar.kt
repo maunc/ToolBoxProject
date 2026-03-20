@@ -1,6 +1,6 @@
 package com.maunc.toolbox.ffmpeg.constant
 
-import com.maunc.toolbox.commonbase.utils.obtainSDCardRootPath
+import com.maunc.base.utils.obtainSDCardRootPath
 import java.io.File
 import java.util.Formatter
 import java.util.Locale

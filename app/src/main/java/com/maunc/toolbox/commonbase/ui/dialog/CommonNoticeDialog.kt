@@ -1,12 +1,12 @@
 package com.maunc.toolbox.commonbase.ui.dialog
 
 import android.os.Bundle
+import com.maunc.base.ext.marquee
+import com.maunc.base.ext.obtainScreenHeight
+import com.maunc.base.ext.obtainScreenWidth
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseDialog
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseDialog
-import com.maunc.toolbox.commonbase.ext.marquee
-import com.maunc.toolbox.commonbase.ext.obtainScreenHeight
-import com.maunc.toolbox.commonbase.ext.obtainScreenWidth
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.viewmodel.CommonNoticeDialogViewModel
 import com.maunc.toolbox.databinding.DialogCommonNoticeBinding
 

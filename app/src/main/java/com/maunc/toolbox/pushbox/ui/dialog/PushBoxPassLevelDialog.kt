@@ -2,11 +2,11 @@ package com.maunc.toolbox.pushbox.ui.dialog
 
 import android.os.Bundle
 import android.view.KeyEvent
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseDialog
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseDialog
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.databinding.DialogPushBoxPassLevelBinding
 import com.maunc.toolbox.pushbox.constant.formatTimeStampToHMS
 import com.maunc.toolbox.pushbox.viewmodel.PushBoxPassLevelViewModel

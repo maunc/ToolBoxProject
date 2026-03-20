@@ -3,12 +3,12 @@ package com.maunc.toolbox.randomname.ui.dialog
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.marquee
+import com.maunc.base.ui.BaseDialog
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseDialog
 import com.maunc.toolbox.commonbase.database.randomGroupDao
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.marquee
 import com.maunc.toolbox.databinding.DialogSelectGroupBinding
 import com.maunc.toolbox.randomname.adapter.RandomSelectGroupAdapter
 import com.maunc.toolbox.randomname.viewmodel.RandomSelectGroupViewModel

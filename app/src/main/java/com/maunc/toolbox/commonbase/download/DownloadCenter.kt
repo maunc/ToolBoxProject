@@ -3,12 +3,13 @@ package com.maunc.toolbox.commonbase.download
 import android.app.Application
 import android.os.Environment
 import android.os.StatFs
+import android.util.Log
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
 import com.liulishuo.filedownloader.FileDownloader
 import com.liulishuo.filedownloader.util.FileDownloadLog
 import com.liulishuo.filedownloader.util.FileDownloadUtils
-import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.base.ext.loge
 
 object DownloadCenter {
 
@@ -28,7 +29,7 @@ object DownloadCenter {
         FileDownloader.setupOnApplicationOnCreate(application)
         //提前启动下载服务
         FileDownloader.getImpl().bindService {
-            "Downloader connectService success".loge()
+            Log.e("DownloadCenter", "Downloader connectService success")
         }
     }
 

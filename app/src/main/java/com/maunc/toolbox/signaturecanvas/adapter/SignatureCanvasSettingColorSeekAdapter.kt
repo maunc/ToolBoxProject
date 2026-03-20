@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.widget.SeekBar
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.maunc.base.ext.addSeekBarListener
+import com.maunc.base.ext.obtainColorStateList
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.addSeekBarListener
-import com.maunc.toolbox.commonbase.ext.obtainColorStateList
 import com.maunc.toolbox.commonbase.utils.canvasPenColorA
 import com.maunc.toolbox.commonbase.utils.canvasPenColorB
 import com.maunc.toolbox.commonbase.utils.canvasPenColorG

@@ -1,11 +1,11 @@
 package com.maunc.toolbox.signaturecanvas.viewmodel
 
 import androidx.lifecycle.MutableLiveData
+import com.maunc.base.ext.mutableListInsert
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.commonbase.ext.mutableListInsert
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.utils.canvasEraserWidth
 import com.maunc.toolbox.commonbase.utils.canvasPenWidth
 import com.maunc.toolbox.commonbase.utils.obtainMMKV

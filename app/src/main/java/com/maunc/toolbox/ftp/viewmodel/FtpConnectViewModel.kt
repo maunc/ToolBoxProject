@@ -2,14 +2,14 @@ package com.maunc.toolbox.ftp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.maunc.base.ext.mutableListInsert
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
 import com.maunc.ftp.ftpConnectManager
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
-import com.maunc.toolbox.commonbase.ext.mutableListInsert
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.utils.obtainSDCardRootPath
+import com.maunc.base.utils.obtainSDCardRootPath
 import com.maunc.toolbox.ftp.data.FtpConnectConfigData
 import com.maunc.toolbox.ftp.data.FtpRemoteFileData
 import com.maunc.toolbox.ftp.data.FtpRemoteFilePathGuideData

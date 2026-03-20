@@ -1,14 +1,14 @@
 package com.maunc.toolbox.ftp.ui.activity
 
 import android.os.Bundle
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.enterActivityAnim
+import com.maunc.base.ext.finishCurrentResultToActivity
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.obtainIntentPutData
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.enterActivityAnim
-import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
-import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
+import com.maunc.base.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityFtpServerConfigBinding
 import com.maunc.toolbox.ftp.adapter.FtpServerConfigAdapter
 import com.maunc.toolbox.ftp.constant.RESULT_SOURCE_FROM_FTP_SERVER_CONFIG_PAGE

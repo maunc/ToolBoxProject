@@ -1,20 +1,20 @@
 package com.maunc.toolbox.ffmpeg.ui
 
 import android.os.Bundle
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.annotation.StringRes
+import androidx.recyclerview.widget.ItemTouchHelper
+import com.maunc.base.ext.addItemTouchHelper
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.obtainDrawable
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ext.setScale
+import com.maunc.base.ext.toast
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.COMMON_EDIT_DATA_DIALOG
 import com.maunc.toolbox.commonbase.constant.COMMON_LOADING_DIALOG
-import com.maunc.toolbox.commonbase.ext.addItemTouchHelper
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainDrawable
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.ext.setScale
-import com.maunc.toolbox.commonbase.ext.toast
 import com.maunc.toolbox.commonbase.ui.dialog.CommonEditDataDialog
 import com.maunc.toolbox.commonbase.ui.dialog.CommonLoadingDialog
 import com.maunc.toolbox.databinding.ActivityFfmpegMergeMp4Binding
@@ -37,7 +37,7 @@ class FFmpegMergeMp4Activity :
     private val commonEditDataDialog by lazy {
         CommonEditDataDialog().setPrefixString(SAVE_FFMPEG_PREFIX).setSureListener { fileName ->
             if (fileName.isEmpty()) {
-                toast(getString(R.string.common_dialog_edit_data_tips))
+                toast(obtainString(R.string.common_dialog_edit_data_tips))
                 return@setSureListener
             }
             rePlayerResourceAndRecycler()

@@ -2,9 +2,9 @@ package com.maunc.toolbox.signaturecanvas.adapter
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.maunc.base.ext.loadImage
+import com.maunc.base.ext.obtainScreenWidth
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.loadImage
-import com.maunc.toolbox.commonbase.ext.obtainScreenWidth
 import com.maunc.toolbox.databinding.ItemCanvasSaveFileBinding
 import com.maunc.toolbox.signaturecanvas.data.CanvasSaveFileData
 

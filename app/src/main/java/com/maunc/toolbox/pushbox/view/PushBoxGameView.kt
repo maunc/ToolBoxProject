@@ -13,9 +13,9 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.core.animation.addListener
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.obtainDrawable
-import com.maunc.toolbox.commonbase.ext.obtainScreenHeight
-import com.maunc.toolbox.commonbase.ext.obtainScreenWidth
+import com.maunc.base.ext.obtainDrawable
+import com.maunc.base.ext.obtainScreenHeight
+import com.maunc.base.ext.obtainScreenWidth
 import com.maunc.toolbox.pushbox.constant.BOX
 import com.maunc.toolbox.pushbox.constant.BOX_AT_GOAL
 import com.maunc.toolbox.pushbox.constant.GOAL

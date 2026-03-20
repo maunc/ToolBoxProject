@@ -3,7 +3,7 @@ package com.maunc.toolbox.commonbase.database
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.maunc.toolbox.ToolBoxApplication
+import com.maunc.base.BaseApp
 import com.maunc.toolbox.commonbase.constant.DATA_BASE_NAME
 import com.maunc.toolbox.commonbase.data.ToolBoxItemDao
 import com.maunc.toolbox.commonbase.data.ToolBoxItemData
@@ -57,7 +57,7 @@ abstract class ToolBoxProjectDataBase : RoomDatabase() {
     companion object {
         val DATABASE_INSTANCE: ToolBoxProjectDataBase by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) {
             Room.databaseBuilder(
-                ToolBoxApplication.app, ToolBoxProjectDataBase::class.java, DATA_BASE_NAME
+                BaseApp.app, ToolBoxProjectDataBase::class.java, DATA_BASE_NAME
             ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
         }
     }

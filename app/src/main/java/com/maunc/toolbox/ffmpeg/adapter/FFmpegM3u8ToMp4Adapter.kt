@@ -3,9 +3,9 @@ package com.maunc.toolbox.ffmpeg.adapter
 import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.maunc.base.ext.clickScale
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.utils.formatFileSize
+import com.maunc.base.utils.formatFileSize
 import com.maunc.toolbox.databinding.ItemFfmpegM3u8ToMp4Binding
 import com.maunc.toolbox.ffmpeg.data.FFmpegM3u8ResultData
 

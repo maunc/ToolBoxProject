@@ -3,8 +3,8 @@ package com.maunc.toolbox.pushbox.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.obtainDrawable
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.obtainDrawable
 import com.maunc.toolbox.databinding.ItemPushBoxMainFunctionBinding
 import com.maunc.toolbox.pushbox.data.PushBoxMainFunctionData
 

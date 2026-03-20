@@ -1,19 +1,17 @@
 package com.maunc.toolbox.turntable.adapter
 
 import android.annotation.SuppressLint
-import android.text.InputType
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.maunc.base.ext.addEditTextListener
+import com.maunc.base.ext.showSoftInputKeyBoard
+import com.maunc.base.ext.spaceProhibitedInput
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.constant.ONE_DELAY_MILLIS
-import com.maunc.toolbox.commonbase.ext.addEditTextListener
-import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
-import com.maunc.toolbox.commonbase.ext.spaceProhibitedInput
 import com.maunc.toolbox.turntable.data.TurnTableEditData
 
 class TurnTableEditDataAdapter :

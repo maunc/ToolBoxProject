@@ -4,13 +4,13 @@ import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
+import com.maunc.base.ext.animateToAlpha
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_NONE
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_PAUSE
 import com.maunc.toolbox.chronograph.constant.CHRONOGRAPH_STATUS_START
 import com.maunc.toolbox.commonbase.constant.ALPHA_ONE
 import com.maunc.toolbox.commonbase.constant.ALPHA_ZERO
-import com.maunc.toolbox.commonbase.ext.animateToAlpha
 
 object ChronographMainDatabindAdapter {
 

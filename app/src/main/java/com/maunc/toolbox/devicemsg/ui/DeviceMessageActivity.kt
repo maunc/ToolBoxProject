@@ -2,13 +2,13 @@ package com.maunc.toolbox.devicemsg.ui
 
 import android.os.Bundle
 import android.util.Log
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.mutableListInsert
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.mutableListInsert
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.databinding.ActivityDeviceMessageBinding
 import com.maunc.toolbox.devicemsg.adapter.DeviceMessageAdapter
 import com.maunc.toolbox.devicemsg.data.DeviceMessageData

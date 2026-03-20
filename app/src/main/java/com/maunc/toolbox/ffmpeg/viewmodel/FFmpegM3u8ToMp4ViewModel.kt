@@ -4,19 +4,17 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.FFmpegSession
 import com.arthenica.ffmpegkit.ReturnCode
 import com.luck.picture.lib.thread.PictureThreadUtils.runOnUiThread
-import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.commonbase.ext.logd
-import com.maunc.toolbox.commonbase.ext.loge
-import com.maunc.toolbox.commonbase.utils.obtainFileSize
+import com.maunc.base.BaseApp
+import com.maunc.base.ext.loge
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
+import com.maunc.base.utils.obtainFileSize
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_ERROR
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_NONE
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_START
@@ -64,10 +62,10 @@ class FFmpegM3u8ToMp4ViewModel : BaseViewModel<BaseModel>() {
             }
         }, { log ->
             // 实时日志回调（可用于解析进度）
-            "FFmpeg日志：${log.message}".logd()
+            "FFmpeg日志：${log.message}".loge()
         }, { statistics ->
             // 统计信息回调（如帧率、比特率等）
-            "统计信息：$statistics".logd()
+            "统计信息：$statistics".loge()
         })
     }
 
@@ -90,7 +88,7 @@ class FFmpegM3u8ToMp4ViewModel : BaseViewModel<BaseModel>() {
     fun initM3u8FileList() {
         viewModelScope.launch(Dispatchers.IO) {
             val m3u8FilePathList = mutableListOf<String>()
-            ToolBoxApplication.app.contentResolver.query(
+            BaseApp.app.contentResolver.query(
                 uri, projection, selection, args, null
             )?.use { cursor ->
                 val dataIndex = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
@@ -197,7 +195,7 @@ class FFmpegM3u8ToMp4ViewModel : BaseViewModel<BaseModel>() {
         val firstTs = m3u8Result.segmentList.firstOrNull { it.isFileExist } ?: return null
         val tsFilePath = File(firstTs.filePath).absoluteFile
         val tempCoverPath = File(
-            ToolBoxApplication.app.cacheDir,
+            BaseApp.app.cacheDir,
             "temp_HToolBox_m3u8_cover_${System.currentTimeMillis()}.jpg"
         ).absolutePath
         // 截取ts第一帧到临时文件

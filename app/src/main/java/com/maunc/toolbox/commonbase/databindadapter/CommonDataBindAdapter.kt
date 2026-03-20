@@ -2,8 +2,8 @@ package com.maunc.toolbox.commonbase.databindadapter
 
 import android.view.ViewGroup
 import androidx.databinding.BindingAdapter
+import com.maunc.base.ext.addView
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.addView
 
 object CommonDataBindAdapter {
 

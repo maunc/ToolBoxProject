@@ -7,6 +7,11 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.maunc.base.ext.addGestureDetector
+import com.maunc.base.ext.isChineseChar
+import com.maunc.base.ext.loadImage
+import com.maunc.base.ext.loadImageCircleCrop
+import com.maunc.base.ext.visibleOrGone
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.data.ChatData
 import com.maunc.toolbox.chatroom.data.ChatImageData
@@ -15,11 +20,6 @@ import com.maunc.toolbox.chatroom.data.LoadImageType
 import com.maunc.toolbox.chatroom.data.LoadRecordType
 import com.maunc.toolbox.chatroom.data.convertTime
 import com.maunc.toolbox.commonbase.constant.THIRTY_SECOND
-import com.maunc.toolbox.commonbase.ext.addGestureDetector
-import com.maunc.toolbox.commonbase.ext.isChineseChar
-import com.maunc.toolbox.commonbase.ext.loadImage
-import com.maunc.toolbox.commonbase.ext.loadImageCircleCrop
-import com.maunc.toolbox.commonbase.ext.visibleOrGone
 
 @SuppressLint("SetTextI18n")
 class ChatDataAdapter : BaseMultiItemQuickAdapter<ChatData, BaseViewHolder>() {

@@ -1,13 +1,13 @@
 package com.maunc.toolbox.ffmpeg.ui
 
 import android.os.Bundle
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ext.startTargetActivity
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.ext.startTargetActivity
 import com.maunc.toolbox.databinding.ActivityFfmpegMainBinding
 import com.maunc.toolbox.ffmpeg.adapter.FFmpegConfigAdapter
 import com.maunc.toolbox.ffmpeg.data.FFmpegConfigData

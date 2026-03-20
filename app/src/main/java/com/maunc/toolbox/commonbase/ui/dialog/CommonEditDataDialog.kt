@@ -1,10 +1,10 @@
 package com.maunc.toolbox.commonbase.ui.dialog
 
 import android.os.Bundle
+import com.maunc.base.ext.showSoftInputKeyBoard
+import com.maunc.base.ui.BaseDialog
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseDialog
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
-import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
 import com.maunc.toolbox.commonbase.viewmodel.CommonEditDataDialogViewModel
 import com.maunc.toolbox.databinding.DialogCommonEditDataBinding
 

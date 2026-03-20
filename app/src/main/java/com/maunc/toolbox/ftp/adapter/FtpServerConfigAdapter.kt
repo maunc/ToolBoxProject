@@ -5,11 +5,11 @@ import android.text.InputType
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.maunc.base.ext.addEditTextListener
+import com.maunc.base.ext.chineseProhibitedInput
+import com.maunc.base.ext.setMaxLength
+import com.maunc.base.ext.spaceProhibitedInput
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.addEditTextListener
-import com.maunc.toolbox.commonbase.ext.chineseProhibitedInput
-import com.maunc.toolbox.commonbase.ext.setMaxLength
-import com.maunc.toolbox.commonbase.ext.spaceProhibitedInput
 import com.maunc.toolbox.databinding.ItemFtpConfigBinding
 import com.maunc.toolbox.ftp.data.FtpServerConfigData
 

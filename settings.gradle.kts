@@ -37,6 +37,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "ToolBox"
 include(":app")
+include(":library_common_base") //base库
 include(":library_custom_view") //自定义view库
 include(":library_live_eventbus") //LiveEventBus库
 include(":library_file_download") //下载库

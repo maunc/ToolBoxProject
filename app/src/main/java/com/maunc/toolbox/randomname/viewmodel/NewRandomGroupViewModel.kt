@@ -4,14 +4,14 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
+import com.maunc.base.ext.loge
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
+import com.maunc.base.ui.launch
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.randomGroupDao
-import com.maunc.toolbox.commonbase.ext.launch
-import com.maunc.toolbox.commonbase.ext.loge
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.randomname.constant.DELAY_UPDATE_LAYOUT
 import com.maunc.toolbox.randomname.database.table.RandomNameGroup
 

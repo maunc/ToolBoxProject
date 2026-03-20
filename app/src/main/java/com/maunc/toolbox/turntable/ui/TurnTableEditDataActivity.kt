@@ -2,17 +2,17 @@ package com.maunc.toolbox.turntable.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentResultToActivity
+import com.maunc.base.ext.fromJson
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ext.toastShort
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
-import com.maunc.toolbox.commonbase.ext.fromJson
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.ext.toastShort
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
-import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
+import com.maunc.base.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityTurnTableEditDataBinding
 import com.maunc.toolbox.turntable.adapter.TurnTableEditDataAdapter
 import com.maunc.toolbox.turntable.constant.MAX_EDIT_DATA_NUMBER

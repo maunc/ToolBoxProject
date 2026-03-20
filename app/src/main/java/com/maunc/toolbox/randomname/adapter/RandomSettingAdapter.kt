@@ -12,10 +12,10 @@ import androidx.annotation.RequiresApi
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.addSeekBarListener
-import com.maunc.toolbox.commonbase.ext.marquee
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.ext.visibleOrGone
+import com.maunc.base.ext.addSeekBarListener
+import com.maunc.base.ext.marquee
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ext.visibleOrGone
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.randomListSortType
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO

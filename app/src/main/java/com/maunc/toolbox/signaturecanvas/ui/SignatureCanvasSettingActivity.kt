@@ -2,13 +2,13 @@ package com.maunc.toolbox.signaturecanvas.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.finishCurrentResultToActivity
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.databinding.ActivitySignatureCanvasSettingBinding
 import com.maunc.toolbox.signaturecanvas.adapter.SignatureCanvasSettingAdapter
 import com.maunc.toolbox.signaturecanvas.constant.RESULT_SOURCE_FROM_SIGNATURE_CANVAS_SETTING

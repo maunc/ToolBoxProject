@@ -10,15 +10,15 @@ import android.os.Process
 import androidx.lifecycle.MutableLiveData
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
+import com.maunc.base.BaseApp
+import com.maunc.base.ext.loge
+import com.maunc.base.ext.obtainDimens
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
 import com.maunc.toolbox.R
-import com.maunc.toolbox.ToolBoxApplication
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_RECORD_TYPE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
-import com.maunc.toolbox.commonbase.ext.loge
-import com.maunc.toolbox.commonbase.ext.obtainDimens
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -65,7 +65,7 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
     var controllerButtonSelect = MutableLiveData(false) //控制台的按钮是否选中了
 
     fun createVoiceRecordConfig() {
-        cacheDir = ToolBoxApplication.app.cacheDir
+        cacheDir = BaseApp.app.cacheDir
         audioRecord = createAudio()
     }
 
@@ -142,7 +142,7 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
         mediaPlayer.reset()
         try {
             mediaPlayer.setDataSource(
-                ToolBoxApplication.app,
+                BaseApp.app,
                 Uri.fromFile(file)
             )
             mediaPlayer.prepare()
@@ -221,7 +221,7 @@ class ChatRoomViewModel : BaseViewModel<BaseModel>() {
                 tempFile.renameTo(file)
             }
             // todo 获取录取时间
-            currentAudioTime.value.toString().loge("ww")
+            currentAudioTime.value.toString().loge()
         } catch (e: IOException) {
             e.printStackTrace()
         }

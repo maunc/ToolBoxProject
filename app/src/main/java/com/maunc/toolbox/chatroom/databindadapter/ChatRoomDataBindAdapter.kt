@@ -8,6 +8,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.maunc.base.ext.animateSetHeight
+import com.maunc.base.ext.animateToAlpha
+import com.maunc.base.ext.gone
+import com.maunc.base.ext.obtainColor
+import com.maunc.base.ext.obtainDrawable
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ext.setHeight
+import com.maunc.base.ext.visible
 import com.maunc.toolbox.R
 import com.maunc.toolbox.chatroom.adapter.ChatDataAdapter
 import com.maunc.toolbox.chatroom.constant.CHAT_ROOM_LAYOUT_UPDATE_TIME
@@ -24,14 +32,6 @@ import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_DOWN
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_MOVE_CANCEL_DONE
 import com.maunc.toolbox.chatroom.constant.RECORD_VIEW_STATUS_UP
-import com.maunc.toolbox.commonbase.ext.animateSetHeight
-import com.maunc.toolbox.commonbase.ext.animateToAlpha
-import com.maunc.toolbox.commonbase.ext.gone
-import com.maunc.toolbox.commonbase.ext.obtainColor
-import com.maunc.toolbox.commonbase.ext.obtainDrawable
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.ext.setHeight
-import com.maunc.toolbox.commonbase.ext.visible
 import com.us.mauncview.VoiceWaveView
 
 object ChatRoomDataBindAdapter {

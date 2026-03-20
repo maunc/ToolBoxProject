@@ -3,18 +3,18 @@ package com.maunc.toolbox.ftp.ui.activity
 import android.os.Bundle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseActivity
 import com.maunc.ftp.ftpConnectManager
 import com.maunc.ftp.ftpServerManager
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.COMMON_NOTICE_DIALOG
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.commonbase.ui.dialog.CommonNoticeDialog
 import com.maunc.toolbox.databinding.ActivityFtpMainBinding
-import com.maunc.toolbox.ftp.ui.fragment.FtpServerFragment
 import com.maunc.toolbox.ftp.ui.fragment.FtpConnectFragment
+import com.maunc.toolbox.ftp.ui.fragment.FtpServerFragment
 import com.maunc.toolbox.ftp.viewmodel.FtpMainViewModel
 
 class FtpMainActivity : BaseActivity<FtpMainViewModel, ActivityFtpMainBinding>() {

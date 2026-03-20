@@ -6,9 +6,9 @@ import android.widget.RelativeLayout
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
+import com.maunc.base.ext.obtainString
 import com.maunc.toolbox.R
 import com.maunc.toolbox.commonbase.constant.ONE_DELAY_MILLIS
-import com.maunc.toolbox.commonbase.ext.obtainString
 
 object TurnTableEditDataBindAdapter {
 

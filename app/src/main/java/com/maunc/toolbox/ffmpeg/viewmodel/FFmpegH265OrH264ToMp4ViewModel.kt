@@ -8,11 +8,10 @@ import com.arthenica.ffmpegkit.FFmpegKit
 import com.arthenica.ffmpegkit.FFmpegSession
 import com.arthenica.ffmpegkit.ReturnCode
 import com.luck.picture.lib.thread.PictureThreadUtils.runOnUiThread
-import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
-import com.maunc.toolbox.commonbase.ext.logd
-import com.maunc.toolbox.commonbase.ext.loge
+import com.maunc.base.BaseApp
+import com.maunc.base.ext.loge
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_ERROR
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_NONE
 import com.maunc.toolbox.ffmpeg.constant.FFMPEG_START
@@ -49,7 +48,7 @@ class FFmpegH265OrH264ToMp4ViewModel : BaseViewModel<BaseModel>() {
     fun initH265AndH264FileList() {
         val fileList = mutableListOf<FFmpegH265OrH264ToMp4ResultData>()
         viewModelScope.launch(Dispatchers.IO) {
-            ToolBoxApplication.app.contentResolver.query(
+            BaseApp.app.contentResolver.query(
                 uri, projection, selection, args, null
             )?.use { cursor ->
                 val dataIndex = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
@@ -101,10 +100,10 @@ class FFmpegH265OrH264ToMp4ViewModel : BaseViewModel<BaseModel>() {
             }
         }, { log ->
             // 实时日志回调（可用于解析进度）
-            "FFmpeg日志：${log.message}".logd()
+            "FFmpeg日志：${log.message}".loge()
         }, { statistics ->
             // 统计信息回调（如帧率、比特率等）
-            "统计信息：$statistics".logd()
+            "统计信息：$statistics".loge()
         })
     }
 

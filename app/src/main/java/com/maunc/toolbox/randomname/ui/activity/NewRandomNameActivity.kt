@@ -1,16 +1,16 @@
 package com.maunc.toolbox.randomname.ui.activity
 
 import android.os.Bundle
+import com.maunc.base.ext.addEditTextListener
+import com.maunc.base.ext.clickNoRepeat
+import com.maunc.base.ext.enterActivityAnim
+import com.maunc.base.ext.finishCurrentResultToActivity
+import com.maunc.base.ext.obtainIntentPutData
+import com.maunc.base.ext.showSoftInputKeyBoard
+import com.maunc.base.ext.spaceProhibitedInput
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.addEditTextListener
-import com.maunc.toolbox.commonbase.ext.clickNoRepeat
-import com.maunc.toolbox.commonbase.ext.enterActivityAnim
-import com.maunc.toolbox.commonbase.ext.finishCurrentResultToActivity
-import com.maunc.toolbox.commonbase.ext.obtainIntentPutData
-import com.maunc.toolbox.commonbase.ext.showSoftInputKeyBoard
-import com.maunc.toolbox.commonbase.ext.spaceProhibitedInput
-import com.maunc.toolbox.commonbase.utils.KeyBroadUtils
+import com.maunc.base.utils.KeyBroadUtils
 import com.maunc.toolbox.databinding.ActivityNewRandomNameBinding
 import com.maunc.toolbox.randomname.constant.GROUP_NAME_EXTRA
 import com.maunc.toolbox.randomname.constant.RESULT_SOURCE_FROM_NEW_NAME_WITH_GROUP_PAGE

@@ -4,9 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.provider.Settings
 import android.text.TextUtils
+import com.maunc.base.BaseApp
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
 import com.maunc.toolbox.ToolBoxApplication
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -171,7 +172,7 @@ class DeviceMessageViewModel : BaseViewModel<BaseModel>() {
     @SuppressLint("HardwareIds")
     fun obtainAndroidId(): String = try {
         val id = Settings.Secure.getString(
-            ToolBoxApplication.app.contentResolver,
+            BaseApp.app.contentResolver,
             Settings.Secure.ANDROID_ID
         )
         if (TextUtils.isEmpty(id)) UNKNOWN else id.trim()

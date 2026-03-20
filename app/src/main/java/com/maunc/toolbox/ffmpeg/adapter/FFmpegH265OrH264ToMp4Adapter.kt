@@ -3,9 +3,9 @@ package com.maunc.toolbox.ffmpeg.adapter
 import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.maunc.base.ext.clickScale
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.utils.formatFileSize
+import com.maunc.base.utils.formatFileSize
 import com.maunc.toolbox.databinding.ItemFfmpegH265OrH264ToMp4Binding
 import com.maunc.toolbox.ffmpeg.data.FFmpegH265OrH264ToMp4ResultData
 
@@ -25,7 +25,9 @@ class FFmpegH265OrH264ToMp4Adapter :
                 "大小:${formatFileSize(item.fileSize)}"
             mDataBind.itemFfmpegH265OrH264ToMp4FileTimeTv.text = "修改日期:${item.timeString}"
             mDataBind.itemFfmpegH265OrH264ToMp4RootLayout.setOnClickListener {
-                onH265OrH264ItemClickListener?.viewDetailsItemClick(item, holder.bindingAdapterPosition)
+                onH265OrH264ItemClickListener?.viewDetailsItemClick(
+                    item, holder.bindingAdapterPosition
+                )
             }
             mDataBind.itemFfmpegH265OrH264ToMp4ConvertLayout.clickScale {
                 onH265OrH264ItemClickListener?.convertItemClick(item, holder.bindingAdapterPosition)

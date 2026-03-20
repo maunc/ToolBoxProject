@@ -1,16 +1,16 @@
 package com.maunc.toolbox.turntable.ui
 
 import android.os.Bundle
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ext.startTargetActivity
+import com.maunc.base.ext.toastShort
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
 import com.maunc.toolbox.appViewModel
-import com.maunc.toolbox.commonbase.base.BaseActivity
 import com.maunc.toolbox.commonbase.constant.COMMON_DIALOG
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.obtainString
-import com.maunc.toolbox.commonbase.ext.startTargetActivity
-import com.maunc.toolbox.commonbase.ext.toastShort
 import com.maunc.toolbox.commonbase.ui.dialog.CommonDialog
 import com.maunc.toolbox.commonbase.utils.obtainMMKV
 import com.maunc.toolbox.commonbase.utils.turnTableAnimSoundEffect

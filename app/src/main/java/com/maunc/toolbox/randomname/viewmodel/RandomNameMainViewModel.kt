@@ -2,17 +2,17 @@ package com.maunc.toolbox.randomname.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.maunc.base.ext.loge
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
+import com.maunc.base.ui.launch
 import com.maunc.toolbox.R
 import com.maunc.toolbox.appViewModel
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ONE
 import com.maunc.toolbox.commonbase.constant.ARRAY_INDEX_ZERO
 import com.maunc.toolbox.commonbase.constant.GLOBAL_NONE_STRING
 import com.maunc.toolbox.commonbase.database.randomNameTransactionDao
-import com.maunc.toolbox.commonbase.ext.launch
-import com.maunc.toolbox.commonbase.ext.loge
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.randomname.constant.RANDOM_AUTO
 import com.maunc.toolbox.randomname.constant.RANDOM_MANUAL
 import com.maunc.toolbox.randomname.constant.RANDOM_NOW

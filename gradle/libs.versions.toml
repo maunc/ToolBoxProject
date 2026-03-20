@@ -10,6 +10,8 @@ appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.9.0"
 constraintlayout = "2.2.0"
+recyclerview = "1.3.2"
+
 swipeRecyclerViewVersion = "1.3.2"
 baseAdapterVersion = "3.0.10"
 roomVersion = "2.6.1"
@@ -48,7 +50,8 @@ android = [
     "androidx-appcompat",
     "material",
     "androidx-activity",
-    "androidx-constraintlayout"
+    "androidx-constraintlayout",
+    "androidx-recyclerview"
 ]
 #smartRefrshLayout
 smart-refrsh-layout = [
@@ -69,6 +72,15 @@ ext-libtorrent = [
     "ext-libtorrent4j",
     "ext-libtorrent4j-android-arm64"
 ]
+ext-baseAdapter = [
+    "ext-baseAdapter",
+    "ext-swipeRecyclerView",
+    "ext-flex-box"
+]
+ext-room = [
+    "ext-room-compiler",
+    "ext-room-ktx"
+]
 
 [libraries]
 #android应该导入的
@@ -77,6 +89,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 #viewModel
 androidx-lifecycle-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewModelKtxVersion" }
@@ -86,27 +99,37 @@ androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensi
 
 #扩展的三方库
 ext-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion" }
+
 ext-baseAdapter = { group = "com.github.CymChad", name = "BaseRecyclerViewAdapterHelper", version.ref = "baseAdapterVersion" }
 ext-swipeRecyclerView = { group = "com.yanzhenjie.recyclerview", name = "x", version.ref = "swipeRecyclerViewVersion" }
+ext-flex-box = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexboxVersion" }
+
 ext-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 ext-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 ext-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
+
 ext-mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkvVersion" }
+
 ext-auto-size = { group = "com.github.JessYanCoding", name = "AndroidAutoSize", version.ref = "autoSizeVersion" }
+
 ext-refresh-layout-base = { group = "io.github.scwang90", name = "refresh-layout-kernel", version.ref = "refrshLayoutVersion" }
 ext-refresh-layout-header = { group = "io.github.scwang90", name = "refresh-header-classics", version.ref = "refrshLayoutVersion" }
 ext-refresh-layout-falsify-header = { group = "io.github.scwang90", name = "refresh-header-falsify", version.ref = "refrshLayoutVersion" }
+
 ext-glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glideVersion" }
 ext-glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glideVersion" }
+
 ext-web-rtc = { group = "com.github.gkonovalov.android-vad", name = "webrtc", version.ref = "webRtcVersion" }
 ext-exo-player = { group = "com.google.android.exoplayer", name = "exoplayer", version.ref = "exoPlayerVersion" }
 ext-exo-player-core = { group = "com.google.android.exoplayer", name = "exoplayer-core", version.ref = "exoPlayerVersion" }
 ext-exo-player-ui = { group = "com.google.android.exoplayer", name = "exoplayer-ui", version.ref = "exoPlayerVersion" }
+
 ext-picture-selector = { group = "io.github.lucksiege", name = "pictureselector", version.ref = "pictureSelectVersion" }
 ext-immersionbar = { group = "com.geyifeng.immersionbar", name = "immersionbar", version.ref = "immersionbarVersion" }
+
 ext-pager-indicator = { group = "com.github.zhpanvip", name = "viewpagerindicator", version.ref = "viewPagerIndicatiorVersion" }
 ext-unpeeklivedata = { group = "com.kunminx.arch", name = "unpeek-livedata", version.ref = "unpeeklivedataVersion" }
-ext-flex-box = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexboxVersion" }
+
 ext-ffmpeg-kit = { group = "com.arthenica", name = "ffmpeg-kit-full", version.ref = "ffmpegVersion" }
 ext-gsyvideoplayer = { group = "io.github.carguo", name = "gsyvideoplayer", version.ref = "gsyvideoplayerVersion" }
 

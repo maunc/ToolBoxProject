@@ -3,12 +3,12 @@ package com.maunc.toolbox.ftp.viewmodel
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.core.view.updateLayoutParams
+import com.maunc.base.ext.mutableListInsert
+import com.maunc.base.ext.obtainString
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
 import com.maunc.toolbox.commonbase.constant.ONE_DELAY_MILLIS
-import com.maunc.toolbox.commonbase.ext.mutableListInsert
-import com.maunc.toolbox.commonbase.ext.obtainString
 import com.maunc.toolbox.ftp.data.FtpServerConfigData
 
 class FtpServerConfigViewModel : BaseViewModel<BaseModel>() {

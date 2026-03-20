@@ -3,8 +3,8 @@ package com.maunc.toolbox.turntable.adapter
 import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.maunc.base.ext.visibleOrGone
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.databinding.ItemTurnTableManagerGroupBinding
 import com.maunc.toolbox.turntable.database.table.TurnTableNameWithGroup
 import java.text.SimpleDateFormat

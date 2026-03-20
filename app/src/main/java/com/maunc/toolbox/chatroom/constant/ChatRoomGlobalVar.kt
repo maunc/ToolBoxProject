@@ -1,7 +1,7 @@
 package com.maunc.toolbox.chatroom.constant
 
+import com.maunc.base.ext.obtainDimens
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.obtainDimens
 
 const val AUDIO_PERMISSION_START_DIALOG = "startSystemPageAudioDialog"
 

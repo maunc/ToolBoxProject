@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.maunc.base.ext.obtainString
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.obtainString
 
 @Entity(tableName = "tool_box_item")
 data class ToolBoxItemData(

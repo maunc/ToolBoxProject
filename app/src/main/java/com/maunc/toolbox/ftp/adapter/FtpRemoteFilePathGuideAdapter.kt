@@ -2,10 +2,10 @@ package com.maunc.toolbox.ftp.adapter
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseDataBindingHolder
+import com.maunc.base.ext.obtainColor
+import com.maunc.base.ext.obtainDrawable
+import com.maunc.base.ext.visibleOrGone
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.obtainColor
-import com.maunc.toolbox.commonbase.ext.obtainDrawable
-import com.maunc.toolbox.commonbase.ext.visibleOrGone
 import com.maunc.toolbox.databinding.ItemFtpRemoteFilePathGuideBinding
 import com.maunc.toolbox.ftp.data.FtpRemoteFilePathGuideData
 

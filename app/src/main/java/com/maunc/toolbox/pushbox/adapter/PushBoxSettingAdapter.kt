@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.ext.visibleOrGone
+import com.maunc.base.ext.visibleOrGone
 import com.maunc.toolbox.pushbox.constant.PUSH_BOX_CONTROLLER_SIZE_MAX
 import com.maunc.toolbox.pushbox.constant.PUSH_BOX_CONTROLLER_SIZE_MAX_TWO
 import com.maunc.toolbox.pushbox.constant.PUSH_BOX_CONTROLLER_SIZE_MEDIUM

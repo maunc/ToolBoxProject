@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import com.maunc.base.ext.clickScale
+import com.maunc.base.ext.finishCurrentActivity
+import com.maunc.base.ext.linearLayoutManager
+import com.maunc.base.ext.toastShort
+import com.maunc.base.ui.BaseActivity
 import com.maunc.toolbox.R
-import com.maunc.toolbox.commonbase.base.BaseActivity
-import com.maunc.toolbox.commonbase.ext.clickScale
-import com.maunc.toolbox.commonbase.ext.finishCurrentActivity
-import com.maunc.toolbox.commonbase.ext.linearLayoutManager
-import com.maunc.toolbox.commonbase.ext.toastShort
-import com.maunc.toolbox.commonbase.utils.formatFileSize
+import com.maunc.base.utils.formatFileSize
 import com.maunc.toolbox.databinding.ActivityTorrentMainBinding
 import com.maunc.toolbox.torrent.adapter.TorrentFileAdapter
 import com.maunc.toolbox.torrent.viewmodel.TorrentMainViewModel
@@ -19,13 +19,15 @@ import kotlin.math.roundToInt
 
 class TorrentMainActivity : BaseActivity<TorrentMainViewModel, ActivityTorrentMainBinding>() {
 
-    private val torrentAdapter by lazy { TorrentFileAdapter().apply {
-        setOnItemClickListener { _, _, position ->
-            getItem(position).let { item ->
-                mViewModel.downloadTorrentFile(item.filePath)
+    private val torrentAdapter by lazy {
+        TorrentFileAdapter().apply {
+            setOnItemClickListener { _, _, position ->
+                getItem(position).let { item ->
+                    mViewModel.downloadTorrentFile(item.filePath)
+                }
             }
         }
-    } }
+    }
 
     override fun initView(savedInstanceState: Bundle?) {
         mDatabind.torrentMainViewModel = mViewModel

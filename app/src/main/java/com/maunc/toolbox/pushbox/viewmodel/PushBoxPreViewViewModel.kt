@@ -1,7 +1,7 @@
 package com.maunc.toolbox.pushbox.viewmodel
 
-import com.maunc.toolbox.commonbase.base.BaseModel
-import com.maunc.toolbox.commonbase.base.BaseViewModel
+import com.maunc.base.ui.BaseModel
+import com.maunc.base.ui.BaseViewModel
 import com.maunc.toolbox.pushbox.constant.allGradesMapData
 import com.maunc.toolbox.pushbox.data.PushBoxGradleData
 
