@@ -28,7 +28,23 @@ class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
     }
 
     private fun queryToolBoxList() {
-        launch({ toolBoxItemDao.queryToolBoxList() }, { toolBoxListLiveData.postValue(it) })
+        launch({ toolBoxItemDao.queryToolBoxList() }, { list ->
+            if (list.none { it.itemType == ToolBoxItemData.TOOL_BOX_ITEM_TORRENT_PARSE }) {
+                val nextSort = (list.maxOfOrNull { it.itemSort } ?: -1) + 1
+                launch({
+                    toolBoxItemDao.insertToolBoxItem(
+                        ToolBoxItemData(
+                            itemType = ToolBoxItemData.TOOL_BOX_ITEM_TORRENT_PARSE,
+                            itemTitle = obtainString(R.string.tool_box_item_torrent_parse_text),
+                            itemSort = nextSort
+                        )
+                    )
+                    toolBoxItemDao.queryToolBoxList()
+                }, { toolBoxListLiveData.postValue(it) })
+            } else {
+                toolBoxListLiveData.postValue(list)
+            }
+        })
     }
 
     fun updateToolBoxList(newList: MutableList<ToolBoxItemData>) {
@@ -80,6 +96,11 @@ class ToolBoxMainViewModel : BaseViewModel<BaseModel>() {
             itemType = ToolBoxItemData.TOOL_BOX_ITEM_DEVICE_MSG,
             itemTitle = obtainString(R.string.tool_box_item_device_msg_text),
             itemSort = 8
+        ),
+        ToolBoxItemData(
+            itemType = ToolBoxItemData.TOOL_BOX_ITEM_TORRENT_PARSE,
+            itemTitle = obtainString(R.string.tool_box_item_torrent_parse_text),
+            itemSort = 9
         ),
     )
 }

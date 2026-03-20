@@ -10,9 +10,6 @@ import com.liulishuo.filedownloader.util.FileDownloadLog
 import com.liulishuo.filedownloader.util.FileDownloadUtils
 import com.maunc.toolbox.commonbase.ext.loge
 
-/**
- * 主题包下载器
- */
 object DownloadCenter {
 
     const val MEMORY_SIZE = 512
@@ -31,7 +28,7 @@ object DownloadCenter {
         FileDownloader.setupOnApplicationOnCreate(application)
         //提前启动下载服务
         FileDownloader.getImpl().bindService {
-            "JDDownloader connectService success".loge()
+            "Downloader connectService success".loge()
         }
     }
 

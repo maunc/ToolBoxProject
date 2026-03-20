@@ -45,6 +45,9 @@
         android:theme="@style/Theme.ToolBox"
         tools:targetApi="31">
         <activity
+            android:name=".torrent.ui.TorrentMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".ftp.ui.activity.FtpServerConfigActivity"
             android:exported="false"
             android:theme="@style/Activity.Transparent"

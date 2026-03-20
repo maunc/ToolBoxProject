@@ -25,6 +25,7 @@ import com.maunc.toolbox.ftp.ui.activity.FtpMainActivity
 import com.maunc.toolbox.pushbox.ui.activity.PushBoxMainActivity
 import com.maunc.toolbox.randomname.ui.activity.RandomNameMainActivity
 import com.maunc.toolbox.signaturecanvas.ui.SignatureCanvasMainActivity
+import com.maunc.toolbox.torrent.ui.TorrentMainActivity
 import com.maunc.toolbox.turntable.ui.TurnTableMainActivity
 import java.util.Collections
 
@@ -64,6 +65,10 @@ class ToolBoxMainActivity : BaseActivity<ToolBoxMainViewModel, ActivityToolBoxMa
 
                     ToolBoxItemData.TOOL_BOX_ITEM_DEVICE_MSG ->
                         startTargetActivity(DeviceMessageActivity::class.java)
+
+                    ToolBoxItemData.TOOL_BOX_ITEM_TORRENT_PARSE -> if (checkFilePermission()) {
+                        startTargetActivity(TorrentMainActivity::class.java)
+                    }
                 }
             }
         }

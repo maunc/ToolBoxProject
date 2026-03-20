@@ -30,11 +30,14 @@ class CommonLoadingDialog : BaseDialog<CommonLoadingDialogViewModel, DialogCommo
     }
 
     override fun dismissAllowingStateLoss() {
+        // 未 show 过时 dialog 为 null：dialog?.isShowing == false 在 Kotlin 中为 false，不能用来提前 return
+        if (!isAdded) return
         if (dialog?.isShowing == false) return
         super.dismissAllowingStateLoss()
     }
 
     override fun dismiss() {
+        if (!isAdded) return
         if (dialog?.isShowing == false) return
         super.dismiss()
     }

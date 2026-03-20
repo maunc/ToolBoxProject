@@ -19,10 +19,9 @@ object CommonDataBindAdapter {
     @JvmStatic
     @BindingAdapter(value = ["handleNotDataLayout"], requireAll = false)
     fun <T> handleNotDataLayout(viewGroup: ViewGroup, dataList: MutableList<T>?) {
-        dataList?.let {
-            it.takeIf { it.isEmpty() }?.let {
-                viewGroup.addView(R.layout.layout_not_data_common)
-            } ?: viewGroup.removeAllViews()
-        } ?: viewGroup.removeAllViews()
+        viewGroup.removeAllViews()
+        if (dataList != null && dataList.isEmpty()) {
+            viewGroup.addView(R.layout.layout_not_data_common)
+        }
     }
 }

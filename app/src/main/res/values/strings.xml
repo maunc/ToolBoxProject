@@ -22,7 +22,7 @@
     <string name="tool_box_item_ftp_text">FTP文件传输</string>
     <string name="tool_box_item_device_msg_text">设备参数信息</string>
     <string name="tool_box_item_local_file_text">内部存储设备</string>
-
+    <string name="tool_box_item_torrent_parse_text">种子解析</string>
 
     <string name="common_builtin_tips">长按可添加到个人列表</string>
     <string name="common_builtin_title_tv">内置数据列表</string>
@@ -251,4 +251,9 @@
     <string name="ftp_server_default_use_text">android</string>
     <string name="ftp_server_default_pass_word_text">123456</string>
     <string name="ftp_server_default_share_dir_text">/sdcard</string>
+
+    <!--torrent-->
+    <string name="torrent_main_empty_tips_text">未检索到本地 .torrent 文件</string>
+    <string name="torrent_main_parse_torrent_failed_text">读取或解析种子失败</string>
+    <string name="torrent_main_file_size_label">大小：%s</string>
 </resources>

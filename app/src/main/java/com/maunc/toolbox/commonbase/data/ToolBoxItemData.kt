@@ -29,6 +29,7 @@ data class ToolBoxItemData(
         const val TOOL_BOX_ITEM_PUSH_BOX = 6//推箱子
         const val TOOL_BOX_ITEM_FTP = 7//FTP
         const val TOOL_BOX_ITEM_DEVICE_MSG = 8//设备信息
+        const val TOOL_BOX_ITEM_TORRENT_PARSE = 9//种子解析（.torrent 文件）
     }
 }
 
