@@ -47,3 +47,4 @@ include(":library_video_player") // 三方播放器
 include(":library_usb_manager") // U盘
 include(":library_ftp_server") //ftp
 include(":library_torrent") //种子
+include(":library_ffmpeg")

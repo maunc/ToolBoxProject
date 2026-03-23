@@ -127,6 +127,7 @@ dependencies {
     implementation(project(":library_web_bridge"))
     implementation(project(":library_un_peek_livedata"))
     implementation(project(":library_video_player"))
+    implementation(project(":library_ffmpeg"))
     implementation(project(":library_usb_manager"))
     implementation(project(":library_ftp_server"))
     implementation(project(":library_torrent"))
@@ -140,7 +141,6 @@ dependencies {
         exclude("org.jetbrains.kotlin", "kotlin-stdlib")
     }
     implementation(libs.ext.picture.selector)
-    implementation(libs.ext.ffmpeg.kit)
 
     // 核心GenAI依赖
 //    implementation ("com.google.mediapipe:tasks-genai:0.10.32")
